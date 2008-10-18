@@ -29,20 +29,6 @@ namespace CrissCross
 {
 	namespace System
 	{
-		class Feature
-		{
-			public:
-				bool Enabled;
-				Feature()
-				{
-					Enabled = 0;
-				}
-
-				~Feature()
-				{
-				}
-		};
-
 		class Processor
 		{
 			public:
@@ -55,7 +41,7 @@ namespace CrissCross
 				char                                                    Stepping;
 				char                                                    BrandID;
 				char                                                    APICID;
-				CrissCross::Data::RedBlackTree<const char *, Feature *> features;
+				CrissCross::Data::RedBlackTree<const char *, void *>    features;
 				CrissCross::Data::DArray <char *>                       caches;
 			public:
 				Processor()

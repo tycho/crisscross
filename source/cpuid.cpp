@@ -117,13 +117,12 @@ namespace CrissCross
 		struct Registers *Ext;
 		unsigned int      ExtMax;
 
-#if defined (TARGET_COMPILER_GCC)
-
 		/* If the current processor supports the CPUID instruction, execute
 		 * one, with REQUEST in %eax, and set *EAX, *EBX, *ECX, and *EDX to
 		 * the values the 'cpuid' stored in those registers.  Return true if
 		 * the current processor supports CPUID, false otherwise.  */
-		static bool call_cpuid(unsigned int request, unsigned int *eax, unsigned int *ebx, unsigned int *ecx, unsigned int *edx)
+		static bool call_cpuid(unsigned int request, unsigned int *_eax,
+			 unsigned int *_ebx, unsigned int *_ecx, unsigned int *_edx)
 		{
 #ifndef TARGET_CPU_X64
 			unsigned int       pre_change, post_change;
@@ -135,24 +134,43 @@ namespace CrissCross
 			 *     register.  If we can change it, then the CPUID instruction is
 			 *     implemented.  */
 #ifndef TARGET_CPU_X64
-			asm ("pushfl\n\t"    /* Save %eflags to restore later.  */
-			     "pushfl\n\t"      /* Push second copy, for manipulation.  */
-			     "popl %1\n\t"      /* Pop it into post_change.  */
-			     "movl %1,%0\n\t"      /* Save copy in pre_change.   */
-			     "xorl %2,%1\n\t"      /* Tweak bit in post_change.  */
-			     "pushl %1\n\t"      /* Push tweaked copy... */
-			     "popfl\n\t"      /* ... and pop it into %eflags.  */
-			     "pushfl\n\t"      /* Did it change?  Push new %eflags... */
-			     "popl %1\n\t"      /* ... and pop it into post_change.  */
-			     "popfl"                  /* Restore original value.  */
+#if defined (TARGET_COMPILER_GCC)
+			asm ("pushfl\n\t"		/* Save %eflags to restore later.  */
+			     "pushfl\n\t"		/* Push second copy, for manipulation.  */
+			     "popl %1\n\t"		/* Pop it into post_change.  */
+			     "movl %1,%0\n\t"	/* Save copy in pre_change.   */
+			     "xorl %2,%1\n\t"	/* Tweak bit in post_change.  */
+			     "pushl %1\n\t"		/* Push tweaked copy... */
+			     "popfl\n\t"		/* ... and pop it into %eflags.  */
+			     "pushfl\n\t"		/* Did it change?  Push new %eflags... */
+			     "popl %1\n\t"		/* ... and pop it into post_change.  */
+			     "popfl"			/* Restore original value.  */
 			     : "=&r" (pre_change), "=&r" (post_change)
 			     : "ir" (id_flag));
+#else
+			__asm {
+				mov edx, id_flag;
+				pushfd;				/* Save %eflags to restore later.  */
+				pushfd;				/* Push second copy, for manipulation.  */
+				pop ebx;			/* Pop it into post_change.  */
+				mov eax, ebx;		/* Save copy in pre_change.   */
+				xor ebx, edx;		/* Tweak bit in post_change.  */
+				push ebx;			/* Push tweaked copy... */
+				popfd;				/* ... and pop it into eflags.  */
+				pushfd;				/* Did it change?  Push new %eflags... */
+				pop ebx;			/* ... and pop it into post_change.  */
+				popfd;				/* Restore original value.  */
+				mov pre_change, eax;
+				mov post_change, ebx;
+			}
+#endif
 #endif
 
 			/* If the bit changed, then we support the CPUID instruction.  */
 #ifndef TARGET_CPU_X64
-			if ((pre_change ^ post_change) & id_flag) {
+		if ((pre_change ^ post_change) & id_flag) {
 #endif
+#if defined (TARGET_COMPILER_GCC)
 			asm volatile ("mov %%ebx, %%esi\n\t"     /* Save %ebx.  */
 			              "xorl %%ecx, %%ecx\n\t"
 			              "cpuid\n\t"
@@ -160,22 +178,12 @@ namespace CrissCross
 				      : "=a" (*eax), "=S" (*ebx), "=c" (*ecx), "=d" (*edx)
 				      : "0" (request)
 				      : "memory");
-
-			return true;
-#ifndef TARGET_CPU_X64
-		} else
-			return false;
-#endif
-		}
-
 #else
-
-		static void call_cpuid(unsigned int op, unsigned int *_eax, unsigned int *_ebx, unsigned int *_ecx, unsigned int *_edx)
-		{
-			__asm
-			{
+			__asm {
+				push esi;
+				push edi;
 				xor ecx, ecx;
-				mov eax, op;
+				mov eax, request;
 				cpuid;
 				mov edi, [_eax];
 				mov esi, [_ebx];
@@ -185,10 +193,16 @@ namespace CrissCross
 				mov esi, [_edx];
 				mov[edi], ecx;
 				mov[esi], edx;
+				pop edi;
+				pop esi;
 			}
-		}
-
 #endif
+			return true;
+#ifndef TARGET_CPU_X64
+		} else
+			return false;
+#endif
+		}
 
 		CPUID::CPUID()
 		{
@@ -257,14 +271,6 @@ namespace CrissCross
 					if (proc[i]->caches.valid(j))
 						delete [] proc[i]->caches.get(j);
 				}
-
-				CrissCross::Data::DArray<Feature *> *nodes = proc[i]->features.ConvertToDArray();
-				for (j = 0; j < nodes->size(); j++) {
-					if (nodes->valid(j))
-						delete nodes->get(j);
-				}
-
-				delete nodes;
 
 				delete [] (char *)proc[i]->Manufacturer;
 				delete [] (char *)proc[i]->ProcessorName;
@@ -750,7 +756,7 @@ namespace CrissCross
 #endif
 			case 0x49:      AddCacheDescription(processor, CreateCacheDescription(
 				                                    /* This is an L3 on the P4 and an L2 on the Core 2 */
-				                                    proc[processor]->features.find("SSSE3")->Enabled ? CACHE_TYPE_L2 : CACHE_TYPE_L3, NULL, 4096, 16, 0, 64, false)); break;
+				                                    proc[processor]->features.exists("SSSE3") ? CACHE_TYPE_L2 : CACHE_TYPE_L3, NULL, 4096, 16, 0, 64, false)); break;
 			case 0x4A:      AddCacheDescription(processor, CreateCacheDescription(CACHE_TYPE_L3, NULL, 6144, 12, 0, 64, false)); break;
 			case 0x4B:      AddCacheDescription(processor, CreateCacheDescription(CACHE_TYPE_L3, NULL, 8192, 16, 0, 64, false)); break;
 			case 0x4C:      AddCacheDescription(processor, CreateCacheDescription(CACHE_TYPE_L3, NULL, 12288, 12, 0, 64, false)); break;
@@ -838,37 +844,28 @@ namespace CrissCross
 		{
 			/* Compliant with Intel document #241618. */
 
-			/* AMD and Intel documentations state that if HTT is supported */
-			/* then this the EBX:16 will reflect the logical processor count */
-			/* otherwise the flag is reserved. */
-
-			Feature *feature = new Feature();
-			feature->Enabled = false;
-			proc[processor]->features.insert("CMP", feature);
-			feature = NULL;
-
-			proc[processor]->CoresPerPackage = (char)((Std[4].eax & 0xFC000000) >> 26) + 1;
-
 			/* Do we have HTT flag set? */
-			if (proc[processor]->features.find("HTT")->Enabled) {
-				/* Set logical processors per package accordingly. */
+			if (proc[processor]->features.exists("HTT")) {
+				/* AMD and Intel documentations state that if HTT is supported */
+				/* then this the EBX:16 will reflect the logical processor count */
+				/* otherwise the flag is reserved. */
+
+				proc[processor]->features.insert("CMP", NULL);
+
+				proc[processor]->CoresPerPackage = (char)((Std[4].eax & 0xFC000000) >> 26) + 1;
 				proc[processor]->LogicalPerPackage = (char)((Std[1].ebx & 0x00FF0000) >> 16);
 
 				if (proc[processor]->CoresPerPackage > 1 &&
 				    proc[processor]->LogicalPerPackage > proc[processor]->CoresPerPackage) {
 					/* Hyperthreaded dual core. */
-					proc[processor]->features.find("HTT")->Enabled = true;
-					proc[processor]->features.find("CMP")->Enabled = true;
 				} else if (proc[processor]->CoresPerPackage > 1 &&
 				           proc[processor]->LogicalPerPackage == proc[processor]->CoresPerPackage) {
 					/* Dual core. */
-					proc[processor]->features.find("HTT")->Enabled = false;
-					proc[processor]->features.find("CMP")->Enabled = true;
+					proc[processor]->features.erase("HTT");
 				} else if (proc[processor]->CoresPerPackage == 1 &&
 				           proc[processor]->LogicalPerPackage > proc[processor]->CoresPerPackage) {
 					/* Hyperthreaded. */
-					proc[processor]->features.find("HTT")->Enabled = true;
-					proc[processor]->features.find("CMP")->Enabled = false;
+					proc[processor]->features.erase("CMP");
 				}
 			} else {
 				/* HTT not supported. Report logical processor count as 1. */
@@ -886,11 +883,9 @@ namespace CrissCross
 		{
 			/* Compliant with Intel document #241618. */
 
-			Feature *feature = new Feature();
-
-			feature->Enabled = (*_register & _flag) > 0;
-			proc[_processor]->features.insert(_name, feature);
-			feature = NULL;
+			bool supported = (*_register & _flag) > 0;
+			if (supported)
+				proc[_processor]->features.insert(_name, NULL);
 		}
 
 		void CPUID::DetectFeatures(int processor)

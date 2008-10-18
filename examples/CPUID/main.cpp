@@ -113,17 +113,12 @@ int RunApplication(int argc, char * *argv)
 			CrissCross::Data::DArray<const char *>                  *featureIDs =
 			        cpuid->proc[i]->features.ConvertIndexToDArray();
 
-			CrissCross::Data::DArray<CrissCross::System::Feature *> *features =
-			        cpuid->proc[i]->features.ConvertToDArray();
-
 			for (size_t i = 0; i < featureIDs->size(); i++) {
 				if (featureIDs->valid(i))
-					if (features->get(i)->Enabled)
-						console->Write("%s ", featureIDs->get(i));
+					console->Write("%s ", featureIDs->get(i));
 			}
 
 			delete featureIDs;
-			delete features;
 
 			console->WriteLine();
 			console->WriteLine();
