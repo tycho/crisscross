@@ -175,7 +175,7 @@ namespace CrissCross
 			              "xorl %%ecx, %%ecx\n\t"
 			              "cpuid\n\t"
 			              "xchgl %%ebx, %%esi"           /* Restore %ebx.  */
-				      : "=a" (*eax), "=S" (*ebx), "=c" (*ecx), "=d" (*edx)
+				      : "=a" (*_eax), "=S" (*_ebx), "=c" (*_ecx), "=d" (*_edx)
 				      : "0" (request)
 				      : "memory");
 #else
