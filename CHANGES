@@ -1,5 +1,6 @@
 VERSION 0.7.2 (r???)
 	* Old (and buggy) build system removed in favor of CMake.
+	* Changed source control to Git from Subversion.
 	* Fixed a few memory leaks in CPUID.
 	* Added support for DEC Alpha and Sun SPARC.
 	* Documentation is now more verbose and has been clarified in some areas.
