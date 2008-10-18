@@ -14,7 +14,11 @@ fi
 
 cd $1
 
-BUILD=`svn --xml info | tr -d '\r' | tr -d '\n' | sed -e 's/.*<entry.*revision="\([0-9]*\)".*<url>.*/\1/'`
+if [ -d .svn ]; then
+	BUILD=`svn --xml info | tr -d '\r' | tr -d '\n' | sed -e 's/.*<entry.*revision="\([0-9]*\)".*<url>.*/\1/'`
+else
+	BUILD=`git rev-list --all | wc -l`
+fi
 
 mkdir -p $2
 cd $2
