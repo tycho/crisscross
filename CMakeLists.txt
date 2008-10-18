@@ -118,7 +118,10 @@ MACRO(ADD_FLAG where flag)
 ENDMACRO(ADD_FLAG)
 
 if(CMAKE_COMPILER_IS_GNUCXX)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++98 -ggdb -fno-rtti -fno-exceptions -rdynamic -Wall -Wno-long-long -pedantic")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++98 -fno-rtti -fno-exceptions -Wall -Wno-long-long -pedantic")
+	if(NOT CYGWIN)
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb -rdynamic")
+	endif(NOT CYGWIN)
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
 # settings for Microsoft Visual C
