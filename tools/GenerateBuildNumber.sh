@@ -17,13 +17,13 @@ cd $1
 if [ -d .svn ]; then
 	BUILD=`svn --xml info | tr -d '\r' | tr -d '\n' | sed -e 's/.*<entry.*revision="\([0-9]*\)".*<url>.*/\1/'`
 else
-	BUILD=`git rev-list --all | wc -l`
+	BUILD=`git rev-list --all | wc -l | tr -d ' '`
 fi
 
 mkdir -p $2
 cd $2
 
-if [[ "${#BUILD}" -gt "5" || "${#BUILD}" -lt "1" ]]; then
+if [[ "${#BUILD}" -lt "1" ]]; then
 	echo "Build number couldn't be detected, defaulting to 1!"
 	BUILD=1
 else
