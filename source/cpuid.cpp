@@ -855,6 +855,12 @@ namespace CrissCross
 				proc[processor]->CoresPerPackage = (char)((Std[4].eax & 0xFC000000) >> 26) + 1;
 				proc[processor]->LogicalPerPackage = (char)((Std[1].ebx & 0x00FF0000) >> 16);
 
+				if (proc[processor]->CoresPerPackage < 1)
+					proc[processor]->CoresPerPackage = 1;
+
+				if (proc[processor]->LogicalPerPackage < 1)
+					proc[processor]->LogicalPerPackage = 1;
+
 				if (proc[processor]->CoresPerPackage > 1 &&
 				    proc[processor]->LogicalPerPackage > proc[processor]->CoresPerPackage) {
 					/* Hyperthreaded dual core. */
