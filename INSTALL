@@ -1,0 +1,10 @@
+Starting with v0.7.2, CrissCross now requires CMake in order
+to compile.
+
+On UNIX/Linux and similar systems, you can typically just type
+
+	cmake .
+	make check
+	make install
+
+and ignore the rest of this document.
