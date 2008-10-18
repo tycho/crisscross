@@ -40,7 +40,6 @@ IF(MSVC)
 	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /Yu\"${_headerName}\"")
 	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Yu\"${_headerName}\"")
 	GET_FILENAME_COMPONENT(_sourceFile ${_source} NAME)
-	MESSAGE(STATUS "${_sourceFile}")
 	set_source_files_properties("${_sourceFile}"
 		COMPILE_FLAGS "/Yc\"${_headerName}\""
 	)
