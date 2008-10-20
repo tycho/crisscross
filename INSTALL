@@ -8,3 +8,39 @@ On UNIX/Linux and similar systems, you can typically just type
 	make install
 
 and ignore the rest of this document.
+
+It's best to build CrissCross outside of the source tree,
+however. The best way to accomplish this is to do something
+like this (note that the commands assume you start inside the
+CrissCross source tree, and that the CrissCross source tree
+is in a folder called 'crisscross'):
+
+	mkdir ../cc-build
+	cd ../cc-build
+	cmake ../crisscross
+	make check
+	make install
+
+Thanks to CMake, building on Windows systems is not much
+harder than building on any other platform. First, install
+CMake from www.cmake.org. You can use Cygwin if you prefer,
+but CMake in Cygwin does not generate Visual Studio project
+files. Once the Windows version of CMake is installed, bring
+up a command prompt and 'cd' to the directory the CrissCross
+sources are in. Once there, type
+
+	cmake -G "Visual Studio 9 2008" .
+
+and you've got Visual Studio 2008 projects set up. If you
+have an older version of Visual Studio, no worries. You can
+replace the text in quotes with "Visual Studio 8 2005" or
+one of the other options CMake allows. You can find out what
+other options cmake permits by bringing up a command prompt
+and simply running 'cmake'.
+
+Major warning about Visual Studio compiles: we do NOT support
+compiling with Visual Studio 6. While we personally prefer the
+UI Visual Studio 6 provides, the compiler it has is essentially
+broken and refuses to compile some perfectly valid C++ code.
+It's possible to set up Visual Studio 6.0 to use a newer
+compiler, but that is beyond the scope of this document.
