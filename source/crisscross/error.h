@@ -22,6 +22,7 @@ namespace CrissCross
 	 */
 	enum Errors
 	{
+		CC_ERR_TIMED_OUT = -12,                    /*!< \brief The connection attempt timed out. */
 		CC_ERR_NO_SOCK = -11,                      /*!< \brief No connection was accepted. */
 		CC_ERR_WOULD_BLOCK = -10,                  /*!< \brief Non-blocking I/O is enabled and the requested operation would block. */
 		CC_ERR_NOT_SOCKET = -9,                    /*!< \brief An operation was attempted on an invalid socket. */
