@@ -352,7 +352,7 @@ namespace CrissCross
 				x = y->right;
 
 			/* remove y from the parent chain */
-			if (x) x->parent = y->parent;
+			if (x != nullNode) x->parent = y->parent;
 
 			if (y->parent) {
 				if (y == y->parent->left)
