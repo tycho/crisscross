@@ -84,7 +84,7 @@ namespace CrissCross
 				 */
 				inline bool valid(const RedBlackNode<Key, Data> *_node) const
 				{
-					return (_node != NULL);
+					return (_node != NULL && _node != nullNode);
 				};
 
 			public:
