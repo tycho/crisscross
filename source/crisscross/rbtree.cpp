@@ -275,19 +275,17 @@ namespace CrissCross
 		template <class Key, class Data>
 		bool RedBlackTree<Key, Data>::erase(Key const &key)
 		{
-			RedBlackNode<Key, Data> *z, *parent;
+			RedBlackNode<Key, Data> *z;
 
 			/*  delete node z from tree */
 
 			/* find node in tree */
 			z = rootNode;
-			parent = 0;
 
 			while (z != nullNode) {
 				if (Compare(key, z->id) == 0)
 					break;
 				else{
-					parent = z;
 					z = (Compare(key, z->id) <= 0) ? z->left : z->right;
 				}
 			}
