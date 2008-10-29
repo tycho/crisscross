@@ -330,7 +330,7 @@ namespace CrissCross
 		T & DArray <T>::operator [](size_t index)
 		{
 			/* Ugh. Messy. Don't run into this. >.< */
-			if ( !m_encapsulated ) throw;
+			CoreAssert ( m_encapsulated );
 
 			CoreAssert(m_shadow[index]);
 			CoreAssert(index < m_arraySize);
@@ -342,7 +342,7 @@ namespace CrissCross
 		const T &DArray <T>::operator [](size_t index) const
 		{
 			/* Ugh. Messy. Don't run into this. >.< */
-			if ( !m_encapsulated ) throw;
+			CoreAssert ( m_encapsulated );
 
 			CoreAssert(m_shadow[index]);
 			CoreAssert(index < m_arraySize);
