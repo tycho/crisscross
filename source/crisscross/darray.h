@@ -21,6 +21,8 @@ namespace CrissCross
 {
 	namespace Data
 	{
+		template <class Key, class Data> class RedBlackTree;
+
 		/*! \brief A dynamic array implementation. */
 		template <class T> class DArray
 		{
@@ -32,6 +34,8 @@ namespace CrissCross
 				DStack<size_t> *m_emptyNodes;
 
 			protected:
+				bool			m_encapsulated;
+
 				/*! \brief The size by which to increase the size of the array when there are no more empty nodes. */
 				/*!
 				 * If set to -1, it will double the size of the array each time the array grows.
@@ -77,6 +81,12 @@ namespace CrissCross
 
 				/*! \brief The default constructor. */
 				DArray();
+
+				/*! \brief Initialize the DArray with an existing array. */
+				DArray(T *_array, size_t _indices, bool _encapsulate = true);
+
+				/*! \brief Initialize the DArray with an existing array. */
+				DArray(DArray const &_array, bool _encapsulate = true);
 
 				/*! \brief The secondary constructor. */
 				/*!
@@ -137,6 +147,13 @@ namespace CrissCross
 				 * \return The index of the node where the data was stored.
 				 */
 				size_t insert(T const & _newdata);
+
+				/*! \brief Marks and index used and passes the index back. */
+				/*!
+				 * \param _newdata The data to put into the array.
+				 * \return The index of the node where the data was stored.
+				 */
+				size_t pop();
 
 				/*! \brief Inserts data into the array at the given index. */
 				/*!
@@ -298,5 +315,6 @@ namespace CrissCross
 }
 
 #include <crisscross/darray.cpp>
+#include <crisscross/rbtree.h>
 
 #endif
