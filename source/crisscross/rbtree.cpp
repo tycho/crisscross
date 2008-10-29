@@ -30,7 +30,7 @@ namespace CrissCross
 			nullNode->left = nullNode->right = nullNode->parent = nullNode;
 			nullNode->color = BLACK;
 			nullNode->data_ind = nullNode->id_ind = keyPool.insert(NullKey<Key>());
-			dataPool.insert(NULL, nullNode->id_ind);
+			dataPool.insert(NullKey<Data>(), nullNode->id_ind);
 			rootNode = nullNode;
 			m_cachedSize = 0;
 		}
