@@ -162,10 +162,10 @@ namespace CrissCross
 				RedBlackNode *parent;
 
 				/*! \brief The key for this node. */
-				Key           id;
+				size_t        id_ind;
 
 				/*! \brief The data held at this node. */
-				Data          data;
+				size_t        data_ind;
 
 				/*! \brief The color of the node (either red or black). */
 				unsigned char color : 1;
@@ -178,25 +178,6 @@ namespace CrissCross
 				/*! \brief The destructor. */
 				~RedBlackNode()
 				{
-					Dealloc(id);
-					delete left; left = NULL;
-					delete right; right = NULL;
-				}
-
-
-				/*! \brief Returns the overhead caused by the node. */
-				/*!
-				 * \param _parentTree The tree which contains this node instance.
-				 * \return Memory usage in bytes.
-				 */
-				size_t mem_usage(CrissCross::Data::RedBlackTree<Key, Data> const *_parentTree) const
-				{
-					size_t ret = sizeof(*this);
-					if (left && left != _parentTree->nullNode) ret += left->mem_usage(_parentTree);
-
-					if (right && right != _parentTree->nullNode) ret += right->mem_usage(_parentTree);
-
-					return ret;
 				}
 		};
 	}

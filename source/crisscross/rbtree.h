@@ -48,6 +48,8 @@ namespace CrissCross
 				RedBlackTree<Key, Data> &operator =(const RedBlackTree<Key, Data> &);
 
 			protected:
+				DArray<Key> keyPool;
+				DArray<Data> dataPool;
 
 				/*! \brief The root node at the top of the tree. */
 				RedBlackNode<Key, Data> *rootNode;
@@ -57,9 +59,6 @@ namespace CrissCross
 
 				/*! \brief The cached size() return value. Changes on each tree modification (insertions and deletions). */
 				size_t                   m_cachedSize;
-
-				void RecursiveConvertIndexToDArray(DArray <Key> *_darray, RedBlackNode<Key, Data> *_btree) const;
-				void RecursiveConvertToDArray(DArray <Data> *_darray, RedBlackNode<Key, Data> *_btree) const;
 
 				void rotateLeft(RedBlackNode<Key, Data> * _x);
 				void rotateRight(RedBlackNode<Key, Data> * _x);
@@ -190,14 +189,14 @@ namespace CrissCross
 				 * \return A DArray containing the data of the tree.
 				 * \warning Delete the returned DArray when done with it.
 				 */
-				DArray <Data> *ConvertToDArray() const;
+				DArray <Data> *ConvertToDArray(bool _copy = false) const;
 
 				/*! \brief Converts the tree keys into a linearized DArray. */
 				/*!
 				 * \return A DArray containing the keys in the tree.
 				 * \warning Delete the returned DArray when done with it.
 				 */
-				DArray <Key> *ConvertIndexToDArray() const;
+				DArray <Key> *ConvertIndexToDArray(bool _copy = false) const;
 
 				/*! \brief Returns the overhead caused by the data structure. */
 				/*!
