@@ -169,15 +169,11 @@ namespace CrissCross
 				char  *tempshadow = new char[m_arraySize];
 
 				if (m_array && m_shadow) {
-					//memcpy(&temparray[0], &m_array[0], sizeof(temparray[0]) * oldarraysize);
-					for ( size_t a = 0; a < oldarraysize; a++ )
-					{
-						temparray[0] = m_array[0];
-					}
+					memcpy(&temparray[0], &m_array[0], sizeof(temparray[0]) * oldarraysize);
 					memcpy(&tempshadow[0], &m_shadow[0], sizeof(tempshadow[0]) * oldarraysize);
 				}
 
-				//memset(&temparray[oldarraysize], 0, sizeof(temparray[0]) * (m_arraySize - oldarraysize));
+				memset(&temparray[oldarraysize], 0, sizeof(temparray[0]) * (m_arraySize - oldarraysize));
 				memset(&tempshadow[oldarraysize], 0, sizeof(tempshadow[0]) * (m_arraySize - oldarraysize));
 
 				for (size_t a = m_arraySize - 1; (int)a >= (int)oldarraysize; a--) {
