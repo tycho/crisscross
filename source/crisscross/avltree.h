@@ -183,14 +183,6 @@ namespace CrissCross
 				 */
 				void RecursiveConvertToDArray(DArray <Data> *_darray, AVLNode<Key, Data> *_btree) const;
 
-				/*! \brief Recursively find all nodes with the specified key */
-				/*!
-				 * \param _darray Array to insert data into
-				 * \param _key Identifier of nodes to find
-				 * \param _node The node being traversed
-				 */
-				void findRecursive(DArray<Data> *_darray, Key const &_key, AVLNode<Key, Data> *_node) const;
-
 				/*! \brief Verifies that a node is valid. */
 				/*!
 				 * \param _node A node pointer.
@@ -251,14 +243,6 @@ namespace CrissCross
 				 * \sa find
 				 */
 				_CC_DEPRECATE_FUNCTION(find) Data find(Key const &_key) const;
-
-				/*! \brief Finds all instances of the specified key in the tree. */
-				/*!
-				 * \param _key The key of the node to find.
-				 * \return A DArray containing the data with key _key.
-				 * \warning Delete the returned DArray when done with it to avoid memory leaks.
-				 */
-				DArray<Data> *findAll(Key const &_key) const;
 
 				/*! \brief Tests whether a key is in the tree or not. */
 				/*!

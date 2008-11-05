@@ -62,8 +62,6 @@ namespace CrissCross
 				void RecursiveConvertIndexToDArray(DArray <Key> *_darray, SplayNode<Key, Data> *_btree) const;
 				void RecursiveConvertToDArray(DArray <Data> *_darray, SplayNode<Key, Data> *_btree) const;
 
-				void findRecursive(DArray<Data> *_array, Key const &_key, SplayNode<Key, Data> *_node) const;
-
 				bool erase(Key const &key, Data const &rec, SplayNode<Key, Data> *curnode);
 
 				bool killNode(SplayNode<Key, Data> * z);
@@ -125,14 +123,6 @@ namespace CrissCross
 				 * \sa find
 				 */
 				_CC_DEPRECATE_FUNCTION(find) Data find(Key const &_key) const;
-
-				/*! \brief Finds all instances of the specified key in the tree. */
-				/*!
-				 * \param _key The key of the node to find.
-				 * \return A DArray containing the data with key _key.
-				 * \warning Delete the returned DArray when done with it.
-				 */
-				DArray<Data> *findAll(Key const &_key) const;
 
 				/*! \brief Deletes a node from the tree, specified by the node's key. */
 				/*!

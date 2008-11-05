@@ -65,8 +65,6 @@ namespace CrissCross
 				void insertFixup(RedBlackNode<Key, Data> * _x);
 				void deleteFixup(RedBlackNode<Key, Data> * _x);
 
-				void findRecursive(DArray<Data> *_array, Key const &_key, RedBlackNode<Key, Data> *_node) const;
-
 				void killAll();
 				void killAll(RedBlackNode<Key, Data> *rec);
 
@@ -168,14 +166,6 @@ namespace CrissCross
 				{
 					return m_cachedSize;
 				};
-
-				/*! \brief Finds all instances of the specified key in the tree. */
-				/*!
-				 * \param _key The key of the node to find.
-				 * \return A DArray containing the data with key _key.
-				 * \warning Delete the returned DArray when done with it.
-				 */
-				DArray<Data> *findAll(Key const &_key) const;
 
 				/*! \brief Tests whether a key is in the tree or not. */
 				/*!

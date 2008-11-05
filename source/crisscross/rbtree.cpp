@@ -174,8 +174,13 @@ namespace CrissCross
 			current = rootNode;
 			while (valid(current)) {
 				parent = current;
-				current = (Compare(key, keyPool[current->id_ind]) <= 0) ?
-				          current->left : current->right;
+				int ret = Compare(key, keyPool[current->id_ind]);
+				if (ret < 0)
+					current = current->left;
+				else if (ret > 0)
+					current = current->right;
+				else
+					return false;
 			}
 
 			/* setup new node */
@@ -477,29 +482,6 @@ namespace CrissCross
 			killAll(rootNode);
 			rootNode = nullNode;
 			m_cachedSize = 0;
-		}
-
-		template <class Key, class Data>
-		DArray<Data> *RedBlackTree<Key, Data>::findAll(Key const &_key) const
-		{
-			RedBlackNode<Key, Data> *p_current = findNode(_key);
-			DArray<Data>            *data = new DArray<Data>();
-			findRecursive(data, _key, p_current);
-			return data;
-		}
-
-		template <class Key, class Data>
-		void RedBlackTree<Key, Data>::findRecursive(DArray<Data> *_array, Key const &_key, RedBlackNode<Key, Data> *_node) const
-		{
-			CoreAssert(_array);
-			if (!valid(_node)) return;
-
-			findRecursive(_array, _key, _node->left);
-			if (Compare(keyPool[_node->id_ind], _key) == 0) {
-				_array->insert(dataPool[_node->data_ind]);
-			}
-
-			findRecursive(_array, _key, _node->right);
 		}
 
 		template <class Key, class Data>

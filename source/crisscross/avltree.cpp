@@ -214,29 +214,6 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		DArray<Data> *AVLTree<Key, Data>::findAll(Key const &_key) const
-		{
-			AVLNode<Key, Data> *p_current = findNode(_key);
-			DArray<Data>       *data = new DArray<Data>();
-			findRecursive(data, _key, p_current);
-			return data;
-		}
-
-		template <class Key, class Data>
-		void AVLTree<Key, Data>::findRecursive(DArray<Data> *_array, Key const &_key, AVLNode<Key, Data> *_node) const
-		{
-			CoreAssert(_array);
-			if (!_node) return;
-
-			findRecursive(_array, _key, _node->left);
-			if (Compare(_node->id, _key) == 0) {
-				_array->insert(_node->data);
-			}
-
-			findRecursive(_array, _key, _node->right);
-		}
-
-		template <class Key, class Data>
 		Data AVLTree<Key, Data>::find(Key const &_key) const
 		{
 			AVLNode<Key, Data> *p_current = findNode(_key);
@@ -647,12 +624,15 @@ namespace CrissCross
 				return BALANCE;
 			}
 
-			if (Compare(_key, (*_node)->id) < 0) {
+			int ret = Compare(_key, (*_node)->id);
+			if (ret < 0) {
 				if ((result = insert(_node, &(*_node)->left, _key, _data)) == BALANCE)
 					result = balanceLeftGrown(_node);
-			} else {           /* obj >= nodeobj */
+			} else if (ret > 0) {           /* obj >= nodeobj */
 				if ((result = insert(_node, &(*_node)->right, _key, _data)) == BALANCE)
 					result = balanceRightGrown(_node);
+			} else {
+				return Result::Error;
 			}
 
 			return result;

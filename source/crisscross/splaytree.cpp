@@ -203,29 +203,6 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		DArray<Data> *SplayTree<Key, Data>::findAll(Key const &_key) const
-		{
-			SplayNode<Key, Data> *p_current = findNode(_key);
-			DArray<Data>         *data = new DArray<Data>();
-			findRecursive(data, _key, p_current);
-			return data;
-		}
-
-		template <class Key, class Data>
-		void SplayTree<Key, Data>::findRecursive(DArray<Data> *_array, Key const &_key, SplayNode<Key, Data> *_node) const
-		{
-			CoreAssert(_array);
-			if (!_node) return;
-
-			findRecursive(_array, _key, _node->left);
-			if (Compare(_node->id, _key) == 0) {
-				_array->insert(_node->data);
-			}
-
-			findRecursive(_array, _key, _node->right);
-		}
-
-		template <class Key, class Data>
 		bool SplayTree<Key, Data>::replace(Key const &key, Data const &data)
 		{
 			splay(key, root);
