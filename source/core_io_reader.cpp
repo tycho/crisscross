@@ -232,7 +232,7 @@ namespace CrissCross
 			if (c == (char)EOF)
 				return 0;
 
-			static std::string buffer;
+			std::string buffer;
 
 			while (c != (char)EOF && c != '\n') {
 				buffer += c;
