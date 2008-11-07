@@ -29,8 +29,7 @@ namespace CrissCross
 			nullNode = new RedBlackNode<Key, Data>();
 			nullNode->left = nullNode->right = nullNode->parent = nullNode;
 			nullNode->color = BLACK;
-			nullNode->data_ind = nullNode->id_ind = keyPool.insert(NullKey<Key>());
-			dataPool.insert(NullKey<Data>(), nullNode->id_ind);
+			nullNode->id = NullKey<Key>();
 			rootNode = nullNode;
 			m_cachedSize = 0;
 		}
@@ -161,7 +160,8 @@ namespace CrissCross
 			RedBlackNode<Key, Data> *current;
 			current = findNode(key);
 			if (!valid(current)) return false;
-			dataPool.insert(rec, current->data_ind);
+
+			current->data = rec;
 			return true;
 		}
 
@@ -174,7 +174,7 @@ namespace CrissCross
 			current = rootNode;
 			while (valid(current)) {
 				parent = current;
-				int ret = Compare(key, keyPool[current->id_ind]);
+				int ret = Compare(key, current->id);
 				if (ret < 0)
 					current = current->left;
 				else if (ret > 0)
@@ -192,12 +192,12 @@ namespace CrissCross
 			x->left = nullNode;
 			x->right = nullNode;
 			x->color = RED;
-			x->data_ind = x->id_ind = keyPool.insert(Duplicate(key));
-			dataPool.insert(rec, x->id_ind);
+			x->id = Duplicate(key);
+			x->data = rec;
 
 			/* insert node in tree */
 			if (valid(parent)) {
-				if (Compare(key, keyPool[parent->id_ind]) <= 0)
+				if (Compare(key, parent->id) <= 0)
 					parent->left = x;
 				else
 					parent->right = x;
@@ -288,10 +288,10 @@ namespace CrissCross
 			z = rootNode;
 
 			while (valid(z)) {
-				if (Compare(key, keyPool[z->id_ind]) == 0)
+				if (Compare(key, z->id) == 0)
 					break;
 				else{
-					z = (Compare(key, keyPool[z->id_ind]) <= 0) ? z->left : z->right;
+					z = (Compare(key, z->id) <= 0) ? z->left : z->right;
 				}
 			}
 
@@ -316,8 +316,8 @@ namespace CrissCross
 
 			bool killed = false;
 
-			if (Compare(keyPool[curnode->id_ind], key) == 0) {
-				if (Compare(dataPool[curnode->data_ind], rec) == 0) {
+			if (Compare(curnode->id, key) == 0) {
+				if (Compare(curnode->data, rec) == 0) {
 					killNode(curnode);
 					killed = true;
 				}
@@ -366,11 +366,11 @@ namespace CrissCross
 				rootNode = x;
 
 			if (y != z) {
-				Dealloc(keyPool[z->id_ind]);
-				keyPool[z->id_ind] = Duplicate(keyPool[y->id_ind]);
-				dataPool[z->data_ind] = dataPool[y->data_ind];
+				Dealloc(z->id);
+				z->id = Duplicate(y->id);
+				z->data = y->data;
 			} else {
-				Dealloc(keyPool[y->id_ind]);
+				Dealloc(y->id);
 			}
 
 			if (y->color == BLACK)
@@ -378,8 +378,6 @@ namespace CrissCross
 
 			m_cachedSize--;
 
-			keyPool.remove(y->id_ind);
-			dataPool.remove(y->data_ind);
 			y->left = NULL;
 			y->right = NULL;
 			delete y;
@@ -393,10 +391,10 @@ namespace CrissCross
 			RedBlackNode<Key, Data> *current = rootNode;
 
 			while (valid(current)) {
-				if (Compare(key, keyPool[current->id_ind]) == 0) {
-					return dataPool[current->data_ind];
+				if (Compare(key, current->id) == 0) {
+					return current->data;
 				} else {
-					current = (Compare(key, keyPool[current->id_ind]) <= 0) ?
+					current = (Compare(key, current->id) <= 0) ?
 					          current->left : current->right;
 				}
 			}
@@ -410,11 +408,11 @@ namespace CrissCross
 			RedBlackNode<Key, Data> *current = rootNode;
 
 			while (valid(current)) {
-				if (Compare(key, keyPool[current->id_ind]) == 0) {
-					_data = dataPool[current->data_ind];
+				if (Compare(key, current->id) == 0) {
+					_data = current->data;
 					return true;
 				} else {
-					current = (Compare(key, keyPool[current->id_ind]) <= 0) ?
+					current = (Compare(key, current->id) <= 0) ?
 					          current->left : current->right;
 				}
 			}
@@ -428,11 +426,10 @@ namespace CrissCross
 			RedBlackNode<Key, Data> * current = rootNode;
 
 			while (valid(current)) {
-				if (Compare(key, keyPool[current->id_ind]) == 0) {
+				if (Compare(key, current->id) == 0) {
 					return current;
 				} else {
-					current = (Compare(key, keyPool[current->id_ind]) <= 0) ?
-						current->left : current->right;
+					current = (Compare(key, current->id) <= 0) ? current->left : current->right;
 				}
 			}
 
@@ -468,9 +465,7 @@ namespace CrissCross
 					rec->parent->right = nullNode;
 			}
 
-			Dealloc(keyPool[rec->id_ind]);
-			keyPool.remove(rec->id_ind);
-			dataPool.remove(rec->data_ind);
+			Dealloc(rec->id);
 			rec->left = NULL;
 			rec->right = NULL;
 			delete rec;
@@ -495,17 +490,39 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		DArray<Data> *RedBlackTree<Key, Data>::ConvertToDArray(bool _encapsulate) const
+		DArray<Data> *RedBlackTree<Key, Data>::ConvertToDArray() const
 		{
-			DArray<Data> *darray = new DArray<Data>(dataPool, _encapsulate);
+			DArray<Data> *darray = new DArray<Data> ((int)size());
+			RecursiveConvertToDArray(darray, rootNode);
 			return darray;
 		}
 
 		template <class Key, class Data>
-		DArray<Key> *RedBlackTree<Key, Data>::ConvertIndexToDArray(bool _encapsulate) const
+		DArray<Key> *RedBlackTree<Key, Data>::ConvertIndexToDArray() const
 		{
-			DArray<Key> *darray = new DArray<Key>(keyPool, _encapsulate);
+			DArray<Key> *darray = new DArray<Key> ((int)size());
+			RecursiveConvertIndexToDArray(darray, rootNode);
 			return darray;
+		}
+
+		template <class Key, class Data>
+		void RedBlackTree<Key, Data>::RecursiveConvertToDArray(DArray<Data> *darray, RedBlackNode<Key, Data> *btree) const
+		{
+			if (!valid(btree)) return;
+
+			RecursiveConvertToDArray(darray, btree->left);
+			darray->insert(btree->data);
+			RecursiveConvertToDArray(darray, btree->right);
+		}
+
+		template <class Key, class Data>
+		void RedBlackTree<Key, Data>::RecursiveConvertIndexToDArray(DArray<Key> *darray, RedBlackNode<Key, Data> *btree) const
+		{
+			if (!valid(btree)) return;
+
+			RecursiveConvertIndexToDArray(darray, btree->left);
+			darray->insert(btree->id);
+			RecursiveConvertIndexToDArray(darray, btree->right);
 		}
 	}
 }
