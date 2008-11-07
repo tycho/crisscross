@@ -632,7 +632,7 @@ namespace CrissCross
 				if ((result = insert(_node, &(*_node)->right, _key, _data)) == BALANCE)
 					result = balanceRightGrown(_node);
 			} else {
-				return Result::Error;
+				return INVALID;
 			}
 
 			return result;
