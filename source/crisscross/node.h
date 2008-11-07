@@ -162,10 +162,10 @@ namespace CrissCross
 				RedBlackNode *parent;
 
 				/*! \brief The key for this node. */
-				size_t        id_ind;
+				Key           id;
 
 				/*! \brief The data held at this node. */
-				size_t        data_ind;
+				Data          data;
 
 				/*! \brief The color of the node (either red or black). */
 				unsigned char color : 1;
@@ -178,6 +178,9 @@ namespace CrissCross
 				/*! \brief The destructor. */
 				~RedBlackNode()
 				{
+					Dealloc(id);
+					delete left; left = NULL;
+					delete right; right = NULL;
 				}
 		};
 	}
