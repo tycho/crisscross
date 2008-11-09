@@ -130,7 +130,7 @@ const int CC_LIB_VERSION_BUILD = BUILD_NUMBER;
 #endif
 
 /* Doesn't work on non-x86, and Cygwin doesn't have the functionality for cpu_set_t. */
-#if !(defined (TARGET_CPU_X86) || defined (TARGET_CPU_X64)) || defined (TARGET_COMPILER_CYGWIN) || defined (TARGET_OS_FREEBSD) || defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD) || defined (TARGET_OS_MACOSX)
+#if !(defined (TARGET_CPU_X86) || defined (TARGET_CPU_X64)) || defined (TARGET_COMPILER_CYGWIN) || defined (TARGET_OS_FREEBSD) || defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD)
 #undef ENABLE_CPUID
 #endif
 

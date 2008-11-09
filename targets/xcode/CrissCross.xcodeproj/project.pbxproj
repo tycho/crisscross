@@ -45,6 +45,7 @@
 		B01CB6A10D52D2B40081CCAC /* splaytree.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB68D0D52D2B40081CCAC /* splaytree.h */; };
 		B01CB6A20D52D2B40081CCAC /* tiger.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB68E0D52D2B40081CCAC /* tiger.h */; };
 		B02A92870EA070F300A7DB38 /* hash.h in Headers */ = {isa = PBXBuildFile; fileRef = B02A92860EA070F300A7DB38 /* hash.h */; };
+		B03C0F3C0EC7800800D8A516 /* CHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B03C0F3B0EC7800800D8A516 /* CHUD.framework */; };
 		B07FD4B10D6CD41400464636 /* filereader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B07FD4AF0D6CD41400464636 /* filereader.cpp */; };
 		B07FD4B20D6CD41400464636 /* filewriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B07FD4B00D6CD41400464636 /* filewriter.cpp */; };
 		B07FD4B50D6CD42300464636 /* filereader.h in Headers */ = {isa = PBXBuildFile; fileRef = B07FD4B30D6CD42300464636 /* filereader.h */; };
@@ -138,6 +139,7 @@
 		B01CB68E0D52D2B40081CCAC /* tiger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tiger.h; path = ../../source/crisscross/tiger.h; sourceTree = SOURCE_ROOT; };
 		B01CB6A50D52D2E60081CCAC /* avltree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = avltree.cpp; path = ../../source/crisscross/avltree.cpp; sourceTree = SOURCE_ROOT; };
 		B02A92860EA070F300A7DB38 /* hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hash.h; path = ../../source/crisscross/hash.h; sourceTree = SOURCE_ROOT; };
+		B03C0F3B0EC7800800D8A516 /* CHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CHUD.framework; path = /System/Library/PrivateFrameworks/CHUD.framework; sourceTree = "<absolute>"; };
 		B07FD4AF0D6CD41400464636 /* filereader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = filereader.cpp; path = ../../source/filereader.cpp; sourceTree = SOURCE_ROOT; };
 		B07FD4B00D6CD41400464636 /* filewriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = filewriter.cpp; path = ../../source/filewriter.cpp; sourceTree = SOURCE_ROOT; };
 		B07FD4B30D6CD42300464636 /* filereader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = filereader.h; path = ../../source/crisscross/filereader.h; sourceTree = SOURCE_ROOT; };
@@ -198,6 +200,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B03C0F3C0EC7800800D8A516 /* CHUD.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,6 +218,7 @@
 		0867D691FE84028FC02AAC07 /* CrissCross */ = {
 			isa = PBXGroup;
 			children = (
+				B03C0F3B0EC7800800D8A516 /* CHUD.framework */,
 				08FB77ACFE841707C02AAC07 /* Source */,
 				089C1665FE841158C02AAC07 /* Resources */,
 				034768DDFF38A45A11DB9C8B /* Products */,
@@ -566,6 +570,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -583,6 +592,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;

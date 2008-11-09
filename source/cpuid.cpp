@@ -18,6 +18,14 @@
 
 #ifdef ENABLE_CPUID
 
+#ifdef TARGET_OS_MACOSX
+extern "C" {
+	int chudProcessorCount();
+	int utilBindThreadToCPU(int n);
+	int utilUnbindThreadFromCPU();
+}
+#endif
+
 /* The following definition enables some rather suspicious cache descriptors */
 /* from sandpile.org which haven't been verified with Intel's docs. */
 /* #    define ENABLE_SANDPILE */
@@ -359,7 +367,7 @@ namespace CrissCross
 				WaitForSingleObject(hThread, INFINITE);
 			}
 
-#elif defined (TARGET_OS_LINUX) || defined (TARGET_OS_MACOSX)
+#elif defined (TARGET_OS_LINUX)
 			int       NUM_PROCS = sysconf(_SC_NPROCESSORS_CONF), i;
 			cpu_set_t mask;
 			cpu_set_t originalmask;
@@ -373,6 +381,14 @@ namespace CrissCross
 			}
 
 			sched_setaffinity(0, sizeof(originalmask), &originalmask);
+#elif defined (TARGET_OS_MACOSX)
+			int       NUM_PROCS = chudProcessorCount();
+			for (int i = 0; i < NUM_PROCS; i++) {
+				utilUnbindThreadFromCPU();
+				utilBindThreadToCPU(i);
+				GoThread(i);
+			}
+			utilUnbindThreadFromCPU();
 #endif
 		}
 
