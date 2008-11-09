@@ -125,7 +125,8 @@ namespace CrissCross
 		}
 
 		Console::Console(FILE * _outputBuffer, FILE *_inputBuffer) : CoreIOWriter(_outputBuffer, false, CC_LN_LF),
-			CoreIOReader(_inputBuffer, false, CC_LN_LF)
+			CoreIOReader(_inputBuffer, false, CC_LN_LF),
+			m_consoleAllocated(false)
 		{
 		}
 
