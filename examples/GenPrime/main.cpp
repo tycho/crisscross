@@ -14,10 +14,10 @@
 using namespace CrissCross::IO;
 using namespace CrissCross::System;
 
-/* 16K of data. Should fit in most L1 caches. */
-#define PREGEN 4096
+/* Gets up to about sqrt(MAX_INT) */
+#define PREGEN 6544
 
-/* #define USE_INTEGERS */
+#define USE_INTEGERS
 
 #ifdef USE_INTEGERS
 typedef unsigned long prime_t;
@@ -225,7 +225,7 @@ int RunApplication(int argc, char * *argv)
 		console->WriteLine("%5d primes: %d.%03ds (%lu PPS, LP: %lu)", i, sw.ElapsedMS() / 1000,
 		                   sw.ElapsedMS() % 1000, (unsigned long)(i / sw.Elapsed()), lastprime);
 #else
-		console->WriteLine("Time for %9d primes: %6.3lf seconds (%lu PPS, LP: %lu)", i, sw.Elapsed(),
+		console->WriteLine("Time for %9d primes: %8.3lf seconds (%8lu PPS, LP: %9lu)", i, sw.Elapsed(),
 		                   (unsigned long)((double)i / sw.Elapsed()), lastprime);
 #endif
 	}
