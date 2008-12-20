@@ -80,13 +80,6 @@ namespace CrissCross
 				 */
 				virtual bool IsOpen();
 
-				/*! \brief Reads one character from the file buffer. */
-				/*!
-				 * \param _destination A pointer to where the character can be stored.
-				 * \return Number of total bytes read.
-				 */
-				virtual int Read(char *_destination);
-
 				/*! \brief Reads a block of data from the file buffer. */
 				/*!
 				 * \param _buffer The output buffer to read to.
