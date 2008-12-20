@@ -43,7 +43,7 @@ namespace CrissCross
 			m_filePath = new char[_filePathLength + 1];
 			strcpy((char *)m_filePath, _file);
 
-			m_fileInputPointer = fopen(m_filePath, "rt");
+			m_fileInputPointer = fopen(m_filePath, "rb");
 
 			if (m_fileInputPointer == NULL)
 				return CC_ERR_FILE_OPEN;
