@@ -19,6 +19,7 @@
 #ifdef ENABLE_SORTS
 #include <crisscross/sort.h>
 #endif
+#include <crisscross/filesystem.h>
 #include <crisscross/dstack.h>
 #include <crisscross/darray.h>
 #include <crisscross/llist.h>

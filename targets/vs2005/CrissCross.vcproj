@@ -6,7 +6,6 @@
 	ProjectGUID="{D41B6899-77A7-4CB8-B739-BE29475EF864}"
 	RootNamespace="CrissCross"
 	Keyword="Win32Proj"
-	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -189,6 +188,10 @@
 			</File>
 			<File
 				RelativePath="..\..\source\filereader.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\source\filesystem.cpp"
 				>
 			</File>
 			<File
@@ -417,6 +420,10 @@
 			</File>
 			<File
 				RelativePath="..\..\source\crisscross\filereader.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\source\crisscross\filesystem.h"
 				>
 			</File>
 			<File

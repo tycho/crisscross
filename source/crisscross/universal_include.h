@@ -342,6 +342,14 @@ namespace CrissCross
 	{
 	}
 
+	/*! \brief The filesystem namespace. */
+	/*!
+	 *  Contains classes and functions for filesystem interaction.
+	 */
+	namespace Filesystem
+	{
+	}
+
 	/*! \brief The input/output namespace. */
 	/*!
 	 *  Contains classes for console and file I/O.
