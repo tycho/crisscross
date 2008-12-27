@@ -13,6 +13,7 @@
 #include <crisscross/rbtree.h>
 #include <crisscross/llist.h>
 #include <crisscross/debug.h>
+#include <crisscross/system.h>
 
 #ifdef TARGET_OS_MACOSX
 extern "C" int NSApplicationMain(int argc, const char *argv []);
@@ -273,6 +274,8 @@ int main(int argc, char * *argv)
 #endif
 	g_stderr = new Console(stderr, NULL);
 	g_stdout = new Console(stdout, NULL);
+
+	CrissCross::System::InitTimer();
 
 #ifdef ENABLE_CRASHREPORTS
 	__try
