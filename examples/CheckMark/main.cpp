@@ -31,7 +31,7 @@ int RunApplication(int argc, char * *argv)
 	console->SetColour(console->FG_RED | console->FG_INTENSITY);
 	console->WriteLine("CheckMark v" CC_LIB_VERSION);
 	console->SetColour();
-	console->WriteLine("A checksum algorithm benchmark.");
+	console->WriteLine("A checksum (hashing) algorithm benchmark.");
 	console->WriteLine();
 
 	/* Generate some data for checksum speed tests. */
