@@ -40,7 +40,8 @@ prime_t primeCache[PREGEN]; prime_t *primeCachePtr;
 
 bool isPrime(unsigned long _candidate)
 {
-	prime_t i, limit, next, *p, n;
+	prime_t i, limit, next, n;
+	prime_t *p;
 
 	/* 1 and 0 aren't prime */
 	if (_candidate < 2) return false;
@@ -66,7 +67,6 @@ bool isPrime(unsigned long _candidate)
 	 */
 	limit = (prime_t)sqrt((double)_candidate);
 
-#ifdef PREGEN
 	/* Iterate through the prime cache first to check divisors. */
 	for (p = primeCache; *p != 0 && *p <= limit; p++)
 		if (_modulus(n, *p) == 0) return false;
@@ -78,8 +78,7 @@ bool isPrime(unsigned long _candidate)
 	if (primeCache[PREGEN - 2])
 		next = primeCache[PREGEN - 2] + 2;
 	else
-#endif
-	next = 3;
+		next = 3;
 
 	/* Now test all other odd numbers up to sqrt(n) */
 	for (i = next; i <= limit; i += 2) if (_modulus(n, i) == 0) return false;
@@ -131,7 +130,6 @@ unsigned long genPrime(unsigned long _maxToFind, isPrimeFunc _func)
 #endif
 }
 
-#ifdef PREGEN
 void AddPrimeToCache(prime_t _prime)
 {
 	/* inUse is a simple lock for multithreading. */
@@ -151,13 +149,11 @@ void PrecalculatePrimes()
 	/* Find a predetermined number of primes to use as divisors. */
 
 	unsigned long n;
-	memset(primeCache, 0, sizeof(primeCache));
 	primeCachePtr = primeCache;
 	for (n = 3; primeCachePtr - primeCache <= PREGEN - 2; n += 2)
 		if (isPrime(n))
 			AddPrimeToCache((prime_t)n);
 }
-#endif
 
 int RunApplication(int argc, char * *argv)
 {
@@ -165,27 +161,42 @@ int RunApplication(int argc, char * *argv)
 
 	/* Begin your application here. */
 
-	unsigned long inc, max;
+	Stopwatch     sw;
+	unsigned long lastprime;
+	unsigned long inc, max, i = 1, ret = 0;
+	char pregen = 0;
 
 	if (argc < 3) {
 		console->WriteLine("Not enough parameters.");
-		delete console;
-		return 0;
+		ret = 1;
+		goto bomb;
 	}
 
-	inc = atoi(argv[1]);
-	max = atoi(argv[2]);
+	while (argv[i][0] == '-') {
+		if (argv[i][1] == 'p')
+			pregen = (char)-1;
+		i++;
+	}
+
+	inc = atoi(argv[i++]);
+	max = atoi(argv[i++]);
+
+	if (inc == 0 || max == 0) {
+		console->WriteLine("Increment of %d and max of %d isn't a valid configuration.", inc, max);
+		ret = 1;
+		goto bomb;
+	}
 
 	if (!(inc <= max)) {
 		console->WriteLine("Increment cannot be less than zero or greater than the max.");
-		delete console;
-		return 0;
+		ret = 1;
+		goto bomb;
 	}
 
 	if (!(max < ((unsigned long)-1) / 2)) {
 		console->WriteLine("Maximum is too high.");
-		delete console;
-		return 0;
+		ret = 1;
+		goto bomb;
 	}
 
 #ifdef USE_INTEGERS
@@ -194,11 +205,13 @@ int RunApplication(int argc, char * *argv)
 	console->WriteLine("Using floating-point math.\n");
 #endif
 
-#ifdef PREGEN
-	console->Write("Pregenerating %d primes... ", PREGEN);
-	PrecalculatePrimes();
-	console->WriteLine("OK\n");
-#endif
+	memset(primeCache, 0, sizeof(primeCache));
+	if (pregen)
+	{
+		console->Write("Pregenerating %d primes... ", PREGEN);
+		PrecalculatePrimes();
+		console->WriteLine("OK\n");
+	}
 
 #ifdef TARGET_OS_WINDOWS
 	HANDLE        hThread = GetCurrentThread();
@@ -207,10 +220,6 @@ int RunApplication(int argc, char * *argv)
 	SetPriorityClass(hProcess, HIGH_PRIORITY_CLASS);
 
 #endif
-
-	Stopwatch     sw;
-
-	unsigned long lastprime;
 
 #ifdef TARGET_OS_NDSFIRMWARE
 	for (unsigned long i = 10000; i <= 50000; i += 1000)
@@ -236,7 +245,7 @@ int RunApplication(int argc, char * *argv)
 
 	/* End your application here. */
 
+bomb:
 	delete console;
-
-	return 0;
+	return ret;
 }
