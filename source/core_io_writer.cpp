@@ -179,7 +179,7 @@ namespace CrissCross
 			m_ioMutex.Lock();
 #endif
 
-			if (fprintf(m_fileOutputPointer, m_lineEnding) < 0)
+			if (fprintf(m_fileOutputPointer, "%s", m_lineEnding) < 0)
 				return CC_ERR_WRITE;
 
 #ifndef __GNUC__

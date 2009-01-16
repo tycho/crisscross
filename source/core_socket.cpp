@@ -104,7 +104,7 @@ namespace CrissCross
 			getpeername(m_sock, (sockaddr *)&sock, (socklen_t *)&sock_size);
 
 			/* Print it to a buffer. */
-			sprintf(buffer, inet_ntoa(sock.sin_addr));
+			sprintf(buffer, "%s", inet_ntoa(sock.sin_addr));
 
 			/* Return it. */
 			return buffer;
