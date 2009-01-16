@@ -53,11 +53,12 @@ namespace CrissCross
 			static bool CircleCollision ( vec2 circle1, float radius1, vec2 circle2, float radius2 );
 			
 			void Descend ();
+			void Ascend ();
 		public:
 			Quadtree ( vec2 const &lower_left, vec2 const &upper_right, int _descentLevel = 7, Quadtree* _parent = NULL );
 			~Quadtree ();
 			void InsertObject ( T const &_object, vec2 const &position, float _collisionRadius );
-			void RemoveObject ( T const &_object, vec2 const &position, float _collisionRadius );
+			bool RemoveObject ( T const &_object, vec2 const &position, float _collisionRadius );
 			std::vector<T> ObjectsInCircle ( vec2 const &_centre, float radius );
 		};
 
@@ -155,7 +156,19 @@ namespace CrissCross
 		}
 		
 		template <class T>
-		void Quadtree<T>::RemoveObject ( T const &_object, vec2 const &_position, float radius )
+		void Quadtree<T>::Ascend ()
+		{
+			if (ll)
+			{
+				delete ll; ll = NULL;
+				delete lr; lr = NULL;
+				delete tl; tl = NULL;
+				delete tr; tr = NULL;
+			}
+		}
+		
+		template <class T>
+		bool Quadtree<T>::RemoveObject ( T const &_object, vec2 const &_position, float radius )
 		{
 			typename std::vector<QtNode<T> *>::iterator iter;
 			// find objects stored in this quadtree
@@ -168,13 +181,24 @@ namespace CrissCross
 						QtNode<T> *node = (*iter);
 						iter = nodes.erase(iter);
 						delete node;
-						continue;
+						// check for ascension
+						if (parent)
+						{
+							if (parent->ll->nodes.empty() &&
+							    parent->lr->nodes.empty() &&
+								parent->tr->nodes.empty() &&
+								parent->tl->nodes.empty())
+							{
+								parent->Ascend();
+							}
+						}
+						return true;
 					}
 				}
 				iter++;
 			}
 			if (!ll) // if no subtrees, return this as-is
-				return;
+				return false;
 			// find objects stored in the child quadtrees
 			float x, y;
 			float left, right;
@@ -191,23 +215,28 @@ namespace CrissCross
 			if (top > midY && left < midX)
 			{
 				// need to descend into top left quadtree
-				tl->RemoveObject(_object, _position, radius);
+				if (tl->RemoveObject(_object, _position, radius))
+					return true;
 			}
 			if (top > midY && right > midX)
 			{
 				// top right quadtree
-				tr->RemoveObject(_object, _position, radius);
+				if (tr->RemoveObject(_object, _position, radius))
+					return true;
 			}
 			if (bottom < midY && right > midX)
 			{
 				// lower right quadtree
-				lr->RemoveObject(_object, _position, radius);
+				if (lr->RemoveObject(_object, _position, radius))
+					return true;
 			}
 			if (bottom < midY && left < midX)
 			{
 				// lower left quadtree
-				ll->RemoveObject(_object, _position, radius);
+				if (ll->RemoveObject(_object, _position, radius))
+					return true;
 			}
+			return false;
 		}
 
 		template <class T>
@@ -285,13 +314,7 @@ namespace CrissCross
 		template <class T>
 		Quadtree<T>::~Quadtree ()
 		{
-			if (ll)
-			{
-				delete ll;
-				delete lr;
-				delete tl;
-				delete tr;
-			}
+			Ascend();
 			
 			typename std::vector<QtNode<T> *>::iterator iter;
 			for (iter = nodes.begin(); iter != nodes.end(); )
