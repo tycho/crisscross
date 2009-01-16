@@ -4,7 +4,7 @@
  *
  *   A product of Uplink Laboratories.
  *
- *   (c) 2006-2008 Steven Noonan.
+ *   (c) 2006-2009 Steven Noonan.
  *   Licensed under the New BSD License.
  *
  */
@@ -49,7 +49,7 @@ const int CC_LIB_VERSION_BUILD = BUILD_NUMBER;
 #undef __included_build_number_h
 
 #define CC_LIB_URL                 "http://www.uplinklabs.net/crisscross/"
-#define CC_LIB_COPYRIGHT           "(c) 2006-2008 by Uplink Laboratories. Licensed under the New BSD License."
+#define CC_LIB_COPYRIGHT           "(c) 2006-2009 by Uplink Laboratories. Licensed under the New BSD License."
 #define CC_LIB_NDS_COPYRIGHT       "(c) by Uplink Laboratories.\nLicensed under the BSD License."
 
 /* Disabling these will save space but limit functionality. */
