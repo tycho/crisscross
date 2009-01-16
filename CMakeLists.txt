@@ -73,7 +73,7 @@ IF(CMAKE_COMPILER_IS_GNUCXX AND NOT XCODE)
 	SET(_CMAKE_CURRENT_BINARY_DIR_included_before_path FALSE)
 	FOREACH(item ${_directory_flags})
 		IF(${item}  STREQUAL ${_path} AND NOT _CMAKE_CURRENT_BINARY_DIR_included_before_path )
-			MESSAGE(FATAL_ERROR 
+			MESSAGE(FATAL_ERROR
 				"This is the ADD_PRECOMPILED_HEADER macro. "
 				"CMAKE_CURRENT_BINARY_DIR has to mentioned at INCLUDE_DIRECTORIES's argument list before ${_path}, where ${_name} is located"
 			)	
@@ -121,7 +121,7 @@ MACRO(ADD_FLAG where flag)
 ENDMACRO(ADD_FLAG)
 
 if(CMAKE_COMPILER_IS_GNUCXX)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++98 -fno-rtti -fno-exceptions -Wall -Wno-long-long -pedantic")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++98 -fno-strict-aliasing -fno-rtti -fno-exceptions -Wall -Wno-long-long -pedantic")
 	if(NOT CYGWIN)
 		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb -rdynamic")
 	endif(NOT CYGWIN)
