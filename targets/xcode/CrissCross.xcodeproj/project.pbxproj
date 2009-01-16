@@ -95,6 +95,8 @@
 		B0BD2C8A0BE26C3700F71A26 /* CrissCross_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32BAE0B70371A74B00C91783 /* CrissCross_Prefix.pch */; };
 		B0BD2C8B0BE26C3700F71A26 /* llist.h in Headers */ = {isa = PBXBuildFile; fileRef = B0BD2BC20BE2542600F71A26 /* llist.h */; };
 		B0BD2C900BE26C7C00F71A26 /* llist.cpp in Headers */ = {isa = PBXBuildFile; fileRef = B0BD2BC10BE2542600F71A26 /* llist.cpp */; };
+		B0DA22920F2028C1007F11B7 /* quadtree.h in Headers */ = {isa = PBXBuildFile; fileRef = B0DA22910F2028C1007F11B7 /* quadtree.h */; };
+		B0DA22950F202C61007F11B7 /* vec2.h in Headers */ = {isa = PBXBuildFile; fileRef = B0DA22940F202C61007F11B7 /* vec2.h */; };
 		B0ED57BE0BEAF76A00F6033B /* platform_detect.h in Headers */ = {isa = PBXBuildFile; fileRef = B0ED57BD0BEAF76A00F6033B /* platform_detect.h */; };
 /* End PBXBuildFile section */
 
@@ -192,6 +194,8 @@
 		B0BD2BCE0BE2542600F71A26 /* udpsocket.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = udpsocket.h; path = ../../source/crisscross/udpsocket.h; sourceTree = SOURCE_ROOT; };
 		B0BD2BCF0BE2542600F71A26 /* universal_include.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = universal_include.h; path = ../../source/crisscross/universal_include.h; sourceTree = SOURCE_ROOT; };
 		B0BD2C480BE26BDC00F71A26 /* libCrissCross Static.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libCrissCross Static.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0DA22910F2028C1007F11B7 /* quadtree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = quadtree.h; path = ../../source/crisscross/quadtree.h; sourceTree = SOURCE_ROOT; };
+		B0DA22940F202C61007F11B7 /* vec2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vec2.h; path = ../../source/crisscross/vec2.h; sourceTree = SOURCE_ROOT; };
 		B0ED57BD0BEAF76A00F6033B /* platform_detect.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = platform_detect.h; path = ../../source/crisscross/platform_detect.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -318,6 +322,8 @@
 				B0BD2B940BE2540900F71A26 /* core_socket.cpp */,
 				B0BD2B950BE2540900F71A26 /* system.cpp */,
 				32BAE0B70371A74B00C91783 /* CrissCross_Prefix.pch */,
+				B0DA22910F2028C1007F11B7 /* quadtree.h */,
+				B0DA22940F202C61007F11B7 /* vec2.h */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -379,6 +385,8 @@
 				B07FD4B50D6CD42300464636 /* filereader.h in Headers */,
 				B07FD4B60D6CD42300464636 /* filewriter.h in Headers */,
 				B02A92870EA070F300A7DB38 /* hash.h in Headers */,
+				B0DA22920F2028C1007F11B7 /* quadtree.h in Headers */,
+				B0DA22950F202C61007F11B7 /* vec2.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
