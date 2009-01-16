@@ -262,8 +262,10 @@ __inline char *cc_strdup(const char *x)
 	return strcpy(dup, x);
 }
 
-#define cc_min(x, y) ((x < y) ? x : y)
-#define cc_max(x, y) ((x > y) ? x : y)
+#include <crisscross/compare.h>
+
+#define cc_min(x, y) (Compare(x, y) < 0 ? x : y)
+#define cc_max(x, y) (Compare(x, y) > 0 ? x : y)
 
 #if defined (TARGET_COMPILER_VC)
 #if _MSC_VER < 1400
