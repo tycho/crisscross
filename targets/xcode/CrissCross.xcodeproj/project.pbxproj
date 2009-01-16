@@ -443,7 +443,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\n\necho \"Generating build_number.h...\";\n\necho \"Changing directory to '$PROJECT_DIR/../../source/crisscross/'...\";\ncd \"$PROJECT_DIR/../../source/crisscross/\"\n\nif [ -d .svn ]; then\n\tBUILD=`svn --xml info | tr -d '\\r' | tr -d '\\n' | sed -e 's/.*<entry.*revision=\"\\([0-9]*\\)\".*<url>.*/\\1/'`\nelse\n\tBUILD=`/opt/local/bin/git rev-list --all | wc -l | tr -d ' '`\nfi\n\nif [[ \"${#BUILD}\" -lt \"1\" ]]; then\n\techo \"Build number couldn't be detected, defaulting to 1!\"\n\tBUILD=1\nelse\n\techo \"Build number ${BUILD} detected, creating header...\"\nfi\n\necho \"#ifndef __included_build_number_h\" > build_number.h.tmp\necho \"#define __included_build_number_h\" >> build_number.h.tmp\necho \"\" >> build_number.h.tmp\necho \"#define BUILD_NUMBER ${BUILD}\" >> build_number.h.tmp\necho \"\" >> build_number.h.tmp\necho \"#endif\" >> build_number.h.tmp\necho \"\" >> build_number.h.tmp\n\ntouch build_number.h\n\nTEMPHEADERMD5=`md5 -q build_number.h.tmp`\nHEADERMD5=`md5 -q build_number.h`\n\nif [ \"${TEMPHEADERMD5}\" != \"${HEADERMD5}\" ]; then\n\techo \"Header updated.\"\n\tmv build_number.h.tmp build_number.h\nelse\n\techo \"Header is already up to date. Skipping update...\"\n\trm build_number.h.tmp\nfi\n\nexit 0";
+			shellScript = "#!/bin/bash\n\necho \"Generating build_number.h...\";\n\necho \"Changing directory to '$PROJECT_DIR/../../source/crisscross/'...\";\ncd \"$PROJECT_DIR/../../source/crisscross/\"\n\neval `cat ~/.bash_login`\n\nif [ -d .svn ]; then\n\tBUILD=`svn --xml info | tr -d '\\r' | tr -d '\\n' | sed -e 's/.*<entry.*revision=\"\\([0-9]*\\)\".*<url>.*/\\1/'`\nelse\n\tBUILD=`git rev-list --all | wc -l | tr -d ' '`\nfi\n\nif [[ \"${#BUILD}\" -lt \"1\" ]]; then\n\techo \"Build number couldn't be detected, defaulting to 1!\"\n\tBUILD=1\nelse\n\techo \"Build number ${BUILD} detected, creating header...\"\nfi\n\necho \"#ifndef __included_build_number_h\" > build_number.h.tmp\necho \"#define __included_build_number_h\" >> build_number.h.tmp\necho \"\" >> build_number.h.tmp\necho \"#define BUILD_NUMBER ${BUILD}\" >> build_number.h.tmp\necho \"\" >> build_number.h.tmp\necho \"#endif\" >> build_number.h.tmp\necho \"\" >> build_number.h.tmp\n\ntouch build_number.h\n\nTEMPHEADERMD5=`md5 -q build_number.h.tmp`\nHEADERMD5=`md5 -q build_number.h`\n\nif [ \"${TEMPHEADERMD5}\" != \"${HEADERMD5}\" ]; then\n\techo \"Header updated.\"\n\tmv build_number.h.tmp build_number.h\nelse\n\techo \"Header is already up to date. Skipping update...\"\n\trm build_number.h.tmp\nfi\n\nexit 0";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -579,6 +579,7 @@
 		B0BD2C6F0BE26C1200F71A26 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ONLY_ACTIVE_ARCH_PRE_XCODE_3_1)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -592,8 +593,12 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				INSTALL_PATH = /usr/local/lib;
+				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
+				ONLY_ACTIVE_ARCH_PRE_XCODE_3_1 = "$(NATIVE_ARCH_ACTUAL)";
 				PREBINDING = NO;
 				PRODUCT_NAME = "CrissCross Static";
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT_ppc = /Developer/SDKs/MacOSX10.4u.sdk;
 				ZERO_LINK = YES;
 			};
 			name = Debug;
@@ -601,6 +606,8 @@
 		B0BD2C700BE26C1200F71A26 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "ppc i386 ppc64 x86_64";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -612,8 +619,11 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				INSTALL_PATH = /usr/local/lib;
+				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
 				PREBINDING = NO;
 				PRODUCT_NAME = "CrissCross Static";
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT_ppc = /Developer/SDKs/MacOSX10.4u.sdk;
 				ZERO_LINK = NO;
 			};
 			name = Release;
