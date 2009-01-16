@@ -177,7 +177,9 @@ namespace CrissCross
 
 			/* We use fgets because it detects line endings. */
 			_buffer[0] = '\x0';
-			fgets(_buffer, (int)_bufferLength, m_fileInputPointer);
+			char *ret = fgets(_buffer, (int)_bufferLength, m_fileInputPointer);
+			if (ret != _buffer)
+				return -1;
 
 			/* Detect line endings. */
 			char *endl = NULL;
@@ -202,6 +204,7 @@ namespace CrissCross
 			return (int)strlen(_buffer);
 		}
 
+		/* TODO: This function uses fgetc() which incurs unnecessary function call overhead. Find a suitable replacement. */
 		int CoreIOReader::ReadLine(std::string &_string)
 		{
 			CoreAssert(this != NULL);

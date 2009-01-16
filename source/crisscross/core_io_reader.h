@@ -95,7 +95,7 @@ namespace CrissCross
 				/*!
 				 * Data returned by this function should be copied to another location before being parsed.
 				 * \param _string A reference of an std::string where the data will be stored.
-				 * \return The number of bytes read.
+				 * \return The number of bytes read. On failure, -1 is returned.
 				 */
 				virtual int ReadLine(std::string &_string);
 
@@ -103,7 +103,7 @@ namespace CrissCross
 				/*!
 				 * \param _buffer A character buffer for the data to be stored in.
 				 * \param _bufferLength The length of the buffer specified in _buffer.
-				 * \return The number of bytes read.
+				 * \return The number of bytes read. On failure, -1 is returned.
 				 */
 				virtual int ReadLine(char *_buffer, size_t _bufferLength);
 
