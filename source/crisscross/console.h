@@ -132,61 +132,6 @@ namespace CrissCross
 				 */
 				void MoveUp(int _lines);
 
-				/*! \brief Reads a char from the console. */
-				char ReadChar();
-
-				/*! \brief Reads a char from the console. */
-				/*!
-				 *  If both _min and _max are zero, the input will be returned, no matter what the value is (no bounds checking).
-				 * \param _min The minimum input value.
-				 * \param _max The maximum input value.
-				 */
-				char ReadChar(char _min, char _max);
-
-				/*! \brief Reads an integer from the console. */
-				int ReadInt();
-
-				/*! \brief Reads an integer from the console. */
-				/*!
-				 *  If both _min and _max are zero, the input will be returned, no matter what the value is (no bounds checking).
-				 * \param _min The minimum input value.
-				 * \param _max The maximum input value.
-				 */
-				int ReadInt(int _min = 0, int _max = 0);
-
-				/*! \brief Reads a long integer from the console. */
-				long ReadLong();
-
-				/*! \brief Reads a long integer from the console. */
-				/*!
-				 *  If both _min and _max are zero, the input will be returned, no matter what the value is (no bounds checking).
-				 * \param _min The minimum input value.
-				 * \param _max The maximum input value.
-				 */
-				long ReadLong(long _min = 0, long _max = 0);
-
-				/*! \brief Reads a float from the console. */
-				float ReadFloat();
-
-				/*! \brief Reads a float from the console. */
-				/*!
-				 *  If both _min and _max are zero, the input will be returned, no matter what the value is (no bounds checking).
-				 * \param _min The minimum input value.
-				 * \param _max The maximum input value.
-				 */
-				float ReadFloat(float _min = 0, float _max = 0);
-
-				/*! \brief Reads a double from the console. */
-				double ReadDouble();
-
-				/*! \brief Reads a double from the console. */
-				/*!
-				 *  If both _min and _max are zero, the input will be returned, no matter what the value is (no bounds checking).
-				 * \param _min The minimum input value.
-				 * \param _max The maximum input value.
-				 */
-				double ReadDouble(double _min = 0, double _max = 0);
-
 				/*! \brief Flushes the input and output buffers. */
 				void Flush();
 
