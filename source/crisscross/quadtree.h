@@ -46,6 +46,7 @@ namespace CrissCross
 			Quadtree<T>* lr;
 			Quadtree<T>* tl;
 			Quadtree<T>* tr;
+			int descentLevel;
 			std::vector<QtNode<T> *> nodes;
 
 			static bool InRange ( float lower_bound, float upper_bound, float point );
@@ -53,7 +54,7 @@ namespace CrissCross
 			
 			void Descend ();
 		public:
-			Quadtree ( vec2 const &lower_left, vec2 const &upper_right, Quadtree* _parent = NULL );
+			Quadtree ( vec2 const &lower_left, vec2 const &upper_right, int _descentLevel = 7, Quadtree* _parent = NULL );
 			~Quadtree ();
 			void InsertObject ( T const &_object, vec2 const &position, float _collisionRadius );
 			void RemoveObject ( T const &_object, vec2 const &position, float _collisionRadius );
@@ -139,10 +140,10 @@ namespace CrissCross
 			bottomY = llPosition.Y();
 			midX = (leftX + rightX) / 2.0f;
 			midY = (topY + bottomY) / 2.0f;
-			ll = new Quadtree(vec2(leftX, bottomY), vec2(midX, midY), this);
-			lr = new Quadtree(vec2(midX, bottomY), vec2(rightX, midY), this);
-			tl = new Quadtree(vec2(leftX, midY), vec2(rightX, midY), this);
-			tr = new Quadtree(vec2(midX, midY), vec2(rightX, topY), this);
+			ll = new Quadtree(vec2(leftX, bottomY), vec2(midX, midY),  descentLevel - 1, this);
+			lr = new Quadtree(vec2(midX, bottomY), vec2(rightX, midY), descentLevel - 1, this);
+			tl = new Quadtree(vec2(leftX, midY), vec2(rightX, midY),   descentLevel - 1, this);
+			tr = new Quadtree(vec2(midX, midY), vec2(rightX, topY),    descentLevel - 1, this);
 			// distribute all current nodes
 			std::vector<QtNode<T> *> oldCopy = nodes;
 			typename std::vector<QtNode<T> *>::iterator iter;
@@ -212,7 +213,7 @@ namespace CrissCross
 		template <class T>
 		void Quadtree<T>::InsertObject ( T const &_object, vec2 const &_position, float _collisionRadius )
 		{
-			if (nodes.size() < qtMax)
+			if (nodes.size() < qtMax || descentLevel == 0)
 			{
 				nodes.push_back(new QtNode<T>(_object, _position, _collisionRadius));
 			}
@@ -269,14 +270,15 @@ namespace CrissCross
 		}
 
 		template <class T>
-		Quadtree<T>::Quadtree ( vec2 const &lower_left, vec2 const &upper_right, Quadtree<T>* _parent )
+		Quadtree<T>::Quadtree ( vec2 const &lower_left, vec2 const &upper_right, int _descentLevel, Quadtree<T>* _parent )
 		 : llPosition(lower_left),
 		   trPosition(upper_right),
 		   parent(_parent),
 		   ll(NULL),
 		   lr(NULL),
 		   tl(NULL),
-		   tr(NULL)
+		   tr(NULL),
+		   descentLevel(_descentLevel)
 		{
 		}
 
