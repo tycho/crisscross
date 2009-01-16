@@ -62,7 +62,7 @@ IF(CMAKE_COMPILER_IS_GNUCXX AND NOT XCODE)
 
 	ADD_CUSTOM_COMMAND(
 		OUTPUT ${_outdir}
-		COMMAND mkdir ${_outdir} # TODO: {CMAKE_COMMAND} -E ... 
+		COMMAND mkdir -p ${_outdir} # TODO: {CMAKE_COMMAND} -E ...
 	)
 	#MAKE_DIRECTORY(${_outdir})
     
