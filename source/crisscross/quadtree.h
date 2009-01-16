@@ -295,7 +295,7 @@ namespace CrissCross
 			{
 				QtNode<T> *node = *iter;
 				delete node;
-				iter = nodes.remove(iter);
+				iter = nodes.erase(iter);
 			}
 		}
 	}
