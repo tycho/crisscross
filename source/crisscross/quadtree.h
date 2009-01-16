@@ -37,8 +37,17 @@ namespace CrissCross
 		
 		template <class T>
 		class Quadtree
-		{			
-		private:
+		{
+		protected:
+			vec2 llPosition;
+			vec2 trPosition;
+			Quadtree<T>* parent;
+			Quadtree<T>* ll;
+			Quadtree<T>* lr;
+			Quadtree<T>* tl;
+			Quadtree<T>* tr;
+			std::vector<QtNode<T> *> nodes;
+
 			static bool InRange ( float lower_bound, float upper_bound, float point );
 			static bool CircleCollision ( vec2 circle1, float radius1, vec2 circle2, float radius2 );
 			
@@ -49,14 +58,6 @@ namespace CrissCross
 			void InsertObject ( T const &_object, vec2 const &position, float _collisionRadius );
 			void RemoveObject ( T const &_object, vec2 const &position, float _collisionRadius );
 			std::vector<T> ObjectsInCircle ( vec2 const &_centre, float radius );
-			vec2 llPosition;
-			vec2 trPosition;
-			Quadtree<T>* parent;
-			Quadtree<T>* ll;
-			Quadtree<T>* lr;
-			Quadtree<T>* tl;
-			Quadtree<T>* tr;
-			std::vector<QtNode<T> *> nodes;
 		};
 
 		template <class T>
