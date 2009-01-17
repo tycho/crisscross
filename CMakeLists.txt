@@ -6,7 +6,7 @@ endif(COMMAND cmake_policy)
 
 project (CrissCross)
 
-set(CMAKE_BUILD_TYPE RelWithDebInfo)
+set(CMAKE_BUILD_TYPE CrissCrossDefaultBuildType)
 
 # - Try to find precompiled headers support for GCC 3.4 and 4.x
 # Once done this will define:
@@ -121,7 +121,7 @@ MACRO(ADD_FLAG where flag)
 ENDMACRO(ADD_FLAG)
 
 if(CMAKE_COMPILER_IS_GNUCXX)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++98 -fno-strict-aliasing -fno-rtti -fno-exceptions -Wall -Wno-long-long -pedantic")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Os -std=gnu++98 -fno-strict-aliasing -fno-rtti -fno-exceptions -Wall -Wno-long-long -pedantic")
 	if(NOT CYGWIN)
 		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb -rdynamic")
 	endif(NOT CYGWIN)
