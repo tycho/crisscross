@@ -45,14 +45,8 @@ int RunApplication(int argc, char * *argv)
 	g_console = new IO::Console();
 
 	g_console->SetColour(IO::Console::FG_RED | IO::Console::FG_INTENSITY);
-	g_console->WriteLine("CrissCross Test Suite v" CC_LIB_VERSION);
+	g_console->WriteLine("CrissCross Test Suite v" CC_LIB_VERSION_STRING);
 	g_console->SetColour();
-	g_console->WriteLine();
-
-	g_console->WriteLine("Compiled with CrissCross  v%d.%d.%d build %d",
-	                     CC_LIB_VERSION_MAJOR, CC_LIB_VERSION_MINOR, CC_LIB_VERSION_REVISION, CC_LIB_VERSION_BUILD);
-	g_console->WriteLine("Running with CrissCross   v%d.%d.%d build %d",
-	                     Version::Major(), Version::Minor(), Version::Revision(), Version::Build());
 	g_console->WriteLine();
 
 	int retval = 0;
