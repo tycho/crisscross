@@ -1,18 +1,13 @@
 #!/bin/bash
 
-VERSTRING=$(git describe --tags)
+VERSTRING=$(git describe --tags --long)
 OUT=$1
 
 MAJOR=`echo $VERSTRING | cut -d'.' -f1`
 MINOR=`echo $VERSTRING | cut -d'.' -f2`
 REVIS=`echo $VERSTRING | cut -d'.' -f3 | cut -d'-' -f 1`
-if [ $(echo $VERSTRING | grep "-") ]; then
-	BUILD=`echo $VERSTRING | cut -d'-' -f2,3,4,5`
-	TINYBUILD=`echo $VERSTRING | cut -d'-' -f2`
-else
-	BUILD=0
-	TINYBUILD=0
-fi
+BUILD=`echo $VERSTRING | cut -d'-' -f2,3,4,5`
+TINYBUILD=`echo $VERSTRING | cut -d'-' -f2`
 
 rm -f $OUT
 
