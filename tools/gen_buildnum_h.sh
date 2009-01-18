@@ -13,6 +13,9 @@ if [ $(echo $TINYBUILD | grep rc) ]; then
 	RC=-$TINYBUILD
 	TINYBUILD=`echo $VERSTRING | cut -d'-' -f3`
 fi
+
+VERSTRING=$(git describe --tags)
+
 rm -f $OUT
 
 cat >> $OUT << __eof__
