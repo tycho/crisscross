@@ -73,7 +73,7 @@ namespace CrissCross
 #endif
 
 				/* Create a new wrapper for our socket. */
-				TCPSocket    *csock = new TCPSocket(sock);
+				TCPSocket *csock = new TCPSocket(sock);
 
 				m_state = SOCKET_STATE_CONNECTED;
 
@@ -90,7 +90,7 @@ namespace CrissCross
 		int TCPSocket::Connect(const char *_address, unsigned short _port)
 		{
 			struct sockaddr_in sin;
-			struct hostent    *host;
+			struct hostent *host;
 
 			/* Close any existing connections on this socket. */
 			Close();
@@ -216,7 +216,7 @@ namespace CrissCross
 		int TCPSocket::SetAttributes(socket_t _socket)
 		{
 			/* TCP_NODELAY */
-			int           err, optval = 1, optlen = sizeof optval;
+			int err, optval = 1, optlen = sizeof optval;
 			err = setsockopt(_socket, IPPROTO_TCP, TCP_NODELAY,
 			                 (char *)&optval, optlen);
 			if (err == -1) return errno;
@@ -240,7 +240,7 @@ namespace CrissCross
 
 			/* SO_KEEPALIVE */
 #ifdef TARGET_OS_WINDOWS
-			DWORD         bytesReturned = 0;
+			DWORD bytesReturned = 0;
 			tcp_keepalive vals;
 			vals.keepalivetime = 30000;
 			vals.keepaliveinterval = 10000;

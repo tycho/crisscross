@@ -436,7 +436,7 @@ static __inline__ uint8_t get_little(void)
         load_little_32_ ## __off(cc_uint32_t * addr)               \
 	{                                               \
 		cc_uint32_t value;                              \
-		__asm__( \
+		__asm__(\
 		        "lduwa    [%1 + %2]%%asi, %0\n\t" \
 			: "=r" (value)                            \
 			: "r" (addr), "i" ((0x ## __off) << 2));      \
@@ -533,7 +533,7 @@ static void MD5Init(MD5_CTX *ctx)
 
 static void MD5Update(MD5_CTX *ctx, const void *inpp, unsigned int input_len)
 {
-	cc_uint32_t          i, buf_index, buf_len;
+	cc_uint32_t i, buf_index, buf_len;
 	const unsigned char *input = (const unsigned char *)inpp;
 
 	/* compute (number of bytes computed so far) mod 64 */
@@ -604,7 +604,7 @@ static void MD5Update(MD5_CTX *ctx, const void *inpp, unsigned int input_len)
 
 static void MD5Final(unsigned char *digest, MD5_CTX *ctx)
 {
-	cc_uint8_t  bitcount_le[sizeof(ctx->count)];
+	cc_uint8_t bitcount_le[sizeof(ctx->count)];
 	cc_uint32_t index = (ctx->count[0] >> 3) & 0x3f;
 
 	/* store bit count, little endian */
@@ -648,7 +648,7 @@ static void MD5Transform(cc_uint32_t a, cc_uint32_t b, cc_uint32_t c, cc_uint32_
 	register cc_uint32_t x_0, x_1, x_2, x_3, x_4, x_5, x_6, x_7;
 	register cc_uint32_t x_8, x_9, x_10, x_11, x_12, x_13, x_14, x_15;
 #ifdef sun4v
-	cc_uint64_t         *md5_consts64;
+	cc_uint64_t *md5_consts64;
 
 	/* LINTED E_BAD_PTR_CAST_ALIGN */
 	md5_consts64 = (cc_uint64_t *)md5_consts;
@@ -898,7 +898,7 @@ static void Encode(cc_uint8_t * output, const cc_uint32_t * input, size_t input_
 #ifdef TARGET_LITTLE_ENDIAN
 
 #ifdef _MD5_CHECK_ALIGNMENT
-		if ((uintptr_t)output & 0x3)   /* Not 4-byte aligned */
+		if ((uintptr_t)output & 0x3)  /* Not 4-byte aligned */
 			bcopy(input + i, output + j, 4);
 		else *(cc_uint32_t *)(output + j) = input[i];
 
@@ -949,7 +949,7 @@ namespace CrissCross
 
 			cc_int64_t pos = _reader->Position();
 			_reader->Seek(0);
-			char       buffer[8192]; int bytesRead = 0;
+			char buffer[8192]; int bytesRead = 0;
 			do
 			{
 				bytesRead = _reader->Read(buffer, sizeof(buffer), 0, sizeof(buffer));

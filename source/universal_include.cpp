@@ -32,8 +32,8 @@ using namespace CrissCross::Data;
 using namespace CrissCross::Debug;
 using namespace CrissCross::IO;
 
-Console     *g_stderr;
-Console     *g_stdout;
+Console *g_stderr;
+Console *g_stdout;
 
 #ifdef DETECT_MEMORY_LEAKS
 
@@ -51,13 +51,13 @@ void ParseMemoryLeakFile(const char *_inputFilename, const char *_outputFilename
 
 	RedBlackTree<char *, int> combined;
 	RedBlackTree<char *, int> frequency;
-	int                       unrecognised = 0;
+	int unrecognised = 0;
 
 	/* */
 	/* Open the file and start parsing */
 	/* */
 
-	FILE                     *memoryfile = fopen(_inputFilename, "rb");
+	FILE *memoryfile = fopen(_inputFilename, "rb");
 
 	while (memoryfile && !feof(memoryfile))	{
 		char thisline[1024];
@@ -72,8 +72,8 @@ void ParseMemoryLeakFile(const char *_inputFilename, const char *_outputFilename
 				if (lastcomma == 0) continue;
 
 				char *ssize = lastcomma + 2;
-				int   size;
-				char  unused[32];
+				int size;
+				char unused[32];
 
 				sscanf(ssize, "%d %s", &size, unused);
 
@@ -86,8 +86,8 @@ void ParseMemoryLeakFile(const char *_inputFilename, const char *_outputFilename
 
 				/* Put the result into our BTree */
 
-				int   result = 0;
-				bool  found = combined.find(sourcelocation, result);
+				int result = 0;
+				bool found = combined.find(sourcelocation, result);
 
 				if (found)
 					combined.replace(sourcelocation, result + size);
@@ -105,8 +105,8 @@ void ParseMemoryLeakFile(const char *_inputFilename, const char *_outputFilename
 
 				if (lastcomma) {
 					char *ssize = lastcomma + 2;
-					int   size;
-					char  unused[32];
+					int size;
+					char unused[32];
 
 					sscanf(ssize, "%d %s", &size, unused);
 
@@ -127,19 +127,19 @@ void ParseMemoryLeakFile(const char *_inputFilename, const char *_outputFilename
 	DArray<char *> *dataI = combined.ConvertIndexToDArray();
 	DArray<int>    *dataD = combined.ConvertToDArray();
 
-	int             totalsize = 0;
+	int totalsize = 0;
 
 	for (size_t i = 0; i < dataI->size(); i++) {
 		if (dataI->valid(i)) {
 			char *newsource = dataI->get(i);
-			int   newsize = dataD->get(i);
+			int newsize = dataD->get(i);
 
 			totalsize += newsize;
-			bool  inserted = false;
+			bool inserted = false;
 
 			for (size_t i = 0; i < sorted.size(); i++) {
 				char *existingsource = sorted.get(i);
-				int   existingsize;
+				int existingsize;
 
 				combined.find(existingsource, existingsize);
 
@@ -171,22 +171,22 @@ void ParseMemoryLeakFile(const char *_inputFilename, const char *_outputFilename
 		/* */
 
 		fprintf(output, "Total recognised memory leaks   : %d Kbytes\n",
-		        int( totalsize / 1024 ));
+		        int (totalsize / 1024));
 		fprintf(output, "Total unrecognised memory leaks : %d Kbytes\n\n",
-		        int( unrecognised / 1024 ));
+		        int (unrecognised / 1024));
 
 		for (int k = (int)sorted.size() - 1; k >= 0 && k < (int)sorted.size(); k--) {
 			char *source = sorted.get(k);
 			CoreAssert(source);
-			int   size; combined.find(source, size);
-			int   freq; frequency.find(source, freq);
+			int size; combined.find(source, size);
+			int freq; frequency.find(source, freq);
 
 			if (size > 1048576) {
 				fprintf(output, "%-95s (%d MB in %d leaks)\n", source,
-				        int( size / 1048576 ), freq);
+				        int (size / 1048576), freq);
 			} else if (size > 2048) {
 				fprintf(output, "%-95s (%d KB in %d leaks)\n", source,
-				        int( size / 1024 ), freq);
+				        int (size / 1024), freq);
 			} else {
 				fprintf(output, "%-95s (%d  bytes in %d leaks)\n", source, size,
 				        freq);
@@ -210,21 +210,21 @@ void AppPrintMemoryLeaks(char *_filename)
 	_CrtMemCheckpoint(&s2);
 #endif
 
-	char     tmpFilename[512];
+	char tmpFilename[512];
 
 	sprintf(tmpFilename, "%s.tmp", _filename);
 
 	OFSTRUCT ofstruct;
-	HFILE    file = OpenFile(tmpFilename,
-	                         &ofstruct,
-	                         OF_CREATE);
+	HFILE file = OpenFile(tmpFilename,
+	                      &ofstruct,
+	                      OF_CREATE);
 
 	CoreAssert(file);
 
 	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_FILE);
 	_CrtSetReportFile(_CRT_WARN, ( _HFILE )file);
 
-	BOOL     memLeakFound = _CrtDumpMemoryLeaks();
+	BOOL memLeakFound = _CrtDumpMemoryLeaks();
 #ifdef ENABLE_MEMLEAK_STATS
 	_CrtMemDifference(&s3, &s1, &s2);
 	_CrtMemDumpStatistics(&s3);

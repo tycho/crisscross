@@ -40,7 +40,7 @@ class SymbolEngine
 		SymbolEngine(SymbolEngine const &);
 		SymbolEngine & operator=(SymbolEngine const &);
 		SymbolEngine();
-		HANDLE                hProcess;
+		HANDLE hProcess;
 	public:
 		~SymbolEngine();
 	private:
@@ -105,10 +105,10 @@ std::string SymbolEngine::addressToString(DWORD address)
 	IMAGEHLP_LINE
 	lineInfo = { sizeof(IMAGEHLP_LINE) };
 	if (SymGetLineFromAddr
-	                                                                                                                                                   (GetCurrentProcess(), ( DWORD )address, &dwDisplacement,
-	                                                                                                                                                   &lineInfo)) {
+	    (GetCurrentProcess(), ( DWORD )address, &dwDisplacement,
+	     &lineInfo)) {
 		const char *pDelim = strrchr(lineInfo.FileName, '\\');
-		char        temp[1024];
+		char temp[1024];
 		sprintf(temp, " at %s(%u)", (pDelim ? pDelim + 1 : lineInfo.FileName), lineInfo.LineNumber);
 		strcat(buffer, temp);
 	}
@@ -147,28 +147,28 @@ void CrissCross::Debug::PrintStackTrace(CrissCross::IO::CoreIOWriter * _outputBu
 #if !defined (TARGET_OS_NETBSD) && !defined (TARGET_OS_FREEBSD) && !defined (TARGET_OS_OPENBSD)
 #ifdef ENABLE_SYMBOL_ENGINE
 
-	CONTEXT          context = { CONTEXT_FULL };
+	CONTEXT context = { CONTEXT_FULL };
 	::GetThreadContext(GetCurrentThread(), &context);
-	_asm             call $ + 5;
-	_asm pop         eax;
+	_asm call $ + 5;
+	_asm pop eax;
 	_asm mov context.Eip, eax;
-	_asm mov         eax, esp;
+	_asm mov eax, esp;
 	_asm mov context.Esp, eax;
 	_asm mov context.Ebp, ebp;
 	SymbolEngine::instance().StackTrace(&context, _outputBuffer);
 
 #elif defined (ENABLE_BACKTRACE)
-#if defined(TARGET_OS_MACOSX)
-	int              (*backtrace)(void * *, int);
-	char          * *(*backtrace_symbols)(void * const *, int);
+#if defined (TARGET_OS_MACOSX)
+	int (*backtrace)(void * *, int);
+	char * *(*backtrace_symbols)(void * const *, int);
 	backtrace = (int(*) (void * *, int))dlsym(RTLD_DEFAULT, "backtrace");
 	backtrace_symbols = (char * *(*)(void * const *, int))dlsym(RTLD_DEFAULT, "backtrace_symbols");
 #endif
 
-	void            *array[256];
-	int              size;
-	char          * *strings;
-	int              i;
+	void *array[256];
+	int size;
+	char * *strings;
+	int i;
 
 	memset(array, 0, sizeof(void *) * 256);
 
@@ -178,12 +178,12 @@ void CrissCross::Debug::PrintStackTrace(CrissCross::IO::CoreIOWriter * _outputBu
 
 	_outputBuffer->WriteLine("Obtained %d stack frames.", size);
 
-	std::string      bt = "";
+	std::string bt = "";
 
 	for (i = 0; i < size; i++) {
-#if defined(TARGET_OS_LINUX)
+#if defined (TARGET_OS_LINUX)
 		bt += strings[i];
-		int    status;
+		int status;
 		/* extract the identifier from strings[i].  It's inside of parens. */
 		char * firstparen = ::strchr(strings[i], '(');
 		char * lastparen = ::strchr(strings[i], '+');
@@ -196,12 +196,12 @@ void CrissCross::Debug::PrintStackTrace(CrissCross::IO::CoreIOWriter * _outputBu
 			}
 			free(realname);
 		}
-#elif defined(TARGET_OS_MACOSX)
-		char  *addr = ::strstr(strings[i], "0x");
-		char  *mangled = ::strchr(addr, ' ') + 1;
-		char  *postmangle = ::strchr(mangled, ' ');
+#elif defined (TARGET_OS_MACOSX)
+		char *addr = ::strstr(strings[i], "0x");
+		char *mangled = ::strchr(addr, ' ') + 1;
+		char *postmangle = ::strchr(mangled, ' ');
 		bt += addr;
-		int    status;
+		int status;
 		if (addr && mangled) {
 			if (postmangle)
 				*postmangle = '\0';
@@ -232,7 +232,7 @@ void CrissCross::Debug::PrintStackTrace(CrissCross::IO::CoreIOWriter * _outputBu
 void Assert(bool _condition, const char *_testcase, const char *_file, int _line)
 {
 	if (!_condition) {
-		char          buffer[10240];
+		char buffer[10240];
 		sprintf(buffer, "Assertion failed : '%s'\nFile: %s\nLine: %d\n\n",
 		        _testcase, _file, _line);
 		fprintf(stderr, "%s", buffer);

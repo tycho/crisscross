@@ -38,8 +38,7 @@ namespace CrissCross
 		DArray <T>::DArray(T *_array, size_t _indices, bool _encapsulate)
 		{
 			m_encapsulated = _encapsulate;
-			if ( _encapsulate )
-			{
+			if (_encapsulate) {
 				m_array = new T[_indices];
 				memcpy(m_array, _array, _indices * sizeof(T));
 			} else {
@@ -48,11 +47,9 @@ namespace CrissCross
 			m_shadow = new char[_indices];
 			memset(m_shadow, 0, _indices * sizeof(char));
 			m_numUsed = 0;
-			for (size_t i = 0; i < _indices; i++)
-			{
+			for (size_t i = 0; i < _indices; i++) {
 				m_shadow[i] = m_array[i] != NULL ? 1 : 0;
-				if ( m_shadow[i] )
-				{
+				if (m_shadow[i]) {
 					m_numUsed++;
 				}
 			}
@@ -67,8 +64,7 @@ namespace CrissCross
 		DArray <T>::DArray(DArray const &_array, bool _encapsulate)
 		{
 			m_encapsulated = _encapsulate;
-			if ( _encapsulate )
-			{
+			if (_encapsulate) {
 				m_array = new T[_array.m_arraySize];
 				memcpy(m_array, _array.m_array, _array.m_arraySize * sizeof(T));
 			} else {
@@ -77,11 +73,9 @@ namespace CrissCross
 			m_shadow = new char[_array.m_arraySize];
 			memset(m_shadow, 0, _array.m_arraySize * sizeof(char));
 			m_numUsed = 0;
-			for (size_t i = 0; i < _array.m_arraySize; i++)
-			{
+			for (size_t i = 0; i < _array.m_arraySize; i++)	{
 				m_shadow[i] = m_array[i] != NULL ? 1 : 0;
-				if ( m_shadow[i] )
-				{
+				if (m_shadow[i]) {
 					m_numUsed++;
 				}
 			}
@@ -118,7 +112,7 @@ namespace CrissCross
 		template <class T>
 		size_t DArray <T>::pop()
 		{
-			CoreAssert ( m_encapsulated );
+			CoreAssert(m_encapsulated);
 
 			size_t freeslot = getNextFree();
 
@@ -131,7 +125,7 @@ namespace CrissCross
 		template <class T>
 		void DArray <T>::rebuildStack()
 		{
-			if ( !m_encapsulated ) return;
+			if (!m_encapsulated) return;
 
 			/*  Reset free list */
 
@@ -148,7 +142,7 @@ namespace CrissCross
 		template <class T>
 		void DArray <T>::recount()
 		{
-			if ( !m_encapsulated ) return;
+			if (!m_encapsulated) return;
 
 			m_numUsed = 0;
 			for (size_t i = 0; i < m_arraySize; i++)
@@ -159,14 +153,14 @@ namespace CrissCross
 		template <class T>
 		void DArray <T>::setSize(size_t newsize)
 		{
-			if ( !m_encapsulated ) return;
+			if (!m_encapsulated) return;
 
 			if (newsize > m_arraySize) {
 				size_t oldarraysize = m_arraySize;
 
 				m_arraySize = newsize;
-				T     *temparray = new T[m_arraySize];
-				char  *tempshadow = new char[m_arraySize];
+				T *temparray = new T[m_arraySize];
+				char *tempshadow = new char[m_arraySize];
 
 				if (m_array && m_shadow) {
 					memcpy(&temparray[0], &m_array[0], sizeof(temparray[0]) * oldarraysize);
@@ -187,7 +181,7 @@ namespace CrissCross
 				m_shadow = tempshadow;
 			} else if (newsize < m_arraySize) {
 				m_arraySize = newsize;
-				T    *temparray = new T[m_arraySize];
+				T *temparray = new T[m_arraySize];
 				char *tempshadow = new char[m_arraySize];
 
 				if (m_array && m_shadow) {
@@ -212,7 +206,7 @@ namespace CrissCross
 		template <class T>
 		void DArray <T>::grow()
 		{
-			CoreAssert ( m_encapsulated );
+			CoreAssert(m_encapsulated);
 
 			if (m_stepSize == -1) {
 				/* Double array size */
@@ -242,7 +236,7 @@ namespace CrissCross
 		template <class T>
 		size_t DArray <T>::insert(T const & newdata)
 		{
-			CoreAssert ( m_encapsulated );
+			CoreAssert(m_encapsulated);
 
 			size_t freeslot = getNextFree();
 
@@ -256,7 +250,7 @@ namespace CrissCross
 		template <class T>
 		void DArray <T>::insert(T const & newdata, size_t index)
 		{
-			CoreAssert ( m_encapsulated );
+			CoreAssert(m_encapsulated);
 
 			while (index >= m_arraySize) grow();
 
@@ -269,7 +263,7 @@ namespace CrissCross
 		template <class T>
 		void DArray <T>::empty()
 		{
-			if ( m_encapsulated ) {
+			if (m_encapsulated) {
 				delete [] m_array;
 				m_array = NULL;
 			}
@@ -288,7 +282,7 @@ namespace CrissCross
 		template <class T>
 		size_t DArray <T>::getNextFree()
 		{
-			if ( !m_encapsulated ) return -1;
+			if (!m_encapsulated) return -1;
 
 			/* WARNING: This function assumes the node returned */
 			/*          will be used by the calling function. */
@@ -330,7 +324,7 @@ namespace CrissCross
 		T & DArray <T>::operator [](size_t index)
 		{
 			/* Ugh. Messy. Don't run into this. >.< */
-			CoreAssert ( m_encapsulated );
+			CoreAssert(m_encapsulated);
 
 			CoreAssert(m_shadow[index]);
 			CoreAssert(index < m_arraySize);
@@ -342,7 +336,7 @@ namespace CrissCross
 		const T &DArray <T>::operator [](size_t index) const
 		{
 			/* Ugh. Messy. Don't run into this. >.< */
-			CoreAssert ( m_encapsulated );
+			CoreAssert(m_encapsulated);
 
 			CoreAssert(m_shadow[index]);
 			CoreAssert(index < m_arraySize);
@@ -362,7 +356,7 @@ namespace CrissCross
 		template <class T>
 		void DArray <T>::remove(size_t index)
 		{
-			if ( !m_encapsulated ) return;
+			if (!m_encapsulated) return;
 			CoreAssert(m_shadow[index] != 0);
 			CoreAssert(index < m_arraySize);
 
@@ -388,12 +382,12 @@ namespace CrissCross
 		template <class T>
 		int DArray <T>::sort(Sorter<T> *_sortMethod)
 		{
-			if ( !m_encapsulated ) return -1;
+			if (!m_encapsulated) return -1;
 
 			int ret;
 
-			T  *temp_array = new T[m_numUsed];
-			T  *temp_ptr = temp_array;
+			T *temp_array = new T[m_numUsed];
+			T *temp_ptr = temp_array;
 
 			memset(temp_array, 0, m_numUsed * sizeof(T));
 
@@ -424,7 +418,7 @@ namespace CrissCross
 		template <class T>
 		int DArray <T>::sort(Sorter<T> &_sortMethod)
 		{
-			if ( !m_encapsulated ) return -1;
+			if (!m_encapsulated) return -1;
 
 			return sort(&_sortMethod);
 		}
@@ -433,8 +427,7 @@ namespace CrissCross
 		template <class T>
 		void DArray<T>::flush()
 		{
-			if ( m_encapsulated )
-			{
+			if (m_encapsulated) {
 				for (size_t i = 0; i < m_arraySize; ++i) {
 					if (valid(i)) {
 						delete m_array[i];
@@ -447,8 +440,7 @@ namespace CrissCross
 		template <class T>
 		void DArray<T>::flushArray()
 		{
-			if ( m_encapsulated )
-			{
+			if (m_encapsulated) {
 				for (size_t i = 0; i < m_arraySize; ++i) {
 					if (valid(i)) {
 						delete [] m_array[i];
@@ -461,12 +453,11 @@ namespace CrissCross
 
 		/* BELOW ARE DEPRECATED FUNCTIONS */
 
-#if !defined(DISABLE_DEPRECATED_CODE)
+#if !defined (DISABLE_DEPRECATED_CODE)
 		template <class T>
 		void DArray<T>::EmptyAndDelete()
 		{
-			if ( m_encapsulated )
-			{
+			if (m_encapsulated) {
 				for (size_t i = 0; i < m_arraySize; ++i) {
 					if (valid(i)) {
 						delete m_array[i];
@@ -480,8 +471,7 @@ namespace CrissCross
 		template <class T>
 		void DArray<T>::EmptyAndDeleteArray()
 		{
-			if ( m_encapsulated )
-			{
+			if (m_encapsulated) {
 				for (size_t i = 0; i < m_arraySize; ++i) {
 					if (valid(i)) {
 						delete [] m_array[i];
@@ -494,7 +484,7 @@ namespace CrissCross
 		template <class T>
 		void DArray<T>::ChangeData(T const & _rec, size_t index)
 		{
-			if ( !m_encapsulated ) return;
+			if (!m_encapsulated) return;
 			CoreAssert(m_shadow[index] == 1);
 			m_array[index] = _rec;
 		}

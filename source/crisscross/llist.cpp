@@ -168,7 +168,7 @@ namespace CrissCross
 			}
 
 			/* Below wastes memory -- need a cleaner way to error out. */
-			static T             nullVar = NullKey<T>();
+			static T nullVar = NullKey<T>();
 			return nullVar;
 		}
 
@@ -295,7 +295,7 @@ namespace CrissCross
 		size_t LList<T>::mem_usage() const
 		{
 			LListNode<T> *node = m_first;
-			size_t        ret = sizeof(*this);
+			size_t ret = sizeof(*this);
 			while (node) {
 				ret += sizeof(*node);
 				node = node->m_next;
@@ -322,7 +322,7 @@ namespace CrissCross
 			 * is doing a LList::sort, they might as well be using a DArray.
 			 *
 			 */
-			size_t     llistSize = size();
+			size_t llistSize = size();
 			DArray <T> sortArray;
 			sortArray.setSize(llistSize);
 			for (size_t i = 0; i < llistSize; i++) {

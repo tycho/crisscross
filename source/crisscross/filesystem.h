@@ -37,12 +37,12 @@ typedef struct DIR {
 	char patt[MAX_PATH + 3];
 } DIR;
 
-DIR *opendir (const char *dirname);
-struct dirent *readdir (DIR *dirp);
-int closedir (DIR *dirp);
+DIR *opendir(const char *dirname);
+struct dirent *readdir(DIR *dirp);
+int closedir(DIR *dirp);
 
 #else
-#	include <dirent.h>
+#include <dirent.h>
 #endif
 
 #endif

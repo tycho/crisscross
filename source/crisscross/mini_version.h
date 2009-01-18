@@ -49,18 +49,18 @@ class CMiniVersion
 		BOOL GetStringInfo(LPCTSTR lpszKey, LPTSTR lpszValue);
 
 		BYTE * m_pData;
-		DWORD  m_dwHandle;
-		WORD   m_wFileVersion[4];
-		WORD   m_wProductVersion[4];
-		DWORD  m_dwFileFlags;
-		DWORD  m_dwFileOS;
-		DWORD  m_dwFileType;
-		DWORD  m_dwFileSubtype;
+		DWORD m_dwHandle;
+		WORD m_wFileVersion[4];
+		WORD m_wProductVersion[4];
+		DWORD m_dwFileFlags;
+		DWORD m_dwFileOS;
+		DWORD m_dwFileType;
+		DWORD m_dwFileSubtype;
 
-		TCHAR  m_szPath[MAX_PATH * 2];
-		TCHAR  m_szCompanyName[MAX_PATH * 2];
-		TCHAR  m_szProductName[MAX_PATH * 2];
-		TCHAR  m_szFileDescription[MAX_PATH * 2];
+		TCHAR m_szPath[MAX_PATH * 2];
+		TCHAR m_szCompanyName[MAX_PATH * 2];
+		TCHAR m_szProductName[MAX_PATH * 2];
+		TCHAR m_szFileDescription[MAX_PATH * 2];
 };
 
 /* ! @endcond */

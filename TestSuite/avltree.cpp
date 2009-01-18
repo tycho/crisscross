@@ -20,7 +20,7 @@ using namespace CrissCross::Data;
 int TestAVLTree_CString()
 {
 	AVLTree<const char *, const char *> *avltree = new AVLTree<const char *, const char *>();
-	char                                *tmp;
+	char *tmp;
 
 	TEST_ASSERT(avltree->size() == 0);
 
@@ -80,7 +80,7 @@ int TestAVLTree_String()
 
 	TEST_ASSERT(avltree->size() == 4);
 
-	std::string                        tmp;
+	std::string tmp;
 	TEST_ASSERT(avltree->find("first", tmp));
 	TEST_ASSERT(tmp == "one");
 	TEST_ASSERT(!avltree->exists("fifth"));
@@ -117,7 +117,7 @@ int TestAVLTree_Int()
 	avltree->insert(3, 3);
 	avltree->insert(4, 4);
 
-	int                tmp;
+	int tmp;
 	TEST_ASSERT(avltree->size() == 4);
 
 	TEST_ASSERT(avltree->find(1, tmp));

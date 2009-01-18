@@ -17,10 +17,10 @@ using namespace CrissCross::IO;
 
 int TestMD4()
 {
-	MD4Hash     md4;
+	MD4Hash md4;
 
 	const char *teststring = NULL;
-	size_t      length = 0;
+	size_t length = 0;
 
 	/* These tests are from http://tools.ietf.org/html/rfc1319 */
 
@@ -52,7 +52,7 @@ int TestMD4()
 	md4.Process(teststring, length);
 	TEST_ASSERT(strcmp(md4.ToString(), "e33b4ddc9c38f2199c3e7b164fcc0536") == 0);
 
-	MD4Hash    otherhash;
+	MD4Hash otherhash;
 	otherhash.Process("cheese", 6);
 	TEST_ASSERT(otherhash != md4 && md4 != otherhash);
 

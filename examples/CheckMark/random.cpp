@@ -12,7 +12,7 @@
 #include "header.h"
 
 const char *charset = "0123456789abcdef";
-int         charsetlen = 0;
+int charsetlen = 0;
 
 void GenerateRandom(CrissCross::Data::DArray<char *> &data)
 {

@@ -23,7 +23,7 @@ int RunApplication(int argc, char * *argv)
 	console = new Console();
 
 	/* Begin your application here. */
-	int         cc_err;
+	int cc_err;
 
 	TCPSocket * sock = new TCPSocket();
 	console->WriteLine("Connecting...");

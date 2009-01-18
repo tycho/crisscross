@@ -157,11 +157,11 @@ void PrecalculatePrimes()
 
 int RunApplication(int argc, char * *argv)
 {
-	Console      *console = new Console();
+	Console *console = new Console();
 
 	/* Begin your application here. */
 
-	Stopwatch     sw;
+	Stopwatch sw;
 	unsigned long lastprime;
 	unsigned long inc, max, i = 1, ret = 0;
 	char pregen = 0;
@@ -206,16 +206,15 @@ int RunApplication(int argc, char * *argv)
 #endif
 
 	memset(primeCache, 0, sizeof(primeCache));
-	if (pregen)
-	{
+	if (pregen) {
 		console->Write("Pregenerating %d primes... ", PREGEN);
 		PrecalculatePrimes();
 		console->WriteLine("OK\n");
 	}
 
 #ifdef TARGET_OS_WINDOWS
-	HANDLE        hThread = GetCurrentThread();
-	HANDLE        hProcess = GetCurrentProcess();
+	HANDLE hThread = GetCurrentThread();
+	HANDLE hProcess = GetCurrentProcess();
 	SetThreadPriority(hThread, THREAD_PRIORITY_TIME_CRITICAL);
 	SetPriorityClass(hProcess, HIGH_PRIORITY_CLASS);
 

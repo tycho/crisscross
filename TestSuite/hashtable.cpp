@@ -20,8 +20,8 @@ int TestHashTable_Int()
 {
 	HashTable<unsigned long, unsigned long> ht;
 
-	const unsigned long                     max = 1000;
-	unsigned long                           i;
+	const unsigned long max = 1000;
+	unsigned long i;
 	for (i = 0; i < max; i++) {
 		ht.insert(i, max - i);
 	}
@@ -49,10 +49,10 @@ int TestHashTable_CString()
 {
 	HashTable<const char *, const char *> ht;
 
-	char                                  buffer1[32];
-	char                                  buffer2[32];
-	const unsigned long                   max = 1000;
-	unsigned long                         i;
+	char buffer1[32];
+	char buffer2[32];
+	const unsigned long max = 1000;
+	unsigned long i;
 
 	for (i = 0; i < max; i++) {
 		sprintf(buffer1, "%lu", i);
@@ -96,10 +96,10 @@ int TestHashTable_String()
 {
 	HashTable<std::string, std::string> ht;
 
-	char                                buffer1[32];
-	char                                buffer2[32];
-	const unsigned long                 max = 1000;
-	unsigned long                       i;
+	char buffer1[32];
+	char buffer2[32];
+	const unsigned long max = 1000;
+	unsigned long i;
 
 	for (i = 0; i < max; i++) {
 		sprintf(buffer1, "%lu", i);

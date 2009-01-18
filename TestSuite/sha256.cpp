@@ -17,10 +17,10 @@ using namespace CrissCross::IO;
 
 int TestSHA256()
 {
-	SHA256Hash  sha256;
+	SHA256Hash sha256;
 
 	const char *teststring = NULL;
-	size_t      length = 0;
+	size_t length = 0;
 
 	/* These tests are from FIPS PUB 180-1 */
 
@@ -33,7 +33,7 @@ int TestSHA256()
 	TEST_ASSERT(strcmp(sha256.ToString(), "248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1") == 0);
 
 #ifdef HIGH_INTENSITY
-	char      *tempstring = new char[1000001];
+	char *tempstring = new char[1000001];
 	memset(tempstring, 'a', 1000000);
 	tempstring[1000000] = '\0';
 	length = strlen(tempstring);

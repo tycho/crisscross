@@ -19,9 +19,9 @@ using namespace CrissCross;
 
 int TestComparison_CString()
 {
-	char        *greaterString = cc_strdup("beta");
-	char        *lesserString = cc_strdup("alpha");
-	char        *dupLesserString = cc_strdup(lesserString);
+	char *greaterString = cc_strdup("beta");
+	char *lesserString = cc_strdup("alpha");
+	char *dupLesserString = cc_strdup(lesserString);
 	char * const constString = cc_strdup(dupLesserString);
 
 	TEST_ASSERT(Data::Compare(lesserString, greaterString) == -1);

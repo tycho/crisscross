@@ -17,10 +17,10 @@ using namespace CrissCross::IO;
 
 int TestMD5()
 {
-	MD5Hash     md5;
+	MD5Hash md5;
 
 	const char *teststring = NULL;
-	size_t      length = 0;
+	size_t length = 0;
 
 	/* These tests are from FIPS PUB 180-1 */
 
@@ -52,7 +52,7 @@ int TestMD5()
 	md5.Process(teststring, length);
 	TEST_ASSERT(strcmp(md5.ToString(), "57edf4a22be3c955ac49da2e2107b67a") == 0);
 
-	MD5Hash    otherhash;
+	MD5Hash otherhash;
 	otherhash.Process("cheese", 6);
 	TEST_ASSERT(otherhash != md5 && md5 != otherhash);
 

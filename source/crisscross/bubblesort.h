@@ -20,7 +20,7 @@ namespace CrissCross
 {
 	namespace Data
 	{
-#if !defined(DISABLE_DEPRECATED_CODE)
+#if !defined (DISABLE_DEPRECATED_CODE)
 		/*! \brief A BubbleSort implementation for sorting arrays. */
 		/*!
 		 * \deprecated This is an extremely slow sorting method. It is provided for educational purposes ONLY.

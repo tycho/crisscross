@@ -20,7 +20,7 @@ using namespace CrissCross::Data;
 int TestRedBlackTree_CString()
 {
 	RedBlackTree<const char *, const char *> *rbtree = new RedBlackTree<const char *, const char *>();
-	char                                     *tmp;
+	char *tmp;
 
 	TEST_ASSERT(rbtree->size() == 0);
 
@@ -85,7 +85,7 @@ int TestRedBlackTree_String()
 	rbtree->insert("third", "three");
 	rbtree->insert("fourth", "four");
 
-	std::string                             res;
+	std::string res;
 
 	TEST_ASSERT(rbtree->size() == 4);
 
@@ -133,7 +133,7 @@ int TestRedBlackTree_Int()
 	rbtree->insert(3, 3);
 	rbtree->insert(4, 4);
 
-	int                     res;
+	int res;
 	TEST_ASSERT(rbtree->size() == 4);
 
 	TEST_ASSERT(rbtree->find(1, res));

@@ -21,11 +21,11 @@ Console *console = NULL;
 void BenchmarkDArray(Sorter<char *> &sorter)
 {
 	DArray<char *> data, rdata;
-	Stopwatch      sw;
-	char           buffer[512], format[64];
+	Stopwatch sw;
+	char buffer[512], format[64];
 	sprintf(format, "%s", "%4.3lfs");
 
-	FileReader     file;
+	FileReader file;
 
 	file.SetLineEndings(CC_LN_LF);
 	file.Open("dataset");
@@ -92,7 +92,7 @@ int RunApplication(int argc, char * *argv)
 {
 	console = new Console();
 
-#if !defined(DISABLE_DEPRECATED_CODE)
+#if !defined (DISABLE_DEPRECATED_CODE)
 	BubbleSort<char *>    bs;
 	QuickSort<char *>     qs;
 	InsertionSort<char *> is;
@@ -124,7 +124,7 @@ int RunApplication(int argc, char * *argv)
 	console->SetColour();
 	BenchmarkDArray(qs);
 	console->WriteLine();
-#if !defined(DISABLE_DEPRECATED_CODE)
+#if !defined (DISABLE_DEPRECATED_CODE)
 	console->SetColour(console->FG_BLUE | console->FG_INTENSITY);
 	console->WriteLine("BubbleSort...");
 	console->SetColour();

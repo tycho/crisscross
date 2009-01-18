@@ -951,8 +951,8 @@ void rijndaelEncrypt(const u32 rk [] /*4*(Nr + 1)*/, int Nr, const u8 pt[16], u8
 	rk += Nr << 2;
 #else  /* !FULL_UNROLL */
 	/*
-        * Nr - 1 full rounds:
-        */
+	* Nr - 1 full rounds:
+	*/
 	r = Nr >> 1;
 	for (;;) {
 		t0 =
@@ -1013,9 +1013,9 @@ void rijndaelEncrypt(const u32 rk [] /*4*(Nr + 1)*/, int Nr, const u8 pt[16], u8
 
 #endif /* ?FULL_UNROLL */
 	/*
-        * apply last round and
-        * map cipher state to byte array block:
-        */
+	* apply last round and
+	* map cipher state to byte array block:
+	*/
 	s0 =
 	        (Te4[(t0 >> 24)       ] & 0xff000000) ^
 	        (Te4[(t1 >> 16) & 0xff] & 0x00ff0000) ^
@@ -1136,8 +1136,8 @@ void rijndaelDecrypt(const u32 rk [] /*4*(Nr + 1)*/, int Nr, const u8 ct[16], u8
 	rk += Nr << 2;
 #else  /* !FULL_UNROLL */
 	/*
-        * Nr - 1 full rounds:
-        */
+	* Nr - 1 full rounds:
+	*/
 	r = Nr >> 1;
 	for (;;) {
 		t0 =
@@ -1198,9 +1198,9 @@ void rijndaelDecrypt(const u32 rk [] /*4*(Nr + 1)*/, int Nr, const u8 ct[16], u8
 
 #endif /* ?FULL_UNROLL */
 	/*
-        * apply last round and
-        * map cipher state to byte array block:
-        */
+	* apply last round and
+	* map cipher state to byte array block:
+	*/
 	s0 =
 	        (Td4[(t0 >> 24)       ] & 0xff000000) ^
 	        (Td4[(t3 >> 16) & 0xff] & 0x00ff0000) ^

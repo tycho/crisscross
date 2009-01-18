@@ -17,20 +17,20 @@ namespace CrissCross
 {
 	namespace System
 	{
-		static long               holdrand = 1L;
+		static long holdrand = 1L;
 
-		static double             pausedAt = 0.0;
-		static double             timeShift = 0.0;
-		static bool               timerPaused = false;
+		static double pausedAt = 0.0;
+		static double timeShift = 0.0;
+		static bool timerPaused = false;
 	#if defined (TARGET_OS_WINDOWS)
 
 		/* ! The result of QueryPerformanceFrequency(). (Windows only) */
-		static double             __m_tickInterval;
+		static double __m_tickInterval;
 
 	#elif defined (TARGET_OS_MACOSX)
 
 		/* ! The time index at which the timer started. ( Mac OS X only) */
-		uint64_t                  __m_start;
+		uint64_t __m_start;
 
 		/* ! The time base information. (Mac OS X only) */
 		mach_timebase_info_data_t __m_timebase;
@@ -40,7 +40,7 @@ namespace CrissCross
 		defined (TARGET_OS_NDSFIRMWARE)
 
 		/* ! The time index at which the timer started. (Linux only) */
-		timeval                   __m_start;
+		timeval __m_start;
 
 	#endif
 
@@ -80,21 +80,21 @@ namespace CrissCross
 
 		double GetHighResTime()
 		{
-			double        retval;
+			double retval;
 	#if defined (TARGET_OS_WINDOWS)
 			LARGE_INTEGER count;
 
 			QueryPerformanceCounter(&count);
 			retval = ( double )count.QuadPart * __m_tickInterval;
 	#elif defined (TARGET_OS_MACOSX)
-			uint64_t      elapsed = mach_absolute_time() - __m_start;
-			retval = double( elapsed ) * (__m_timebase.numer / __m_timebase.denom) /
+			uint64_t elapsed = mach_absolute_time() - __m_start;
+			retval = double (elapsed) * (__m_timebase.numer / __m_timebase.denom) /
 			         1000000000.0;
 	#elif defined (TARGET_OS_LINUX) || defined (TARGET_OS_FREEBSD) || \
 			defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD) || \
 			defined (TARGET_OS_NDSFIRMWARE)
-			timeval       now;
-			double        t1, t2;
+			timeval now;
+			double t1, t2;
 
 			gettimeofday(&now, NULL);
 

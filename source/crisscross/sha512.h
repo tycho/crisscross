@@ -43,7 +43,7 @@ namespace CrissCross
 		{
 			private:
 				mutable char *m_hashString;
-				cc_sha512_ctx  m_state;
+				cc_sha512_ctx m_state;
 				unsigned char *m_hash;
 
 			public:

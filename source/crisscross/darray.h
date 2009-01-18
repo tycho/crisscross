@@ -34,7 +34,7 @@ namespace CrissCross
 				DStack<size_t> *m_emptyNodes;
 
 			protected:
-				bool			m_encapsulated;
+				bool m_encapsulated;
 
 				/*! \brief The size by which to increase the size of the array when there are no more empty nodes. */
 				/*!
@@ -42,22 +42,22 @@ namespace CrissCross
 				 * \sa setStepSize
 				 * \sa setStepDouble
 				 */
-				int             m_stepSize;
+				int m_stepSize;
 
 				/*! \brief The current size of the array. */
 				/*!
 				 * \sa setSize
 				 */
-				size_t          m_arraySize;
+				size_t m_arraySize;
 
 				/*! \brief The number of used items in the array. */
-				size_t          m_numUsed;
+				size_t m_numUsed;
 
 				/*! \brief The actual array which stores our data. */
-				T              *m_array;
+				T *m_array;
 
 				/*! \brief An array to indicate which nodes in m_array are in use. */
-				char           *m_shadow;
+				char *m_shadow;
 
 				/*! \brief Increases the size of the array. */
 				inline void grow();
@@ -241,7 +241,7 @@ namespace CrissCross
 				/*! \brief Empties the array and deletes the data contained in it with the 'delete []' operator. */
 				inline void flushArray();
 
-#if !defined(DISABLE_DEPRECATED_CODE)
+#if !defined (DISABLE_DEPRECATED_CODE)
 				/*
 				 *      Deprecated Compatibility Functions
 				 *      Provided for compatibility with Tosser I

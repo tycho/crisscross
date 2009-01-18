@@ -23,7 +23,7 @@ int RunApplication(int argc, char * *argv)
 
 #ifdef ENABLE_CPUID
 
-	CPUID   *cpuid = new CPUID();
+	CPUID *cpuid = new CPUID();
 
 	console->SetColour(console->FG_RED | console->FG_INTENSITY);
 	console->WriteLine("======================");

@@ -56,12 +56,12 @@
 
 static void SHA1Transform(unsigned int state[5], unsigned char buffer[64])
 {
-        unsigned int         a, b, c, d, e;
+        unsigned int a, b, c, d, e;
         typedef union {
                 unsigned char c[64];
                 unsigned int l[16];
 	} CHAR64LONG16;
-        CHAR64LONG16       * block;
+        CHAR64LONG16 * block;
 #ifdef SHA1HANDSOFF
         static unsigned char workspace[64];
         block = (CHAR64LONG16 *)workspace;
@@ -209,7 +209,7 @@ namespace CrissCross
 
                         cc_int64_t pos = _reader->Position();
                         _reader->Seek(0);
-                        char       buffer[8192]; int bytesRead = 0;
+                        char buffer[8192]; int bytesRead = 0;
                         do
                         {
                                 bytesRead = _reader->Read(buffer, sizeof(buffer), 0, sizeof(buffer));

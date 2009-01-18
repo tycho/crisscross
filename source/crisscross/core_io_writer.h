@@ -32,13 +32,13 @@ namespace CrissCross
 				/*!
 				 * Stores the line ending selected by SetLineEndings.
 				 */
-				char                      m_lineEnding[4];
+				char m_lineEnding[4];
 
 				/*! \brief Input/output FILE pointer. */
-				FILE                     *m_fileOutputPointer;
+				FILE *m_fileOutputPointer;
 
 				/*! \brief Indicates whether the buffer is to be written in unicode or not. (UNIMPLEMENTED) */
-				bool                      m_unicode;
+				bool m_unicode;
 
 		#ifndef TARGET_COMPILER_GCC
 				/*! \brief Thread-safe mutex. */

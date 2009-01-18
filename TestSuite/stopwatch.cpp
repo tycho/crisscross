@@ -18,7 +18,7 @@ using namespace CrissCross;
 
 int TestStopwatch()
 {
-	System::Stopwatch  sw1;
+	System::Stopwatch sw1;
 	sw1.Start();
 	System::ThreadSleep(10);
 	sw1.Stop();

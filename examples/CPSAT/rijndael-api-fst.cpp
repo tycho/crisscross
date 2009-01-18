@@ -42,9 +42,9 @@
 
 int makeKey(keyInstance *key, BYTE direction, int keyLen, char *keyMaterial)
 {
-	int   i;
+	int i;
 	char *keyMat;
-	u8    cipherKey[MAXKB];
+	u8 cipherKey[MAXKB];
 
 	if (key == NULL) {
 		return BAD_KEY_INSTANCE;
@@ -133,7 +133,7 @@ int cipherInit(cipherInstance *cipher, BYTE mode, char *IV)
 int blockEncrypt(cipherInstance *cipher, keyInstance *key, BYTE *input, int inputLen, BYTE *outBuffer)
 {
 	int i, k, t, numBlocks;
-	u8  block[16], *iv;
+	u8 block[16], *iv;
 
 	if (cipher == NULL ||
 	    key == NULL ||
@@ -211,7 +211,7 @@ int blockEncrypt(cipherInstance *cipher, keyInstance *key, BYTE *input, int inpu
 int padEncrypt(cipherInstance *cipher, keyInstance *key, BYTE *input, int inputOctets, BYTE *outBuffer)
 {
 	int i, numBlocks, padLen;
-	u8  block[16], *iv;
+	u8 block[16], *iv;
 
 	if (cipher == NULL ||
 	    key == NULL ||
@@ -276,7 +276,7 @@ int padEncrypt(cipherInstance *cipher, keyInstance *key, BYTE *input, int inputO
 int blockDecrypt(cipherInstance *cipher, keyInstance *key, BYTE *input, int inputLen, BYTE *outBuffer)
 {
 	int i, k, t, numBlocks;
-	u8  block[16], *iv;
+	u8 block[16], *iv;
 
 	if (cipher == NULL ||
 	    key == NULL ||
@@ -347,7 +347,7 @@ int blockDecrypt(cipherInstance *cipher, keyInstance *key, BYTE *input, int inpu
 int padDecrypt(cipherInstance *cipher, keyInstance *key, BYTE *input, int inputOctets, BYTE *outBuffer)
 {
 	int i, numBlocks, padLen;
-	u8  block[16];
+	u8 block[16];
 
 	if (cipher == NULL ||
 	    key == NULL ||

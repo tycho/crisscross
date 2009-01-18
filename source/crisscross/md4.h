@@ -48,7 +48,7 @@ namespace CrissCross
 			private:
 				mutable char *m_hashString;
 				unsigned char *m_hash;
-				cc_md4_ctx     m_state;
+				cc_md4_ctx m_state;
 
 			public:
 				/*! \brief The default constructor. */

@@ -34,11 +34,11 @@ namespace CrissCross
 #ifdef TARGET_OS_WINDOWS
 			if (m_consoleAllocated) {
 				/* Redirect stdout to the console. */
-				int   hCrt = _open_osfhandle(( intptr_t )GetStdHandle(STD_OUTPUT_HANDLE), _O_TEXT);
+				int hCrt = _open_osfhandle(( intptr_t )GetStdHandle(STD_OUTPUT_HANDLE), _O_TEXT);
 				FILE *hf = _fdopen(hCrt, "w");
 
 				*stdout = *hf;
-				int   i = setvbuf(stdout, NULL, _IONBF, 0);
+				int i = setvbuf(stdout, NULL, _IONBF, 0);
 
 				/* Redirect stderr to the console. */
 				hCrt = _open_osfhandle(( intptr_t )GetStdHandle(STD_ERROR_HANDLE), _O_TEXT);
@@ -47,10 +47,10 @@ namespace CrissCross
 				i = setvbuf(stdout, NULL, _IONBF, 0);
 
 				if (_fillScreen) {
-					char   findWindowFlag[64];
+					char findWindowFlag[64];
 					sprintf(findWindowFlag, "%s%08X", CC_LIB_NAME, (unsigned long)this);
-					RECT   rect; CONSOLE_SCREEN_BUFFER_INFO csbi;
-					HWND   consoleWindowHandle = NULL;
+					RECT rect; CONSOLE_SCREEN_BUFFER_INFO csbi;
+					HWND consoleWindowHandle = NULL;
 					HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
 					/* We need to know the console's maximum sizes. */
@@ -151,11 +151,11 @@ namespace CrissCross
 			m_consoleAllocated = (AllocConsole() == TRUE);
 #elif defined (TARGET_OS_MACOSX) && 0
 			/* BSD-style pty code. */
-			char        buf[64];
+			char buf[64];
 			const char *ptymajors = "pqrstuvwxyzabcdefghijklmnoABCDEFGHIJKLMNOPQRSTUVWXYZ";
 			const char *ptyminors = "0123456789abcdef";
-			int         num_minors = strlen(ptyminors);
-			int         num_ptys = strlen(ptymajors) * num_minors;
+			int num_minors = strlen(ptyminors);
+			int num_ptys = strlen(ptymajors) * num_minors;
 
 			for (int i = 0; i < num_ptys; i++) {
 				sprintf(buf, "/dev/pty%c%c", ptymajors[i / num_minors], ptyminors[i % num_minors]);
@@ -188,8 +188,8 @@ namespace CrissCross
 				if (m_childPID == 0) {
 					/* child */
 					close(m_ttyfd);
-					char        call[128];
-					char       *pt = &m_slaveName[strlen(m_slaveName) - 1];
+					char call[128];
+					char *pt = &m_slaveName[strlen(m_slaveName) - 1];
 					const char *xterm = "/usr/X11/bin/xterm";
 					sprintf(call, "-S%s/%d", pt, m_ptyfd);
 					execl(xterm, xterm, "-bg", "black", "-fg", "white", "-geometry", "132x50", call, NULL);
@@ -324,11 +324,11 @@ namespace CrissCross
 			CoreAssert(this != NULL);
 
 #if defined (TARGET_OS_WINDOWS)
-			COORD                      coordScreen = { 0, 0 };
-			DWORD                      cCharsWritten;
+			COORD coordScreen = { 0, 0 };
+			DWORD cCharsWritten;
 			CONSOLE_SCREEN_BUFFER_INFO csbi;
-			DWORD                      dwConSize;
-			HANDLE                     hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+			DWORD dwConSize;
+			HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 			GetConsoleScreenBufferInfo(hConsole, &csbi);
 			dwConSize = csbi.dwSize.X * csbi.dwSize.Y;
@@ -353,9 +353,9 @@ namespace CrissCross
 		void Console::MoveUp(int _lines)
 		{
 #if defined (TARGET_OS_WINDOWS)
-			COORD                      coordScreen = { 0, 0 };
+			COORD coordScreen = { 0, 0 };
 			CONSOLE_SCREEN_BUFFER_INFO csbi;
-			HANDLE                     hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+			HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 			GetConsoleScreenBufferInfo(hConsole, &csbi);
 			coordScreen = csbi.dwCursorPosition;

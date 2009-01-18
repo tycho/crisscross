@@ -19,15 +19,14 @@
  * internal working area that is used to retrieve individual directory
  * entries.
  */
-DIR*
-opendir(const char *dirname)
+DIR *opendir(const char *dirname)
 {
 	DIR *dirp;
 	CoreAssert(dirname);
-	CoreAssert(strlen (dirname) < MAX_PATH);
+	CoreAssert(strlen(dirname) < MAX_PATH);
 
 	/* construct new DIR structure */
-	dirp = (DIR*) malloc (sizeof (struct DIR));
+	dirp = (DIR *)malloc(sizeof(struct DIR));
 	if (dirp != NULL) {
 		char *p;
 
@@ -36,18 +35,18 @@ opendir(const char *dirname)
 		dirp->patt[MAX_PATH] = '\0';
 
 		/* ... and append search pattern to it */
-		p = strchr (dirp->patt, '\0');
-		if (dirp->patt < p  &&  *(p-1) != '\\'  &&  *(p-1) != ':') {
+		p = strchr(dirp->patt, '\0');
+		if (dirp->patt < p  &&  *(p - 1) != '\\'  &&  *(p - 1) != ':') {
 			*p++ = '\\';
 		}
 		*p++ = '*';
 		*p = '\0';
 
 		/* open stream and retrieve first file */
-		dirp->search_handle = FindFirstFileA (dirp->patt, &dirp->current.data);
+		dirp->search_handle = FindFirstFileA(dirp->patt, &dirp->current.data);
 		if (dirp->search_handle == INVALID_HANDLE_VALUE) {
 			/* invalid search pattern? */
-			free (dirp);
+			free(dirp);
 			return NULL;
 		}
 
@@ -57,16 +56,15 @@ opendir(const char *dirname)
 	return dirp;
 }
 
-  
+
 /*
  * Read a directory entry, and return a pointer to a dirent structure
  * containing the name of the entry in d_name field.  Individual directory
  * entries returned by this very function include regular files,
  * sub-directories, pseudo-directories "." and "..", but also volume labels,
- * hidden files and system files may be returned.  
+ * hidden files and system files may be returned.
  */
-struct dirent *
-readdir(DIR *dirp)
+struct dirent *readdir(DIR *dirp)
 {
 	CoreAssert(dirp);
 
@@ -81,9 +79,9 @@ readdir(DIR *dirp)
 		dirp->cached = 0;
 	} else {
 		/* read next directory entry from disk */
-		if (FindNextFileA (dirp->search_handle, &dirp->current.data) == FALSE) {
+		if (FindNextFileA(dirp->search_handle, &dirp->current.data) == FALSE) {
 			/* the very last file has been processed or an error occured */
-			FindClose (dirp->search_handle);
+			FindClose(dirp->search_handle);
 			dirp->search_handle = INVALID_HANDLE_VALUE;
 			return NULL;
 		}
@@ -102,19 +100,18 @@ readdir(DIR *dirp)
  * directory stream invalidates the DIR structure as well as any previously
  * read directory entry.
  */
-int
-closedir(DIR *dirp)
+int closedir(DIR *dirp)
 {
 	CoreAssert(dirp);
 
 	/* release search handle */
 	if (dirp->search_handle != INVALID_HANDLE_VALUE) {
-		FindClose (dirp->search_handle);
+		FindClose(dirp->search_handle);
 		dirp->search_handle = INVALID_HANDLE_VALUE;
 	}
 
 	/* release directory handle */
-	free (dirp);
+	free(dirp);
 	return 0;
 }
 

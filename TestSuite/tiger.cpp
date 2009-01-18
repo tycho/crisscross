@@ -16,10 +16,10 @@ using namespace CrissCross::Crypto;
 
 int TestTiger()
 {
-	TigerHash   tiger;
+	TigerHash tiger;
 
 	const char *teststring = NULL;
-	size_t      length = 0;
+	size_t length = 0;
 
 	/* These tests are from http://www.cs.technion.ac.il/~biham/Reports/Tiger/tiger2-test-vectors-nessie-format.dat */
 

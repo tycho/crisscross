@@ -48,7 +48,7 @@ namespace CrissCross
 		int UDPSocket::Bind(const char *_address, unsigned short _port)
 		{
 			struct sockaddr_in sin;
-			struct hostent    *host;
+			struct hostent *host;
 
 			if (m_sock != INVALID_SOCKET) return CC_ERR_NOT_SOCKET;
 

@@ -55,10 +55,10 @@ namespace CrissCross
 		Data HashTable<Key, Data>::find(Key const & _key) const
 		{
 			static Data null(0);
-			size_t      index = findIndex(_key);
+			size_t index = findIndex(_key);
 			if (!m_array[index]) return null;
 
-			Data        ret;
+			Data ret;
 			if (m_array[index]->find(_key, ret)) {
 				return ret;
 			} else {

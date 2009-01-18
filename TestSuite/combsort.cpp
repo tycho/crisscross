@@ -21,7 +21,7 @@ using namespace CrissCross::Data;
 
 int TestCombSort_IntArray()
 {
-	int            int_array [] = {0, 4, 3, 6, 2, 1, 5, 7, 9, 8 };
+	int int_array [] = {0, 4, 3, 6, 2, 1, 5, 7, 9, 8 };
 	CombSort<int> *cs = new CombSort<int>();
 	cs->Sort(int_array, 10);
 	for (int i = 0; i < 10; i++) {

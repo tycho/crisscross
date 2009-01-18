@@ -36,7 +36,7 @@ typedef const unsigned char *CONST_POINTER;
 #define S33 11
 #define S34 15
 
-static void          MD4Transform(cc_uint32_t [4], unsigned char [64]);
+static void MD4Transform(cc_uint32_t [4], unsigned char [64]);
 static void Encode(unsigned char *, cc_uint32_t *, unsigned int);
 static void Decode(cc_uint32_t *, unsigned char *, unsigned int);
 
@@ -106,7 +106,7 @@ void MD4Update(MD4_CTX *context, unsigned char *input, unsigned int inputLen)
 	unsigned int i, index, partLen;
 
 	/* Compute number of bytes mod 64 */
-	index =      (unsigned int)((context->count[0] >> 3) & 0x3F);
+	index = (unsigned int)((context->count[0] >> 3) & 0x3F);
 	/* Update number of bits */
 	if ((context->count[0] += ((cc_uint32_t)inputLen << 3))
 	    < ((cc_uint32_t)inputLen << 3))
@@ -121,7 +121,7 @@ void MD4Update(MD4_CTX *context, unsigned char *input, unsigned int inputLen)
 	 */
 	if (inputLen >= partLen) {
 		memcpy
-		                                                                                                                                              ((POINTER)&context->buffer[index], (POINTER)input, partLen);
+		((POINTER)&context->buffer[index], (POINTER)input, partLen);
 		MD4Transform(context->state, context->buffer);
 
 		for (i = partLen; i + 63 < inputLen; i += 64)
@@ -133,8 +133,8 @@ void MD4Update(MD4_CTX *context, unsigned char *input, unsigned int inputLen)
 
 	/* Buffer remaining input */
 	memcpy
-	                                                                                                                                              ((POINTER)&context->buffer[index], (POINTER)&input[i],
-	                                                                                                                                              inputLen - i);
+	((POINTER)&context->buffer[index], (POINTER)&input[i],
+	 inputLen - i);
 }
 
 /* MD4 finalization. Ends an MD4 message-digest operation, writing the
@@ -148,14 +148,14 @@ void MD4Update(MD4_CTX *context, unsigned char *input, unsigned int inputLen)
 void MD4Final(unsigned char digest[16], MD4_CTX *context)
 {
 	unsigned char bits[8];
-	unsigned int  index, padLen;
+	unsigned int index, padLen;
 
 	/* Save number of bits */
 	Encode(bits, context->count, 8);
 
 	/* Pad out to 56 mod 64.
 	 */
-	index =       (unsigned int)((context->count[0] >> 3) & 0x3f);
+	index = (unsigned int)((context->count[0] >> 3) & 0x3f);
 	padLen = (index < 56) ? (56 - index) : (120 - index);
 	MD4Update(context, PADDING, padLen);
 
@@ -260,7 +260,7 @@ static void Encode(unsigned char *output, cc_uint32_t *input, unsigned int len)
 	unsigned int i, j;
 
 	for (i = 0, j = 0; j < len; i++, j += 4) {
-		output[j] =     (unsigned char)(input[i] & 0xff);
+		output[j] = (unsigned char)(input[i] & 0xff);
 		output[j + 1] = (unsigned char)((input[i] >> 8) & 0xff);
 		output[j + 2] = (unsigned char)((input[i] >> 16) & 0xff);
 		output[j + 3] = (unsigned char)((input[i] >> 24) & 0xff);
@@ -316,7 +316,7 @@ namespace CrissCross
 
 			cc_int64_t pos = _reader->Position();
 			_reader->Seek(0);
-			char       buffer[8192]; int bytesRead = 0;
+			char buffer[8192]; int bytesRead = 0;
 			do
 			{
 				bytesRead = _reader->Read(buffer, sizeof(buffer), 0, sizeof(buffer));

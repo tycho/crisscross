@@ -17,10 +17,10 @@ using namespace CrissCross::IO;
 
 int TestSHA512()
 {
-	SHA512Hash  sha512;
+	SHA512Hash sha512;
 
 	const char *teststring = NULL;
-	size_t      length = 0;
+	size_t length = 0;
 
 	/* These tests are from FIPS PUB 180-1 */
 
@@ -33,7 +33,7 @@ int TestSHA512()
 	TEST_ASSERT(strcmp(sha512.ToString(), "8e959b75dae313da8cf4f72814fc143f8f7779c6eb9f7fa17299aeadb6889018501d289e4900f7e4331b99dec4b5433ac7d329eeb6dd26545e96e55b874be909") == 0);
 
 #ifdef HIGH_INTENSITY
-	char      *tempstring = new char[1000001];
+	char *tempstring = new char[1000001];
 	memset(tempstring, 'a', 1000000);
 	tempstring[1000000] = '\0';
 	length = strlen(tempstring);

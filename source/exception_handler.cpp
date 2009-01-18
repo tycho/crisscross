@@ -44,7 +44,7 @@
 /* #define XCRASHREPORT_PRESENT */
 
 #ifdef XCRASHREPORT_PRESENT
-	#include "CrashFileNames.h"
+        #include "CrashFileNames.h"
 #else
 #define XCRASHREPORT_MINI_DUMP_FILE        "CRASH.DMP"
 #define XCRASHREPORT_ERROR_LOG_FILE        "ERRORLOG.TXT"
@@ -72,13 +72,13 @@ static TCHAR * lstrrchr(LPCTSTR string, int ch)
 {
 	TCHAR *start = (TCHAR *)string;
 
-	while (*string++)    /* find end of string */
+	while (*string++)  /* find end of string */
 		;
 	/* search towards front */
 	while (--string != start && *string != (TCHAR)ch)
 		;
 
-	if (*string == (TCHAR)ch)    /* char found ? */
+	if (*string == (TCHAR)ch)  /* char found ? */
 		return (TCHAR *)string;
 
 	return NULL;
@@ -98,7 +98,7 @@ static TCHAR * lstrrchr(LPCTSTR string, int ch)
 
 #define HPRINTF_BUFFER_SIZE (8 * 1024)              /* must be at least 2048 */
 static TCHAR hprintf_buffer[HPRINTF_BUFFER_SIZE];    /* wvsprintf never prints more than one K. */
-static int   hprintf_index = 0;
+static int hprintf_index = 0;
 
 static TCHAR szCrashID[20];                         /* Crash ID for sending to server */
 
@@ -191,7 +191,7 @@ static void FormatTime(LPTSTR output, FILETIME TimeToPrint)
 /* location, time stamp, etc. */
 static bool DumpModuleInfo(HANDLE LogFile, HINSTANCE ModuleHandle, int nModuleNo)
 {
-	bool  rc = false;
+	bool rc = false;
 	TCHAR szModName[MAX_PATH * 2];
 	ZeroMemory(szModName, sizeof(szModName));
 
@@ -211,14 +211,14 @@ static bool DumpModuleInfo(HANDLE LogFile, HINSTANCE ModuleHandle, int nModuleNo
 				return false;
 
 			/* open the code module file so that we can get its file date and size */
-			HANDLE            ModuleFile = CreateFile(szModName, GENERIC_READ,
-			                                          FILE_SHARE_READ, 0, OPEN_EXISTING,
-			                                          FILE_ATTRIBUTE_NORMAL, 0);
+			HANDLE ModuleFile = CreateFile(szModName, GENERIC_READ,
+			                               FILE_SHARE_READ, 0, OPEN_EXISTING,
+			                               FILE_ATTRIBUTE_NORMAL, 0);
 
-			TCHAR             TimeBuffer[100];
+			TCHAR TimeBuffer[100];
 			TimeBuffer[0] = _T('\0');
 
-			DWORD             FileSize = 0;
+			DWORD FileSize = 0;
 			if (ModuleFile != INVALID_HANDLE_VALUE) {
 				FileSize = GetFileSize(ModuleFile, 0);
 				FILETIME LastWriteTime;
@@ -245,8 +245,8 @@ static bool DumpModuleInfo(HANDLE LogFile, HINSTANCE ModuleHandle, int nModuleNo
 			hprintf(LogFile, _T("Version Information:\r\n"));
 
 			CMiniVersion ver(szModName);
-			TCHAR        szBuf[200];
-			WORD         dwBuf[4];
+			TCHAR szBuf[200];
+			WORD dwBuf[4];
 
 			ver.GetCompanyName(szBuf, sizeof(szBuf) - 1);
 			hprintf(LogFile, _T("   Company:    %s\r\n"), szBuf);
@@ -288,7 +288,7 @@ static bool DumpModuleInfo(HANDLE LogFile, HINSTANCE ModuleHandle, int nModuleNo
 /* modules. */
 static void DumpModuleList(HANDLE LogFile)
 {
-	SYSTEM_INFO  SystemInfo;
+	SYSTEM_INFO SystemInfo;
 	GetSystemInfo(&SystemInfo);
 
 	const size_t PageSize = SystemInfo.dwPageSize;
@@ -296,10 +296,10 @@ static void DumpModuleList(HANDLE LogFile)
 	/* Set NumPages to the number of pages in the 4GByte address space, */
 	/* while being careful to avoid overflowing ints */
 	const size_t NumPages = 4 * size_t(ONEG / PageSize);
-	size_t       pageNum = 0;
-	void        *LastAllocationBase = 0;
+	size_t pageNum = 0;
+	void *LastAllocationBase = 0;
 
-	int          nModuleNo = 1;
+	int nModuleNo = 1;
 
 	while (pageNum < NumPages) {
 		MEMORY_BASIC_INFORMATION MemInfo;
@@ -337,39 +337,39 @@ static void DumpModuleList(HANDLE LogFile)
 /* of memory, etc. */
 static void DumpSystemInformation(HANDLE LogFile)
 {
-	FILETIME     CurrentTime;
+	FILETIME CurrentTime;
 	GetSystemTimeAsFileTime(&CurrentTime);
-	TCHAR        szTimeBuffer[100];
+	TCHAR szTimeBuffer[100];
 	FormatTime(szTimeBuffer, CurrentTime);
 
-	long         crashID = CurrentTime.dwLowDateTime;
+	long crashID = CurrentTime.dwLowDateTime;
 	ZeroMemory(szCrashID, sizeof(szCrashID));
 	ltoa(crashID, szCrashID, 16);
 	hprintf(LogFile, "\r\nCRASH REFERENCE CODE: %s\r\n\r\n", szCrashID);
 
 	hprintf(LogFile, _T("Error occurred at %s.\r\n"), szTimeBuffer);
 
-	TCHAR        szModuleName[MAX_PATH * 2];
+	TCHAR szModuleName[MAX_PATH * 2];
 	ZeroMemory(szModuleName, sizeof(szModuleName));
 	if (GetModuleFileName(0, szModuleName, _countof(szModuleName) - 2) <= 0)
 		lstrcpy(szModuleName, _T("Unknown"));
 
-	TCHAR        szUserName[200];
+	TCHAR szUserName[200];
 	ZeroMemory(szUserName, sizeof(szUserName));
-	DWORD        UserNameSize = _countof(szUserName) - 2;
+	DWORD UserNameSize = _countof(szUserName) - 2;
 	if (!GetUserName(szUserName, &UserNameSize))
 		lstrcpy(szUserName, _T("Unknown"));
 
 	hprintf(LogFile, _T("%s, run by %s.\r\n"), szModuleName, szUserName);
 
 	/* print out operating system */
-	TCHAR        szWinVer[50], szMajorMinorBuild[50];
-	int          nWinVer;
+	TCHAR szWinVer[50], szMajorMinorBuild[50];
+	int nWinVer;
 	GetWinVer(szWinVer, &nWinVer, szMajorMinorBuild);
 	hprintf(LogFile, _T("Operating system:  %s (%s).\r\n"),
 	        szWinVer, szMajorMinorBuild);
 
-	SYSTEM_INFO  SystemInfo;
+	SYSTEM_INFO SystemInfo;
 	GetSystemInfo(&SystemInfo);
 	hprintf(LogFile, _T("%d processor(s), type %d.\r\n"),
 	        SystemInfo.dwNumberOfProcessors, SystemInfo.dwProcessorType);
@@ -512,11 +512,11 @@ static void DumpStack(HANDLE LogFile, DWORD *pStack)
 		if (pStackTop > pStack + MaxStackDump)
 			pStackTop = pStack + MaxStackDump;
 
-		int     Count = 0;
+		int Count = 0;
 
 		DWORD * pStackStart = pStack;
 
-		int     nDwordsPrinted = 0;
+		int nDwordsPrinted = 0;
 
 		while (pStack + 1 <= pStackTop)	{
 			if ((Count % StackColumns) == 0) {
@@ -538,7 +538,7 @@ static void DumpStack(HANDLE LogFile, DWORD *pStack)
 				for (int i = 0; i < nDwordsPrinted; i++) {
 					DWORD dwStack = *pStackStart;
 					for (int j = 0; j < 4; j++) {
-						char  c = (char)(dwStack & 0xFF);
+						char c = (char)(dwStack & 0xFF);
 						if (c < 0x20 || c > 0x7E)
 							c = '.';
 
@@ -588,30 +588,30 @@ static void DumpRegisters(HANDLE LogFile, PCONTEXT Context)
 int __cdecl RecordExceptionInfo(PEXCEPTION_POINTERS pExceptPtrs, LPCTSTR lpszMessage, LPCTSTR lpszAppMagic, LPCTSTR lpszAppVersion)
 {
 	static bool bFirstTime = true;
-	if (!bFirstTime)    /* Going recursive! That must mean this routine crashed! */
+	if (!bFirstTime)  /* Going recursive! That must mean this routine crashed! */
 		return EXCEPTION_CONTINUE_SEARCH;
 
 	bFirstTime = false;
 
-	TCHAR       szModuleName[MAX_PATH * 2];
+	TCHAR szModuleName[MAX_PATH * 2];
 	ZeroMemory(szModuleName, sizeof(szModuleName));
 	if (GetModuleFileName(0, szModuleName, _countof(szModuleName) - 2) <= 0)
 		lstrcpy(szModuleName, _T("Unknown"));
 
-	TCHAR      *pszFilePart = GetFilePart(szModuleName);
+	TCHAR *pszFilePart = GetFilePart(szModuleName);
 
 	/* Extract the file name portion and remove it's file extension */
-	TCHAR       szFileName[MAX_PATH * 2];
+	TCHAR szFileName[MAX_PATH * 2];
 	lstrcpy(szFileName, pszFilePart);
-	TCHAR      *lastperiod = lstrrchr(szFileName, _T('.'));
+	TCHAR *lastperiod = lstrrchr(szFileName, _T('.'));
 	if (lastperiod)
 		lastperiod[0] = 0;
 
 	/* Replace the executable filename with our error log file name */
 	lstrcpy(pszFilePart, XCRASHREPORT_ERROR_LOG_FILE);
 
-	HANDLE      hLogFile = CreateFile(szModuleName, GENERIC_WRITE, 0, 0,
-	                                  CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_WRITE_THROUGH, 0);
+	HANDLE hLogFile = CreateFile(szModuleName, GENERIC_WRITE, 0, 0,
+	                             CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_WRITE_THROUGH, 0);
 
 	if (hLogFile == INVALID_HANDLE_VALUE) {
 		OutputDebugString(_T("Error creating exception report\r\n"));
@@ -624,13 +624,13 @@ int __cdecl RecordExceptionInfo(PEXCEPTION_POINTERS pExceptPtrs, LPCTSTR lpszMes
 	/* Print out a blank line to separate this error log from any previous ones */
 	/* hprintf(hLogFile, _T("\r\n")); */
 
-	PEXCEPTION_RECORD        Exception = pExceptPtrs->ExceptionRecord;
-	PCONTEXT                 Context = pExceptPtrs->ContextRecord;
+	PEXCEPTION_RECORD Exception = pExceptPtrs->ExceptionRecord;
+	PCONTEXT Context = pExceptPtrs->ContextRecord;
 
-	TCHAR                    szCrashModulePathName[MAX_PATH * 2];
+	TCHAR szCrashModulePathName[MAX_PATH * 2];
 	ZeroMemory(szCrashModulePathName, sizeof(szCrashModulePathName));
 
-	TCHAR                   *pszCrashModuleFileName = _T("Unknown");
+	TCHAR *pszCrashModuleFileName = _T("Unknown");
 
 	MEMORY_BASIC_INFORMATION MemInfo;
 
@@ -659,7 +659,7 @@ int __cdecl RecordExceptionInfo(PEXCEPTION_POINTERS pExceptPtrs, LPCTSTR lpszMes
 	/* information, to the error log and the debugger. */
 	if (Exception->ExceptionCode == STATUS_ACCESS_VIOLATION &&
 	    Exception->NumberParameters >= 2) {
-		TCHAR         szDebugMessage[1000];
+		TCHAR szDebugMessage[1000];
 		const TCHAR * readwrite = _T("Read from");
 		if (Exception->ExceptionInformation[0])
 			readwrite = _T("Write to");
@@ -782,7 +782,7 @@ int __cdecl RecordExceptionInfo(PEXCEPTION_POINTERS pExceptPtrs, LPCTSTR lpszMes
 		lstrcat(szCommandLine, " ");
 		lstrcat(szCommandLine, lpszAppVersion);
 
-		STARTUPINFO         si;
+		STARTUPINFO si;
 		ZeroMemory(&si, sizeof(si));
 		si.cb = sizeof(si);
 		si.dwFlags = STARTF_USESHOWWINDOW;

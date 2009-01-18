@@ -59,16 +59,16 @@ BOOL CMiniVersion::Init()
 {
 	DWORD dwHandle;
 	DWORD dwSize;
-	BOOL  rc;
+	BOOL rc;
 
-	dwSize = ::GetFileVersionInfoSize((LPSTR)(LPCTSTR) m_szPath, &dwHandle);
+	dwSize = ::GetFileVersionInfoSize((LPSTR)(LPCTSTR)m_szPath, &dwHandle);
 	if (dwSize == 0)
 		return FALSE;
 
 	m_pData = new BYTE [dwSize + 1];
 	ZeroMemory(m_pData, dwSize + 1);
 
-	rc = ::GetFileVersionInfo((LPSTR)(LPCTSTR) m_szPath, dwHandle, dwSize, m_pData);
+	rc = ::GetFileVersionInfo((LPSTR)(LPCTSTR)m_szPath, dwHandle, dwSize, m_pData);
 	if (!rc)
 		return FALSE;
 
@@ -219,8 +219,8 @@ BOOL CMiniVersion::GetProductName(LPTSTR lpszProductName, int nSize)
 /* GetFixedInfo */
 BOOL CMiniVersion::GetFixedInfo(VS_FIXEDFILEINFO & rFixedInfo)
 {
-	BOOL              rc;
-	UINT              nLength;
+	BOOL rc;
+	UINT nLength;
 	VS_FIXEDFILEINFO *pFixedInfo = NULL;
 
 	if (!m_pData)
@@ -241,9 +241,9 @@ BOOL CMiniVersion::GetFixedInfo(VS_FIXEDFILEINFO & rFixedInfo)
 /* GetStringInfo */
 BOOL CMiniVersion::GetStringInfo(LPCSTR lpszKey, LPTSTR lpszReturnValue)
 {
-	BOOL   rc;
+	BOOL rc;
 	DWORD *pdwTranslation;
-	UINT   nLength;
+	UINT nLength;
 	LPTSTR lpszValue;
 
 	if (m_pData == NULL)

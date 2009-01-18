@@ -423,7 +423,7 @@ namespace CrissCross
 		template <class Key, class Data>
 		RedBlackNode<Key, Data> * RedBlackTree<Key, Data>::findNode(Key const &key) const
 		{
-			RedBlackNode<Key, Data> * current = rootNode;
+			RedBlackNode<Key, Data>  * current = rootNode;
 
 			while (valid(current)) {
 				if (Compare(key, current->id) == 0) {
@@ -526,4 +526,3 @@ namespace CrissCross
 		}
 	}
 }
-

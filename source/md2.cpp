@@ -12,7 +12,7 @@
 #include <crisscross/universal_include.h>
 
 #ifdef ENABLE_HASHES
-#if !defined(DISABLE_DEPRECATED_CODE)
+#if !defined (DISABLE_DEPRECATED_CODE)
 
 #include <crisscross/core_io_reader.h>
 #include <crisscross/md2.h>
@@ -50,13 +50,13 @@ typedef unsigned long int UINT4;
 #define PROTO_LIST(list) ()
 #endif
 
-static void MD2Transform    PROTO_LIST
-                                                                                                                                              ((unsigned char [16], unsigned char [16], const unsigned char [16]));
+static void MD2Transform PROTO_LIST
+((unsigned char [16], unsigned char [16], const unsigned char [16]));
 
 /* Permutation of 0..255 constructed from the digits of pi. It gives a
  * "random" nonlinear byte substitution operation.
  */
-static unsigned char        PI_SUBST[256] = {
+static unsigned char PI_SUBST[256] = {
 	41, 46, 67, 201, 162, 216, 124, 1, 61, 54, 84, 161, 236, 240, 6,
 	19, 98, 167, 5, 243, 192, 199, 115, 140, 152, 147, 43, 217, 188,
 	76, 130, 202, 30, 155, 87, 60, 253, 212, 224, 22, 103, 66, 111, 24,
@@ -170,7 +170,7 @@ static void MD2Final(unsigned char digest[16], MD2_CTX *context)
  */
 static void MD2Transform(unsigned char state[16], unsigned char checksum[16], const unsigned char block[16])
 {
-	unsigned int  i, j, t;
+	unsigned int i, j, t;
 	unsigned char x[48];
 
 	/* Form encryption block from state, block, state ^ block.
@@ -210,7 +210,7 @@ namespace CrissCross
 {
 	namespace Crypto
 	{
-#if !defined(DISABLE_DEPRECATED_CODE)
+#if !defined (DISABLE_DEPRECATED_CODE)
 		MD2Hash::MD2Hash() : m_hashString(NULL), m_hash(NULL)
 		{
 			Reset();
@@ -239,7 +239,7 @@ namespace CrissCross
 
 			cc_int64_t pos = _reader->Position();
 			_reader->Seek(0);
-			char       buffer[8192]; int bytesRead = 0;
+			char buffer[8192]; int bytesRead = 0;
 			do
 			{
 				bytesRead = _reader->Read(buffer, sizeof(buffer), 0, sizeof(buffer));

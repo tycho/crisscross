@@ -100,7 +100,7 @@
 unsigned long adler32(unsigned long adler, const char *buf, size_t len)
 {
 	unsigned long sum2;
-	unsigned      n;
+	unsigned n;
 
 	/* split Adler-32 into component sums */
 	sum2 = (adler >> 16) & 0xffff;

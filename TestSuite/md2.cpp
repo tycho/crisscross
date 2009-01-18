@@ -12,17 +12,17 @@
 #include "header.h"
 #include "md2.h"
 
-#if !defined(DISABLE_DEPRECATED_CODE)
+#if !defined (DISABLE_DEPRECATED_CODE)
 
 using namespace CrissCross::Crypto;
 using namespace CrissCross::IO;
 
 int TestMD2()
 {
-	MD2Hash     md2;
+	MD2Hash md2;
 
 	const char *teststring = NULL;
-	size_t      length = 0;
+	size_t length = 0;
 
 	/* These tests are from http://tools.ietf.org/html/rfc1319 */
 
@@ -54,7 +54,7 @@ int TestMD2()
 	md2.Process(teststring, length);
 	TEST_ASSERT(strcmp(md2.ToString(), "d5976f79d83d3a0dc9806c3c66f3efd8") == 0);
 
-	MD2Hash    otherhash;
+	MD2Hash otherhash;
 	otherhash.Process("cheese", 6);
 	TEST_ASSERT(otherhash != md2 && md2 != otherhash);
 

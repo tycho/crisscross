@@ -21,7 +21,7 @@ using namespace CrissCross::Data;
 
 int TestShellSort_IntArray()
 {
-	int             int_array [] = {0, 4, 3, 6, 2, 1, 5, 7, 9, 8 };
+	int int_array [] = {0, 4, 3, 6, 2, 1, 5, 7, 9, 8 };
 	ShellSort<int> *ss = new ShellSort<int>();
 	ss->Sort(int_array, 10);
 	for (int i = 0; i < 10; i++) {

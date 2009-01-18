@@ -20,9 +20,9 @@
 
 #ifdef TARGET_OS_MACOSX
 extern "C" {
-	int chudProcessorCount();
-	int utilBindThreadToCPU(int n);
-	int utilUnbindThreadFromCPU();
+int chudProcessorCount();
+int utilBindThreadToCPU(int n);
+int utilUnbindThreadFromCPU();
 }
 #endif
 
@@ -121,19 +121,18 @@ namespace CrissCross
 		};
 
 		struct Registers *Std;
-		unsigned int      StdMax;
+		unsigned int StdMax;
 		struct Registers *Ext;
-		unsigned int      ExtMax;
+		unsigned int ExtMax;
 
 		/* If the current processor supports the CPUID instruction, execute
 		 * one, with REQUEST in %eax, and set *EAX, *EBX, *ECX, and *EDX to
 		 * the values the 'cpuid' stored in those registers.  Return true if
 		 * the current processor supports CPUID, false otherwise.  */
-		static bool call_cpuid(unsigned int request, unsigned int *_eax,
-			 unsigned int *_ebx, unsigned int *_ecx, unsigned int *_edx)
+		static bool call_cpuid(unsigned int request, unsigned int *_eax, unsigned int *_ebx, unsigned int *_ecx, unsigned int *_edx)
 		{
 #ifndef TARGET_CPU_X64
-			unsigned int       pre_change, post_change;
+			unsigned int pre_change, post_change;
 			const unsigned int id_flag = 0x200000;
 #endif
 
@@ -143,31 +142,31 @@ namespace CrissCross
 			 *     implemented.  */
 #ifndef TARGET_CPU_X64
 #if defined (TARGET_COMPILER_GCC)
-			asm ("pushfl\n\t"		/* Save %eflags to restore later.  */
-			     "pushfl\n\t"		/* Push second copy, for manipulation.  */
-			     "popl %1\n\t"		/* Pop it into post_change.  */
-			     "movl %1,%0\n\t"	/* Save copy in pre_change.   */
-			     "xorl %2,%1\n\t"	/* Tweak bit in post_change.  */
-			     "pushl %1\n\t"		/* Push tweaked copy... */
-			     "popfl\n\t"		/* ... and pop it into %eflags.  */
-			     "pushfl\n\t"		/* Did it change?  Push new %eflags... */
-			     "popl %1\n\t"		/* ... and pop it into post_change.  */
-			     "popfl"			/* Restore original value.  */
+			asm ("pushfl\n\t"          /* Save %eflags to restore later.  */
+			     "pushfl\n\t"          /* Push second copy, for manipulation.  */
+			     "popl %1\n\t"         /* Pop it into post_change.  */
+			     "movl %1,%0\n\t"      /* Save copy in pre_change.   */
+			     "xorl %2,%1\n\t"      /* Tweak bit in post_change.  */
+			     "pushl %1\n\t"                /* Push tweaked copy... */
+			     "popfl\n\t"           /* ... and pop it into %eflags.  */
+			     "pushfl\n\t"          /* Did it change?  Push new %eflags... */
+			     "popl %1\n\t"         /* ... and pop it into post_change.  */
+			     "popfl"                     /* Restore original value.  */
 			     : "=&r" (pre_change), "=&r" (post_change)
 			     : "ir" (id_flag));
 #else
 			__asm {
 				mov edx, id_flag;
-				pushfd;				/* Save %eflags to restore later.  */
-				pushfd;				/* Push second copy, for manipulation.  */
-				pop ebx;			/* Pop it into post_change.  */
-				mov eax, ebx;		/* Save copy in pre_change.   */
-				xor ebx, edx;		/* Tweak bit in post_change.  */
-				push ebx;			/* Push tweaked copy... */
-				popfd;				/* ... and pop it into eflags.  */
-				pushfd;				/* Did it change?  Push new %eflags... */
-				pop ebx;			/* ... and pop it into post_change.  */
-				popfd;				/* Restore original value.  */
+				pushfd;                         /* Save %eflags to restore later.  */
+				pushfd;                         /* Push second copy, for manipulation.  */
+				pop ebx;                       /* Pop it into post_change.  */
+				mov eax, ebx;          /* Save copy in pre_change.   */
+				xor ebx, edx;           /* Tweak bit in post_change.  */
+				push ebx;                       /* Push tweaked copy... */
+				popfd;                          /* ... and pop it into eflags.  */
+				pushfd;                         /* Did it change?  Push new %eflags... */
+				pop ebx;                       /* ... and pop it into post_change.  */
+				popfd;                          /* Restore original value.  */
 				mov pre_change, eax;
 				mov post_change, ebx;
 			}
@@ -176,7 +175,7 @@ namespace CrissCross
 
 			/* If the bit changed, then we support the CPUID instruction.  */
 #ifndef TARGET_CPU_X64
-		if ((pre_change ^ post_change) & id_flag) {
+			if ((pre_change ^ post_change) & id_flag) {
 #endif
 #if defined (TARGET_COMPILER_GCC)
 			asm volatile ("mov %%ebx, %%esi\n\t"     /* Save %ebx.  */
@@ -338,9 +337,9 @@ namespace CrissCross
 		{
 			CoreAssert(this);
 #ifdef TARGET_OS_WINDOWS
-			DWORD                      dThread = NULL;
-			SYSTEM_INFO                siSystem;
-			int                        iCount = 0;
+			DWORD dThread = NULL;
+			SYSTEM_INFO siSystem;
+			int iCount = 0;
 			struct GoThreadProc_Params params;
 
 			params.cpuid_class = this;
@@ -368,7 +367,7 @@ namespace CrissCross
 			}
 
 #elif defined (TARGET_OS_LINUX)
-			int       NUM_PROCS = sysconf(_SC_NPROCESSORS_CONF), i;
+			int NUM_PROCS = sysconf(_SC_NPROCESSORS_CONF), i;
 			cpu_set_t mask;
 			cpu_set_t originalmask;
 
@@ -382,7 +381,7 @@ namespace CrissCross
 
 			sched_setaffinity(0, sizeof(originalmask), &originalmask);
 #elif defined (TARGET_OS_MACOSX)
-			int       NUM_PROCS = chudProcessorCount();
+			int NUM_PROCS = chudProcessorCount();
 			for (int i = 0; i < NUM_PROCS; i++) {
 				utilUnbindThreadFromCPU();
 				utilBindThreadToCPU(i);
@@ -486,7 +485,7 @@ namespace CrissCross
 		const char *CPUID::CreateCacheDescription(cacheType _type, const char *_pages, unsigned int _size, unsigned int _assoc, unsigned int _entries, unsigned int _linesize, bool _sectored)
 		{
 			static char description[512];
-			char        assoc[64], prefix[64], size[32], sectored[32], linesz[32], entries[32];
+			char assoc[64], prefix[64], size[32], sectored[32], linesz[32], entries[32];
 
 			/* No associativity? Invalid cache entry. Abort, abort! */
 			if (_assoc == 0)

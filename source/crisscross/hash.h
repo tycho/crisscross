@@ -25,7 +25,7 @@ namespace CrissCross
 		template <class T>
 		__inline size_t Hash(T const &_data)
 		{
-			size_t      hash = 0, length = sizeof(_data), i;
+			size_t hash = 0, length = sizeof(_data), i;
 			const char *data = (char *)&_data;
 			for (i = 0; i < length; i++) {
 				hash += data[i];

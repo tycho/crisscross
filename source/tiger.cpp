@@ -637,9 +637,9 @@ static cc_uint64_t sbox4[256] = {
 #define tiger_compress_macro(str, state) \
 	{ \
 		register word64 a, b, c, tmpa; \
-		word64          aa, bb, cc; \
+		word64 aa, bb, cc; \
 		register word64 x0, x1, x2, x3, x4, x5, x6, x7; \
-		int             pass_no; \
+		int pass_no; \
 \
 		a = state[0]; \
 		b = state[1]; \
@@ -768,24 +768,24 @@ static void tiger_update(cc_tiger_ctx *hd, unsigned char *inbuf, size_t inlen)
 /* The routine terminates the computation */
 static void tiger_final(unsigned char *hash, cc_tiger_ctx *hd)
 {
-	cc_uint32_t    t, msb, lsb;
+	cc_uint32_t t, msb, lsb;
 	unsigned char *p;
-	int            i, j;
+	int i, j;
 
 	tiger_update(hd, NULL, 0); /* flush */;
 
 	msb = 0;
 	t = hd->nblocks;
-	if ((lsb = t << 6) < t)      /* multiply by 64 to make a byte count */
+	if ((lsb = t << 6) < t)  /* multiply by 64 to make a byte count */
 		msb++;
 
 	msb += t >> 26;
 	t = lsb;
-	if ((lsb = t + hd->count) < t)      /* add the count */
+	if ((lsb = t + hd->count) < t)  /* add the count */
 		msb++;
 
 	t = lsb;
-	if ((lsb = t << 3) < t)      /* multiply by 8 to make a bit count */
+	if ((lsb = t << 3) < t)  /* multiply by 8 to make a bit count */
 		msb++;
 
 	msb += t >> 29;
@@ -896,7 +896,7 @@ namespace CrissCross
 
 			cc_int64_t pos = _reader->Position();
 			_reader->Seek(0);
-			char       buffer[8192]; int bytesRead = 0;
+			char buffer[8192]; int bytesRead = 0;
 			do
 			{
 				bytesRead = _reader->Read(buffer, sizeof(buffer), 0, sizeof(buffer));

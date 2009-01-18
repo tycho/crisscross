@@ -32,17 +32,17 @@ namespace CrissCross
 		class Processor
 		{
 			public:
-				const char                                             *Manufacturer;
-				const char                                             *ProcessorName;
-				unsigned int                                            LogicalPerPackage;
-				unsigned int                                            CoresPerPackage;
-				char                                                    Family;
-				char                                                    Model;
-				char                                                    Stepping;
-				char                                                    BrandID;
-				char                                                    APICID;
-				CrissCross::Data::RedBlackTree<const char *, void *>    features;
-				CrissCross::Data::DArray <char *>                       caches;
+				const char *Manufacturer;
+				const char *ProcessorName;
+				unsigned int LogicalPerPackage;
+				unsigned int CoresPerPackage;
+				char Family;
+				char Model;
+				char Stepping;
+				char BrandID;
+				char APICID;
+				CrissCross::Data::RedBlackTree<const char *, void *> features;
+				CrissCross::Data::DArray <char *>                    caches;
 			public:
 				Processor()
 				{

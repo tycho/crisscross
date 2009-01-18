@@ -56,7 +56,7 @@ namespace CrissCross
 				RedBlackNode<Key, Data> *nullNode;
 
 				/*! \brief The cached size() return value. Changes on each tree modification (insertions and deletions). */
-				size_t                   m_cachedSize;
+				size_t m_cachedSize;
 
 				void RecursiveConvertIndexToDArray(DArray <Key> *_darray, RedBlackNode<Key, Data> *_btree) const;
 				void RecursiveConvertToDArray(DArray <Data> *_darray, RedBlackNode<Key, Data> *_btree) const;
@@ -195,7 +195,7 @@ namespace CrissCross
 				 */
 				size_t mem_usage() const;
 
-#if !defined(DISABLE_DEPRECATED_CODE)
+#if !defined (DISABLE_DEPRECATED_CODE)
 				/*
 				 * Deprecated Compatibility Functions
 				 * Provided for compatibility with Tosser I

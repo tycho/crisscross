@@ -17,10 +17,10 @@ using namespace CrissCross::IO;
 
 int TestSHA1()
 {
-	SHA1Hash    sha1;
+	SHA1Hash sha1;
 
 	const char *teststring = NULL;
-	size_t      length = 0;
+	size_t length = 0;
 
 	/* These tests are from FIPS PUB 180-1 */
 
@@ -33,7 +33,7 @@ int TestSHA1()
 	TEST_ASSERT(strcmp(sha1.ToString(), "84983e441c3bd26ebaae4aa1f95129e5e54670f1") == 0);
 
 #ifdef HIGH_INTENSITY
-	char      *tempstring = new char[1000001];
+	char *tempstring = new char[1000001];
 	memset(tempstring, 'a', 1000000);
 	tempstring[1000000] = '\0';
 	length = strlen(tempstring);
@@ -43,7 +43,7 @@ int TestSHA1()
 	delete [] tempstring;
 #endif
 
-	SHA1Hash   otherhash;
+	SHA1Hash otherhash;
 	otherhash.Process("cheese", 6);
 	TEST_ASSERT(otherhash != sha1 && sha1 != otherhash);
 

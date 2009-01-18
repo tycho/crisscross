@@ -22,12 +22,12 @@ namespace CrissCross
 		class Console : public CoreIOWriter, public CoreIOReader
 		{
 			protected:
-				bool  m_consoleAllocated;
+				bool m_consoleAllocated;
 #if defined (TARGET_OS_MACOSX) || defined (TARGET_OS_FREEBSD) || \
 				defined (TARGET_OS_OPENBSD) || defined (TARGET_OS_NETBSD)
-				int   m_ptyfd;
-				int   m_ttyfd;
-				char  m_slaveName[32];
+				int m_ptyfd;
+				int m_ttyfd;
+				char m_slaveName[32];
 				pid_t m_childPID;
 #endif
 				bool AllocateConsole();

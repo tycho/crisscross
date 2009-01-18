@@ -62,13 +62,13 @@ namespace CrissCross
 		{
 			protected:
 				/*! \brief The maximum number of bytes to read per CoreSocket::Read or CoreSocket::ReadLine call. */
-				int            m_bufferSize;
+				int m_bufferSize;
 
 				/*! \brief Indicates whether __socket_initialise() was called when the class was initialized. */
-				char           m_calledInitialise;
+				char m_calledInitialise;
 
 				/*! \brief Stores the socket data. */
-				socket_t       m_sock;
+				socket_t m_sock;
 
 				/*! \brief Indicates the protocol used by this socket instance. */
 				socketProtocol m_proto;

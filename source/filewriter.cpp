@@ -34,7 +34,7 @@ namespace CrissCross
 
 			char openModes[4];
 
-			int  _filePathLength = 0;
+			int _filePathLength = 0;
 
 			if (_file == NULL)
 				return CC_ERR_BADPARAMETER;

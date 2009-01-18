@@ -13,7 +13,7 @@
 #include "testutils.h"
 #include "quicksort.h"
 
-#if !defined(DISABLE_DEPRECATED_CODE)
+#if !defined (DISABLE_DEPRECATED_CODE)
 
 #include <crisscross/universal_include.h>
 #include <crisscross/darray.h>
@@ -23,7 +23,7 @@ using namespace CrissCross::Data;
 
 int TestQuickSort_IntArray()
 {
-	int             int_array [] = {0, 4, 3, 6, 2, 1, 5, 7, 9, 8 };
+	int int_array [] = {0, 4, 3, 6, 2, 1, 5, 7, 9, 8 };
 	QuickSort<int> *qs = new QuickSort<int>();
 	qs->Sort(int_array, 10);
 	for (int i = 0; i < 10; i++) {

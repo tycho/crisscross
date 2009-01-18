@@ -33,13 +33,13 @@ namespace CrissCross
 				/*!
 				 * Stores the line ending selected by CoreIOReader::SetLineEndings.
 				 */
-				char                      m_lineEnding[4];
+				char m_lineEnding[4];
 
 				/*! \brief Input/output FILE pointer. */
-				FILE                     *m_fileInputPointer;
+				FILE *m_fileInputPointer;
 
 				/*! \brief Indicates whether the buffer is to be read in unicode or not. (UNIMPLEMENTED) */
-				bool                      m_unicode;
+				bool m_unicode;
 
 		#ifndef TARGET_COMPILER_GCC
 				/*! \brief Thread-safe mutex. */

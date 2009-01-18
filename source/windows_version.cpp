@@ -43,10 +43,10 @@ BOOL GetWinVer(LPTSTR pszVersion, int *nVersion, LPTSTR pszMajorMinorBuild)
 	if (!GetVersionEx(&osinfo))
 		return FALSE;
 
-	DWORD         dwPlatformId = osinfo.dwPlatformId;
-	DWORD         dwMinorVersion = osinfo.dwMinorVersion;
-	DWORD         dwMajorVersion = osinfo.dwMajorVersion;
-	DWORD         dwBuildNumber = osinfo.dwBuildNumber & 0xFFFF; /* Win 95 needs this */
+	DWORD dwPlatformId = osinfo.dwPlatformId;
+	DWORD dwMinorVersion = osinfo.dwMinorVersion;
+	DWORD dwMajorVersion = osinfo.dwMajorVersion;
+	DWORD dwBuildNumber = osinfo.dwBuildNumber & 0xFFFF; /* Win 95 needs this */
 
 	wsprintf(pszMajorMinorBuild, _T("%u.%u.%u"), dwMajorVersion, dwMinorVersion, dwBuildNumber);
 

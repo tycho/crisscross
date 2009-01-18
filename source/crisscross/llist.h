@@ -32,7 +32,7 @@ namespace CrissCross
 				LListNode *m_previous;
 
 				/*! \brief The data contained in this node. */
-				T          m_data;
+				T m_data;
 
 				/*! \brief The default constructor. */
 				LListNode();
@@ -202,7 +202,7 @@ namespace CrissCross
 				size_t mem_usage() const;
 
 
-#if !defined(DISABLE_DEPRECATED_CODE)
+#if !defined (DISABLE_DEPRECATED_CODE)
 				/*
 				 *      Deprecated Compatibility Functions
 				 *      Provided for compatibility with Tosser I

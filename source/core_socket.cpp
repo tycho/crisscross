@@ -96,7 +96,7 @@ namespace CrissCross
 			/* Verify the socket. */
 			if (m_sock == INVALID_SOCKET) return NULL;
 
-			static char        buffer[15];
+			static char buffer[15];
 			struct sockaddr_in sock; int sock_size = sizeof(sock);
 			memset(&sock, 0, sizeof(sock));
 
@@ -112,16 +112,16 @@ namespace CrissCross
 
 		u_long CoreSocket::GetLocalHost()
 		{
-			char                 str[512];
-			long                 result = gethostname(str, sizeof(str));
+			char str[512];
+			long result = gethostname(str, sizeof(str));
 			if (result < 0) {
 				return 0;
 			}
 
-			struct hostent      *lpHostEnt;
+			struct hostent *lpHostEnt;
 			lpHostEnt = gethostbyname(str);
 
-			struct sockaddr_in   addr;
+			struct sockaddr_in addr;
 			memcpy(&addr.sin_addr, lpHostEnt->h_addr_list[0], sizeof(addr.sin_addr));
 			addr.sin_port = 0;
 
@@ -156,11 +156,11 @@ namespace CrissCross
 
 			_output = "";
 
-			int   errbefore = GetError();
+			int errbefore = GetError();
 
 			char *buf = new char[m_bufferSize];
-			int   recvlen = 0;
-			bool  receivedData = false;
+			int recvlen = 0;
+			bool receivedData = false;
 			do {
 				memset(buf, 0, m_bufferSize);
 				recvlen = recv(m_sock, buf, 1, MSG_PEEK);
@@ -232,7 +232,7 @@ namespace CrissCross
 			if (m_sock == INVALID_SOCKET) return CC_ERR_NOT_SOCKET;
 			if (!IsWritable()) return CC_ERR_WOULD_BLOCK;
 
-			int   sent = 0;
+			int sent = 0;
 #ifdef PACKET_DEBUG
 			char *temp_buf = new char[m_bufferSize];
 			memset(temp_buf, 0, m_bufferSize);
@@ -258,8 +258,8 @@ namespace CrissCross
 
 		bool CoreSocket::IsReadable() const
 		{
-			int            ret;
-			fd_set         read;
+			int ret;
+			fd_set read;
 			struct timeval timeout;
 
 			/* We only take 0.001 seconds to check */
@@ -269,7 +269,7 @@ namespace CrissCross
 			FD_ZERO(&read);
 			FD_SET(m_sock, &read);
 
-			int            errbefore = GetError(), errafter;
+			int errbefore = GetError(), errafter;
 
 			/* Select to check if it's readable. */
 			ret = select(m_sock + 1, &read, NULL, NULL, &timeout);
@@ -293,8 +293,8 @@ namespace CrissCross
 
 		bool CoreSocket::IsWritable() const
 		{
-			int            ret;
-			fd_set         write;
+			int ret;
+			fd_set write;
 			struct timeval timeout;
 
 			/* We only take 0.001 seconds to check */
@@ -304,7 +304,7 @@ namespace CrissCross
 			FD_ZERO(&write);
 			FD_SET(m_sock, &write);
 
-			int            errbefore = GetError(), errafter;
+			int errbefore = GetError(), errafter;
 
 			/* Select to check if it's readable. */
 			ret = select(m_sock + 1, NULL, &write, NULL, &timeout);

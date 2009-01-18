@@ -40,7 +40,7 @@ namespace CrissCross
 			protected:
 				typedef AVLTree<Key, Data> tree_t;
 
-				tree_t     * *m_array;
+				tree_t * *m_array;
 				unsigned long m_size;
 				unsigned long m_used;
 

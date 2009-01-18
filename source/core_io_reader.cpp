@@ -213,7 +213,7 @@ namespace CrissCross
 #ifndef __GNUC__
 			m_ioMutex.Lock();
 #endif
-			char               c = (char)fgetc(m_fileInputPointer);
+			char c = (char)fgetc(m_fileInputPointer);
 
 			if (c == (char)EOF)
 				return 0;
@@ -225,7 +225,7 @@ namespace CrissCross
 				c = (char)fgetc(m_fileInputPointer);
 			}
 
-			int                len = (int)buffer.length();
+			int len = (int)buffer.length();
 
 			if (len && buffer[len - 1] == '\r')
 				buffer.resize(len - 1);

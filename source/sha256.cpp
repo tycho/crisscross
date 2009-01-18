@@ -68,13 +68,13 @@ static cc_int32_t sha256_k[64] =
 #define SHA256_SCR(i)                         \
 	{                                             \
 		w[i] = SHA256_F4(w[i - 2]) + w[i - 7]  \
-		       + SHA256_F3(w[i - 15]) + w[i - 16]; \
+		+ SHA256_F3(w[i - 15]) + w[i - 16]; \
 	}
 
 #define SHA256_EXP(a, b, c, d, e, f, g, h, j)               \
 	{                                                           \
 		t1 = wv[h] + SHA256_F2(wv[e]) + CH(wv[e], wv[f], wv[g]) \
-		     + sha256_k[j] + w[j];                              \
+		+ sha256_k[j] + w[j];                              \
 		t2 = SHA256_F1(wv[a]) + MAJ(wv[a], wv[b], wv[c]);       \
 		wv[d] += t1;                                            \
 		wv[h] = t1 + t2;                                        \
@@ -82,14 +82,14 @@ static cc_int32_t sha256_k[64] =
 
 static void sha256_transf(cc_sha256_ctx *ctx, const unsigned char *message, unsigned int block_nb)
 {
-	cc_uint32_t          w[64];
-	cc_uint32_t          wv[8];
-	cc_uint32_t          t1, t2;
+	cc_uint32_t w[64];
+	cc_uint32_t wv[8];
+	cc_uint32_t t1, t2;
 	const unsigned char *sub_block;
-	int                  i;
+	int i;
 
 #ifndef UNROLL_LOOPS
-	int                  j;
+	int j;
 #endif
 
 	for (i = 0; i < (int)block_nb; i++) {
@@ -110,7 +110,7 @@ static void sha256_transf(cc_sha256_ctx *ctx, const unsigned char *message, unsi
 
 		for (j = 0; j < 64; j++) {
 			t1 = wv[7] + SHA256_F2(wv[4]) + CH(wv[4], wv[5], wv[6])
-			     + sha256_k[j] + w[j];
+			+ sha256_k[j] + w[j];
 			t2 = SHA256_F1(wv[0]) + MAJ(wv[0], wv[1], wv[2]);
 			wv[7] = wv[6];
 			wv[6] = wv[5];
@@ -216,8 +216,8 @@ static void sha256_init(cc_sha256_ctx *ctx)
 
 static void sha256_update(cc_sha256_ctx *ctx, const unsigned char *message, unsigned int len)
 {
-	unsigned int         block_nb;
-	unsigned int         new_len, rem_len, tmp_len;
+	unsigned int block_nb;
+	unsigned int new_len, rem_len, tmp_len;
 	const unsigned char *shifted_message;
 
 	tmp_len = SHA256_BLOCK_SIZE - ctx->len;
@@ -254,7 +254,7 @@ static void sha256_final(cc_sha256_ctx *ctx, unsigned char *digest)
 	unsigned int len_b;
 
 #ifndef UNROLL_LOOPS
-	int          i;
+	int i;
 #endif
 
 	block_nb = (1 + ((SHA256_BLOCK_SIZE - 9)
@@ -318,7 +318,7 @@ namespace CrissCross
 
 			cc_int64_t pos = _reader->Position();
 			_reader->Seek(0);
-			char       buffer[8192]; int bytesRead = 0;
+			char buffer[8192]; int bytesRead = 0;
 			do
 			{
 				bytesRead = _reader->Read(buffer, sizeof(buffer), 0, sizeof(buffer));

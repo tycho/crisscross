@@ -24,7 +24,7 @@ CrissCross::Errors CrissCross::Network::__initialise_network()
 	if (!s_initialised) {
 #ifdef TARGET_OS_WINDOWS
 		/* Start up the windows networking */
-		WORD    version_wanted = MAKEWORD(2, 2);
+		WORD version_wanted = MAKEWORD(2, 2);
 		WSADATA wsaData;
 
 		if (WSAStartup(version_wanted, &wsaData) != 0)
@@ -35,7 +35,7 @@ CrissCross::Errors CrissCross::Network::__initialise_network()
 
 #else
 		/* SIGPIPE is generated when a remote socket is closed */
-		void    (*handler)(int);
+		void (*handler)(int);
 		handler = signal(SIGPIPE, SIG_IGN);
 		if (handler != SIG_DFL) {
 			signal(SIGPIPE, handler);

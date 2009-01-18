@@ -24,7 +24,7 @@ namespace CrissCross
 		{
 			private:
 				/*! \brief The step size for which to increase the stack size by. */
-				size_t    m_stepSize;
+				size_t m_stepSize;
 
 				/*! \brief The actual stack itself. */
 				dataType *m_bottom;
@@ -33,10 +33,10 @@ namespace CrissCross
 				dataType *m_top;
 
 				/*! \brief The size of the stack. */
-				size_t    m_size;
+				size_t m_size;
 
 				/*! \brief The original size of the stack (used on an empty() call to reset things to defaults). */
-				size_t    m_origSize;
+				size_t m_origSize;
 
 				/*! \brief Sets the stack size to the given size. */
 				/*!

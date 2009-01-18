@@ -13,7 +13,7 @@
 #include "testutils.h"
 #include "insertionsort.h"
 
-#if !defined(DISABLE_DEPRECATED_CODE)
+#if !defined (DISABLE_DEPRECATED_CODE)
 
 #include <crisscross/darray.h>
 #include <crisscross/insertionsort.h>
@@ -22,7 +22,7 @@ using namespace CrissCross::Data;
 
 int TestInsertionSort_IntArray()
 {
-	int                 int_array [] = {0, 4, 3, 6, 2, 1, 5, 7, 9, 8 };
+	int int_array [] = {0, 4, 3, 6, 2, 1, 5, 7, 9, 8 };
 	InsertionSort<int> *is = new InsertionSort<int>();
 	is->Sort(int_array, 10);
 	for (int i = 0; i < 10; i++) {

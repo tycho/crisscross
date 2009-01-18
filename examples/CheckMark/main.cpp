@@ -21,12 +21,12 @@ using namespace std;
 
 int RunApplication(int argc, char * *argv)
 {
-	Console                         *console = new Console();
+	Console *console = new Console();
 
 	/* Begin your application here. */
 
 	CrissCross::Data::DArray<char *> randomStrings;
-	CrissCross::System::Stopwatch    sw;
+	CrissCross::System::Stopwatch sw;
 
 	console->SetColour(console->FG_RED | console->FG_INTENSITY);
 	console->WriteLine("CheckMark v" CC_LIB_VERSION);
@@ -70,7 +70,7 @@ int RunApplication(int argc, char * *argv)
 
 	/* It's too slow. Disabled. */
 #if 0
-	CrissCross::Crypto::MD2Hash    md2;
+	CrissCross::Crypto::MD2Hash md2;
 	sw.Start();
 	for (int r = 0; r < MAX_RUNS; r++)
 		for (int i = 0; i < DATASET_SIZE; i++)
@@ -82,7 +82,7 @@ int RunApplication(int argc, char * *argv)
 #endif
 
 
-	CrissCross::Crypto::MD4Hash    md4;
+	CrissCross::Crypto::MD4Hash md4;
 	sw.Start();
 	for (int r = 0; r < MAX_RUNS; r++)
 		for (int i = 0; i < DATASET_SIZE; i++)
@@ -92,7 +92,7 @@ int RunApplication(int argc, char * *argv)
 	console->WriteLine("%8lu MD4Marks",
 	                   (unsigned long)((double)(DATASET_SIZE * MAX_RUNS) / sw.Elapsed()));
 
-	CrissCross::Crypto::MD5Hash    md5;
+	CrissCross::Crypto::MD5Hash md5;
 	sw.Start();
 	for (int r = 0; r < MAX_RUNS; r++)
 		for (int i = 0; i < DATASET_SIZE; i++)
@@ -102,7 +102,7 @@ int RunApplication(int argc, char * *argv)
 	console->WriteLine("%8lu MD5Marks",
 	                   (unsigned long)((double)(DATASET_SIZE * MAX_RUNS) / sw.Elapsed()));
 
-	CrissCross::Crypto::SHA1Hash   sha1;
+	CrissCross::Crypto::SHA1Hash sha1;
 	sw.Start();
 	for (int r = 0; r < MAX_RUNS; r++)
 		for (int i = 0; i < DATASET_SIZE; i++)
@@ -132,7 +132,7 @@ int RunApplication(int argc, char * *argv)
 	console->WriteLine("%8lu SHA512Marks",
 	                   (unsigned long)((double)(DATASET_SIZE * MAX_RUNS) / sw.Elapsed()));
 
-	CrissCross::Crypto::TigerHash  tiger;
+	CrissCross::Crypto::TigerHash tiger;
 	sw.Start();
 	for (int r = 0; r < MAX_RUNS; r++)
 		for (int i = 0; i < DATASET_SIZE; i++)

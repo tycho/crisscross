@@ -36,19 +36,19 @@ namespace CrissCross
 		{
 			protected:
 
-				unsigned            m_lockCount;
+				unsigned m_lockCount;
 
 		#ifdef TARGET_OS_WINDOWS
 				/*! \brief The critical section for the mutex. */
 				/*!
 				 * Windows uses "critical sections" for safe threading.
 				 */
-				CRITICAL_SECTION    m_criticalSection;
+				CRITICAL_SECTION m_criticalSection;
 		#else
 				/*! \brief POSIX threading mutex. */
 
 				pthread_mutexattr_t m_mutexAttr;
-				pthread_mutex_t     m_hMutex;
+				pthread_mutex_t m_hMutex;
 		#endif
 			public:
 

@@ -9,11 +9,11 @@ using namespace CrissCross::System;
 
 void rijndaelSpeed(int keyBits)
 {
-	int       Nr, i;
-	u32       rk[4 * (MAXNR + 1)];
-	u8        cipherKey[256 / 8], pt[16], ct[16];
+	int Nr, i;
+	u32 rk[4 * (MAXNR + 1)];
+	u8 cipherKey[256 / 8], pt[16], ct[16];
 	Stopwatch sw;
-	double    sec;
+	double sec;
 
 	memset(cipherKey, 0, sizeof(cipherKey));
 

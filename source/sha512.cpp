@@ -70,13 +70,13 @@
 #define SHA512_SCR(i)                         \
 	{                                             \
 		w[i] = SHA512_F4(w[i - 2]) + w[i - 7]  \
-		       + SHA512_F3(w[i - 15]) + w[i - 16]; \
+		+ SHA512_F3(w[i - 15]) + w[i - 16]; \
 	}
 
 #define SHA512_EXP(a, b, c, d, e, f, g, h, j)               \
 	{                                                           \
 		t1 = wv[h] + SHA512_F2(wv[e]) + CH(wv[e], wv[f], wv[g]) \
-		     + sha512_k[j] + w[j];                              \
+		+ sha512_k[j] + w[j];                              \
 		t2 = SHA512_F1(wv[a]) + MAJ(wv[a], wv[b], wv[c]);       \
 		wv[d] += t1;                                            \
 		wv[h] = t1 + t2;                                        \
@@ -132,11 +132,11 @@ static cc_uint64_t sha512_k[80] =
 
 static void sha512_transf(cc_sha512_ctx *ctx, const unsigned char *message, unsigned int block_nb)
 {
-	cc_uint64_t          w[80];
-	cc_uint64_t          wv[8];
-	cc_uint64_t          t1, t2;
+	cc_uint64_t w[80];
+	cc_uint64_t wv[8];
+	cc_uint64_t t1, t2;
 	const unsigned char *sub_block;
-	int                  i, j;
+	int i, j;
 
 	for (i = 0; i < (int)block_nb; i++) {
 		sub_block = message + (i << 7);
@@ -156,7 +156,7 @@ static void sha512_transf(cc_sha512_ctx *ctx, const unsigned char *message, unsi
 
 		for (j = 0; j < 80; j++) {
 			t1 = wv[7] + SHA512_F2(wv[4]) + CH(wv[4], wv[5], wv[6])
-			     + sha512_k[j] + w[j];
+			+ sha512_k[j] + w[j];
 			t2 = SHA512_F1(wv[0]) + MAJ(wv[0], wv[1], wv[2]);
 			wv[7] = wv[6];
 			wv[6] = wv[5];
@@ -246,8 +246,8 @@ static void sha512_init(cc_sha512_ctx *ctx)
 
 static void sha512_update(cc_sha512_ctx *ctx, const unsigned char *message, unsigned int len)
 {
-	unsigned int         block_nb;
-	unsigned int         new_len, rem_len, tmp_len;
+	unsigned int block_nb;
+	unsigned int new_len, rem_len, tmp_len;
 	const unsigned char *shifted_message;
 
 	tmp_len = SHA512_BLOCK_SIZE - ctx->len;
@@ -284,7 +284,7 @@ static void sha512_final(cc_sha512_ctx *ctx, unsigned char *digest)
 	unsigned int len_b;
 
 #ifndef UNROLL_LOOPS
-	int          i;
+	int i;
 #endif
 
 	block_nb = 1 + ((SHA512_BLOCK_SIZE - 17)
@@ -349,7 +349,7 @@ namespace CrissCross
 
 			cc_int64_t pos = _reader->Position();
 			_reader->Seek(0);
-			char       buffer[8192]; int bytesRead = 0;
+			char buffer[8192]; int bytesRead = 0;
 			do
 			{
 				bytesRead = _reader->Read(buffer, sizeof(buffer), 0, sizeof(buffer));

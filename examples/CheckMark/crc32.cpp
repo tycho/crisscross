@@ -51,7 +51,7 @@ int crc_table[256] =
 
 unsigned long crc32(const char *_data, size_t _size)
 {
-	unsigned long         m_crc = 0;
+	unsigned long m_crc = 0;
 	const unsigned char * r = (const unsigned char *)_data;
 	m_crc = ~m_crc;
 	while (_size--)

@@ -20,7 +20,7 @@ using namespace CrissCross::Data;
 int TestSplayTree_CString()
 {
 	SplayTree<const char *, const char *> *splaytree = new SplayTree<const char *, const char *>();
-	char                                  *tmp;
+	char *tmp;
 
 	TEST_ASSERT(splaytree->size() == 0);
 
@@ -85,7 +85,7 @@ int TestSplayTree_String()
 	splaytree->insert("third", "three");
 	splaytree->insert("fourth", "four");
 
-	std::string                          res;
+	std::string res;
 
 	TEST_ASSERT(splaytree->size() == 4);
 
@@ -133,7 +133,7 @@ int TestSplayTree_Int()
 	splaytree->insert(3, 3);
 	splaytree->insert(4, 4);
 
-	int                  res;
+	int res;
 	TEST_ASSERT(splaytree->size() == 4);
 
 	TEST_ASSERT(splaytree->find(1, res));

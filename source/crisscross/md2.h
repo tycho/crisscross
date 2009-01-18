@@ -32,7 +32,7 @@ namespace CrissCross
 {
 	namespace Crypto
 	{
-#if !defined(DISABLE_DEPRECATED_CODE)
+#if !defined (DISABLE_DEPRECATED_CODE)
 		/*! \brief An MD2 hash generator. */
 		/*!
 		 * \deprecated MD2 hashes are rarely used anymore because they are very slow to
@@ -46,7 +46,7 @@ namespace CrissCross
 			private:
 				mutable char *m_hashString;
 				unsigned char *m_hash;
-				cc_md2_ctx     m_state;
+				cc_md2_ctx m_state;
 
 			public:
 				/*! \brief The default constructor. */

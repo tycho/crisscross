@@ -50,7 +50,7 @@ namespace CrissCross
 				AVLNode<Key, Data> *m_root;
 
 				/*! \brief The current tree size. */
-				size_t              m_size;
+				size_t m_size;
 
 				/*! \brief Result of tree operation */
 				typedef enum
@@ -300,7 +300,7 @@ namespace CrissCross
 				 */
 				size_t mem_usage() const;
 
-#if !defined(DISABLE_DEPRECATED_CODE)
+#if !defined (DISABLE_DEPRECATED_CODE)
 				/*
 				 *      Deprecated Compatibility Functions
 				 *      Provided for compatibility with Tosser I
