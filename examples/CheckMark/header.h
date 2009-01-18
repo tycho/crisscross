@@ -23,7 +23,7 @@
 #define MAX_RUNS        10
 #else
 #define ENTRY_LENGTH    1048576
-#define MAX_RUNS        20
+#define MAX_RUNS        10
 #endif
 
 #endif

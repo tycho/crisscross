@@ -33,6 +33,13 @@ int RunApplication(int argc, char * *argv)
 	console->SetColour();
 	console->WriteLine("A checksum (hashing) algorithm benchmark.");
 	console->WriteLine();
+	console->WriteLine("Note: {whatever}Marks are a measurement of how many %s\nof data were processed per second by a given hash.",
+#ifdef TARGET_OS_NDSFIRMWARE
+		"kilobytes");
+#else
+		"megabytes");
+#endif
+	console->WriteLine();
 
 	/* Generate some data for checksum speed tests. */
 	console->Write("Generating data... ");
