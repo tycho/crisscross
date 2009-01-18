@@ -39,7 +39,7 @@ void BenchmarkDArray(Sorter<char *> &sorter)
 		sw.Start();
 
 		/* Load the file into the data DArray */
-		while (file.ReadLine(buffer, sizeof(buffer)))
+		while (file.ReadLine(buffer, sizeof(buffer)) >= 0)
 			data.insert(cc_strdup(buffer));
 
 		sw.Stop();
@@ -119,12 +119,12 @@ int RunApplication(int argc, char * *argv)
 	console->SetColour();
 	BenchmarkDArray(ss);
 	console->WriteLine();
-#if !defined(DISABLE_DEPRECATED_CODE)
 	console->SetColour(console->FG_BLUE | console->FG_INTENSITY);
 	console->WriteLine("QuickSort...");
 	console->SetColour();
 	BenchmarkDArray(qs);
 	console->WriteLine();
+#if !defined(DISABLE_DEPRECATED_CODE)
 	console->SetColour(console->FG_BLUE | console->FG_INTENSITY);
 	console->WriteLine("BubbleSort...");
 	console->SetColour();
