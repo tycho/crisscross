@@ -16,9 +16,9 @@ fi
 
 VERSTRING=$(git describe --tags)
 
-rm -f $OUT
+rm -f $OUT.tmp
 
-cat >> $OUT << __eof__
+cat >> $OUT.tmp << __eof__
 #ifndef __included_cc_build_number_h
 #define __included_cc_build_number_h
 
@@ -35,3 +35,15 @@ cat >> $OUT << __eof__
 #endif
 
 __eof__
+
+MD5NEW=`md5sum $OUT.tmp | cut -d' ' -f1`
+MD5OLD=`md5sum $OUT | cut -d' ' -f1`
+
+if [ $MD5NEW == $MD5OLD ]; then
+        echo "$OUT is already up to date."
+        rm -f $OUT.tmp
+else
+        echo "$OUT updated."
+        mv $OUT.tmp $OUT
+fi
+
