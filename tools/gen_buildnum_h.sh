@@ -39,7 +39,7 @@ __eof__
 MD5NEW=`md5sum $OUT.tmp | cut -d' ' -f1`
 MD5OLD=`md5sum $OUT | cut -d' ' -f1`
 
-if [ $MD5NEW == $MD5OLD ]; then
+if [ "$MD5NEW" == "$MD5OLD" ]; then
         echo "$OUT is already up to date."
         rm -f $OUT.tmp
 else
