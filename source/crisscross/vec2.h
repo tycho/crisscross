@@ -14,6 +14,7 @@
 
 #include <math.h>
 
+
 /* ! A 2-dimensional vector */
 class vec2
 {
@@ -52,7 +53,12 @@ class vec2
 		float & Y(){ return y; }
 
 		/* ! Fetches the modulus of the vector (distance from the origin) */
+#ifdef TARGET_OS_WINDOWS
+		/* Thank you, Microsoft. >:( */
+		float Modulus() const { return _hypotf(y, x); }
+#else
 		float Modulus() const { return hypotf(y, x); }
+#endif
 		/* ! Fetches the square modulus of the vector (distance from the origin squared) */
 		float ModulusSquared() const { return x * x + y * y; }
 		/* ! Fetches the angle of the vector, measured from the half-line y=0, x>0 anticlockwise, in radians */
