@@ -443,7 +443,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\n\necho \"Generating build_number.h...\";\n\necho \"Changing directory to '$PROJECT_DIR/../../source/crisscross/'...\";\ncd \"$PROJECT_DIR/../../source/crisscross/\"\n\nsource ~/.bashrc\n\nif [ -d .svn ]; then\n\tBUILD=`svn --xml info | tr -d '\\r' | tr -d '\\n' | sed -e 's/.*<entry.*revision=\"\\([0-9]*\\)\".*<url>.*/\\1/'`\nelse\n\tBUILD=`git rev-list --all | wc -l | tr -d ' '`\nfi\n\nif [[ \"${#BUILD}\" -lt \"1\" ]]; then\n\techo \"Build number couldn't be detected, defaulting to 1!\"\n\tBUILD=1\nelse\n\techo \"Build number ${BUILD} detected, creating header...\"\nfi\n\necho \"#ifndef __included_build_number_h\" > build_number.h.tmp\necho \"#define __included_build_number_h\" >> build_number.h.tmp\necho \"\" >> build_number.h.tmp\necho \"#define BUILD_NUMBER ${BUILD}\" >> build_number.h.tmp\necho \"\" >> build_number.h.tmp\necho \"#endif\" >> build_number.h.tmp\necho \"\" >> build_number.h.tmp\n\ntouch build_number.h\n\nTEMPHEADERMD5=`md5 -q build_number.h.tmp`\nHEADERMD5=`md5 -q build_number.h`\n\nif [ \"${TEMPHEADERMD5}\" != \"${HEADERMD5}\" ]; then\n\techo \"Header updated.\"\n\tmv build_number.h.tmp build_number.h\nelse\n\techo \"Header is already up to date. Skipping update...\"\n\trm build_number.h.tmp\nfi\n\nexit 0";
+			shellScript = "#!/bin/bash\n\nsource ~/.bashrc\n\necho \"Generating build_number.h...\";\n\ncd \"$PROJECT_DIR/../..\"\n\"tools/gen_buildnum_h.sh\" \"source/crisscross/build_number.h\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
