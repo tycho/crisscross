@@ -143,11 +143,13 @@
 #undef ENABLE_SYMBOL_ENGINE
 #undef ENABLE_BACKTRACE
 #endif
+#ifdef _MSC_VER
 #if _MSC_VER > 1200 && _MSC_VER < 1400
 #pragma warning ( disable : 4345 4100 4800 )
 #endif
 #if _MSC_VER <= 1200
 #undef DETECT_MEMORY_LEAKS
+#endif
 #endif
 #if defined (_DEBUG)
 #undef ENABLE_CRASHREPORTS
@@ -225,9 +227,11 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef _MSC_VER
 #if _MSC_VER < 1300 && defined (TARGET_COMPILER_VC)
 #include <xstring>
 typedef long intptr_t;
+#endif
 #endif
 #ifdef __cplusplus
 #include <exception>
