@@ -104,9 +104,7 @@ std::string SymbolEngine::addressToString(DWORD address)
 	/* Finally any file/line number */
 	IMAGEHLP_LINE
 	lineInfo = { sizeof(IMAGEHLP_LINE) };
-	if (SymGetLineFromAddr
-	    (GetCurrentProcess(), ( DWORD )address, &dwDisplacement,
-	     &lineInfo)) {
+	if (SymGetLineFromAddr(GetCurrentProcess(), (DWORD)address, &dwDisplacement, &lineInfo)) {
 		const char *pDelim = strrchr(lineInfo.FileName, '\\');
 		char temp[1024];
 		sprintf(temp, " at %s(%u)", (pDelim ? pDelim + 1 : lineInfo.FileName), lineInfo.LineNumber);
