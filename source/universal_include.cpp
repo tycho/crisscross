@@ -125,7 +125,7 @@ void ParseMemoryLeakFile(const char *_inputFilename, const char *_outputFilename
 
 	LList<char *>   sorted;
 	DArray<char *> *dataI = combined.ConvertIndexToDArray();
-	DArray<int>    *dataD = combined.ConvertToDArray();
+	DArray<int> *dataD = combined.ConvertToDArray();
 
 	int totalsize = 0;
 
