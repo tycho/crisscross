@@ -269,8 +269,8 @@ typedef long intptr_t;
 #ifndef __used
 #define __used         __attribute__ ((used))
 #endif
-#ifndef __unused
-#define __unused       __attribute__ ((unused))
+#ifndef __unused_param
+#define __unused_param __attribute__ ((unused))
 #endif
 #ifndef __packed
 #define __packed       __attribute__ ((packed))
@@ -289,7 +289,7 @@ typedef long intptr_t;
 #define __must_check   /* no warn_unused_result */
 #define __deprecated   /* no deprecated */
 #define __used         /* no used */
-#define __unused       /* no unused */
+#define __unused_param /* no unused */
 #define __packed       /* no packed */
 #define likely(x)      (x)
 #define unlikely(x)    (x)
