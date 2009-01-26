@@ -246,7 +246,7 @@ namespace CrissCross
 			fprintf(stdout, "<<< '%s'\n", temp_buf);
 			delete [] temp_buf;
 #endif
-			sent = send(m_sock, (const char *)_data, (int)_length, 0);
+			sent = send(m_sock, (char *)_data, (int)_length, 0);
 
 			return sent;
 		}
