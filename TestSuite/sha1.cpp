@@ -32,6 +32,13 @@ int TestSHA1()
 	sha1.Process(teststring, length);
 	TEST_ASSERT(strcmp(sha1.ToString(), "84983e441c3bd26ebaae4aa1f95129e5e54670f1") == 0);
 
+	SHA1Hash otherhash;
+	otherhash.Process("cheese", 6);
+	TEST_ASSERT(otherhash != sha1 && sha1 != otherhash);
+
+	otherhash.Process(teststring, length);
+	TEST_ASSERT(otherhash == sha1 && sha1 == otherhash);
+
 #ifdef HIGH_INTENSITY
 	char *tempstring = new char[1000001];
 	memset(tempstring, 'a', 1000000);
@@ -42,13 +49,6 @@ int TestSHA1()
 
 	delete [] tempstring;
 #endif
-
-	SHA1Hash otherhash;
-	otherhash.Process("cheese", 6);
-	TEST_ASSERT(otherhash != sha1 && sha1 != otherhash);
-
-	otherhash.Process(teststring, length);
-	TEST_ASSERT(otherhash == sha1 && sha1 == otherhash);
 
 #ifdef FILE_CHECKSUM
 	TextReader file;

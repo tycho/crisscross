@@ -32,6 +32,13 @@ int TestSHA512()
 	sha512.Process(teststring, length);
 	TEST_ASSERT(strcmp(sha512.ToString(), "8e959b75dae313da8cf4f72814fc143f8f7779c6eb9f7fa17299aeadb6889018501d289e4900f7e4331b99dec4b5433ac7d329eeb6dd26545e96e55b874be909") == 0);
 
+	SHA512Hash otherhash;
+	otherhash.Process("cheese", 6);
+	TEST_ASSERT(otherhash != sha512 && sha512 != otherhash);
+
+	otherhash.Process(teststring, length);
+	TEST_ASSERT(otherhash == sha512 && sha512 == otherhash);
+
 #ifdef HIGH_INTENSITY
 	char *tempstring = new char[1000001];
 	memset(tempstring, 'a', 1000000);
@@ -42,13 +49,6 @@ int TestSHA512()
 
 	delete [] tempstring;
 #endif
-
-	SHA512Hash otherhash;
-	otherhash.Process("cheese", 6);
-	TEST_ASSERT(otherhash != sha512 && sha512 != otherhash);
-
-	otherhash.Process(teststring, length);
-	TEST_ASSERT(otherhash == sha512 && sha512 == otherhash);
 
 #ifdef FILE_CHECKSUM
 	TextReader file;
