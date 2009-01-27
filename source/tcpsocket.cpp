@@ -117,7 +117,7 @@ namespace CrissCross
 #endif
 
 			/* Resolve the IP of the host we're trying to connect to. */
-			host = gethostbyname(_address);
+			host = gethostbyname((char *)_address);
 			if (!host) return GetError();
 
 			/* Set up our sockaddr_in. */

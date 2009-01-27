@@ -58,7 +58,7 @@ namespace CrissCross
 
 			SetAttributes(m_sock);
 
-			host = gethostbyname(_address);
+			host = gethostbyname((char *)_address);
 			if (!host) return GetError();
 
 			memset(&sin, 0, sizeof(sin));
