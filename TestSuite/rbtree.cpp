@@ -16,153 +16,214 @@
 #include <crisscross/rbtree.h>
 
 using namespace CrissCross::Data;
+using namespace CrissCross::System;
 
 int TestRedBlackTree_CString()
 {
 	RedBlackTree<const char *, const char *> *rbtree = new RedBlackTree<const char *, const char *>();
-	char *tmp;
+	char *strings[TREE_ITEMS], *tmp;
 
+	/* Make sure allocation worked */
+	TEST_ASSERT(rbtree != NULL);
+
+	/* Make sure the size starts at 0 */
 	TEST_ASSERT(rbtree->size() == 0);
 
-	/* If the tree is properly encapsulated, this won't cause an error on test #1. */
-	tmp = cc_strdup("first");
-	rbtree->insert(tmp, "one");
+	memset(strings, 0, sizeof(strings));
+
+	/* Make sure the tree encapsulates keys properly */
+	tmp = cc_strdup("testkey");
+	rbtree->insert(tmp, "encapsulation test");
 	free(tmp); tmp = NULL;
-
 	TEST_ASSERT(rbtree->size() == 1);
-
-	rbtree->insert("second", "two");
-	rbtree->insert("third", "three");
-	rbtree->insert("fourth", "four");
-
-	TEST_ASSERT(rbtree->size() == 4);
-
-	const char *res = NULL;
-	TEST_ASSERT(rbtree->find("first", res));
-
-	const char *tmp1 = "one";
-	TEST_ASSERT(Compare(res, tmp1) == 0);
-
-	TEST_ASSERT(!rbtree->exists("fifth"));
-
-	TEST_ASSERT(rbtree->exists("second"));
-	TEST_ASSERT(rbtree->find("second", res));
-
-	tmp1 = "two";
-	TEST_ASSERT(Compare(res, tmp1) == 0);
-
-	TEST_ASSERT(!rbtree->erase("fifth"));
-	TEST_ASSERT(rbtree->size() == 4);
-
-	TEST_ASSERT(rbtree->exists("first"));
-	TEST_ASSERT(rbtree->erase("first"));
-	TEST_ASSERT(rbtree->size() == 3);
-
-	TEST_ASSERT(rbtree->exists("second"));
-	TEST_ASSERT(rbtree->erase("second"));
-	TEST_ASSERT(rbtree->size() == 2);
-
-	TEST_ASSERT(rbtree->exists("third"));
-	TEST_ASSERT(rbtree->erase("third"));
-	TEST_ASSERT(rbtree->size() == 1);
-
-	TEST_ASSERT(rbtree->exists("fourth"));
-	TEST_ASSERT(rbtree->erase("fourth"));
+	TEST_ASSERT(rbtree->exists("testkey"));
+	TEST_ASSERT(rbtree->erase("testkey"));
+	TEST_ASSERT(!rbtree->exists("testkey"));
+	TEST_ASSERT(!rbtree->erase("testkey"));
 	TEST_ASSERT(rbtree->size() == 0);
 
+	/* Simplest sanity checks done, now create some random data */
+	for (size_t i = 0; i < TREE_ITEMS; i++)
+	{
+		TEST_ASSERT(strings[i] == NULL);
+		strings[i] = new char[20];
+		TEST_ASSERT(strings[i] != NULL);
+		memset(strings[i], 0, 20);
+		TEST_ASSERT(strlen(strings[i]) == 0);
+		sprintf(strings[i], "%08x", i);
+		TEST_ASSERT(strlen(strings[i]) > 0);
+	}
+
+	/* Fill the tree */
+	for (size_t i = 0; i < TREE_ITEMS; i++)
+	{
+		TEST_ASSERT(rbtree->insert(strings[i], strings[(TREE_ITEMS - 1) - i]));
+	}
+
+	/* Verify existence of all the added data */
+	for (size_t i = 0; i < TREE_ITEMS; i++)
+	{
+		const char *val = NULL;
+		TEST_ASSERT(rbtree->exists(strings[i]));
+		TEST_ASSERT(rbtree->find(strings[i], val));
+		TEST_ASSERT(val != NULL);
+		TEST_ASSERT(Compare(val, (const char *)strings[(TREE_ITEMS - 1) - i]) == 0);
+	}
+
+	/* Verify existence of all the added data, in a different order */
+	for (size_t i = TREE_ITEMS - 1; i < TREE_ITEMS; i--)
+	{
+		TEST_ASSERT(rbtree->exists(strings[i]));
+	}
+
+	/* Try to remove all the data */
+	for (size_t i = 0; i < TREE_ITEMS; i++)
+	{
+		TEST_ASSERT(rbtree->erase(strings[i]));
+		TEST_ASSERT(!rbtree->exists(strings[i]));
+	}
+
+	/* Clean up the random data */
+	for (size_t i = 0; i < TREE_ITEMS; i++)
+	{
+		delete [] strings[i];
+		strings[i] = NULL;
+	}
+
+	/* And finally, clear the tree */
 	delete rbtree;
+
 	return 0;
 }
 
 int TestRedBlackTree_String()
 {
 	RedBlackTree<std::string, std::string> *rbtree = new RedBlackTree<std::string, std::string>();
+	std::string strings[TREE_ITEMS], tmp;
 
+	/* Make sure allocation worked */
+	TEST_ASSERT(rbtree != NULL);
+
+	/* Make sure the size starts at 0 */
 	TEST_ASSERT(rbtree->size() == 0);
 
-	rbtree->insert("first", "one");
-	rbtree->insert("second", "two");
-	rbtree->insert("third", "three");
-	rbtree->insert("fourth", "four");
-
-	std::string res;
-
-	TEST_ASSERT(rbtree->size() == 4);
-
-	TEST_ASSERT(rbtree->find("first", res));
-	TEST_ASSERT(res == "one");
-
-	TEST_ASSERT(!rbtree->exists("fifth"));
-
-	TEST_ASSERT(rbtree->exists("second"));
-	TEST_ASSERT(rbtree->find("second", res));
-
-	TEST_ASSERT(res == "two");
-
-	TEST_ASSERT(!rbtree->erase("fifth"));
-	TEST_ASSERT(rbtree->size() == 4);
-
-	TEST_ASSERT(rbtree->exists("first"));
-	TEST_ASSERT(rbtree->erase("first"));
-	TEST_ASSERT(rbtree->size() == 3);
-
-	TEST_ASSERT(rbtree->exists("second"));
-	TEST_ASSERT(rbtree->erase("second"));
-	TEST_ASSERT(rbtree->size() == 2);
-
-	TEST_ASSERT(rbtree->exists("third"));
-	TEST_ASSERT(rbtree->erase("third"));
+	/* Make sure the tree encapsulates keys properly */
+	tmp = std::string("testkey");
+	rbtree->insert(tmp, std::string("encapsulation test"));
+	tmp = std::string("");
 	TEST_ASSERT(rbtree->size() == 1);
-
-	TEST_ASSERT(rbtree->exists("fourth"));
-	TEST_ASSERT(rbtree->erase("fourth"));
+	TEST_ASSERT(rbtree->exists("testkey"));
+	TEST_ASSERT(rbtree->erase("testkey"));
+	TEST_ASSERT(!rbtree->exists("testkey"));
+	TEST_ASSERT(!rbtree->erase("testkey"));
 	TEST_ASSERT(rbtree->size() == 0);
 
+	/* Simplest sanity checks done, now create some random data */
+	for (size_t i = 0; i < TREE_ITEMS; i++)
+	{
+		char buf[20];
+		buf[0] = (char)0;
+		TEST_ASSERT(strlen(buf) == 0);
+		sprintf(buf, "%08x", i);
+		strings[i] = std::string(buf);
+		TEST_ASSERT(strings[i].length() > 0);
+	}
+
+	/* Fill the tree */
+	for (size_t i = 0; i < TREE_ITEMS; i++)
+	{
+		TEST_ASSERT(rbtree->insert(strings[i], strings[(TREE_ITEMS - 1) - i]));
+	}
+
+	/* Verify existence of all the added data */
+	for (size_t i = 0; i < TREE_ITEMS; i++)
+	{
+		std::string val;
+		val.clear();
+		TEST_ASSERT(val.length() == 0);
+		TEST_ASSERT(rbtree->exists(strings[i]));
+		TEST_ASSERT(rbtree->find(strings[i], val));
+		TEST_ASSERT(val.length() > 0);
+		TEST_ASSERT(Compare(val, strings[(TREE_ITEMS - 1) - i]) == 0);
+	}
+
+	/* Verify existence of all the added data, in a different order */
+	for (size_t i = TREE_ITEMS - 1; i < TREE_ITEMS; i--)
+	{
+		TEST_ASSERT(rbtree->exists(strings[i]));
+	}
+
+	/* Try to remove all the data */
+	for (size_t i = 0; i < TREE_ITEMS; i++)
+	{
+		TEST_ASSERT(rbtree->erase(strings[i]));
+		TEST_ASSERT(!rbtree->exists(strings[i]));
+	}
+
+	/* And finally, clear the tree */
 	delete rbtree;
+
 	return 0;
 }
 
 int TestRedBlackTree_Int()
 {
 	RedBlackTree<int, int> *rbtree = new RedBlackTree<int, int>();
+	int data[TREE_ITEMS], tmp;
 
+	/* Make sure allocation worked */
+	TEST_ASSERT(rbtree != NULL);
+
+	/* Make sure the size starts at 0 */
 	TEST_ASSERT(rbtree->size() == 0);
 
-	rbtree->insert(1, 1);
-	rbtree->insert(2, 2);
-	rbtree->insert(3, 3);
-	rbtree->insert(4, 4);
-
-	int res;
-	TEST_ASSERT(rbtree->size() == 4);
-
-	TEST_ASSERT(rbtree->find(1, res));
-	TEST_ASSERT(res == 1);
-
-	TEST_ASSERT(!rbtree->exists(5));
-
-	TEST_ASSERT(rbtree->find(2, res));
-	TEST_ASSERT(res == 2);
-
-	TEST_ASSERT(!rbtree->erase(5));
-	TEST_ASSERT(rbtree->size() == 4);
-
-	TEST_ASSERT(rbtree->exists(1));
-	TEST_ASSERT(rbtree->erase(1));
-	TEST_ASSERT(rbtree->size() == 3);
-
-	TEST_ASSERT(rbtree->exists(2));
-	TEST_ASSERT(rbtree->erase(2));
-	TEST_ASSERT(rbtree->size() == 2);
-
-	TEST_ASSERT(rbtree->exists(3));
-	TEST_ASSERT(rbtree->erase(3));
+	/* Make sure the tree encapsulates keys properly */
+	tmp = 256;
+	rbtree->insert(tmp, RandomNumber());
+	tmp = 0;
 	TEST_ASSERT(rbtree->size() == 1);
-
-	TEST_ASSERT(rbtree->exists(4));
-	TEST_ASSERT(rbtree->erase(4));
+	TEST_ASSERT(rbtree->exists(256));
+	TEST_ASSERT(rbtree->erase(256));
+	TEST_ASSERT(!rbtree->exists(256));
+	TEST_ASSERT(!rbtree->erase(256));
 	TEST_ASSERT(rbtree->size() == 0);
 
+	/* Simplest sanity checks done, now create some random data */
+	for (size_t i = 0; i < TREE_ITEMS; i++)
+	{
+		data[i] = i;
+	}
+
+	/* Fill the tree */
+	for (size_t i = 0; i < TREE_ITEMS; i++)
+	{
+		TEST_ASSERT(rbtree->insert(data[i], data[TREE_ITEMS - 1 - i]));
+	}
+
+	/* Verify existence of all the added data */
+	for (size_t i = 0; i < TREE_ITEMS; i++)
+	{
+		int val;
+		TEST_ASSERT(rbtree->exists(data[i]));
+		TEST_ASSERT(rbtree->find(data[i], val));
+		TEST_ASSERT(Compare(val, data[TREE_ITEMS - 1 - i]) == 0);
+	}
+
+	/* Verify existence of all the added data, in a different order */
+	for (size_t i = TREE_ITEMS - 1; i < TREE_ITEMS; i--)
+	{
+		TEST_ASSERT(rbtree->exists(data[i]));
+	}
+
+	/* Try to remove all the data */
+	for (size_t i = 0; i < TREE_ITEMS; i++)
+	{
+		TEST_ASSERT(rbtree->erase(data[i]));
+		TEST_ASSERT(!rbtree->exists(data[i]));
+	}
+
+	/* And finally, clear the tree */
 	delete rbtree;
+
 	return 0;
 }

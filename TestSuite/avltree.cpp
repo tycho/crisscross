@@ -16,142 +16,214 @@
 #include <crisscross/avltree.h>
 
 using namespace CrissCross::Data;
+using namespace CrissCross::System;
 
 int TestAVLTree_CString()
 {
 	AVLTree<const char *, const char *> *avltree = new AVLTree<const char *, const char *>();
-	char *tmp;
+	char *strings[TREE_ITEMS], *tmp;
 
+	/* Make sure allocation worked */
+	TEST_ASSERT(avltree != NULL);
+
+	/* Make sure the size starts at 0 */
 	TEST_ASSERT(avltree->size() == 0);
 
-	/* If the tree is properly encapsulated, this won't cause an error on test #1. */
-	tmp = cc_strdup("first");
-	avltree->insert(tmp, "one");
+	memset(strings, 0, sizeof(strings));
+
+	/* Make sure the tree encapsulates keys properly */
+	tmp = cc_strdup("testkey");
+	avltree->insert(tmp, "encapsulation test");
 	free(tmp); tmp = NULL;
-
 	TEST_ASSERT(avltree->size() == 1);
-
-	avltree->insert("second", "two");
-	avltree->insert("third", "three");
-	avltree->insert("fourth", "four");
-
-	TEST_ASSERT(avltree->size() == 4);
-
-	const char *tmp1 = "one", *tmp2 = NULL;
-	TEST_ASSERT(avltree->find("first", tmp2));
-	TEST_ASSERT(Compare(tmp2, tmp1) == 0);
-	TEST_ASSERT(!avltree->exists("fifth"));
-	TEST_ASSERT(avltree->find("second", tmp2));
-
-	tmp1 = "two";
-	TEST_ASSERT(Compare(tmp2, tmp1) == 0);
-	TEST_ASSERT(!avltree->erase("fifth"));
-	TEST_ASSERT(avltree->size() == 4);
-
-	TEST_ASSERT(avltree->exists("first"));
-	TEST_ASSERT(avltree->erase("first"));
-	TEST_ASSERT(avltree->size() == 3);
-
-	TEST_ASSERT(avltree->exists("second"));
-	TEST_ASSERT(avltree->erase("second"));
-
-	TEST_ASSERT(avltree->exists("third"));
-	TEST_ASSERT(avltree->erase("third"));
-
-	TEST_ASSERT(avltree->exists("fourth"));
-	TEST_ASSERT(avltree->erase("fourth"));
-
+	TEST_ASSERT(avltree->exists("testkey"));
+	TEST_ASSERT(avltree->erase("testkey"));
+	TEST_ASSERT(!avltree->exists("testkey"));
+	TEST_ASSERT(!avltree->erase("testkey"));
 	TEST_ASSERT(avltree->size() == 0);
 
+	/* Simplest sanity checks done, now create some random data */
+	for (size_t i = 0; i < TREE_ITEMS; i++)
+	{
+		TEST_ASSERT(strings[i] == NULL);
+		strings[i] = new char[20];
+		TEST_ASSERT(strings[i] != NULL);
+		memset(strings[i], 0, 20);
+		TEST_ASSERT(strlen(strings[i]) == 0);
+		sprintf(strings[i], "%08x", i);
+		TEST_ASSERT(strlen(strings[i]) > 0);
+	}
+
+	/* Fill the tree */
+	for (size_t i = 0; i < TREE_ITEMS; i++)
+	{
+		TEST_ASSERT(avltree->insert(strings[i], strings[(TREE_ITEMS - 1) - i]));
+	}
+
+	/* Verify existence of all the added data */
+	for (size_t i = 0; i < TREE_ITEMS; i++)
+	{
+		const char *val = NULL;
+		TEST_ASSERT(avltree->exists(strings[i]));
+		TEST_ASSERT(avltree->find(strings[i], val));
+		TEST_ASSERT(val != NULL);
+		TEST_ASSERT(Compare(val, (const char *)strings[(TREE_ITEMS - 1) - i]) == 0);
+	}
+
+	/* Verify existence of all the added data, in a different order */
+	for (size_t i = TREE_ITEMS - 1; i < TREE_ITEMS; i--)
+	{
+		TEST_ASSERT(avltree->exists(strings[i]));
+	}
+
+	/* Try to remove all the data */
+	for (size_t i = 0; i < TREE_ITEMS; i++)
+	{
+		TEST_ASSERT(avltree->erase(strings[i]));
+		TEST_ASSERT(!avltree->exists(strings[i]));
+	}
+
+	/* Clean up the random data */
+	for (size_t i = 0; i < TREE_ITEMS; i++)
+	{
+		delete [] strings[i];
+		strings[i] = NULL;
+	}
+
+	/* And finally, clear the tree */
 	delete avltree;
+
 	return 0;
 }
 
 int TestAVLTree_String()
 {
 	AVLTree<std::string, std::string> *avltree = new AVLTree<std::string, std::string>();
+	std::string strings[TREE_ITEMS], tmp;
 
+	/* Make sure allocation worked */
+	TEST_ASSERT(avltree != NULL);
+
+	/* Make sure the size starts at 0 */
 	TEST_ASSERT(avltree->size() == 0);
 
-	avltree->insert("first", "one");
-	avltree->insert("second", "two");
-	avltree->insert("third", "three");
-	avltree->insert("fourth", "four");
-
-	TEST_ASSERT(avltree->size() == 4);
-
-	std::string tmp;
-	TEST_ASSERT(avltree->find("first", tmp));
-	TEST_ASSERT(tmp == "one");
-	TEST_ASSERT(!avltree->exists("fifth"));
-
-	TEST_ASSERT(avltree->find("second", tmp));
-	TEST_ASSERT(tmp == "two");
-	TEST_ASSERT(!avltree->exists("fifth"));
-	TEST_ASSERT(avltree->size() == 4);
-
-	TEST_ASSERT(avltree->erase("first"));
-	TEST_ASSERT(avltree->size() == 3);
-
-	TEST_ASSERT(avltree->erase("second"));
-	TEST_ASSERT(avltree->size() == 2);
-
-	TEST_ASSERT(avltree->erase("third"));
+	/* Make sure the tree encapsulates keys properly */
+	tmp = std::string("testkey");
+	avltree->insert(tmp, std::string("encapsulation test"));
+	tmp = std::string("");
 	TEST_ASSERT(avltree->size() == 1);
-
-	TEST_ASSERT(avltree->erase("fourth"));
+	TEST_ASSERT(avltree->exists("testkey"));
+	TEST_ASSERT(avltree->erase("testkey"));
+	TEST_ASSERT(!avltree->exists("testkey"));
+	TEST_ASSERT(!avltree->erase("testkey"));
 	TEST_ASSERT(avltree->size() == 0);
 
+	/* Simplest sanity checks done, now create some random data */
+	for (size_t i = 0; i < TREE_ITEMS; i++)
+	{
+		char buf[20];
+		buf[0] = (char)0;
+		TEST_ASSERT(strlen(buf) == 0);
+		sprintf(buf, "%08x", i);
+		strings[i] = std::string(buf);
+		TEST_ASSERT(strings[i].length() > 0);
+	}
+
+	/* Fill the tree */
+	for (size_t i = 0; i < TREE_ITEMS; i++)
+	{
+		TEST_ASSERT(avltree->insert(strings[i], strings[(TREE_ITEMS - 1) - i]));
+	}
+
+	/* Verify existence of all the added data */
+	for (size_t i = 0; i < TREE_ITEMS; i++)
+	{
+		std::string val;
+		val.clear();
+		TEST_ASSERT(val.length() == 0);
+		TEST_ASSERT(avltree->exists(strings[i]));
+		TEST_ASSERT(avltree->find(strings[i], val));
+		TEST_ASSERT(val.length() > 0);
+		TEST_ASSERT(Compare(val, strings[(TREE_ITEMS - 1) - i]) == 0);
+	}
+
+	/* Verify existence of all the added data, in a different order */
+	for (size_t i = TREE_ITEMS - 1; i < TREE_ITEMS; i--)
+	{
+		TEST_ASSERT(avltree->exists(strings[i]));
+	}
+
+	/* Try to remove all the data */
+	for (size_t i = 0; i < TREE_ITEMS; i++)
+	{
+		TEST_ASSERT(avltree->erase(strings[i]));
+		TEST_ASSERT(!avltree->exists(strings[i]));
+	}
+
+	/* And finally, clear the tree */
 	delete avltree;
+
 	return 0;
 }
 
 int TestAVLTree_Int()
 {
 	AVLTree<int, int> *avltree = new AVLTree<int, int>();
+	int data[TREE_ITEMS], tmp;
 
+	/* Make sure allocation worked */
+	TEST_ASSERT(avltree != NULL);
+
+	/* Make sure the size starts at 0 */
 	TEST_ASSERT(avltree->size() == 0);
 
-	avltree->insert(1, 1);
-	avltree->insert(2, 2);
-	avltree->insert(3, 3);
-	avltree->insert(4, 4);
-
-	int tmp;
-	TEST_ASSERT(avltree->size() == 4);
-
-	TEST_ASSERT(avltree->find(1, tmp));
-	TEST_ASSERT(tmp == 1);
-
-	TEST_ASSERT(!avltree->exists(5));
-
-	TEST_ASSERT(avltree->find(2, tmp));
-	TEST_ASSERT(tmp == 2);
-
-	TEST_ASSERT(!avltree->erase(5));
-
-	TEST_ASSERT(avltree->size() == 4);
-
-	TEST_ASSERT(avltree->exists(1));
-	TEST_ASSERT(avltree->erase(1));
-
-	TEST_ASSERT(avltree->size() == 3);
-
-	TEST_ASSERT(avltree->exists(2));
-	TEST_ASSERT(avltree->erase(2));
-
-	TEST_ASSERT(avltree->size() == 2);
-
-	TEST_ASSERT(avltree->exists(3));
-	TEST_ASSERT(avltree->erase(3));
-
+	/* Make sure the tree encapsulates keys properly */
+	tmp = 256;
+	avltree->insert(tmp, RandomNumber());
+	tmp = 0;
 	TEST_ASSERT(avltree->size() == 1);
-
-	TEST_ASSERT(avltree->exists(4));
-	TEST_ASSERT(avltree->erase(4));
-
+	TEST_ASSERT(avltree->exists(256));
+	TEST_ASSERT(avltree->erase(256));
+	TEST_ASSERT(!avltree->exists(256));
+	TEST_ASSERT(!avltree->erase(256));
 	TEST_ASSERT(avltree->size() == 0);
 
+	/* Simplest sanity checks done, now create some random data */
+	for (size_t i = 0; i < TREE_ITEMS; i++)
+	{
+		data[i] = i;
+	}
+
+	/* Fill the tree */
+	for (size_t i = 0; i < TREE_ITEMS; i++)
+	{
+		TEST_ASSERT(avltree->insert(data[i], data[TREE_ITEMS - 1 - i]));
+	}
+
+	/* Verify existence of all the added data */
+	for (size_t i = 0; i < TREE_ITEMS; i++)
+	{
+		int val;
+		TEST_ASSERT(avltree->exists(data[i]));
+		TEST_ASSERT(avltree->find(data[i], val));
+		TEST_ASSERT(Compare(val, data[TREE_ITEMS - 1 - i]) == 0);
+	}
+
+	/* Verify existence of all the added data, in a different order */
+	for (size_t i = TREE_ITEMS - 1; i < TREE_ITEMS; i--)
+	{
+		TEST_ASSERT(avltree->exists(data[i]));
+	}
+
+	/* Try to remove all the data */
+	for (size_t i = 0; i < TREE_ITEMS; i++)
+	{
+		TEST_ASSERT(avltree->erase(data[i]));
+		TEST_ASSERT(!avltree->exists(data[i]));
+	}
+
+	/* And finally, clear the tree */
 	delete avltree;
+
 	return 0;
 }
