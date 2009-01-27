@@ -136,9 +136,13 @@ namespace CrissCross
 			return 0;
 		}
 	#endif
-		int RandomNumber()
+		long RandomNumber()
 		{
+#ifdef TARGET_OS_WINDOWS
 			return (((holdrand = holdrand * 214013L + 2531011L) >> 16) & 0x7fff);
+#else
+			return lrand48();
+#endif
 		}
 
 		void SeedRandom()
@@ -146,7 +150,10 @@ namespace CrissCross
 #if defined (TARGET_OS_WINDOWS)
 			holdrand = GetTickCount();
 #else
-			holdrand = time(NULL);
+			struct timeval t;
+			gettimeofday(&t, NULL);
+			holdrand = t.tv_usec;
+			srand48(holdrand);
 #endif
 		}
 	}

@@ -66,7 +66,7 @@ namespace CrissCross
 		 * Don't forget to use SeedRandom() first!
 		 * \sa SeedRandom()
 		 */
-		int RandomNumber();
+		long RandomNumber();
 
 		/*! \brief Generates a random number. */
 		/*!
