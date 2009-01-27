@@ -192,11 +192,12 @@ namespace CrissCross
 		{
 			AVLNode<Key, Data> *p_current = m_root;
 			while (p_current) {
-				if (Compare(_key, p_current->id) < 0)
+				int cmp = Compare(_key, p_current->id);
+				if (cmp < 0)
 					p_current = p_current->left;
-				else if (Compare(_key, p_current->id) > 0)
+				else if (cmp > 0)
 					p_current = p_current->right;
-				else if (Compare(_key, p_current->id) == 0) {
+				else if (cmp == 0) {
 					return p_current;
 				}
 			}
