@@ -51,6 +51,8 @@ int RunApplication(int argc, char * *argv)
 
 	int retval = 0;
 
+	System::SeedRandom();
+
 	WritePrefix("Size of cc_uint8_t"); retval |= WriteResult(TestDatatypes_Uint8());
 	WritePrefix("Size of cc_uint16_t"); retval |= WriteResult(TestDatatypes_Uint16());
 	WritePrefix("Size of cc_uint32_t"); retval |= WriteResult(TestDatatypes_Uint32());
