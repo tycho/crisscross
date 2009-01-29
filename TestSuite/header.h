@@ -19,4 +19,10 @@
 /* #define HIGH_INTENSITY */
 /* #define FILE_CHECKSUM */
 
+#ifdef HIGH_INTENSITY
+#  define TREE_ITEMS 1024
+#else
+#  define TREE_ITEMS 256
+#endif
+
 #endif
