@@ -200,6 +200,7 @@
 #endif
 #include <pthread.h>
 #include <sys/fcntl.h>
+#include <sys/time.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <errno.h>
