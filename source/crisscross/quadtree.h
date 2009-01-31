@@ -57,7 +57,7 @@ namespace CrissCross
 			void Descend();
 			void Ascend();
 		public:
-			Quadtree(vec2 const &lower_left, vec2 const &upper_right, int _descentLevel = 7, Quadtree * _parent = NULL);
+			Quadtree(vec2 const &lower_left, vec2 const &upper_right, int _descentLevel = 7, Quadtree<T> * _parent = NULL);
 			~Quadtree();
 			void InsertObject(T const &_object, vec2 const &position, float _collisionRadius);
 			bool RemoveObject(T const &_object, vec2 const &position, float _collisionRadius);
@@ -70,7 +70,7 @@ namespace CrissCross
 		protected:
 			CrissCross::System::ReadWriteLock m_lock;
 		public:
-			ThreadSafeQuadtree(vec2 const &lower_left, vec2 const &upper_right, int _descentLevel = 7, Quadtree * _parent = NULL)
+			ThreadSafeQuadtree(vec2 const &lower_left, vec2 const &upper_right, int _descentLevel = 7, Quadtree<T> * _parent = NULL)
 				: Quadtree<T>(lower_left, upper_right, _descentLevel, _parent)
 			{};
 			inline std::vector<T> ObjectsInCircle(vec2 const &circle, float radius) {
