@@ -197,17 +197,23 @@ void CrissCross::Debug::PrintStackTrace(CrissCross::IO::CoreIOWriter * _outputBu
 #elif defined (TARGET_OS_MACOSX)
 		char *addr = ::strstr(strings[i], "0x");
 		char *mangled = ::strchr(addr, ' ') + 1;
+		char *offset = ::strchr(addr, '+');
 		char *postmangle = ::strchr(mangled, ' ');
+		if (mangled) *(mangled - 1) = 0;
 		bt += addr;
 		int status;
+		bt += ": ";
 		if (addr && mangled) {
 			if (postmangle)
 				*postmangle = '\0';
 			char *realname = abi::__cxa_demangle(mangled, 0, 0, &status);
 			if (realname) {
-				bt += ": ";
 				bt += realname;
+			} else {
+				bt += mangled;
 			}
+			bt += " ";
+			bt += offset;
 			free(realname);
 		}
 #endif
