@@ -200,6 +200,7 @@
 #endif
 #include <pthread.h>
 #include <sys/fcntl.h>
+#include <sys/time.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <errno.h>
@@ -247,7 +248,55 @@ typedef long intptr_t;
 #include <sstream>
 #endif
 
-__inline char *cc_strdup(const char *x)
+#if __GNUC__ >= 3
+#ifndef __pure
+#define __pure         __attribute__ ((pure))
+#endif
+#ifndef __const
+#define __const        __attribute__ ((const))
+#endif
+#ifndef __noreturn
+#define __noreturn     __attribute__ ((noreturn))
+#endif
+#ifndef __malloc
+#define __malloc       __attribute__ ((malloc))
+#endif
+#ifndef __must_check
+#define __must_check   __attribute__ ((warn_unused_result))
+#endif
+#ifndef __deprecated
+#define __deprecated   __attribute__ ((deprecated))
+#endif
+#ifndef __used
+#define __used         __attribute__ ((used))
+#endif
+#ifndef __unused_param
+#define __unused_param __attribute__ ((unused))
+#endif
+#ifndef __packed
+#define __packed       __attribute__ ((packed))
+#endif
+#ifndef likely
+#define likely(x)      __builtin_expect(!!(x), 1)
+#endif
+#ifndef unlikely
+#define unlikely(x)    __builtin_expect(!!(x), 0)
+#endif
+#else
+#define __pure         /* no pure */
+#define __const        /* no const */
+#define __noreturn     /* no noreturn */
+#define __malloc       /* no malloc */
+#define __must_check   /* no warn_unused_result */
+#define __deprecated   /* no deprecated */
+#define __used         /* no used */
+#define __unused_param /* no unused */
+#define __packed       /* no packed */
+#define likely(x)      (x)
+#define unlikely(x)    (x)
+#endif
+
+inline char *cc_strdup(const char *x)
 {
 	if (!x) return NULL;
 

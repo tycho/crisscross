@@ -238,7 +238,7 @@ namespace CrissCross
 		{
 			if (!t) return;
 
-			SplayNode<Key, Data>       *leftTreeMax, *rightTreeMin;
+			SplayNode<Key, Data> *leftTreeMax, *rightTreeMin;
 			static SplayNode<Key, Data> header;
 
 			header.left = header.right = NULL;

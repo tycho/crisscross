@@ -32,6 +32,13 @@ int TestSHA256()
 	sha256.Process(teststring, length);
 	TEST_ASSERT(strcmp(sha256.ToString(), "248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1") == 0);
 
+	SHA256Hash otherhash;
+	otherhash.Process("cheese", 6);
+	TEST_ASSERT(otherhash != sha256 && sha256 != otherhash);
+
+	otherhash.Process(teststring, length);
+	TEST_ASSERT(otherhash == sha256 && sha256 == otherhash);
+
 #ifdef HIGH_INTENSITY
 	char *tempstring = new char[1000001];
 	memset(tempstring, 'a', 1000000);
@@ -42,13 +49,6 @@ int TestSHA256()
 
 	delete [] tempstring;
 #endif
-
-	SHA256Hash otherhash;
-	otherhash.Process("cheese", 6);
-	TEST_ASSERT(otherhash != sha256 && sha256 != otherhash);
-
-	otherhash.Process(teststring, length);
-	TEST_ASSERT(otherhash == sha256 && sha256 == otherhash);
 
 #ifdef FILE_CHECKSUM
 	TextReader file;

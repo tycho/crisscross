@@ -299,7 +299,7 @@ namespace CrissCross
 		}
 
 		template <class T>
-		Quadtree<T>::Quadtree(vec2 const &lower_left, vec2 const &upper_right, int _descentLevel, Quadtree<T>* _parent) : llPosition(lower_left),
+		Quadtree<T>::Quadtree(vec2 const &lower_left, vec2 const &upper_right, int _descentLevel, Quadtree<T> * _parent) : llPosition(lower_left),
 			trPosition(upper_right),
 			parent(_parent),
 			ll(NULL),

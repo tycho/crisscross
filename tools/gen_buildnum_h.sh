@@ -36,12 +36,20 @@ cat >> $OUT.tmp << __eof__
 
 __eof__
 
+if [ -f $OUT ]; then
+	if [ -x /sbin/md5 ]; then
+		MD5OLD=`/sbin/md5 $OUT | cut -d' ' -f4`
+	else
+		MD5OLD=`md5sum $OUT | cut -d' ' -f1`
+	fi
+else
+	MD5OLD=
+fi
+
 if [ -x /sbin/md5 ]; then
 	MD5NEW=`/sbin/md5 $OUT.tmp | cut -d' ' -f4`
-	MD5OLD=`/sbin/md5 $OUT | cut -d' ' -f4`
 else
 	MD5NEW=`md5sum $OUT.tmp | cut -d' ' -f1`
-	MD5OLD=`md5sum $OUT | cut -d' ' -f1`
 fi
 
 if [ "$MD5NEW" == "$MD5OLD" ]; then

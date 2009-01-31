@@ -62,7 +62,7 @@ namespace CrissCross
 		template <class Key, class Data>
 		typename AVLTree<Key, Data>::Result AVLTree<Key, Data>::erase(AVLNode<Key, Data> * *_node, Key const &_key, Data const &_data)
 		{
-			if (! * _node)
+			if (!*_node)
 				return INVALID;
 
 			Result result = OK;
@@ -122,7 +122,7 @@ namespace CrissCross
 		template <class Key, class Data>
 		typename AVLTree<Key, Data>::Result AVLTree<Key, Data>::erase(AVLNode<Key, Data> * *_node, Key const &_key)
 		{
-			if (! * _node)
+			if (!*_node)
 				return INVALID;
 
 			Result result = OK;
@@ -192,11 +192,12 @@ namespace CrissCross
 		{
 			AVLNode<Key, Data> *p_current = m_root;
 			while (p_current) {
-				if (Compare(_key, p_current->id) < 0)
+				int cmp = Compare(_key, p_current->id);
+				if (cmp < 0)
 					p_current = p_current->left;
-				else if (Compare(_key, p_current->id) > 0)
+				else if (cmp > 0)
 					p_current = p_current->right;
-				else if (Compare(_key, p_current->id) == 0) {
+				else if (cmp == 0) {
 					return p_current;
 				}
 			}
@@ -540,7 +541,7 @@ namespace CrissCross
 
 			*_result = BALANCE;
 
-			if (! * _subtree)
+			if (!*_subtree)
 				return false;
 
 			if ((*_subtree)->right) {
@@ -578,7 +579,7 @@ namespace CrissCross
 
 			*_result = BALANCE;
 
-			if (! * _subtree)
+			if (!*_subtree)
 				return false;
 
 			if ((*_subtree)->left) {
@@ -616,7 +617,7 @@ namespace CrissCross
 
 			CoreAssert(_node);
 
-			if (! * _node) {
+			if (!*_node) {
 				*_node = new AVLNode<Key, Data>();
 				(*_node)->parent = pp_parent ? *pp_parent : NULL;
 				(*_node)->id = Duplicate(_key);
