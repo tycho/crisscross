@@ -37,15 +37,12 @@ namespace CrissCross
 			if (!IsOpen()) return;
 
 #ifndef __GNUC__
-			m_ioMutex.Lock();
+			MutexHolder mh(&m_ioMutex);
 #endif
 			fflush(m_fileOutputPointer);
 		#ifdef TARGET_OS_NDSFIRMWARE
 			swiWaitForVBlank();
 		#endif
-#ifndef __GNUC__
-			m_ioMutex.Unlock();
-#endif
 		}
 
 		bool CoreIOWriter::IsOpen()
@@ -99,7 +96,7 @@ namespace CrissCross
 				return CC_ERR_BADPARAMETER;
 
 #ifndef __GNUC__
-			m_ioMutex.Lock();
+			MutexHolder mh(&m_ioMutex);
 #endif
 
 			va_list args;
@@ -116,10 +113,6 @@ namespace CrissCross
 
 			Flush();
 
-#ifndef __GNUC__
-			m_ioMutex.Unlock();
-#endif
-
 			return CC_ERR_NONE;
 		}
 
@@ -132,17 +125,13 @@ namespace CrissCross
 				return CC_ERR_BADPARAMETER;
 
 #ifndef __GNUC__
-			m_ioMutex.Lock();
+			MutexHolder mh(&m_ioMutex);
 #endif
 
 			if (fprintf(m_fileOutputPointer, "%s%s", _string.c_str(), m_lineEnding) < 0)
 				return CC_ERR_WRITE;
 
 			Flush();
-
-#ifndef __GNUC__
-			m_ioMutex.Unlock();
-#endif
 
 			return CC_ERR_NONE;
 		}
@@ -156,15 +145,11 @@ namespace CrissCross
 				return CC_ERR_BADPARAMETER;
 
 #ifndef __GNUC__
-			m_ioMutex.Lock();
+			MutexHolder mh(&m_ioMutex);
 #endif
 
 			if (fprintf(m_fileOutputPointer, "%s", _string.c_str()) < 0)
 				return CC_ERR_WRITE;
-
-#ifndef __GNUC__
-			m_ioMutex.Unlock();
-#endif
 
 			return CC_ERR_NONE;
 		}
@@ -176,15 +161,11 @@ namespace CrissCross
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
 
 #ifndef __GNUC__
-			m_ioMutex.Lock();
+			MutexHolder mh(&m_ioMutex);
 #endif
 
 			if (fprintf(m_fileOutputPointer, "%s", m_lineEnding) < 0)
 				return CC_ERR_WRITE;
-
-#ifndef __GNUC__
-			m_ioMutex.Unlock();
-#endif
 
 			return CC_ERR_NONE;
 		}
@@ -198,7 +179,7 @@ namespace CrissCross
 				return CC_ERR_BADPARAMETER;
 
 #ifndef __GNUC__
-			m_ioMutex.Lock();
+			MutexHolder mh(&m_ioMutex);
 #endif
 
 			va_list args;
@@ -212,9 +193,6 @@ namespace CrissCross
 			fflush(m_fileOutputPointer);
 
 			va_end(args);
-#ifndef __GNUC__
-			m_ioMutex.Unlock();
-#endif
 
 			return CC_ERR_NONE;
 		}

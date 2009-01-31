@@ -15,6 +15,7 @@
 #include <vector>
 
 #include <crisscross/compare.h>
+#include <crisscross/mutex.h>
 #include <crisscross/vec2.h>
 
 namespace CrissCross
@@ -26,41 +27,69 @@ namespace CrissCross
 		template <class T>
 		struct QtNode
 		{
-			public:
-				float collisionRadius;
-				T data;
-				vec2 pos;
+		public:
+			float collisionRadius;
+			T data;
+			vec2 pos;
 
-				QtNode(T const &_data, vec2 const &_pos, float _collisionRadius) : collisionRadius(_collisionRadius), data(_data), pos(_pos)
-				{
-				};
+			QtNode(T const &_data, vec2 const &_pos, float _collisionRadius) : collisionRadius(_collisionRadius), data(_data), pos(_pos)
+			{
+			};
 		};
 
 		template <class T>
 		class Quadtree
 		{
-			protected:
-				vec2 llPosition;
-				vec2 trPosition;
-				Quadtree<T>             * parent;
-				Quadtree<T>             * ll;
-				Quadtree<T>             * lr;
-				Quadtree<T>             * tl;
-				Quadtree<T>             * tr;
-				int descentLevel;
-				std::vector<QtNode<T> *> nodes;
+		protected:
+			vec2 llPosition;
+			vec2 trPosition;
+			Quadtree<T>             * parent;
+			Quadtree<T>             * ll;
+			Quadtree<T>             * lr;
+			Quadtree<T>             * tl;
+			Quadtree<T>             * tr;
+			int descentLevel;
+			std::vector<QtNode<T> *> nodes;
 
-				static bool InRange(float lower_bound, float upper_bound, float point);
-				static bool CircleCollision(vec2 circle1, float radius1, vec2 circle2, float radius2);
+			static bool InRange(float lower_bound, float upper_bound, float point);
+			static bool CircleCollision(vec2 circle1, float radius1, vec2 circle2, float radius2);
 
-				void Descend();
-				void Ascend();
-			public:
-				Quadtree(vec2 const &lower_left, vec2 const &upper_right, int _descentLevel = 7, Quadtree * _parent = NULL);
-				~Quadtree();
-				void InsertObject(T const &_object, vec2 const &position, float _collisionRadius);
-				bool RemoveObject(T const &_object, vec2 const &position, float _collisionRadius);
-				std::vector<T> ObjectsInCircle(vec2 const &_centre, float radius);
+			void Descend();
+			void Ascend();
+		public:
+			Quadtree(vec2 const &lower_left, vec2 const &upper_right, int _descentLevel = 7, Quadtree * _parent = NULL);
+			~Quadtree();
+			void InsertObject(T const &_object, vec2 const &position, float _collisionRadius);
+			bool RemoveObject(T const &_object, vec2 const &position, float _collisionRadius);
+			std::vector<T> ObjectsInCircle(vec2 const &_centre, float radius);
+		};
+
+		template <class T>
+		class ThreadSafeQuadtree : public Quadtree<T>
+		{
+		protected:
+			CrissCross::System::ReadWriteLock m_lock;
+		public:
+			inline std::vector<T> ObjectsInCircle(vec2 const &circle, float radius) {
+				CrissCross::System::RWLockHolder rwlh(&m_lock, CrissCross::System::LOCK_READ);
+				return Quadtree<T>::ObjectsInCircle();
+			};
+			inline void Descend() {
+				CrissCross::System::RWLockHolder rwlh(&m_lock, CrissCross::System::LOCK_WRITE);
+				Quadtree<T>::Descend();
+			};
+			inline void Ascend() {
+				CrissCross::System::RWLockHolder rwlh(&m_lock, CrissCross::System::LOCK_WRITE);
+				Quadtree<T>::Ascend();
+			};
+			inline bool RemoveObject(T const &_object, vec2 const &_position, float radius) {
+				CrissCross::System::RWLockHolder rwlh(&m_lock, CrissCross::System::LOCK_WRITE);
+				return Quadtree<T>::RemoveObject(_object, _position, radius);
+			};
+			inline bool InsertObject(T const &_object, vec2 const &_position, float _collisionRadius) {
+				CrissCross::System::RWLockHolder rwlh(&m_lock, CrissCross::System::LOCK_WRITE);
+				return Quadtree<T>::InsertObject(_object, _position, _collisionRadius);
+			};
 		};
 
 		template <class T>

@@ -47,12 +47,9 @@ namespace CrissCross
 			if (!IsOpen()) return;
 
 #ifndef __GNUC__
-			m_ioMutex.Lock();
+			MutexHolder mh(&m_ioMutex);
 #endif
 			fflush(m_fileInputPointer);
-#ifndef __GNUC__
-			m_ioMutex.Unlock();
-#endif
 		}
 
 		bool CoreIOReader::IsOpen()
@@ -104,7 +101,7 @@ namespace CrissCross
 			CoreAssert(IsOpen());
 
 #ifndef __GNUC__
-			m_ioMutex.Lock();
+			MutexHolder mh(&m_ioMutex);
 #endif
 
 #ifdef HAS_FPOS64
@@ -133,9 +130,6 @@ namespace CrissCross
 			endpos = ftell(m_fileInputPointer);
 			fseek(m_fileInputPointer, lastpos, SEEK_SET);
 #endif
-#ifndef __GNUC__
-			m_ioMutex.Unlock();
-#endif
 
 #if defined (TARGET_OS_WINDOWS) || defined (TARGET_OS_MACOSX) || defined (TARGET_OS_FREEBSD) || \
 			defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD) || defined (TARGET_COMPILER_CYGWIN) || \
@@ -157,12 +151,9 @@ namespace CrissCross
 			CoreAssert(_bufferLength - _bufferIndex <= _count);
 			CoreAssert(_count > 0);
 #ifndef __GNUC__
-			m_ioMutex.Lock();
+			MutexHolder mh(&m_ioMutex);
 #endif
 			retval = fread(&_buffer[_bufferIndex], sizeof(char), _count, m_fileInputPointer);
-#ifndef __GNUC__
-			m_ioMutex.Unlock();
-#endif
 			return (int)retval;
 		}
 
@@ -172,7 +163,7 @@ namespace CrissCross
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
 
 #ifndef __GNUC__
-			m_ioMutex.Lock();
+			MutexHolder mh(&m_ioMutex);
 #endif
 
 			/* We use fgets because it detects line endings. */
@@ -197,10 +188,6 @@ namespace CrissCross
 			if (endl)
 				*endl = '\x0';
 
-#ifndef __GNUC__
-			m_ioMutex.Unlock();
-#endif
-
 			return (int)strlen(_buffer);
 		}
 
@@ -211,7 +198,7 @@ namespace CrissCross
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
 
 #ifndef __GNUC__
-			m_ioMutex.Lock();
+			MutexHolder mh(&m_ioMutex);
 #endif
 			char c = (char)fgetc(m_fileInputPointer);
 
@@ -230,10 +217,6 @@ namespace CrissCross
 			if (len && buffer[len - 1] == '\r')
 				buffer.resize(len - 1);
 
-#ifndef __GNUC__
-			m_ioMutex.Unlock();
-#endif
-
 			_string = buffer;
 
 			return (int)_string.length() * sizeof(char);
@@ -245,7 +228,7 @@ namespace CrissCross
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
 
 #ifndef __GNUC__
-			m_ioMutex.Lock();
+			MutexHolder mh(&m_ioMutex);
 #endif
 #ifdef HAS_FPOS64
 #ifdef TARGET_OS_WINDOWS
@@ -258,9 +241,6 @@ namespace CrissCross
 #endif
 #else
 			int res = fseek(m_fileInputPointer, _position, _origin);
-#endif
-#ifndef __GNUC__
-			m_ioMutex.Unlock();
 #endif
 			return res;
 		}
