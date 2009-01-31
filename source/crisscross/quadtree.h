@@ -75,7 +75,7 @@ namespace CrissCross
 			{};
 			inline std::vector<T> ObjectsInCircle(vec2 const &circle, float radius) {
 				CrissCross::System::RWLockHolder rwlh(&m_lock, CrissCross::System::LOCK_READ);
-				return Quadtree<T>::ObjectsInCircle();
+				return Quadtree<T>::ObjectsInCircle(circle, radius);
 			};
 			inline void Descend() {
 				CrissCross::System::RWLockHolder rwlh(&m_lock, CrissCross::System::LOCK_WRITE);
