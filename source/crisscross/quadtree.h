@@ -89,9 +89,9 @@ namespace CrissCross
 				CrissCross::System::RWLockHolder rwlh(&m_lock, CrissCross::System::LOCK_WRITE);
 				return Quadtree<T>::RemoveObject(_object, _position, radius);
 			};
-			inline bool InsertObject(T const &_object, vec2 const &_position, float _collisionRadius) {
+			inline void InsertObject(T const &_object, vec2 const &_position, float _collisionRadius) {
 				CrissCross::System::RWLockHolder rwlh(&m_lock, CrissCross::System::LOCK_WRITE);
-				return Quadtree<T>::InsertObject(_object, _position, _collisionRadius);
+				Quadtree<T>::InsertObject(_object, _position, _collisionRadius);
 			};
 		};
 
