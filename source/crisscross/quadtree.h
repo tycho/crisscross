@@ -136,7 +136,7 @@ namespace CrissCross
 			if (top > midY && left < midX) {
 				/* need to descend into top left quadtree */
 				DArray<T> *resultingVector = tl->ObjectsInCircle(circle, radius);
-				for (unsigned i = 0; i < resultingVector.size(); i++) {
+				for (unsigned i = 0; i < resultingVector->size(); i++) {
 					if (!resultingVector->valid(i)) continue;
 					returnValue->insert(resultingVector->get(i));
 				}
@@ -145,7 +145,7 @@ namespace CrissCross
 			if (top > midY && right > midX)	{
 				/* top right quadtree */
 				DArray<T> *resultingVector = tr->ObjectsInCircle(circle, radius);
-				for (unsigned i = 0; i < resultingVector.size(); i++) {
+				for (unsigned i = 0; i < resultingVector->size(); i++) {
 					if (!resultingVector->valid(i)) continue;
 					returnValue->insert(resultingVector->get(i));
 				}
@@ -154,7 +154,7 @@ namespace CrissCross
 			if (bottom < midY && right > midX) {
 				/* lower right quadtree */
 				DArray<T> *resultingVector = lr->ObjectsInCircle(circle, radius);
-				for (unsigned i = 0; i < resultingVector.size(); i++) {
+				for (unsigned i = 0; i < resultingVector->size(); i++) {
 					if (!resultingVector->valid(i)) continue;
 					returnValue->insert(resultingVector->get(i));
 				}
@@ -163,7 +163,7 @@ namespace CrissCross
 			if (bottom < midY && left < midX) {
 				/* lower left quadtree */
 				DArray<T> *resultingVector = ll->ObjectsInCircle(circle, radius);
-				for (unsigned i = 0; i < resultingVector.size(); i++) {
+				for (unsigned i = 0; i < resultingVector->size(); i++) {
 					if (!resultingVector->valid(i)) continue;
 					returnValue->insert(resultingVector->get(i));
 				}
