@@ -144,8 +144,8 @@ namespace CrissCross
 		/*! \brief The type of mutex holder to create. */
 		enum RWLockHolderType
 		{
-			LOCK_READ,
-			LOCK_WRITE
+			RW_LOCK_READ,
+			RW_LOCK_WRITE
 		};
 
 		/*! \brief A read/write lock holder which locks a Mutex class. */

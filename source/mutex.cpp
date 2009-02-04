@@ -290,14 +290,14 @@ namespace CrissCross
 			CoreAssert(_lock);
 			switch(_type)
 			{
-			case LOCK_READ:
+			case RW_LOCK_READ:
 				m_lock->LockRead();
 				break;
-			case LOCK_WRITE:
+			case RW_LOCK_WRITE:
 				m_lock->LockWrite();
 				break;
 			default:
-				CoreAssert(_type != LOCK_READ && _type != LOCK_WRITE);
+				CoreAssert(_type != RW_LOCK_READ && _type != RW_LOCK_WRITE);
 			}
 		}
 
@@ -306,14 +306,14 @@ namespace CrissCross
 #ifdef TARGET_OS_WINDOWS
 			switch(m_type)
 			{
-			case LOCK_READ:
+			case RW_LOCK_READ:
 				m_lock->UnlockRead();
 				break;
-			case LOCK_WRITE:
+			case RW_LOCK_WRITE:
 				m_lock->UnlockWrite();
 				break;
 			default:
-				CoreAssert(m_type != LOCK_READ && m_type != LOCK_WRITE);
+				CoreAssert(m_type != RW_LOCK_READ && m_type != RW_LOCK_WRITE);
 			}
 #else
 			m_lock->Unlock();
