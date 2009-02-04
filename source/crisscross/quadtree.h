@@ -73,23 +73,23 @@ namespace CrissCross
 				: Quadtree<T>(lower_left, upper_right, _descentLevel, _parent)
 			{};
 			inline DArray<T> ObjectsInCircle(vec2 const &circle, float radius) {
-				CrissCross::System::RWLockHolder rwlh(&m_lock, CrissCross::System::LOCK_READ);
+				CrissCross::System::RWLockHolder rwlh(&m_lock, CrissCross::System::RW_LOCK_READ);
 				return Quadtree<T>::ObjectsInCircle(circle, radius);
 			};
 			inline void Descend() {
-				CrissCross::System::RWLockHolder rwlh(&m_lock, CrissCross::System::LOCK_WRITE);
+				CrissCross::System::RWLockHolder rwlh(&m_lock, CrissCross::System::RW_LOCK_WRITE);
 				Quadtree<T>::Descend();
 			};
 			inline void Ascend() {
-				CrissCross::System::RWLockHolder rwlh(&m_lock, CrissCross::System::LOCK_WRITE);
+				CrissCross::System::RWLockHolder rwlh(&m_lock, CrissCross::System::RW_LOCK_WRITE);
 				Quadtree<T>::Ascend();
 			};
 			inline bool RemoveObject(T const &_object, vec2 const &_position, float radius) {
-				CrissCross::System::RWLockHolder rwlh(&m_lock, CrissCross::System::LOCK_WRITE);
+				CrissCross::System::RWLockHolder rwlh(&m_lock, CrissCross::System::RW_LOCK_WRITE);
 				return Quadtree<T>::RemoveObject(_object, _position, radius);
 			};
 			inline void InsertObject(T const &_object, vec2 const &_position, float _collisionRadius) {
-				CrissCross::System::RWLockHolder rwlh(&m_lock, CrissCross::System::LOCK_WRITE);
+				CrissCross::System::RWLockHolder rwlh(&m_lock, CrissCross::System::RW_LOCK_WRITE);
 				Quadtree<T>::InsertObject(_object, _position, _collisionRadius);
 			};
 		};
