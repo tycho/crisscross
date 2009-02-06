@@ -60,7 +60,7 @@ namespace CrissCross
 			~Quadtree();
 			void InsertObject(T const &_object, vec2 const &position, float _collisionRadius);
 			bool RemoveObject(T const &_object, vec2 const &position, float _collisionRadius);
-			DArray<T> *ObjectsInCircle(vec2 const &_centre, float radius);
+			void ObjectsInCircle(DArray<T> &array, vec2 const &circle, float radius);
 		};
 
 		template <class T>
@@ -101,7 +101,7 @@ namespace CrissCross
 		}
 
 		template <class T>
-		bool Quadtree<T>::CircleCollision(vec2 circle1, float radius1, vec2 circle2, float radius2)
+		inline bool Quadtree<T>::CircleCollision(vec2 circle1, float radius1, vec2 circle2, float radius2)
 		{
 			float maximumDistanceSquared = (radius1 + radius2) * (radius1 + radius2);
 			float actualDistanceSquared = vec2::DistanceSquared(circle1, circle2);
@@ -109,17 +109,20 @@ namespace CrissCross
 		}
 
 		template <class T>
-		DArray<T> *Quadtree<T>::ObjectsInCircle(vec2 const &circle, float radius)
+		void Quadtree<T>::ObjectsInCircle(DArray<T> &array, vec2 const &circle, float radius)
 		{
-			DArray<T> *returnValue = new DArray<T>();
+			array.empty();
+
 			/* find objects stored in this quadtree */
 			for (unsigned i = 0; i < nodes.size(); i++) {
 				if (nodes.valid(i) && CircleCollision(circle, radius, nodes[i]->pos, nodes[i]->collisionRadius)) {
-					returnValue->insert(nodes[i]->data);
+					array.insert(nodes[i]->data);
 				}
 			}
+
 			if (!ll)  /* if no subtrees, return this as-is */
-				return returnValue;
+				return;
+
 			/* find objects stored in the child quadtrees */
 			float x, y;
 			float left, right;
@@ -135,41 +138,20 @@ namespace CrissCross
 			midY = (llPosition.Y() + trPosition.Y()) / 2.0f;
 			if (top > midY && left < midX) {
 				/* need to descend into top left quadtree */
-				DArray<T> *resultingVector = tl->ObjectsInCircle(circle, radius);
-				for (unsigned i = 0; i < resultingVector->size(); i++) {
-					if (!resultingVector->valid(i)) continue;
-					returnValue->insert(resultingVector->get(i));
-				}
-				delete resultingVector;
+				tl->ObjectsInCircle(array, circle, radius);
 			}
 			if (top > midY && right > midX)	{
 				/* top right quadtree */
-				DArray<T> *resultingVector = tr->ObjectsInCircle(circle, radius);
-				for (unsigned i = 0; i < resultingVector->size(); i++) {
-					if (!resultingVector->valid(i)) continue;
-					returnValue->insert(resultingVector->get(i));
-				}
-				delete resultingVector;
+				tr->ObjectsInCircle(array, circle, radius);
 			}
 			if (bottom < midY && right > midX) {
 				/* lower right quadtree */
-				DArray<T> *resultingVector = lr->ObjectsInCircle(circle, radius);
-				for (unsigned i = 0; i < resultingVector->size(); i++) {
-					if (!resultingVector->valid(i)) continue;
-					returnValue->insert(resultingVector->get(i));
-				}
-				delete resultingVector;
+				lr->ObjectsInCircle(array, circle, radius);
 			}
 			if (bottom < midY && left < midX) {
 				/* lower left quadtree */
-				DArray<T> *resultingVector = ll->ObjectsInCircle(circle, radius);
-				for (unsigned i = 0; i < resultingVector->size(); i++) {
-					if (!resultingVector->valid(i)) continue;
-					returnValue->insert(resultingVector->get(i));
-				}
-				delete resultingVector;
+				ll->ObjectsInCircle(array, circle, radius);
 			}
-			return returnValue;
 		}
 
 		template <class T>
