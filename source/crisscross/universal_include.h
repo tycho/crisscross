@@ -255,6 +255,9 @@ typedef long intptr_t;
 #ifndef __const
 #define __const        __attribute__ ((const))
 #endif
+#ifndef __forceinline
+#define __forceinline  __attribute__ ((always_inline))
+#endif
 #ifndef __noreturn
 #define __noreturn     __attribute__ ((noreturn))
 #endif
@@ -285,6 +288,7 @@ typedef long intptr_t;
 #else
 #define __pure         /* no pure */
 #define __const        /* no const */
+#define __forceinline  /* no always_inline */
 #define __noreturn     /* no noreturn */
 #define __malloc       /* no malloc */
 #define __must_check   /* no warn_unused_result */

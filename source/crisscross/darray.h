@@ -58,7 +58,7 @@ namespace CrissCross
 				char *m_shadow;
 
 				/*! \brief Increases the size of the array. */
-				inline void grow();
+				void grow();
 
 				/*! \brief Rebuilds the empty node stack. */
 				void rebuildStack();
@@ -158,7 +158,7 @@ namespace CrissCross
 				/*!
 				 * \return The number of used nodes.
 				 */
-				inline size_t used() const
+				__forceinline size_t used() const
 				{
 					return m_numUsed;
 				};
@@ -167,7 +167,7 @@ namespace CrissCross
 				/*!
 				 * \return The size of the array.
 				 */
-				inline size_t size() const
+				__forceinline size_t size() const
 				{
 					return m_arraySize;
 				};
@@ -179,7 +179,7 @@ namespace CrissCross
 				 * \param _index The index to test.
 				 * \return Boolean value. True if valid, false if not.
 				 */
-				inline bool valid(size_t _index) const
+				__forceinline bool valid(size_t _index) const
 				{
 					return (_index < m_arraySize && m_shadow[_index]);
 				};
@@ -211,14 +211,14 @@ namespace CrissCross
 				 * \param _index The index of the node to get data from.
 				 * \return The data stored at the index.
 				 */
-				inline T & operator [](size_t _index);
+				__forceinline T & operator [](size_t _index);
 
 				/*! \brief Gets the data at the given index. */
 				/*!
 				 * \param _index The index of the node to get data from.
 				 * \return The data stored at the index.
 				 */
-				inline T const & operator [](size_t _index) const;
+				__forceinline T const & operator [](size_t _index) const;
 
 				/*! \brief Returns the overhead caused by the data structure. */
 				/*!
