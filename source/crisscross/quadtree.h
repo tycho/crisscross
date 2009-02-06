@@ -60,7 +60,7 @@ namespace CrissCross
 			~Quadtree();
 			void InsertObject(T const &_object, vec2 const &position, float _collisionRadius);
 			bool RemoveObject(T const &_object, vec2 const &position, float _collisionRadius);
-			void ObjectsInCircle(DArray<T> &array, vec2 const &circle, float radius);
+			void ObjectsInCircle(DArray<T> &array, vec2 const &circle, float radius, size_t limit = (size_t)-1);
 		};
 
 		template <class T>
@@ -72,9 +72,9 @@ namespace CrissCross
 			ThreadSafeQuadtree(vec2 const &lower_left, vec2 const &upper_right, int _descentLevel = 7, Quadtree<T> * _parent = NULL)
 				: Quadtree<T>(lower_left, upper_right, _descentLevel, _parent)
 			{};
-			inline DArray<T> ObjectsInCircle(vec2 const &circle, float radius) {
+			inline void ObjectsInCircle(DArray<T> &array, vec2 const &circle, float radius, size_t limit = (size_t)-1) {
 				CrissCross::System::RWLockHolder rwlh(&m_lock, CrissCross::System::RW_LOCK_READ);
-				return Quadtree<T>::ObjectsInCircle(circle, radius);
+				return Quadtree<T>::ObjectsInCircle(array, circle, radius, limit);
 			};
 			inline void Descend() {
 				CrissCross::System::RWLockHolder rwlh(&m_lock, CrissCross::System::RW_LOCK_WRITE);
@@ -109,14 +109,15 @@ namespace CrissCross
 		}
 
 		template <class T>
-		void Quadtree<T>::ObjectsInCircle(DArray<T> &array, vec2 const &circle, float radius)
+		void Quadtree<T>::ObjectsInCircle(DArray<T> &array, vec2 const &circle, float radius, size_t limit)
 		{
-			array.empty();
+			if (array.used() >= limit) return;
 
 			/* find objects stored in this quadtree */
 			for (unsigned i = 0; i < nodes.size(); i++) {
 				if (nodes.valid(i) && CircleCollision(circle, radius, nodes[i]->pos, nodes[i]->collisionRadius)) {
 					array.insert(nodes[i]->data);
+					if (array.used() >= limit) return;
 				}
 			}
 
