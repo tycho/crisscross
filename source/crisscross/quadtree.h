@@ -57,10 +57,10 @@ namespace CrissCross
 			void Ascend();
 		public:
 			Quadtree(vec2 const &lower_left, vec2 const &upper_right, int _descentLevel = 7, Quadtree<T> * _parent = NULL);
-			~Quadtree();
-			void InsertObject(T const &_object, vec2 const &position, float _collisionRadius);
-			bool RemoveObject(T const &_object, vec2 const &position, float _collisionRadius);
-			void ObjectsInCircle(DArray<T> &array, vec2 const &circle, float radius, size_t limit = (size_t)-1);
+			virtual ~Quadtree();
+			virtual void InsertObject(T const &_object, vec2 const &position, float _collisionRadius);
+			virtual bool RemoveObject(T const &_object, vec2 const &position, float _collisionRadius);
+			virtual void ObjectsInCircle(DArray<T> &array, vec2 const &circle, float radius, size_t limit = (size_t)-1);
 		};
 
 		template <class T>
