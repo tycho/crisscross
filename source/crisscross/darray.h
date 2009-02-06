@@ -34,8 +34,6 @@ namespace CrissCross
 				DStack<size_t> *m_emptyNodes;
 
 			protected:
-				bool m_encapsulated;
-
 				/*! \brief The size by which to increase the size of the array when there are no more empty nodes. */
 				/*!
 				 * If set to -1, it will double the size of the array each time the array grows.
@@ -83,10 +81,10 @@ namespace CrissCross
 				DArray();
 
 				/*! \brief Initialize the DArray with an existing array. */
-				DArray(T *_array, size_t _indices, bool _encapsulate = true);
+				DArray(T *_array, size_t _indices);
 
 				/*! \brief Initialize the DArray with an existing array. */
-				DArray(DArray const &_array, bool _encapsulate = true);
+				DArray(DArray const &_array);
 
 				/*! \brief The secondary constructor. */
 				/*!
