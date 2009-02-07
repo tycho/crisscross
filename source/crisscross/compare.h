@@ -69,6 +69,28 @@ namespace CrissCross
 			else if (ret > 0) return 1;
 			else return 0;
 		}
+
+		/*! \brief An STL-compatible comparator class which makes use of Compare */
+		template <class T>
+		class LessThanComparator
+		{
+		public:
+			bool operator()(T const &_first, T const &_second) const
+			{
+				return Compare<T>(_first, _second) < 0;
+			}
+		};
+
+		/*! \brief An STL-compatible comparator class which makes use of Compare */
+		template <class T>
+		class GreaterThanComparator
+		{
+		public:
+			bool operator()(T const &_first, T const &_second) const
+			{
+				return Compare<T>(_first, _second) > 0;
+			}
+		};
 	}
 }
 

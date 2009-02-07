@@ -18,6 +18,7 @@
 #include "dstack.h"
 #include "llist.h"
 #include "splaytree.h"
+#include "stltree.h"
 #include "avltree.h"
 #include "rbtree.h"
 #include "bubblesort.h"
@@ -86,6 +87,10 @@ int RunApplication(int argc, char * *argv)
 	WritePrefix("SplayTree<const char *, const char *>"); retval |= WriteResult(TestSplayTree_CString());
 	WritePrefix("SplayTree<std::string, std::string>"); retval |= WriteResult(TestSplayTree_String());
 	WritePrefix("SplayTree<int, int>"); retval |= WriteResult(TestSplayTree_Int());
+
+	WritePrefix("STLTree<const char *, const char *>"); retval |= WriteResult(TestSTLTree_CString());
+	WritePrefix("STLTree<std::string, std::string>"); retval |= WriteResult(TestSTLTree_String());
+	WritePrefix("STLTree<int, int>"); retval |= WriteResult(TestSTLTree_Int());
 
 	WritePrefix("AVLTree<const char *, const char *>"); retval |= WriteResult(TestAVLTree_CString());
 	WritePrefix("AVLTree<std::string, std::string>"); retval |= WriteResult(TestAVLTree_String());
