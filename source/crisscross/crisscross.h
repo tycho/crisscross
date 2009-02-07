@@ -26,6 +26,7 @@
 #include <crisscross/node.h>
 #include <crisscross/hash.h>
 #include <crisscross/hashtable.h>
+#include <crisscross/stltree.h>
 #include <crisscross/splaytree.h>
 #include <crisscross/avltree.h>
 #include <crisscross/rbtree.h>
