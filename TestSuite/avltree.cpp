@@ -50,7 +50,7 @@ int TestAVLTree_CString()
 		TEST_ASSERT(strings[i] != NULL);
 		memset(strings[i], 0, 20);
 		TEST_ASSERT(strlen(strings[i]) == 0);
-		sprintf(strings[i], "%08x", i);
+		sprintf(strings[i], "%08ux", i);
 		TEST_ASSERT(strlen(strings[i]) > 0);
 	}
 
@@ -65,8 +65,7 @@ int TestAVLTree_CString()
 	{
 		const char *val = NULL;
 		TEST_ASSERT(avltree->exists(strings[i]));
-		TEST_ASSERT(avltree->find(strings[i], val));
-		TEST_ASSERT(val != NULL);
+		TEST_ASSERT((val = avltree->find(strings[i])) != NULL);
 		TEST_ASSERT(Compare(val, (const char *)strings[(TREE_ITEMS - 1) - i]) == 0);
 	}
 
@@ -142,7 +141,7 @@ int TestAVLTree_String()
 		val.clear();
 		TEST_ASSERT(val.length() == 0);
 		TEST_ASSERT(avltree->exists(strings[i]));
-		TEST_ASSERT(avltree->find(strings[i], val));
+		TEST_ASSERT((val = avltree->find(strings[i], "")) != std::string(""));
 		TEST_ASSERT(val.length() > 0);
 		TEST_ASSERT(Compare(val, strings[(TREE_ITEMS - 1) - i]) == 0);
 	}
@@ -205,7 +204,7 @@ int TestAVLTree_Int()
 	{
 		int val;
 		TEST_ASSERT(avltree->exists(data[i]));
-		TEST_ASSERT(avltree->find(data[i], val));
+		TEST_ASSERT((val = avltree->find(data[i], -1)) != -1);
 		TEST_ASSERT(Compare(val, data[TREE_ITEMS - 1 - i]) == 0);
 	}
 

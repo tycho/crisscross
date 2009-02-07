@@ -386,7 +386,7 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		Data RedBlackTree<Key, Data>::find(Key const &key) const
+		Data RedBlackTree<Key, Data>::find(Key const &key, Data const &_default) const
 		{
 			RedBlackNode<Key, Data> *current = rootNode;
 
@@ -399,25 +399,7 @@ namespace CrissCross
 				}
 			}
 
-			return NULL;
-		}
-
-		template <class Key, class Data>
-		bool RedBlackTree<Key, Data>::find(Key const &key, Data &_data) const
-		{
-			RedBlackNode<Key, Data> *current = rootNode;
-
-			while (valid(current)) {
-				if (Compare(key, current->id) == 0) {
-					_data = current->data;
-					return true;
-				} else {
-					current = (Compare(key, current->id) <= 0) ?
-					          current->left : current->right;
-				}
-			}
-
-			return false;
+			return _default;
 		}
 
 		template <class Key, class Data>

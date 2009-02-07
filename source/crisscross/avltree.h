@@ -226,14 +226,6 @@ namespace CrissCross
 				 */
 				bool erase(Key const &_key, Data const &_data);
 
-				/*! \brief Finds a node in the tree and copies the data from that node to a specified location. */
-				/*!
-				 * \param _key The key of the node to find.
-				 * \param _data On return, will contain the data at the node. If not found, _data does not change.
-				 * \return True on success, false on failure.
-				 */
-				bool find(Key const &_key, Data &_data) const;
-
 				/*! \brief Finds a node in the tree and returns the data at that node. */
 				/*!
 				 * \param _key The key of the node to find.
@@ -242,7 +234,7 @@ namespace CrissCross
 				 *                          contents of the table was anything but pointers or integers.
 				 * \sa find
 				 */
-				_CC_DEPRECATE_FUNCTION(find) Data find(Key const &_key) const;
+				Data find(Key const &_key, Data const &_default = NULL) const;
 
 				/*! \brief Tests whether a key is in the tree or not. */
 				/*!
@@ -310,9 +302,9 @@ namespace CrissCross
 				{
 					insert(_key, _rec);
 				};
-				_CC_DEPRECATE_FUNCTION(find)    inline Data	GetData(Key const &_key)
+				_CC_DEPRECATE_FUNCTION(find)    inline Data	    GetData(Key const &_key, Data const &_default = NULL)
 				{
-					return find(_key);
+					return find(_key, _default);
 				};
 				_CC_DEPRECATE_FUNCTION(erase)   inline void     RemoveData(Key const &_key)
 				{

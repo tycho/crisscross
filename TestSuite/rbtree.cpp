@@ -65,8 +65,7 @@ int TestRedBlackTree_CString()
 	{
 		const char *val = NULL;
 		TEST_ASSERT(rbtree->exists(strings[i]));
-		TEST_ASSERT(rbtree->find(strings[i], val));
-		TEST_ASSERT(val != NULL);
+		TEST_ASSERT((val = rbtree->find(strings[i])) != NULL);
 		TEST_ASSERT(Compare(val, (const char *)strings[(TREE_ITEMS - 1) - i]) == 0);
 	}
 
@@ -142,7 +141,7 @@ int TestRedBlackTree_String()
 		val.clear();
 		TEST_ASSERT(val.length() == 0);
 		TEST_ASSERT(rbtree->exists(strings[i]));
-		TEST_ASSERT(rbtree->find(strings[i], val));
+		TEST_ASSERT((val = rbtree->find(strings[i], "")) != std::string(""));
 		TEST_ASSERT(val.length() > 0);
 		TEST_ASSERT(Compare(val, strings[(TREE_ITEMS - 1) - i]) == 0);
 	}
@@ -205,7 +204,7 @@ int TestRedBlackTree_Int()
 	{
 		int val;
 		TEST_ASSERT(rbtree->exists(data[i]));
-		TEST_ASSERT(rbtree->find(data[i], val));
+		TEST_ASSERT((val = rbtree->find(data[i], -1)) != -1);
 		TEST_ASSERT(Compare(val, data[TREE_ITEMS - 1 - i]) == 0);
 	}
 

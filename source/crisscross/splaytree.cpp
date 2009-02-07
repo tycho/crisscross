@@ -180,26 +180,14 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		Data SplayTree<Key, Data>::find(Key const &key) const
+		Data SplayTree<Key, Data>::find(Key const &key, Data const &_default) const
 		{
 			splay(key, root);
 
 			if (root == NULL || Compare(root->id, key) != 0)
-				return NULL;
+				return _default;
 
 			return root->data;
-		}
-
-		template <class Key, class Data>
-		bool SplayTree<Key, Data>::find(Key const &key, Data &data) const
-		{
-			splay(key, root);
-
-			if (root == NULL || Compare(root->id, key) != 0)
-				return false;
-
-			data = root->data;
-			return true;
 		}
 
 		template <class Key, class Data>

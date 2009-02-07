@@ -126,7 +126,7 @@ int TestHashTable_String()
 	for (i = 1; i < max; i += 2) {
 		sprintf(buffer1, "%lu", i);
 		sprintf(buffer2, "%lu", max - i);
-		TEST_ASSERT(ht.find(std::string(buffer1), rec));
+		TEST_ASSERT((rec = ht.find(std::string(buffer1), "")) != "");
 		TEST_ASSERT(std::string(rec) == std::string(buffer2));
 	}
 

@@ -205,20 +205,12 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		bool AVLTree<Key, Data>::find(Key const &_key, Data &_data) const
+		Data AVLTree<Key, Data>::find(Key const &_key, Data const &_default) const
 		{
 			AVLNode<Key, Data> *p_current = findNode(_key);
-			if (!p_current) return false;
 
-			_data = p_current->data;
-			return true;
-		}
-
-		template <class Key, class Data>
-		Data AVLTree<Key, Data>::find(Key const &_key) const
-		{
-			AVLNode<Key, Data> *p_current = findNode(_key);
-			if (!p_current) return (Data)0;
+			if (!p_current)
+				return _default;
 
 			return p_current->data;
 		}

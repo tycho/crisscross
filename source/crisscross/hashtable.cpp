@@ -52,18 +52,14 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		Data HashTable<Key, Data>::find(Key const & _key) const
+		Data HashTable<Key, Data>::find(Key const & _key, Data const &_default) const
 		{
-			static Data null(0);
 			size_t index = findIndex(_key);
-			if (!m_array[index]) return null;
+			
+			if (!m_array[index])
+				return _default;
 
-			Data ret;
-			if (m_array[index]->find(_key, ret)) {
-				return ret;
-			} else {
-				return null;
-			}
+			return m_array[index]->find(_key, _default);
 		}
 
 		template <class Key, class Data>
@@ -73,15 +69,6 @@ namespace CrissCross
 			if (!m_array[index]) return false;
 
 			return m_array[index]->exists(_key);
-		}
-
-		template <class Key, class Data>
-		bool HashTable<Key, Data>::find(Key const &_key, Data &_data) const
-		{
-			size_t index = findIndex(_key);
-			if (!m_array[index]) return false;
-
-			return m_array[index]->find(_key, _data);
 		}
 
 		template <class Key, class Data>
