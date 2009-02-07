@@ -69,6 +69,7 @@ namespace CrissCross
 			/*! \brief The constructor. */
 			/*!
 			 *  By default creates a mutex of type MUTEX_TYPE_RECURSIVE.
+			 *  \param _type The type of mutex to create.
 			 *  \sa MutexType
 			 */
 			Mutex(MutexType _type = MUTEX_TYPE_RECURSIVE);
