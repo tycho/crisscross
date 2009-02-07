@@ -62,14 +62,12 @@ namespace CrissCross
 				 */
 				bool insert(Key const &_key, Data const &_data);
 
-				/*! \brief Finds a node in the table and returns the data at that node. */
-				/*!
-				 * \param _key The key of the item to find.
-				 * \return The data at the node. NULL if not found.
-				 * \deprecated The return value of this function could be unpredictable if the
-				 *                          contents of the table was anything but pointers or integers.
-				 * \sa find
-				 */
+                                /*! \brief Finds a node in the table and returns the data at that node. */
+                                /*!
+                                 * \param _key The key of the node to find.
+                                 * \param _default The value to return if the item couldn't be found.
+                                 * \return If found, returns the data at the node, otherwise _default is returned.
+                                 */
 				Data find(Key const & _key, Data const &_default = NULL) const;
 
 				/*! \brief Deletes a node from the table, specified by the node's key. */
@@ -83,7 +81,7 @@ namespace CrissCross
 				/*! \brief Tests whether a key is in the table or not. */
 				/*!
 				 * \param _key The key of the node to find.
-				 * \return True if the key is in the tree, false if not.
+				 * \return True if the key is in the table, false if not.
 				 */
 				bool exists(Key const &_key) const;
 
