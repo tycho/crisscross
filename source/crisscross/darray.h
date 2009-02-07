@@ -146,13 +146,6 @@ namespace CrissCross
 				 */
 				size_t insert(T const & _newdata);
 
-				/*! \brief Marks and index used and passes the index back. */
-				/*!
-				 * \param _newdata The data to put into the array.
-				 * \return The index of the node where the data was stored.
-				 */
-				size_t pop();
-
 				/*! \brief Inserts data into the array at the given index. */
 				/*!
 				 * \param _newdata The data to put into the array.

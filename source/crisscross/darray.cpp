@@ -105,17 +105,6 @@ namespace CrissCross
 		}
 
 		template <class T>
-		size_t DArray <T>::pop()
-		{
-			size_t freeslot = getNextFree();
-
-			if (m_shadow[freeslot] == 0) m_numUsed++;
-
-			m_shadow[freeslot] = 1;
-			return freeslot;
-		}
-
-		template <class T>
 		void DArray <T>::rebuildStack()
 		{
 			/*  Reset free list */
