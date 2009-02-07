@@ -286,16 +286,16 @@ typedef long intptr_t;
 #define unlikely(x)    __builtin_expect(!!(x), 0)
 #endif
 #else
-#define __pure         /* no pure */
-#define __const        /* no const */
-#define __forceinline  /* no always_inline */
-#define __noreturn     /* no noreturn */
-#define __malloc       /* no malloc */
-#define __must_check   /* no warn_unused_result */
-#define __deprecated   /* no deprecated */
-#define __used         /* no used */
-#define __unused_param /* no unused */
-#define __packed       /* no packed */
+#define __pure
+#define __const
+#define __forceinline  inline
+#define __noreturn
+#define __malloc
+#define __must_check
+#define __deprecated
+#define __used
+#define __unused_param
+#define __packed
 #define likely(x)      (x)
 #define unlikely(x)    (x)
 #endif
