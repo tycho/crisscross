@@ -55,7 +55,7 @@ namespace CrissCross
 		Data HashTable<Key, Data>::find(Key const & _key, Data const &_default) const
 		{
 			size_t index = findIndex(_key);
-			
+
 			if (!m_array[index])
 				return _default;
 
