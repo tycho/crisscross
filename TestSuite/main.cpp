@@ -21,7 +21,6 @@
 #include "stltree.h"
 #include "avltree.h"
 #include "rbtree.h"
-#include "bubblesort.h"
 #include "hashtable.h"
 #include "heapsort.h"
 #include "quicksort.h"
@@ -99,12 +98,6 @@ int RunApplication(int argc, char * *argv)
 	WritePrefix("HashTable<const char *, const char *>"); retval |= WriteResult(TestHashTable_CString());
 	WritePrefix("HashTable<std::string, std::string>"); retval |= WriteResult(TestHashTable_String());
 	WritePrefix("HashTable<int,int>"); retval |= WriteResult(TestHashTable_Int());
-
-#if !defined (DISABLE_DEPRECATED_CODE)
-	WritePrefix("BubbleSort (integer array)"); retval |= WriteResult(TestBubbleSort_IntArray());
-	WritePrefix("BubbleSort (integer DArray)"); retval |= WriteResult(TestBubbleSort_DArray());
-	WritePrefix("BubbleSort (integer LList)"); retval |= WriteResult(TestBubbleSort_LList());
-#endif
 
 	WritePrefix("CombSort (integer array)"); retval |= WriteResult(TestCombSort_IntArray());
 	WritePrefix("CombSort (integer DArray)"); retval |= WriteResult(TestCombSort_DArray());

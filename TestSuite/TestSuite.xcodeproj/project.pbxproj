@@ -10,7 +10,6 @@
 		8DD76F650486A84900D96B5E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* main.cpp */; settings = {ATTRIBUTES = (); }; };
 		B014E8AE0D15ABF000FA66B5 /* avltree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B014E8AA0D15ABF000FA66B5 /* avltree.cpp */; };
 		B014E8AF0D15ABF000FA66B5 /* hashtable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B014E8AC0D15ABF000FA66B5 /* hashtable.cpp */; };
-		B01CB6630D52D26B0081CCAC /* md2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01CB6550D52D26B0081CCAC /* md2.cpp */; };
 		B01CB6640D52D26B0081CCAC /* md4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01CB6570D52D26B0081CCAC /* md4.cpp */; };
 		B01CB6650D52D26B0081CCAC /* md5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01CB6590D52D26B0081CCAC /* md5.cpp */; };
 		B01CB6660D52D26B0081CCAC /* sha1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01CB65B0D52D26B0081CCAC /* sha1.cpp */; };
@@ -39,8 +38,6 @@
 		B0ED57B40BEAF73800F6033B /* datatypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0ED57B20BEAF73800F6033B /* datatypes.cpp */; };
 		B0ED57B50BEAF73800F6033B /* datatypes.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0ED57B30BEAF73800F6033B /* datatypes.h */; };
 		B0ED57C00BEAF77C00F6033B /* libCrissCross Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B0ED57960BEAF61200F6033B /* libCrissCross Static.a */; };
-		B0EDA6680CA8347E00508ECB /* bubblesort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0EDA6600CA8347E00508ECB /* bubblesort.cpp */; };
-		B0EDA6690CA8347E00508ECB /* bubblesort.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0EDA6610CA8347E00508ECB /* bubblesort.h */; };
 		B0EDA66A0CA8347E00508ECB /* insertionsort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0EDA6620CA8347E00508ECB /* insertionsort.cpp */; };
 		B0EDA66B0CA8347E00508ECB /* insertionsort.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0EDA6630CA8347E00508ECB /* insertionsort.h */; };
 		B0EDA66E0CA8347E00508ECB /* shellsort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0EDA6660CA8347E00508ECB /* shellsort.cpp */; };
@@ -87,7 +84,6 @@
 				B0A626520BFA9282006F2B68 /* combsort.h in CopyFiles */,
 				B0A626550BFA9282006F2B68 /* heapsort.h in CopyFiles */,
 				B0A626590BFA928E006F2B68 /* quicksort.h in CopyFiles */,
-				B0EDA6690CA8347E00508ECB /* bubblesort.h in CopyFiles */,
 				B0EDA66B0CA8347E00508ECB /* insertionsort.h in CopyFiles */,
 				B0EDA66F0CA8347E00508ECB /* shellsort.h in CopyFiles */,
 			);
@@ -101,8 +97,6 @@
 		B014E8AB0D15ABF000FA66B5 /* avltree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = avltree.h; sourceTree = "<group>"; };
 		B014E8AC0D15ABF000FA66B5 /* hashtable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hashtable.cpp; sourceTree = "<group>"; };
 		B014E8AD0D15ABF000FA66B5 /* hashtable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hashtable.h; sourceTree = "<group>"; };
-		B01CB6550D52D26B0081CCAC /* md2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = md2.cpp; sourceTree = "<group>"; };
-		B01CB6560D52D26B0081CCAC /* md2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md2.h; sourceTree = "<group>"; };
 		B01CB6570D52D26B0081CCAC /* md4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = md4.cpp; sourceTree = "<group>"; };
 		B01CB6580D52D26B0081CCAC /* md4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md4.h; sourceTree = "<group>"; };
 		B01CB6590D52D26B0081CCAC /* md5.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = md5.cpp; sourceTree = "<group>"; };
@@ -139,8 +133,6 @@
 		B0D9D9DC0D24217500A81A42 /* splaytree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = splaytree.h; sourceTree = "<group>"; };
 		B0ED57B20BEAF73800F6033B /* datatypes.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = datatypes.cpp; sourceTree = "<group>"; };
 		B0ED57B30BEAF73800F6033B /* datatypes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = datatypes.h; sourceTree = "<group>"; };
-		B0EDA6600CA8347E00508ECB /* bubblesort.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = bubblesort.cpp; sourceTree = "<group>"; };
-		B0EDA6610CA8347E00508ECB /* bubblesort.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = bubblesort.h; sourceTree = "<group>"; };
 		B0EDA6620CA8347E00508ECB /* insertionsort.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = insertionsort.cpp; sourceTree = "<group>"; };
 		B0EDA6630CA8347E00508ECB /* insertionsort.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = insertionsort.h; sourceTree = "<group>"; };
 		B0EDA6660CA8347E00508ECB /* shellsort.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = shellsort.cpp; sourceTree = "<group>"; };
@@ -176,8 +168,6 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				B01CB6550D52D26B0081CCAC /* md2.cpp */,
-				B01CB6560D52D26B0081CCAC /* md2.h */,
 				B01CB6570D52D26B0081CCAC /* md4.cpp */,
 				B01CB6580D52D26B0081CCAC /* md4.h */,
 				B01CB6590D52D26B0081CCAC /* md5.cpp */,
@@ -196,8 +186,6 @@
 				B014E8AB0D15ABF000FA66B5 /* avltree.h */,
 				B014E8AC0D15ABF000FA66B5 /* hashtable.cpp */,
 				B014E8AD0D15ABF000FA66B5 /* hashtable.h */,
-				B0EDA6600CA8347E00508ECB /* bubblesort.cpp */,
-				B0EDA6610CA8347E00508ECB /* bubblesort.h */,
 				B0EDA6620CA8347E00508ECB /* insertionsort.cpp */,
 				B0EDA6630CA8347E00508ECB /* insertionsort.h */,
 				B0EDA6660CA8347E00508ECB /* shellsort.cpp */,
@@ -321,13 +309,11 @@
 				B0A626530BFA9282006F2B68 /* header.cpp in Sources */,
 				B0A626540BFA9282006F2B68 /* heapsort.cpp in Sources */,
 				B0A626580BFA928E006F2B68 /* quicksort.cpp in Sources */,
-				B0EDA6680CA8347E00508ECB /* bubblesort.cpp in Sources */,
 				B0EDA66A0CA8347E00508ECB /* insertionsort.cpp in Sources */,
 				B0EDA66E0CA8347E00508ECB /* shellsort.cpp in Sources */,
 				B014E8AE0D15ABF000FA66B5 /* avltree.cpp in Sources */,
 				B014E8AF0D15ABF000FA66B5 /* hashtable.cpp in Sources */,
 				B0D9D9DD0D24217500A81A42 /* splaytree.cpp in Sources */,
-				B01CB6630D52D26B0081CCAC /* md2.cpp in Sources */,
 				B01CB6640D52D26B0081CCAC /* md4.cpp in Sources */,
 				B01CB6650D52D26B0081CCAC /* md5.cpp in Sources */,
 				B01CB6660D52D26B0081CCAC /* sha1.cpp in Sources */,

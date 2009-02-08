@@ -75,20 +75,6 @@ int RunApplication(int argc, char * *argv)
 	                   (unsigned long)((double)(DATASET_SIZE * MAX_RUNS) / sw.Elapsed()),
 	                   killOptimization);
 
-	/* It's too slow. Disabled. */
-#if 0
-	CrissCross::Crypto::MD2Hash md2;
-	sw.Start();
-	for (int r = 0; r < MAX_RUNS; r++)
-		for (int i = 0; i < DATASET_SIZE; i++)
-			md2.Process(randomStrings.get(i), ENTRY_LENGTH);
-
-	sw.Stop();
-	console->WriteLine("%8lu MD2Marks",
-	                   (unsigned long)(((double)(DATASET_SIZE * MAX_RUNS) / sw.Elapsed()) / 1024.0));
-#endif
-
-
 	CrissCross::Crypto::MD4Hash md4;
 	sw.Start();
 	for (int r = 0; r < MAX_RUNS; r++)

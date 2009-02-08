@@ -195,10 +195,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\source\md2.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\source\md4.cpp"
 				>
 			</File>
@@ -296,10 +292,6 @@
 			</File>
 			<File
 				RelativePath="..\..\source\crisscross\avltree.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\source\crisscross\bubblesort.h"
 				>
 			</File>
 			<File
@@ -484,10 +476,6 @@
 			</File>
 			<File
 				RelativePath="..\..\source\crisscross\llist.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\source\crisscross\md2.h"
 				>
 			</File>
 			<File
