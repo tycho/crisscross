@@ -4,7 +4,31 @@ if [ -f ~/.bashrc ]; then
 	source ~/.bashrc
 fi
 
-VERSTRING=$(git describe --tags --long)
+SCRIPTPATH="$(pwd)/$(echo $0 | rev | cut -d '/' -f2,3,4,5,6,7 | rev)"
+RELEASEVER="$(cat $SCRIPTPATH/release_ver)"
+RELEASEVER_TAG="$(cat $SCRIPTPATH/release_ver | cut -d'-' -f1)"
+
+echo -n "Is CrissCross under version control? "
+if [ -x "$SCRIPTPATH/../.git" ]; then
+	echo "Yes"
+	echo -n "Is git installed? "
+	if [ "" != "$(which git)" ]; then
+		echo "Yes"
+		IN_GIT=1
+	else
+		echo "No"
+		IN_GIT=0
+	fi
+else
+	echo "No"
+	IN_GIT=0
+fi
+
+if [ $IN_GIT -eq 0 ]; then
+	VERSTRING=$RELEASEVER
+else
+	VERSTRING=$(git describe --tags --long)
+fi
 OUT=$1
 
 MAJOR=`echo $VERSTRING | cut -d'.' -f1`
@@ -18,7 +42,11 @@ if [ $(echo $TINYBUILD | grep rc) ]; then
 	TINYBUILD=`echo $VERSTRING | cut -d'-' -f3`
 fi
 
-VERSTRING=$(git describe --tags)
+if [ $IN_GIT -eq 0 ]; then
+	VERSTRING=$RELEASEVER_TAG
+else
+	VERSTRING=$(git describe --tags)
+fi
 
 rm -f $OUT.tmp
 
