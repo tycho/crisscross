@@ -130,7 +130,7 @@ int RunApplication(int argc, char * *argv)
 		biggest = max(biggest, *p);
 	}
 	
-	DArray<ktype_t> *dataset = new DArray<ktype_t>();
+	DArray<ktype_t> *dataset = new DArray<ktype_t>(biggest*2);
 	console->Write("Building data set of %lu items... ", biggest * 2);
 	sw.Start();
 	size_t i = 0;
