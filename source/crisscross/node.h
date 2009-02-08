@@ -59,8 +59,6 @@ namespace CrissCross
 				~SplayNode()
 				{
 					Dealloc(id);
-					delete left; left = NULL;
-					delete right; right = NULL;
 				}
 
 				/*! \brief Returns the overhead caused by the node. */
@@ -71,9 +69,7 @@ namespace CrissCross
 				{
 					size_t ret = sizeof(*this);
 					if (left) ret += left->mem_usage();
-
 					if (right) ret += right->mem_usage();
-
 					return ret;
 				}
 		};
@@ -136,9 +132,7 @@ namespace CrissCross
 				{
 					size_t ret = sizeof(*this);
 					if (left) ret += left->mem_usage();
-
 					if (right) ret += right->mem_usage();
-
 					return ret;
 				}
 		};

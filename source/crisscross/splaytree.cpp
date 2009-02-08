@@ -31,8 +31,8 @@ namespace CrissCross
 		template <class Key, class Data>
 		SplayTree<Key, Data>::~SplayTree()
 		{
-			delete root;
-			root = NULL;
+			while (m_size > 0)
+				erase(root->id);
 		}
 
 		template <class Key, class Data>
@@ -216,9 +216,8 @@ namespace CrissCross
 		template <class Key, class Data>
 		void SplayTree<Key, Data>::empty()
 		{
-			delete root;
-			root = NULL;
-			m_size = 0;
+			while (m_size > 0)
+				erase(root->id);
 		}
 
 		template <class Key, class Data>
