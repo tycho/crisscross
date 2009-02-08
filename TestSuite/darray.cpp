@@ -33,7 +33,7 @@ int TestDArray()
 	TEST_ASSERT(darray->valid(1));
 	TEST_ASSERT(darray->valid(2));
 	TEST_ASSERT(darray->valid(3));
-	TEST_ASSERT(!darray->valid(-1));
+	TEST_ASSERT(!darray->valid((unsigned int)-1));
 	TEST_ASSERT(!darray->valid(4));
 	darray->remove(0);
 	TEST_ASSERT(darray->used() == 3);

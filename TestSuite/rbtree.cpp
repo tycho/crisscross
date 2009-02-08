@@ -43,7 +43,7 @@ int TestRedBlackTree_CString()
 	TEST_ASSERT(rbtree->size() == 0);
 
 	/* Simplest sanity checks done, now create some random data */
-	for (size_t i = 0; i < TREE_ITEMS; i++)
+	for (unsigned int i = 0; i < TREE_ITEMS; i++)
 	{
 		TEST_ASSERT(strings[i] == NULL);
 		strings[i] = new char[20];
@@ -118,7 +118,7 @@ int TestRedBlackTree_String()
 	TEST_ASSERT(rbtree->size() == 0);
 
 	/* Simplest sanity checks done, now create some random data */
-	for (size_t i = 0; i < TREE_ITEMS; i++)
+	for (unsigned int i = 0; i < TREE_ITEMS; i++)
 	{
 		char buf[20];
 		buf[0] = (char)0;

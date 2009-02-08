@@ -22,7 +22,7 @@ int TestLList()
 	LList<char *> *llist = new LList<char *>();
 	TEST_ASSERT(llist);
 
-	TEST_ASSERT(!llist->valid(-1));
+	TEST_ASSERT(!llist->valid((unsigned int)-1));
 	TEST_ASSERT(!llist->valid(1));
 	TEST_ASSERT(!llist->valid(0));
 
@@ -48,7 +48,7 @@ int TestLList()
 		llist->remove(0);
 	}
 
-	TEST_ASSERT(!llist->valid(-1));
+	TEST_ASSERT(!llist->valid((unsigned int)-1));
 	TEST_ASSERT(!llist->valid(1));
 	TEST_ASSERT(!llist->valid(0));
 
