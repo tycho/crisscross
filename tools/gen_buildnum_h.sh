@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ -f ~/.bashrc ]; then
+	source ~/.bashrc
+fi
+
 VERSTRING=$(git describe --tags --long)
 OUT=$1
 
