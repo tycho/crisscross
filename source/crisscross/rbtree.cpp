@@ -386,16 +386,18 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		Data RedBlackTree<Key, Data>::find(Key const &key, Data const &_default) const
+		Data RedBlackTree<Key, Data>::find(Key const &_key, Data const &_default) const
 		{
-			RedBlackNode<Key, Data> *current = rootNode;
+			RedBlackNode<Key, Data> *p_current = rootNode;
 
-			while (valid(current)) {
-				if (Compare(key, current->id) == 0) {
-					return current->data;
-				} else {
-					current = (Compare(key, current->id) <= 0) ?
-					          current->left : current->right;
+			while (valid(p_current)) {
+				int cmp = Compare(_key, p_current->id);
+				if (cmp < 0)
+					p_current = p_current->left;
+				else if (cmp > 0)
+					p_current = p_current->right;
+				else if (cmp == 0) {
+					return p_current->data;
 				}
 			}
 
@@ -403,15 +405,18 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		RedBlackNode<Key, Data> * RedBlackTree<Key, Data>::findNode(Key const &key) const
+		RedBlackNode<Key, Data> * RedBlackTree<Key, Data>::findNode(Key const &_key) const
 		{
-			RedBlackNode<Key, Data>  * current = rootNode;
+			RedBlackNode<Key, Data> *p_current = rootNode;
 
-			while (valid(current)) {
-				if (Compare(key, current->id) == 0) {
-					return current;
-				} else {
-					current = (Compare(key, current->id) <= 0) ? current->left : current->right;
+			while (valid(p_current)) {
+				int cmp = Compare(_key, p_current->id);
+				if (cmp < 0)
+					p_current = p_current->left;
+				else if (cmp > 0)
+					p_current = p_current->right;
+				else if (cmp == 0) {
+					return p_current;
 				}
 			}
 
