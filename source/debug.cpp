@@ -17,6 +17,8 @@ using namespace CrissCross::IO;
 
 #ifdef TARGET_OS_MACOSX
 #include <dlfcn.h>
+typedef int (*backtrace_t)(void * *, int);
+typedef char **(*backtrace_symbols_t)(void * const *, int);
 #endif
 
 #ifndef ENABLE_SYMBOL_ENGINE
@@ -157,10 +159,10 @@ void CrissCross::Debug::PrintStackTrace(CrissCross::IO::CoreIOWriter * _outputBu
 
 #elif defined (ENABLE_BACKTRACE)
 #if defined (TARGET_OS_MACOSX)
-	int (*backtrace)(void * *, int);
-	char * *(*backtrace_symbols)(void * const *, int);
-	backtrace = (int(*) (void * *, int))dlsym(RTLD_DEFAULT, "backtrace");
-	backtrace_symbols = (char * *(*)(void * const *, int))dlsym(RTLD_DEFAULT, "backtrace_symbols");
+	backtrace_t backtrace;
+	backtrace_symbols_t backtrace_symbols;
+	backtrace = nasty_cast<backtrace_t, void*>(dlsym(RTLD_DEFAULT, "backtrace"));
+	backtrace_symbols = nasty_cast<backtrace_symbols_t, void*>(dlsym(RTLD_DEFAULT, "backtrace_symbols"));
 #endif
 
 	void *array[256];

@@ -296,6 +296,12 @@ typedef long intptr_t;
 #define unlikely(x)    (x)
 #endif
 
+template <typename TO, typename FROM> TO nasty_cast(FROM f) {
+	union {
+		FROM f; TO t;
+	} u; u.f = f; return u.t;
+}
+
 inline char *cc_strdup(const char *x)
 {
 	if (!x) return NULL;
