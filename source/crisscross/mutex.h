@@ -159,7 +159,7 @@ namespace CrissCross
 			/*! \brief The constructor. */
 			/*!
 			 *  Locks the specified read/write lock.
-			 *  \param _mutex The read/write lock to be held.
+			 *  \param _lock The read/write lock to be held.
 			 *  \param _type Indicates whether this lock holder should lock for reading or for writing.
 			 */
 			RWLockHolder(ReadWriteLock *_lock, RWLockHolderType _type);
