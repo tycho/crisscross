@@ -41,7 +41,7 @@ void shuffleElements(DArray<ktype_t> *_array)
 template <class T>
 void TestTree(T _tree, DArray<ktype_t> *dataset, unsigned long _size)
 {
-	console->Write("%8lu ", _size);
+	console->Write("%10lu ", _size);
 	
 	// fill tree
 	Stopwatch sw;
@@ -143,7 +143,7 @@ int RunApplication(int argc, char * *argv)
 
 	console->WriteLine();
 	console->WriteLine("Testing AVLTree...");
-	console->WriteLine("%8s %10s %10s %10s %10s %10s", "size", "add", "srch+", "srch", "srch-", "empty");
+	console->WriteLine("%10s %10s %10s %10s %10s %10s", "size", "add", "srch+", "srch", "srch-", "empty");
 	AVLTree<ktype_t, char> *avltree = new AVLTree<ktype_t, char>();
 	for (size_t *p = sizes; *p != 0; p++) {
 		TestTree<AVLTree<ktype_t, char> *> (avltree, dataset, *p);
@@ -154,7 +154,7 @@ int RunApplication(int argc, char * *argv)
 
 	console->WriteLine();
 	console->WriteLine("Testing RedBlackTree...");
-	console->WriteLine("%8s %10s %10s %10s %10s %10s", "size", "add", "srch+", "srch", "srch-", "empty");
+	console->WriteLine("%10s %10s %10s %10s %10s %10s", "size", "add", "srch+", "srch", "srch-", "empty");
 	RedBlackTree<ktype_t, char> *rbtree = new RedBlackTree<ktype_t, char>();
 	for (size_t *p = sizes; *p != 0; p++) {
 		TestTree<RedBlackTree<ktype_t, char> *> (rbtree, dataset, *p);
@@ -165,7 +165,7 @@ int RunApplication(int argc, char * *argv)
 
 	console->WriteLine();
 	console->WriteLine("Testing SplayTree...");
-	console->WriteLine("%8s %10s %10s %10s %10s %10s", "size", "add", "srch+", "srch", "srch-", "empty");
+	console->WriteLine("%10s %10s %10s %10s %10s %10s", "size", "add", "srch+", "srch", "srch-", "empty");
 	SplayTree<ktype_t, char> *splaytree = new SplayTree<ktype_t, char>();
 	for (size_t *p = sizes; *p != 0; p++) {
 		TestTree<SplayTree<ktype_t, char> *> (splaytree, dataset, *p);
@@ -176,7 +176,7 @@ int RunApplication(int argc, char * *argv)
 
 	console->WriteLine();
 	console->WriteLine("Testing STLTree...");
-	console->WriteLine("%8s %10s %10s %10s %10s %10s", "size", "add", "srch+", "srch", "srch-", "empty");
+	console->WriteLine("%10s %10s %10s %10s %10s %10s", "size", "add", "srch+", "srch", "srch-", "empty");
 	STLTree<ktype_t, char> *stltree = new STLTree<ktype_t, char>();
 	for (size_t *p = sizes; *p != 0; p++) {
 		TestTree<STLTree<ktype_t, char> *> (stltree, dataset, *p);
