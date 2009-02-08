@@ -197,7 +197,7 @@ namespace CrissCross
 				};
 				_CC_DEPRECATE_FUNCTION(find)    inline Data GetData(Key const &_key, Data const &_default = NULL)
 				{
-					return find(_key);
+					return find(_key, _default);
 				};
 				_CC_DEPRECATE_FUNCTION(erase)   inline void     RemoveData(Key const &_key)
 				{
