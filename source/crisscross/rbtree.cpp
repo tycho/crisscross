@@ -396,7 +396,7 @@ namespace CrissCross
 					p_current = p_current->left;
 				else if (cmp > 0)
 					p_current = p_current->right;
-				else if (cmp == 0) {
+				else {
 					return p_current->data;
 				}
 			}
@@ -415,7 +415,7 @@ namespace CrissCross
 					p_current = p_current->left;
 				else if (cmp > 0)
 					p_current = p_current->right;
-				else if (cmp == 0) {
+				else {
 					return p_current;
 				}
 			}
