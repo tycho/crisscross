@@ -33,11 +33,6 @@ typedef bool (*isPrimeFunc)(unsigned long _number);
 prime_t primeCache[PREGEN]; prime_t *primeCachePtr;
 #endif
 
-/* */
-/* NOTE: The '__asm nop;' lines keep the compiler from marking the function */
-/*		 as a waste of time and optimizing it out. */
-/* */
-
 bool isPrime(unsigned long _candidate)
 {
 	prime_t i, limit, next, n;
@@ -84,21 +79,6 @@ bool isPrime(unsigned long _candidate)
 	for (i = next; i <= limit; i += 2) if (_modulus(n, i) == 0) return false;
 
 	return true;
-#if defined (TARGET_CPU_X86) || defined (TARGET_CPU_X64)
-#if defined (TARGET_COMPILER_GCC)
-	asm ("nop");
-#endif
-#endif
-
-#if defined (TARGET_CPU_X86)
-#if defined (TARGET_COMPILER_VC)
-	__asm nop;
-#endif
-#elif defined (TARGET_CPU_X64)
-#if defined (TARGET_OS_WINDOWS) && defined (TARGET_COMPILER_ICC)
-	__asm nop;
-#endif
-#endif
 }
 
 unsigned long genPrime(unsigned long _maxToFind, isPrimeFunc _func)
@@ -113,21 +93,6 @@ unsigned long genPrime(unsigned long _maxToFind, isPrimeFunc _func)
 	}
 
 	return lastprime;
-#if defined (TARGET_CPU_X86) || defined (TARGET_CPU_X64)
-#if defined (TARGET_COMPILER_GCC)
-	asm ("nop");
-#endif
-#endif
-
-#if defined (TARGET_CPU_X86)
-#if defined (TARGET_COMPILER_VC)
-	__asm nop;
-#endif
-#elif defined (TARGET_CPU_X64)
-#if defined (TARGET_OS_WINDOWS) && defined (TARGET_COMPILER_ICC)
-	__asm nop;
-#endif
-#endif
 }
 
 void AddPrimeToCache(prime_t _prime)
