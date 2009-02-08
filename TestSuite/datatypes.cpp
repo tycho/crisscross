@@ -35,7 +35,11 @@ int TestDatatypes_Ulong()
 
 int TestDatatypes_Bool()
 {
+#if defined(TARGET_OS_MACOSX) && defined(TARGET_CPU_PPC)
+	TEST_ASSERT(sizeof(cc_bool_t) * 8 == 32);
+#else
 	TEST_ASSERT(sizeof(cc_bool_t) * 8 == 8);
+#endif
 	return 0;
 }
 
