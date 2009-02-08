@@ -50,7 +50,7 @@ int TestAVLTree_CString()
 		TEST_ASSERT(strings[i] != NULL);
 		memset(strings[i], 0, 20);
 		TEST_ASSERT(strlen(strings[i]) == 0);
-		sprintf(strings[i], "%08ux", i);
+		sprintf(strings[i], "%08x", i);
 		TEST_ASSERT(strlen(strings[i]) > 0);
 	}
 
