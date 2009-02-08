@@ -45,7 +45,6 @@
 #include <crisscross/stopwatch.h>
 #include <crisscross/system.h>
 #ifdef ENABLE_HASHES
-#include <crisscross/md2.h>
 #include <crisscross/md4.h>
 #include <crisscross/md5.h>
 #include <crisscross/sha1.h>

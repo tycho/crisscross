@@ -29,7 +29,6 @@
 #include "insertionsort.h"
 #include "combsort.h"
 #include "stopwatch.h"
-#include "md2.h"
 #include "md4.h"
 #include "md5.h"
 #include "sha1.h"
@@ -64,9 +63,6 @@ int RunApplication(int argc, char * *argv)
 	WritePrefix("Size of cc_double_t"); retval |= WriteResult(TestDatatypes_Double());
 	WritePrefix("Size of cc_ptr_t"); retval |= WriteResult(TestDatatypes_Pointer());
 
-#if !defined (DISABLE_DEPRECATED_CODE)
-	WritePrefix("MD2"); retval |= WriteResult(TestMD2());
-#endif
 	WritePrefix("MD4"); retval |= WriteResult(TestMD4());
 	WritePrefix("MD5"); retval |= WriteResult(TestMD5());
 	WritePrefix("SHA-1"); retval |= WriteResult(TestSHA1());
