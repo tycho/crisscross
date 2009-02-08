@@ -5,8 +5,8 @@ if [ -f ~/.bashrc ]; then
 fi
 
 SCRIPTPATH="$(pwd)/$(echo $0 | rev | cut -d '/' -f2,3,4,5,6,7 | rev)"
-RELEASEVER="$(cat $SCRIPTPATH/release_ver)"
-RELEASEVER_TAG="$(cat $SCRIPTPATH/release_ver | cut -d'-' -f1)"
+RELEASEVER="$(cat $SCRIPTPATH/release_ver &> /dev/null)"
+RELEASEVER_TAG="$(cat $SCRIPTPATH/release_ver &> /dev/null | cut -d'-' -f1)"
 
 echo -n "Is CrissCross under version control? "
 if [ -x "$SCRIPTPATH/../.git" ]; then
