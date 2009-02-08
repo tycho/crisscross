@@ -36,10 +36,10 @@ namespace CrissCross
 			public:
 
 				/*! \brief The default constructor. */
-				STLTree() {};
+				__forceinline STLTree() {};
 
 				/*! \brief The destructor. */
-				~STLTree() { empty(); };
+				__forceinline ~STLTree() { empty(); };
 
 				/*! \brief Empties the entire tree. */
 				/*!
@@ -48,7 +48,7 @@ namespace CrissCross
 				 *    with ConvertToDArray() and then iterate through it to delete the data in whatever
 				 *    way is proper.
 				 */
-				void empty()
+				__forceinline void empty()
 				{
 					DArray<Key> *keys = ConvertIndexToDArray();
 					m_map.clear();
@@ -64,7 +64,7 @@ namespace CrissCross
 				 * \param _rec The data to insert.
 				 * \return True on success, false on failure.
 				 */
-				bool insert(Key const &_key, Data const &_rec)
+				__forceinline bool insert(Key const &_key, Data const &_rec)
 				{
 					if (exists(_key))
 						return false;
@@ -77,7 +77,7 @@ namespace CrissCross
 				 * \param _key The key of the node to find.
 				 * \return True if the key is in the tree, false if not.
 				 */
-				bool exists(Key const &_key) const
+				__forceinline bool exists(Key const &_key) const
 				{ return m_map.count(_key) != 0; };
 
 				/*! \brief Change the data at the given node. */
@@ -86,7 +86,7 @@ namespace CrissCross
 				 * \param _rec The data to insert.
 				 * \return True on success, false on failure.
 				 */
-				bool replace(Key const &_key, Data const &_rec)
+				__forceinline bool replace(Key const &_key, Data const &_rec)
 				{ 
 					if (!exists(_key))
 						return false;
@@ -100,7 +100,7 @@ namespace CrissCross
                                  * \param _default The value to return if the item couldn't be found.
                                  * \return If found, returns the data at the node, otherwise _default is returned.
                                  */
-				Data find(Key const &_key, Data const &_default = NULL) const
+				__forceinline Data find(Key const &_key, Data const &_default = NULL) const
 				{
 					if (!exists(_key))
 						return _default;
@@ -115,14 +115,14 @@ namespace CrissCross
 				 * \param _key The key of the node to delete.
 				 * \return True on success, false on failure
 				 */
-				bool erase(Key const &_key)
+				__forceinline bool erase(Key const &_key)
 				{ return m_map.erase(_key) == 1; };
 
 				/*! \brief Indicates the size of the tree. */
 				/*!
 				 * \return Size of the tree.
 				 */
-				inline size_t size() const
+				__forceinline size_t size() const
 				{ return m_map.size(); };
 
 				/*! \brief Converts the tree data into a linearized DArray. */
@@ -130,7 +130,7 @@ namespace CrissCross
 				 * \return A DArray containing the data of the tree.
 				 * \warning Delete the returned DArray when done with it.
 				 */
-				DArray <Data> *ConvertToDArray() const
+				__forceinline DArray <Data> *ConvertToDArray() const
 				{
 					DArray<Data> *darray = new DArray<Data>(size());
 					typename std::map<Key,Data>::const_iterator iter;
@@ -145,7 +145,7 @@ namespace CrissCross
 				 * \return A DArray containing the keys in the tree.
 				 * \warning Delete the returned DArray when done with it.
 				 */
-				DArray <Key> *ConvertIndexToDArray() const
+				__forceinline DArray <Key> *ConvertIndexToDArray() const
 				{
 					DArray<Key> *darray = new DArray<Key>(size());
 					typename std::map<Key,Data>::const_iterator iter;
@@ -155,39 +155,33 @@ namespace CrissCross
 					return darray;
 				};
 
-				/*! \brief Returns the overhead caused by the data structure. */
-				/*!
-				 * \return Memory usage in bytes.
-				 */
-				size_t mem_usage() const;
-
 #if !defined (DISABLE_DEPRECATED_CODE)
 				/*
 				 *      Deprecated Compatibility Functions
 				 *      Provided for compatibility with Tosser I
 				 */
 				/*! @cond */
-				_CC_DEPRECATE_FUNCTION(insert)  inline void     PutData(Key const &_key, Data const & _rec)
+				_CC_DEPRECATE_FUNCTION(insert) __forceinline void PutData(Key const &_key, Data const & _rec)
 				{
 					insert(_key, _rec);
 				};
-				_CC_DEPRECATE_FUNCTION(find)    inline Data GetData(Key const &_key, Data const &_default = NULL)
+				_CC_DEPRECATE_FUNCTION(find)   __forceinline Data GetData(Key const &_key, Data const &_default = NULL)
 				{
 					return find(_key, _default);
 				};
-				_CC_DEPRECATE_FUNCTION(erase)   inline void     RemoveData(Key const &_key)
+				_CC_DEPRECATE_FUNCTION(erase)  __forceinline void RemoveData(Key const &_key)
 				{
 					erase(_key);
 				};
-				_CC_DEPRECATE_FUNCTION(erase)   inline void     RemoveData(Key const &_key, Data const & _rec)
+				_CC_DEPRECATE_FUNCTION(erase)  __forceinline void RemoveData(Key const &_key, Data const & _rec)
 				{
 					erase(_key, _rec);
 				};
-				_CC_DEPRECATE_FUNCTION(size)    inline int      Size() const
+				_CC_DEPRECATE_FUNCTION(size)   __forceinline int  Size() const
 				{
 					return (int)size();
 				};
-				_CC_DEPRECATE_FUNCTION(empty)   inline void     Empty()
+				_CC_DEPRECATE_FUNCTION(empty)  __forceinline void Empty()
 				{
 					empty();
 				};
