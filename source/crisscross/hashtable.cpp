@@ -13,96 +13,164 @@
 #error "This file shouldn't be compiled directly."
 #endif
 
+#include <crisscross/compare.h>
 #include <crisscross/hash.h>
+#include <crisscross/internal_mem.h>
 
 namespace CrissCross
 {
 	namespace Data
 	{
-		template <class Key, class Data>
-		HashTable<Key, Data>::HashTable(size_t _initialSize)
+		template <class Data>
+		HashTable<Data>::HashTable(size_t _initialSize)
+		: m_keys(NULL), m_size(32)
 		{
-			if (_initialSize < 25) _initialSize = 25;
+			m_mask = m_size - 1;
+			m_slotsFree = m_size;
+			m_keys = new char *[m_size];
+			m_data = new Data[m_size];
 
-			m_size = _initialSize;
-			m_used = 0;
-			m_array = new tree_t *[_initialSize];
-			memset(m_array, 0, sizeof(tree_t *) * _initialSize);
+			memset(m_keys, 0, sizeof(char *) * m_size);
+			memset(m_data, 0, sizeof(Data) * m_size);
 		}
 
-		template <class Key, class Data>
-		HashTable<Key, Data>::~HashTable()
+		template <class Data>
+		HashTable<Data>::~HashTable()
 		{
-			for (size_t i = 0; i < m_size; i++) {
-				delete m_array[i];
-				m_array[i] = NULL;
+			empty();
+
+			delete [] m_keys;
+			delete [] m_data;
+		}
+
+		template <class Data>
+		void HashTable<Data>::grow()
+		{
+			unsigned int oldSize = m_size;
+			m_size *= 2;
+			m_mask = m_size - 1;
+			char **oldKeys = m_keys;
+			m_keys = new char *[m_size];
+			Data *oldData = m_data;
+			m_data = new Data[m_size];
+
+			memset(m_keys, 0, sizeof(char *) * m_size);
+			memset(m_data, 0, sizeof(Data) * m_size);
+
+			for (unsigned int i = 0; i < oldSize; ++i) {
+				if (oldKeys[i] != NULL) {
+					unsigned int newIndex = findInsertIndex(oldKeys[i]);
+					m_keys[newIndex] = oldKeys[i];
+					m_data[newIndex] = oldData[i];
+				}
 			}
 
-			delete [] m_array;
-			m_array = NULL;
-			m_size = 0;
+			m_slotsFree += m_size - oldSize;
+
+			delete [] oldKeys;
+			delete [] oldData;
 		}
 
-		template <class Key, class Data>
-		size_t HashTable<Key, Data>::findIndex(Key const &_key) const
+		template <class Data>
+		size_t HashTable<Data>::findInsertIndex(const char *_key) const
 		{
-			size_t khash = Hash(_key);
-			size_t pos = khash % m_size;
-			return pos;
+			unsigned int index = Hash<const char *>(_key) & m_mask;
+
+			while (m_keys[index] != NULL &&
+			       m_keys[index] != (char *)-1)
+			{
+				CoreAssert(Compare<const char *>((const char *)m_keys[index], _key) != 0);
+				index++;
+				index &= m_mask;
+			}
+
+			return index;
 		}
 
-		template <class Key, class Data>
-		Data HashTable<Key, Data>::find(Key const & _key, Data const &_default) const
+		template <class Data>
+		size_t HashTable<Data>::findIndex(const char *_key) const
+		{
+			size_t index = Hash<const char *>(_key) & m_mask;
+
+			if (m_keys[index] == NULL &&
+			    m_keys[index] != (char*)-1) {
+				return -1;
+			}
+
+			while (true)
+			{
+				if (m_keys[index] != NULL && m_keys[index] != (char*)-1) {
+					if (Compare<const char *>((const char *)m_keys[index], _key) == 0)
+						break;
+				}
+
+				index++;
+				index &= m_mask;
+
+				if (m_keys[index] == NULL &&
+				    m_keys[index] != (char*)-1 ) {
+					return -1;
+				}
+			}
+
+			return index;
+		}
+
+		template <class Data>
+		Data HashTable<Data>::find(const char * _key, Data const &_default) const
 		{
 			size_t index = findIndex(_key);
-
-			if (!m_array[index])
-				return _default;
-
-			return m_array[index]->find(_key, _default);
+			if (index != (size_t)-1) {
+				return m_data[index];
+			}
+			return _default;
 		}
 
-		template <class Key, class Data>
-		bool HashTable<Key, Data>::exists(Key const & _key) const
+		template <class Data>
+		bool HashTable<Data>::exists(const char * _key) const
+		{
+			return findIndex(_key) != (size_t)-1;
+		}
+
+		template <class Data>
+		bool HashTable<Data>::erase(const char *_key)
 		{
 			size_t index = findIndex(_key);
-			if (!m_array[index]) return false;
-
-			return m_array[index]->exists(_key);
+			if (index != (size_t)-1) {
+				Dealloc(m_keys[index]);
+				m_keys[index] = (char*)-1;
+				m_slotsFree++;
+				return true;
+			}
+			return false;
 		}
 
-		template <class Key, class Data>
-		bool HashTable<Key, Data>::erase(Key const &_key)
+		template <class Data>
+		void HashTable<Data>::empty()
 		{
-			size_t index = findIndex(_key);
-			if (!m_array[index]) return false;
+			for (size_t i = 0; i < m_size; ++i) {
+				if (m_keys[i] == (char*)-1) m_keys[i] = NULL;
+				Dealloc(m_keys[i]);
+			}
 
-			return m_array[index]->erase(_key);
+			memset(m_keys, 0, sizeof(char *) * m_size);
+			memset(m_data, 0, sizeof(Data) * m_size);
 		}
 
-		template <class Key, class Data>
-		size_t HashTable<Key, Data>::mem_usage() const
+		template <class Data>
+		bool HashTable<Data>::insert(const char *_key, Data const &_data)
 		{
-			size_t ret = sizeof(*this);
-			for (unsigned int i = 0; i < m_size; i++)
-				if (m_array[i])
-					ret += m_array[i]->mem_usage();
+			if (m_slotsFree * 2 <= m_size) {
+				grow();
+			}
 
-			return ret;
-		}
+			unsigned int index = findInsertIndex(_key);
+			CoreAssert(m_keys[index] == NULL || m_keys[index] == (char*)-1);
+			m_keys[index] = cc_strdup(_key);
+			m_data[index] = _data;
+			m_slotsFree--;
 
-		template <class Key, class Data>
-		bool HashTable<Key, Data>::insert(Key const &_key, Data const &_data)
-		{
-			size_t khash = Hash(_key);
-			size_t pos = khash % m_size;
-
-			if (!m_array[pos])
-				m_array[pos] = new tree_t();
-
-			CoreAssert(m_array[pos]);
-
-			return m_array[pos]->insert(_key, _data);
+			return index;
 		}
 	}
 }

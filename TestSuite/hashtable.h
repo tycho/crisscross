@@ -12,8 +12,6 @@
 #ifndef __included_hashtable_test_h
 #define __included_hashtable_test_h
 
-int TestHashTable_Int();
 int TestHashTable_CString();
-int TestHashTable_String();
 
 #endif

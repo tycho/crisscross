@@ -16,42 +16,13 @@
 
 using namespace CrissCross::Data;
 
-int TestHashTable_Int()
-{
-	HashTable<unsigned long, unsigned long> ht;
-
-	const unsigned long max = 1000;
-	unsigned long i;
-	for (i = 0; i < max; i++) {
-		ht.insert(i, max - i);
-	}
-
-	for (i = 0; i < max; i += 2) {
-		TEST_ASSERT(ht.find(i) != 0);
-	}
-
-	for (i = 0; i < max; i += 2) {
-		TEST_ASSERT(ht.erase(i));
-	}
-
-	for (i = 0; i < max; i += 2) {
-		TEST_ASSERT(ht.find(i) == 0);
-	}
-
-	for (i = 1; i < max; i += 2) {
-		TEST_ASSERT(ht.find(i) == max - i);
-	}
-
-	return 0;
-}
-
 int TestHashTable_CString()
 {
-	HashTable<const char *, const char *> ht;
+	HashTable<const char *> ht;
 
 	char buffer1[32];
 	char buffer2[32];
-	const unsigned long max = 1000;
+	const unsigned long max = 20;
 	unsigned long i;
 
 	for (i = 0; i < max; i++) {
@@ -87,53 +58,6 @@ int TestHashTable_CString()
 		sprintf(buffer1, "%lu", i);
 		free((void *)ht.find(buffer1));
 		TEST_ASSERT(ht.erase(buffer1));
-	}
-
-	return 0;
-}
-
-int TestHashTable_String()
-{
-	HashTable<std::string, std::string> ht;
-
-	char buffer1[32];
-	char buffer2[32];
-	const unsigned long max = 1000;
-	unsigned long i;
-
-	for (i = 0; i < max; i++) {
-		sprintf(buffer1, "%lu", i);
-		sprintf(buffer2, "%lu", max - i);
-		ht.insert(std::string(buffer1), std::string(buffer2));
-	}
-
-	for (i = 0; i < max; i += 2) {
-		sprintf(buffer1, "%lu", i);
-		TEST_ASSERT(ht.exists(std::string(buffer1)));
-	}
-
-	for (i = 0; i < max; i += 2) {
-		sprintf(buffer1, "%lu", i);
-		TEST_ASSERT(ht.erase(std::string(buffer1)));
-	}
-
-	for (i = 0; i < max; i += 2) {
-		sprintf(buffer1, "%lu", i);
-		TEST_ASSERT(!ht.exists(std::string(buffer1)));
-	}
-
-	std::string rec;
-	for (i = 1; i < max; i += 2) {
-		sprintf(buffer1, "%lu", i);
-		sprintf(buffer2, "%lu", max - i);
-		TEST_ASSERT((rec = ht.find(std::string(buffer1), "")) != "");
-		TEST_ASSERT(std::string(rec) == std::string(buffer2));
-	}
-
-	/* Rest of the cleanup */
-	for (i = 1; i < max; i += 2) {
-		sprintf(buffer1, "%lu", i);
-		TEST_ASSERT(ht.erase(std::string(buffer1)));
 	}
 
 	return 0;
