@@ -43,6 +43,8 @@
 		B01CB6A20D52D2B40081CCAC /* tiger.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB68E0D52D2B40081CCAC /* tiger.h */; };
 		B02A92870EA070F300A7DB38 /* hash.h in Headers */ = {isa = PBXBuildFile; fileRef = B02A92860EA070F300A7DB38 /* hash.h */; };
 		B03C0F3C0EC7800800D8A516 /* CHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B03C0F3B0EC7800800D8A516 /* CHUD.framework */; };
+		B05FACB10F40BE420036CF37 /* profiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B05FACB00F40BE420036CF37 /* profiler.cpp */; };
+		B05FACB30F40BE590036CF37 /* profiler.h in Headers */ = {isa = PBXBuildFile; fileRef = B05FACB20F40BE590036CF37 /* profiler.h */; };
 		B07FD4B10D6CD41400464636 /* filereader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B07FD4AF0D6CD41400464636 /* filereader.cpp */; };
 		B07FD4B20D6CD41400464636 /* filewriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B07FD4B00D6CD41400464636 /* filewriter.cpp */; };
 		B07FD4B50D6CD42300464636 /* filereader.h in Headers */ = {isa = PBXBuildFile; fileRef = B07FD4B30D6CD42300464636 /* filereader.h */; };
@@ -136,6 +138,8 @@
 		B01CB6A50D52D2E60081CCAC /* avltree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = avltree.cpp; path = ../../source/crisscross/avltree.cpp; sourceTree = SOURCE_ROOT; };
 		B02A92860EA070F300A7DB38 /* hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hash.h; path = ../../source/crisscross/hash.h; sourceTree = SOURCE_ROOT; };
 		B03C0F3B0EC7800800D8A516 /* CHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CHUD.framework; path = /System/Library/PrivateFrameworks/CHUD.framework; sourceTree = "<absolute>"; };
+		B05FACB00F40BE420036CF37 /* profiler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = profiler.cpp; path = ../../source/profiler.cpp; sourceTree = SOURCE_ROOT; };
+		B05FACB20F40BE590036CF37 /* profiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = profiler.h; path = ../../source/crisscross/profiler.h; sourceTree = SOURCE_ROOT; };
 		B07FD4AF0D6CD41400464636 /* filereader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = filereader.cpp; path = ../../source/filereader.cpp; sourceTree = SOURCE_ROOT; };
 		B07FD4B00D6CD41400464636 /* filewriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = filewriter.cpp; path = ../../source/filewriter.cpp; sourceTree = SOURCE_ROOT; };
 		B07FD4B30D6CD42300464636 /* filereader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = filereader.h; path = ../../source/crisscross/filereader.h; sourceTree = SOURCE_ROOT; };
@@ -236,6 +240,8 @@
 		08FB77ACFE841707C02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				B05FACB20F40BE590036CF37 /* profiler.h */,
+				B05FACB00F40BE420036CF37 /* profiler.cpp */,
 				B02A92860EA070F300A7DB38 /* hash.h */,
 				B07FD4B30D6CD42300464636 /* filereader.h */,
 				B07FD4B40D6CD42300464636 /* filewriter.h */,
@@ -376,6 +382,7 @@
 				B02A92870EA070F300A7DB38 /* hash.h in Headers */,
 				B0DA22920F2028C1007F11B7 /* quadtree.h in Headers */,
 				B0DA22950F202C61007F11B7 /* vec2.h in Headers */,
+				B05FACB30F40BE590036CF37 /* profiler.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -464,6 +471,7 @@
 				B01CB67A0D52D2970081CCAC /* tiger.cpp in Sources */,
 				B07FD4B10D6CD41400464636 /* filereader.cpp in Sources */,
 				B07FD4B20D6CD41400464636 /* filewriter.cpp in Sources */,
+				B05FACB10F40BE420036CF37 /* profiler.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

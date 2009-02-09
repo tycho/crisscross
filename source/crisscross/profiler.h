@@ -14,8 +14,6 @@
 
 #include <crisscross/hashtable.h>
 
-#ifdef PROFILER_ENABLED
-
 namespace CrissCross
 {
 	namespace System
@@ -45,7 +43,7 @@ namespace CrissCross
 			double     m_callStartTime;
 			char      *m_name;
 
-			SortingHashTable<ProfiledElement *>         m_children;
+			CrissCross::Data::SortingHashTable<ProfiledElement *> m_children;
 			ProfiledElement                            *m_parent;
 
 			bool       m_isExpanded; /* Bit of data that a tree view display can use */
@@ -66,11 +64,19 @@ namespace CrissCross
 
 		class Profiler
 		{
-		protected:
+		// TODO: Making these public is a bad practice. Find a more appropriate way to do this.
+		public:
 			ProfiledElement	*m_currentElement;
 			ProfiledElement	*m_rootElement;
 			double           m_endOfSecond;
 			double           m_lengthOfLastSecond;
+			#ifdef TARGET_OS_WINDOWS
+			DWORD            m_masterThread;
+			#else
+			pthread_t        m_masterThread;
+			#endif
+
+			bool IsMasterThread();
 
 		public:
 			Profiler();
@@ -78,8 +84,12 @@ namespace CrissCross
 
 			void Advance();
 
-			void RenderStarted();
-			void RenderEnded();
+			/*! \brief Sets the master thread for this instance of the Profiler. */
+			/*!
+			 * The Profiler works best if it's only used in one thread.
+			 * This is used to set the thread that's allowed to use it.
+			 */
+			void SetMasterThread();
 
 			void StartProfile(char const *_name);
 			void EndProfile(char const *_name);
@@ -89,6 +99,7 @@ namespace CrissCross
 	}
 }
 
+#ifdef PROFILER_ENABLED
 #define SET_PROFILE(profiler, itemName, value) profiler->SetProfile(itemName, value)
 #define START_PROFILE(profiler, itemName) profiler->StartProfile(itemName)
 #define END_PROFILE(profiler, itemName) profiler->EndProfile(itemName)

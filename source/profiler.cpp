@@ -10,21 +10,18 @@
  */
 
 #include <crisscross/universal_include.h>
-#include <crisscross/profiler.h>
 
-#ifdef PROFILER_ENABLED
+#include <crisscross/compare.h>
+#include <crisscross/profiler.h>
+#include <crisscross/system.h>
+
+#include <float.h>
 
 namespace CrissCross
 {
 	namespace System
 	{
 		// TODO: Make this thread detection not dependent on SDL.
-#ifdef SINGLE_THREADED_PROFILER
-		static Uint32 s_profileThread;
-#  define MAIN_THREAD_ONLY { if (SDL_ThreadID() != s_profileThread) return; }
-#else
-#  define MAIN_THREAD_ONLY {}
-#endif
 
 		ProfiledElement::ProfiledElement(char const *_name, ProfiledElement *_parent)
 		:	m_currentTotalTime(0.0),
@@ -51,12 +48,12 @@ namespace CrissCross
 
 		void ProfiledElement::Start()
 		{
-			m_callStartTime = GetHighResTime();
+			m_callStartTime = CrissCross::System::GetHighResTime();
 		}
 
 		void ProfiledElement::End()
 		{
-			double const timeNow = GetHighResTime();
+			double const timeNow = CrissCross::System::GetHighResTime();
 
 			m_currentNumCalls++;
 			double const duration = timeNow - m_callStartTime;
@@ -129,16 +126,13 @@ namespace CrissCross
 
 		Profiler::Profiler()
 		:
-			m_currentElement(NULL),
-			m_insideRenderSection(false)
+			m_currentElement(NULL)
 		{
 			m_rootElement = new ProfiledElement("Root", NULL);
 			m_rootElement->m_isExpanded = true;
 			m_currentElement = m_rootElement;
-			m_endOfSecond = GetHighResTime() + 1.0f;
-		#ifdef SINGLE_THREADED_PROFILER
-			s_profileThread = SDL_ThreadID();
-		#endif
+			m_endOfSecond = CrissCross::System::GetHighResTime() + 1.0f;
+			SetMasterThread();
 		}
 
 		Profiler::~Profiler()
@@ -148,7 +142,7 @@ namespace CrissCross
 
 		void Profiler::Advance()
 		{
-			double timeNow = GetHighResTime();
+			double timeNow = CrissCross::System::GetHighResTime();
 			if (timeNow > m_endOfSecond) {
 				m_lengthOfLastSecond = timeNow - (m_endOfSecond - 1.0);
 				m_endOfSecond = timeNow + 1.0;
@@ -157,24 +151,32 @@ namespace CrissCross
 			}
 		}
 
-		void Profiler::RenderStarted()
-		{
-			m_insideRenderSection = true;
-		}
-
-		void Profiler::RenderEnded()
-		{
-			m_insideRenderSection = false;
-		}
-
 		void Profiler::ResetHistory()
 		{
 			m_rootElement->ResetHistory();
 		}
 
+		void Profiler::SetMasterThread()
+		{
+	#ifdef TARGET_OS_WINDOWS
+			m_masterThread = GetCurrentThreadId();
+	#else
+			m_masterThread = pthread_self();
+	#endif
+		}
+
+		bool Profiler::IsMasterThread()
+		{
+	#ifdef TARGET_OS_WINDOWS
+			return m_masterThread == GetCurrentThreadId();
+	#else
+			return pthread_equal(m_masterThread, pthread_self());
+	#endif
+		}
+
 		void Profiler::StartProfile(char const *_name)
 		{
-			MAIN_THREAD_ONLY;
+			if (!IsMasterThread()) return;
 
 			ProfiledElement *pe = m_currentElement->m_children.GetData(_name);
 			if (!pe) {
@@ -197,20 +199,19 @@ namespace CrissCross
 
 		void Profiler::EndProfile(char const *_name)
 		{
-			MAIN_THREAD_ONLY;
+			if (!IsMasterThread()) return;
 
 			CoreAssert(m_currentElement->m_wasExpanded == m_currentElement->m_parent->m_isExpanded);
 
 			if (m_currentElement->m_parent->m_isExpanded) {
 				CoreAssert(m_currentElement != m_rootElement);
-				CoreAssert(stricmp(_name, m_currentElement->m_name) == 0);
+				CoreAssert(CrissCross::Data::Compare(_name, (const char *)m_currentElement->m_name) == 0);
 
 				m_currentElement->End();
 			}
 
-			CoreAssert(strcmp(m_currentElement->m_name, m_currentElement->m_parent->m_name) != 0);
+			CoreAssert(CrissCross::Data::Compare(m_currentElement->m_name, m_currentElement->m_parent->m_name) != 0);
 			m_currentElement = m_currentElement->m_parent;
 		}
 	}
 }
-#endif
