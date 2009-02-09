@@ -30,17 +30,17 @@ namespace CrissCross
 	#elif defined (TARGET_OS_MACOSX)
 
 		/* ! The time index at which the timer started. ( Mac OS X only) */
-		uint64_t __m_start;
+		static uint64_t __m_start;
 
 		/* ! The time base information. (Mac OS X only) */
-		mach_timebase_info_data_t __m_timebase;
+		static mach_timebase_info_data_t __m_timebase;
 
 	#elif defined (TARGET_OS_LINUX) || defined (TARGET_OS_FREEBSD) || \
 		defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD) || \
 		defined (TARGET_OS_NDSFIRMWARE)
 
 		/* ! The time index at which the timer started. (Linux only) */
-		timeval __m_start;
+		static timeval __m_start;
 
 	#endif
 
