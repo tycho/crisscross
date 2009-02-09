@@ -27,8 +27,6 @@ namespace CrissCross
 {
 	namespace System
 	{
-		// TODO: Make this thread detection not dependent on SDL.
-
 		ProfiledElement::ProfiledElement(char const *_name, ProfiledElement *_parent)
 		:	m_currentTotalTime(0.0),
 			m_currentNumCalls(0),
