@@ -64,6 +64,8 @@
 /* Linux backtrace() */
 #define ENABLE_BACKTRACE
 
+#define ENABLE_PROFILER
+
 /* Case sensitive Compare() function */
 /* #    define CASE_SENSITIVE_COMPARE */
 
