@@ -64,19 +64,22 @@ namespace CrissCross
 
 		class Profiler
 		{
+		protected:
+			bool IsMasterThread();
+
 		// TODO: Making these public is a bad practice. Find a more appropriate way to do this.
 		public:
 			ProfiledElement	*m_currentElement;
 			ProfiledElement	*m_rootElement;
 			double           m_endOfSecond;
 			double           m_lengthOfLastSecond;
+			bool             m_inRenderSection;
+			bool             m_doGlFinish;
 			#ifdef TARGET_OS_WINDOWS
 			DWORD            m_masterThread;
 			#else
 			pthread_t        m_masterThread;
 			#endif
-
-			bool IsMasterThread();
 
 		public:
 			Profiler();
@@ -93,6 +96,9 @@ namespace CrissCross
 
 			void StartProfile(char const *_name);
 			void EndProfile(char const *_name);
+
+			__forceinline void RenderStarted() { m_inRenderSection = true; };
+			__forceinline void RenderEnded() { m_inRenderSection = false; };
 
 			void ResetHistory();
 		};

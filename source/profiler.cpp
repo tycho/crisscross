@@ -11,6 +11,12 @@
 
 #include <crisscross/universal_include.h>
 
+#ifdef TARGET_OS_MACOSX
+#include <OpenGL/gl.h>
+#else
+#include <GL/gl.h>
+#endif
+
 #include <crisscross/compare.h>
 #include <crisscross/profiler.h>
 #include <crisscross/system.h>
@@ -131,6 +137,7 @@ namespace CrissCross
 			m_rootElement = new ProfiledElement("Root", NULL);
 			m_rootElement->m_isExpanded = true;
 			m_currentElement = m_rootElement;
+			m_inRenderSection = false;
 			m_endOfSecond = CrissCross::System::GetHighResTime() + 1.0f;
 			SetMasterThread();
 		}
@@ -189,6 +196,9 @@ namespace CrissCross
 			bool             wasExpanded = m_currentElement->m_isExpanded;
 
 			if (m_currentElement->m_isExpanded) {
+				if (m_doGlFinish && m_inRenderSection) {
+					glFinish();
+				}
 				pe->Start();
 			}
 
@@ -204,6 +214,10 @@ namespace CrissCross
 			CoreAssert(m_currentElement->m_wasExpanded == m_currentElement->m_parent->m_isExpanded);
 
 			if (m_currentElement->m_parent->m_isExpanded) {
+				if (m_doGlFinish && m_inRenderSection) {
+					glFinish();
+				}
+
 				CoreAssert(m_currentElement != m_rootElement);
 				CoreAssert(CrissCross::Data::Compare(_name, (const char *)m_currentElement->m_name) == 0);
 
