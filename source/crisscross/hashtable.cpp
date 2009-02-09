@@ -299,18 +299,22 @@ namespace CrissCross
 		{
 			int index = this->GetIndex(_key);
 			if (index >= 0)	{
-				erase(index);
+				return erase(index);
 			}
+			return false;
 		}
 
 		template <class T>
 		bool SortingHashTable<T>::erase(size_t _index)
 		{
+			bool retval = false;
 			/* */
 			/* Remove data */
 
-			if (this->m_keys[_index] != (char *)-1)
+			if (this->m_keys[_index] != (char *)-1) {
+				retval = true;
 				delete [] this->m_keys[_index];
+			}
 			this->m_keys[_index] = (char *)-1;
 			this->m_slotsFree++;
 
@@ -331,6 +335,7 @@ namespace CrissCross
 			} else	{
 				m_orderedIndices[prevIndex] = m_orderedIndices[index];
 			}
+			return retval;
 		}
 
 		template <class T>
