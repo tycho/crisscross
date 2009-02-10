@@ -27,8 +27,9 @@ namespace CrissCross
 {
 	namespace System
 	{
-		ProfiledElement::ProfiledElement(char const *_name, ProfiledElement *_parent)
-		:	m_currentTotalTime(0.0),
+		ProfiledElement::ProfiledElement(char const *_name, ProfiledElement *_parent, Profiler *_profiler)
+		:	m_profiler(_profiler),
+			m_currentTotalTime(0.0),
 			m_currentNumCalls(0),
 			m_lastTotalTime(0.0),
 			m_lastNumCalls(0),
@@ -82,6 +83,9 @@ namespace CrissCross
 			m_historyNumSeconds += 1.0;
 			m_historyNumCalls += m_lastNumCalls;
 
+			float thisMax = m_lastTotalTime;
+			if( thisMax > m_profiler->m_maxFound ) m_profiler->m_maxFound = thisMax;
+
 			for (int i = 0; i < m_children.Size(); ++i) {
 				if (m_children.ValidIndex(i)) {
 					m_children[i]->Advance();
@@ -132,7 +136,7 @@ namespace CrissCross
 		:
 			m_currentElement(NULL)
 		{
-			m_rootElement = new ProfiledElement("Root", NULL);
+			m_rootElement = new ProfiledElement("Root", NULL, this);
 			m_rootElement->m_isExpanded = true;
 			m_currentElement = m_rootElement;
 			m_inRenderSection = false;
@@ -148,12 +152,25 @@ namespace CrissCross
 		void Profiler::Advance()
 		{
 			double timeNow = CrissCross::System::GetHighResTime();
-			if (timeNow > m_endOfSecond) {
+			if (timeNow > m_endOfSecond)
+			{
 				m_lengthOfLastSecond = timeNow - (m_endOfSecond - 1.0);
 				m_endOfSecond = timeNow + 1.0;
 
+				m_maxFound = 0.0f;
 				m_rootElement->Advance();
 			}
+
+			if( m_lastFrameStart >= 0 )
+			{
+				double lastFrameTime = timeNow - m_lastFrameStart;
+				m_frameTimes.insert_front( int( lastFrameTime * 1000 ) );
+			}
+
+			while( m_frameTimes.valid(200) )
+				m_frameTimes.remove(200);
+
+			m_lastFrameStart = timeNow;
 		}
 
 		void Profiler::ResetHistory()
@@ -185,13 +202,13 @@ namespace CrissCross
 
 			ProfiledElement *pe = m_currentElement->m_children.GetData(_name);
 			if (!pe) {
-				pe = new ProfiledElement(_name, m_currentElement);
+				pe = new ProfiledElement(_name, m_currentElement, this);
 				m_currentElement->m_children.PutData(_name, pe);
 			}
 
 			CoreAssert(m_rootElement->m_isExpanded);
 
-			bool             wasExpanded = m_currentElement->m_isExpanded;
+			bool wasExpanded = m_currentElement->m_isExpanded;
 
 			if (m_currentElement->m_isExpanded) {
 				if (m_doGlFinish && m_inRenderSection) {
@@ -209,21 +226,25 @@ namespace CrissCross
 		{
 			if (!IsMasterThread()) return;
 
-			CoreAssert(m_currentElement->m_wasExpanded == m_currentElement->m_parent->m_isExpanded);
+			//CoreAssert(m_currentElement->m_wasExpanded == m_currentElement->m_parent->m_isExpanded);
 
-			if (m_currentElement->m_parent->m_isExpanded) {
-				if (m_doGlFinish && m_inRenderSection) {
-					glFinish();
+			if (m_currentElement &&
+				m_currentElement->m_parent )
+			{
+				if (m_currentElement->m_parent->m_isExpanded) {
+					if (m_doGlFinish && m_inRenderSection) {
+						glFinish();
+					}
+
+					CoreAssert(m_currentElement != m_rootElement);
+					CoreAssert(CrissCross::Data::Compare(_name, (const char *)m_currentElement->m_name) == 0);
+
+					m_currentElement->End();
 				}
 
-				CoreAssert(m_currentElement != m_rootElement);
-				CoreAssert(CrissCross::Data::Compare(_name, (const char *)m_currentElement->m_name) == 0);
-
-				m_currentElement->End();
+				CoreAssert(CrissCross::Data::Compare(m_currentElement->m_name, m_currentElement->m_parent->m_name) != 0);
+				m_currentElement = m_currentElement->m_parent;
 			}
-
-			CoreAssert(CrissCross::Data::Compare(m_currentElement->m_name, m_currentElement->m_parent->m_name) != 0);
-			m_currentElement = m_currentElement->m_parent;
 		}
 	}
 }

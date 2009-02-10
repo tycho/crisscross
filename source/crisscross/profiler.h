@@ -13,13 +13,19 @@
 #define __included_cc_profiler_h
 
 #include <crisscross/hashtable.h>
+#include <crisscross/llist.h>
 
 namespace CrissCross
 {
 	namespace System
 	{
+		class Profiler;
+
 		class ProfiledElement
 		{
+		private:
+			Profiler  *m_profiler;
+
 		public:
 			/* Values used for accumulating the profile for the current second */
 			double     m_currentTotalTime; /* In seconds */
@@ -50,7 +56,7 @@ namespace CrissCross
 			bool       m_wasExpanded;
 
 		public:
-			ProfiledElement(char const *_name, ProfiledElement *_parent);
+			ProfiledElement(char const *_name, ProfiledElement *_parent, Profiler *_profiler);
 			~ProfiledElement();
 
 			void Start();
@@ -65,6 +71,8 @@ namespace CrissCross
 		class Profiler
 		{
 		protected:
+			bool m_inRenderSection;
+
 			bool IsMasterThread();
 
 		// TODO: Making these public is a bad practice. Find a more appropriate way to do this.
@@ -73,13 +81,16 @@ namespace CrissCross
 			ProfiledElement	*m_rootElement;
 			double           m_endOfSecond;
 			double           m_lengthOfLastSecond;
-			bool             m_inRenderSection;
 			bool             m_doGlFinish;
 			#ifdef TARGET_OS_WINDOWS
 			DWORD            m_masterThread;
 			#else
 			pthread_t        m_masterThread;
 			#endif
+			double           m_lastFrameStart;
+			float            m_maxFound;
+
+		    CrissCross::Data::LList<int> m_frameTimes;
 
 		public:
 			Profiler();
