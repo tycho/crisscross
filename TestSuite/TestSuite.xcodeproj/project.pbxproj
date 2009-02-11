@@ -27,6 +27,8 @@
 		B02CA41B0BC0757E00E266AB /* stopwatch.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B02CA4170BC0757E00E266AB /* stopwatch.h */; };
 		B02CA41E0BC0758700E266AB /* testutils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B02CA41C0BC0758700E266AB /* testutils.cpp */; };
 		B02CA41F0BC0758700E266AB /* testutils.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B02CA41D0BC0758700E266AB /* testutils.h */; };
+		B08570CE0F424FE00098162A /* libCrissCross Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B08570CB0F424FC50098162A /* libCrissCross Static.a */; };
+		B08570D20F4250080098162A /* stltree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B08570D00F4250080098162A /* stltree.cpp */; };
 		B0A626510BFA9282006F2B68 /* combsort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0A6264C0BFA9282006F2B68 /* combsort.cpp */; };
 		B0A626520BFA9282006F2B68 /* combsort.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0A6264D0BFA9282006F2B68 /* combsort.h */; };
 		B0A626530BFA9282006F2B68 /* header.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0A6264E0BFA9282006F2B68 /* header.cpp */; };
@@ -37,7 +39,6 @@
 		B0D9D9DD0D24217500A81A42 /* splaytree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0D9D9DB0D24217500A81A42 /* splaytree.cpp */; };
 		B0ED57B40BEAF73800F6033B /* datatypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0ED57B20BEAF73800F6033B /* datatypes.cpp */; };
 		B0ED57B50BEAF73800F6033B /* datatypes.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0ED57B30BEAF73800F6033B /* datatypes.h */; };
-		B0ED57C00BEAF77C00F6033B /* libCrissCross Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B0ED57960BEAF61200F6033B /* libCrissCross Static.a */; };
 		B0EDA66A0CA8347E00508ECB /* insertionsort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0EDA6620CA8347E00508ECB /* insertionsort.cpp */; };
 		B0EDA66B0CA8347E00508ECB /* insertionsort.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0EDA6630CA8347E00508ECB /* insertionsort.h */; };
 		B0EDA66E0CA8347E00508ECB /* shellsort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0EDA6660CA8347E00508ECB /* shellsort.cpp */; };
@@ -49,18 +50,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		B0ED57950BEAF61200F6033B /* PBXContainerItemProxy */ = {
+		B08570CA0F424FC50098162A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = B032773C0BBDF02B0034D6EF /* CrissCross.xcodeproj */;
+			containerPortal = B08570C20F424FC50098162A /* CrissCross.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = B0BD2C480BE26BDC00F71A26;
+			remoteGlobalIDString = B0BD2C480BE26BDC00F71A26 /* libCrissCross Static.a */;
 			remoteInfo = "CrissCross Static";
 		};
-		B0ED57A90BEAF70F00F6033B /* PBXContainerItemProxy */ = {
+		B08570CC0F424FD30098162A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = B032773C0BBDF02B0034D6EF /* CrissCross.xcodeproj */;
+			containerPortal = B08570C20F424FC50098162A /* CrissCross.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = B0BD2C470BE26BDB00F71A26;
+			remoteGlobalIDString = B0BD2C470BE26BDB00F71A26 /* CrissCross Static */;
 			remoteInfo = "CrissCross Static";
 		};
 /* End PBXContainerItemProxy section */
@@ -120,8 +121,10 @@
 		B02CA4170BC0757E00E266AB /* stopwatch.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = stopwatch.h; sourceTree = "<group>"; };
 		B02CA41C0BC0758700E266AB /* testutils.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = testutils.cpp; sourceTree = "<group>"; };
 		B02CA41D0BC0758700E266AB /* testutils.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = testutils.h; sourceTree = "<group>"; };
-		B032773C0BBDF02B0034D6EF /* CrissCross.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrissCross.xcodeproj; path = ../xcode/CrissCross.xcodeproj; sourceTree = SOURCE_ROOT; };
 		B032776C0BBDF1450034D6EF /* TestSuite */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TestSuite; sourceTree = BUILT_PRODUCTS_DIR; };
+		B08570C20F424FC50098162A /* CrissCross.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrissCross.xcodeproj; path = ../targets/xcode/CrissCross.xcodeproj; sourceTree = SOURCE_ROOT; };
+		B08570D00F4250080098162A /* stltree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stltree.cpp; sourceTree = "<group>"; };
+		B08570D10F4250080098162A /* stltree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stltree.h; sourceTree = "<group>"; };
 		B0A6264C0BFA9282006F2B68 /* combsort.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = combsort.cpp; sourceTree = "<group>"; };
 		B0A6264D0BFA9282006F2B68 /* combsort.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = combsort.h; sourceTree = "<group>"; };
 		B0A6264E0BFA9282006F2B68 /* header.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = header.cpp; sourceTree = "<group>"; };
@@ -148,7 +151,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B0ED57C00BEAF77C00F6033B /* libCrissCross Static.a in Frameworks */,
+				B08570CE0F424FE00098162A /* libCrissCross Static.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,7 +161,7 @@
 		08FB7794FE84155DC02AAC07 /* TestSuite */ = {
 			isa = PBXGroup;
 			children = (
-				B032773C0BBDF02B0034D6EF /* CrissCross.xcodeproj */,
+				B08570C20F424FC50098162A /* CrissCross.xcodeproj */,
 				08FB7795FE84155DC02AAC07 /* Source */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
 			);
@@ -168,6 +171,8 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				B08570D00F4250080098162A /* stltree.cpp */,
+				B08570D10F4250080098162A /* stltree.h */,
 				B01CB6570D52D26B0081CCAC /* md4.cpp */,
 				B01CB6580D52D26B0081CCAC /* md4.h */,
 				B01CB6590D52D26B0081CCAC /* md5.cpp */,
@@ -228,10 +233,10 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B032773D0BBDF02B0034D6EF /* Products */ = {
+		B08570C30F424FC50098162A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B0ED57960BEAF61200F6033B /* libCrissCross Static.a */,
+				B08570CB0F424FC50098162A /* libCrissCross Static.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -250,7 +255,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				B0ED57AA0BEAF70F00F6033B /* PBXTargetDependency */,
+				B08570CD0F424FD30098162A /* PBXTargetDependency */,
 			);
 			name = TestSuite;
 			productInstallPath = "$(HOME)/bin";
@@ -270,8 +275,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = B032773D0BBDF02B0034D6EF /* Products */;
-					ProjectRef = B032773C0BBDF02B0034D6EF /* CrissCross.xcodeproj */;
+					ProductGroup = B08570C30F424FC50098162A /* Products */;
+					ProjectRef = B08570C20F424FC50098162A /* CrissCross.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -282,11 +287,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		B0ED57960BEAF61200F6033B /* libCrissCross Static.a */ = {
+		B08570CB0F424FC50098162A /* libCrissCross Static.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libCrissCross Static.a";
-			remoteRef = B0ED57950BEAF61200F6033B /* PBXContainerItemProxy */;
+			remoteRef = B08570CA0F424FC50098162A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -320,16 +325,17 @@
 				B01CB6670D52D26B0081CCAC /* sha256.cpp in Sources */,
 				B01CB6680D52D26B0081CCAC /* sha512.cpp in Sources */,
 				B01CB6690D52D26B0081CCAC /* tiger.cpp in Sources */,
+				B08570D20F4250080098162A /* stltree.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		B0ED57AA0BEAF70F00F6033B /* PBXTargetDependency */ = {
+		B08570CD0F424FD30098162A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "CrissCross Static";
-			targetProxy = B0ED57A90BEAF70F00F6033B /* PBXContainerItemProxy */;
+			targetProxy = B08570CC0F424FD30098162A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
