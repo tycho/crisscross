@@ -27,8 +27,8 @@ namespace CrissCross
 			unsigned int m_size;
 			unsigned int m_mask;
 
-			size_t findInsertIndex(const char *_key) const;
-			size_t findIndex(const char *_key) const;
+			int findInsertIndex(const char *_key) const;
+			int findIndex(const char *_key) const;
 			virtual void   grow();
 
 		public:
@@ -45,7 +45,7 @@ namespace CrissCross
 			 * \param _data The data to insert.
 			 * \return True on success, false on failure.
 			 */
-			virtual bool insert(const char *_key, Data const &_data);
+			virtual int insert(const char *_key, Data const &_data);
 
 			/*! \brief Finds a node in the table and returns the data at that node. */
 			/*!
@@ -99,19 +99,22 @@ namespace CrissCross
 				return m_size - m_slotsFree;
 			};
 
-			bool valid(size_t _index) const
+			bool valid(int _index) const
 			{
+				CoreAssert(_index >= 0 && _index < m_size);
 				return m_keys[_index] != NULL &&
 				       m_keys[_index] != (char*)-1;
 			};
 
-			Data const &operator [](size_t _index) const
+			Data const &operator [](int _index) const
 			{
+				CoreAssert(_index >= 0 && _index < m_size);
 				return m_data[_index];
 			};
 
-			Data &operator [](size_t _index)
+			Data &operator [](int _index)
 			{
+				CoreAssert(_index >= 0 && _index < m_size);
 				return m_data[_index];
 			};
 
@@ -189,7 +192,7 @@ namespace CrissCross
 			SortingHashTable();
 			~SortingHashTable();
 
-			bool	insert(char const *_key, Data const &_data);
+			int	insert(char const *_key, Data const &_data);
 			bool	erase(char const *_key);
 			bool	erase(size_t _index);
 

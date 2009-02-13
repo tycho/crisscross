@@ -72,7 +72,7 @@ namespace CrissCross
 		}
 
 		template <class Data>
-		size_t HashTable<Data>::findInsertIndex(const char *_key) const
+		int HashTable<Data>::findInsertIndex(const char *_key) const
 		{
 			unsigned int index = Hash<const char *>(_key) & m_mask;
 
@@ -88,9 +88,9 @@ namespace CrissCross
 		}
 
 		template <class Data>
-		size_t HashTable<Data>::findIndex(const char *_key) const
+		int HashTable<Data>::findIndex(const char *_key) const
 		{
-			size_t index = Hash<const char *>(_key) & m_mask;
+			int index = Hash<const char *>(_key) & m_mask;
 
 			if (m_keys[index] == NULL &&
 			    m_keys[index] != (char*)-1) {
@@ -119,8 +119,8 @@ namespace CrissCross
 		template <class Data>
 		Data HashTable<Data>::find(const char * _key, Data const &_default) const
 		{
-			size_t index = findIndex(_key);
-			if (index != (size_t)-1) {
+			int index = findIndex(_key);
+			if (index != -1) {
 				return m_data[index];
 			}
 			return _default;
@@ -129,14 +129,14 @@ namespace CrissCross
 		template <class Data>
 		bool HashTable<Data>::exists(const char * _key) const
 		{
-			return findIndex(_key) != (size_t)-1;
+			return findIndex(_key) != -1;
 		}
 
 		template <class Data>
 		bool HashTable<Data>::erase(const char *_key)
 		{
-			size_t index = findIndex(_key);
-			if (index != (size_t)-1) {
+			int index = findIndex(_key);
+			if (index != -1) {
 				Dealloc(m_keys[index]);
 				m_keys[index] = (char*)-1;
 				m_slotsFree++;
@@ -158,7 +158,7 @@ namespace CrissCross
 		}
 
 		template <class Data>
-		bool HashTable<Data>::insert(const char *_key, Data const &_data)
+		int HashTable<Data>::insert(const char *_key, Data const &_data)
 		{
 			if (m_slotsFree * 2 <= m_size) {
 				grow();
@@ -260,7 +260,7 @@ namespace CrissCross
 		}
 
 		template <class T>
-		bool SortingHashTable<T>::insert(char const *_key, T const &_data)
+		int SortingHashTable<T>::insert(char const *_key, T const &_data)
 		{
 			/* */
 			/* Make sure the table is big enough */
