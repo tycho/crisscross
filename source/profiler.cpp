@@ -33,12 +33,12 @@ namespace CrissCross
 			m_currentNumCalls(0),
 			m_lastTotalTime(0.0),
 			m_lastNumCalls(0),
-			m_longest(DBL_MIN),
-			m_shortest(DBL_MAX),
-			m_callStartTime(0.0),
 			m_historyTotalTime(0.0),
 			m_historyNumSeconds(0.0),
 			m_historyNumCalls(0),
+			m_shortest(DBL_MAX),
+			m_longest(DBL_MIN),
+			m_callStartTime(0.0),
 			m_parent(_parent),
 			m_isExpanded(false)
 		{
@@ -86,7 +86,7 @@ namespace CrissCross
 			float thisMax = m_lastTotalTime;
 			if( thisMax > m_profiler->m_maxFound ) m_profiler->m_maxFound = thisMax;
 
-			for (int i = 0; i < m_children.Size(); ++i) {
+			for (size_t i = 0; i < m_children.Size(); ++i) {
 				if (m_children.ValidIndex(i)) {
 					m_children[i]->Advance();
 				}
