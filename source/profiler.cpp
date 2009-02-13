@@ -139,7 +139,8 @@ namespace CrissCross
 			m_rootElement = new ProfiledElement("Root", NULL, this);
 			m_rootElement->m_isExpanded = true;
 			m_currentElement = m_rootElement;
-			m_inRenderSection = false;
+			m_doGlFinish = m_inRenderSection = false;
+			m_lastFrameStart = -1.0;
 			m_endOfSecond = CrissCross::System::GetHighResTime() + 1.0f;
 			SetMasterThread();
 		}
