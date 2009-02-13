@@ -92,8 +92,7 @@ namespace CrissCross
 		{
 			int index = Hash<const char *>(_key) & m_mask;
 
-			if (m_keys[index] == NULL &&
-			    m_keys[index] != (char*)-1) {
+			if (m_keys[index] == NULL) {
 				return -1;
 			}
 
@@ -107,8 +106,7 @@ namespace CrissCross
 				index++;
 				index &= m_mask;
 
-				if (m_keys[index] == NULL &&
-				    m_keys[index] != (char*)-1 ) {
+				if (m_keys[index] == NULL) {
 					return -1;
 				}
 			}
