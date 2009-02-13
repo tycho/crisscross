@@ -193,7 +193,8 @@ namespace CrissCross
 			/* Set all new data to zero */
 			memset(this->m_keys, 0, sizeof(char *) * this->m_size);
 			memset(this->m_data, 0, sizeof(T) * this->m_size);
-			memset(m_orderedIndices, -2, sizeof(short) * this->m_size);
+			for (size_t i = 0; i < this->m_size; i++)
+				m_orderedIndices[i] = (short)-1;
 
 			/* */
 			/* Go through the existing ordered index list, inserting elements into the */
@@ -349,7 +350,8 @@ namespace CrissCross
 		short SortingHashTable<T>::nextOrderedIndex()
 		{
 			short rv = m_nextOrderedIndex;
-			m_nextOrderedIndex = m_orderedIndices[m_nextOrderedIndex];
+			if (rv != -1)
+				m_nextOrderedIndex = m_orderedIndices[m_nextOrderedIndex];
 			return rv;
 		}
 	}
