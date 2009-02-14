@@ -21,7 +21,7 @@ namespace CrissCross
 {
 	namespace Data
 	{
-		const unsigned qtMax = 7;
+		const unsigned qtMax = 8;
 
 		template <class T>
 		struct QtNode
@@ -32,8 +32,7 @@ namespace CrissCross
 			vec2 pos;
 
 			QtNode(T const &_data, vec2 const &_pos, float _collisionRadius) : collisionRadius(_collisionRadius), data(_data), pos(_pos)
-			{
-			};
+			{ };
 		};
 
 		template <class T>
@@ -193,9 +192,11 @@ namespace CrissCross
 		template <class T>
 		bool Quadtree<T>::RemoveObject(T const &_object, vec2 const &_position, float radius)
 		{
+			bool removed = false;
+
 			/* find objects stored in this quadtree */
 			for (unsigned i = 0; i < nodes.size(); i++) {
-				if (nodes.valid(i) && CircleCollision(_position, radius, nodes[i]->pos, nodes[i]->collisionRadius))	{
+				if (nodes.valid(i) /* && CircleCollision(_position, radius, nodes[i]->pos, nodes[i]->collisionRadius) */) {
 					if (nodes[i]->data == _object) {
 						QtNode<T> *node = nodes[i];
 						nodes.remove(i);
@@ -209,12 +210,13 @@ namespace CrissCross
 								parent->Ascend();
 							}
 						}
-						return true;
+						removed = true;
+						break;
 					}
 				}
 			}
 			if (!ll)  /* if no subtrees, return this as-is */
-				return false;
+				return removed;
 			/* find objects stored in the child quadtrees */
 			float x, y;
 			float left, right;
@@ -230,25 +232,25 @@ namespace CrissCross
 			midY = (llPosition.Y() + trPosition.Y()) / 2.0f;
 			if (top > midY && left < midX) {
 				/* need to descend into top left quadtree */
-				if (tl->RemoveObject(_object, _position, radius))
-					return true;
+				if ( tl->RemoveObject(_object, _position, radius) )
+					removed = true;
 			}
 			if (top > midY && right > midX)	{
 				/* top right quadtree */
-				if (tr->RemoveObject(_object, _position, radius))
-					return true;
+				if ( tr->RemoveObject(_object, _position, radius) )
+					removed = true;
 			}
 			if (bottom < midY && right > midX) {
 				/* lower right quadtree */
-				if (lr->RemoveObject(_object, _position, radius))
-					return true;
+				if ( lr->RemoveObject(_object, _position, radius) )
+					removed = true;
 			}
 			if (bottom < midY && left < midX) {
 				/* lower left quadtree */
-				if (ll->RemoveObject(_object, _position, radius))
-					return true;
+				if ( ll->RemoveObject(_object, _position, radius) )
+					removed = true;
 			}
-			return false;
+			return removed;
 		}
 
 		template <class T>
