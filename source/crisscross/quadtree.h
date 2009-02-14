@@ -15,13 +15,12 @@
 #include <crisscross/compare.h>
 #include <crisscross/mutex.h>
 #include <crisscross/vec2.h>
-#include <crisscross/darray.h>
 
 namespace CrissCross
 {
 	namespace Data
 	{
-		const unsigned qtMax = 8;
+		const unsigned qtMax = 7;
 
 		template <class T>
 		struct QtNode
@@ -46,8 +45,8 @@ namespace CrissCross
 			Quadtree<T>             * lr;
 			Quadtree<T>             * tl;
 			Quadtree<T>             * tr;
-			int descentLevel;
-			DArray<QtNode<T> *> nodes;
+			int						descentLevel;
+			std::vector<QtNode<T>*>	nodes;
 
 			static bool InRange(float lower_bound, float upper_bound, float point);
 			static bool CircleCollision(vec2 circle1, float radius1, vec2 circle2, float radius2);
@@ -55,42 +54,11 @@ namespace CrissCross
 			void Descend();
 			void Ascend();
 		public:
-			Quadtree(vec2 const &lower_left, vec2 const &upper_right, int _descentLevel = 7, Quadtree<T> * _parent = NULL);
+			Quadtree(vec2 const &lower_left, vec2 const &upper_right, int _descentLevel = qtMax, Quadtree<T> * _parent = NULL);
 			virtual ~Quadtree();
 			virtual void InsertObject(T const &_object, vec2 const &position, float _collisionRadius);
 			virtual bool RemoveObject(T const &_object, vec2 const &position, float _collisionRadius);
-			virtual void ObjectsInCircle(DArray<T> &array, vec2 const &circle, float radius, size_t limit = (size_t)-1);
-		};
-
-		template <class T>
-		class ThreadSafeQuadtree : public Quadtree<T>
-		{
-		protected:
-			CrissCross::System::ReadWriteLock m_lock;
-		public:
-			ThreadSafeQuadtree(vec2 const &lower_left, vec2 const &upper_right, int _descentLevel = 7, Quadtree<T> * _parent = NULL)
-				: Quadtree<T>(lower_left, upper_right, _descentLevel, _parent)
-			{};
-			inline void ObjectsInCircle(DArray<T> &array, vec2 const &circle, float radius, size_t limit = (size_t)-1) {
-				CrissCross::System::RWLockHolder rwlh(&m_lock, CrissCross::System::RW_LOCK_READ);
-				return Quadtree<T>::ObjectsInCircle(array, circle, radius, limit);
-			};
-			inline void Descend() {
-				CrissCross::System::RWLockHolder rwlh(&m_lock, CrissCross::System::RW_LOCK_WRITE);
-				Quadtree<T>::Descend();
-			};
-			inline void Ascend() {
-				CrissCross::System::RWLockHolder rwlh(&m_lock, CrissCross::System::RW_LOCK_WRITE);
-				Quadtree<T>::Ascend();
-			};
-			inline bool RemoveObject(T const &_object, vec2 const &_position, float radius) {
-				CrissCross::System::RWLockHolder rwlh(&m_lock, CrissCross::System::RW_LOCK_WRITE);
-				return Quadtree<T>::RemoveObject(_object, _position, radius);
-			};
-			inline void InsertObject(T const &_object, vec2 const &_position, float _collisionRadius) {
-				CrissCross::System::RWLockHolder rwlh(&m_lock, CrissCross::System::RW_LOCK_WRITE);
-				Quadtree<T>::InsertObject(_object, _position, _collisionRadius);
-			};
+			virtual void ObjectsInCircle(std::vector<T> &array, vec2 const &circle, float radius, size_t limit = (size_t)-1);
 		};
 
 		template <class T>
@@ -108,15 +76,19 @@ namespace CrissCross
 		}
 
 		template <class T>
-		void Quadtree<T>::ObjectsInCircle(DArray<T> &array, vec2 const &circle, float radius, size_t limit)
+		void Quadtree<T>::ObjectsInCircle(std::vector<T> &array, vec2 const &circle, float radius, size_t limit)
 		{
-			if (array.used() >= limit) return;
+			if (array.size() >= limit) return;
 
 			/* find objects stored in this quadtree */
-			for (unsigned i = 0; i < nodes.size(); i++) {
-				if (nodes.valid(i) && CircleCollision(circle, radius, nodes[i]->pos, nodes[i]->collisionRadius)) {
-					array.insert(nodes[i]->data);
-					if (array.used() >= limit) return;
+			for (typename std::vector<QtNode<T>*>::iterator i = nodes.begin();
+				 i != nodes.end();
+				 i++)
+			{
+				QtNode<T> *node = *i;
+				if (CircleCollision(circle, radius, node->pos, node->collisionRadius)) {
+					array.push_back(node->data);
+					if (array.size() >= limit) return;
 				}
 			}
 
@@ -124,18 +96,15 @@ namespace CrissCross
 				return;
 
 			/* find objects stored in the child quadtrees */
-			float x, y;
-			float left, right;
-			float top, bottom;
-			float midX, midY;
-			x = circle.X();
-			y = circle.Y();
-			left = x - radius;
-			right = x + radius;
-			top = y + radius;
-			bottom = y - radius;
-			midX = (llPosition.X() + trPosition.X()) / 2.0f;
-			midY = (llPosition.Y() + trPosition.Y()) / 2.0f;
+			float	x = circle.X(),
+					y = circle.Y(),
+					left = x - radius,
+					right = x + radius,
+					top = y + radius,
+					bottom = y - radius,
+					midX = (llPosition.X() + trPosition.X()) / 2.0f,
+					midY = (llPosition.Y() + trPosition.Y()) / 2.0f;
+
 			if (top > midY && left < midX) {
 				/* need to descend into top left quadtree */
 				tl->ObjectsInCircle(array, circle, radius);
@@ -157,24 +126,27 @@ namespace CrissCross
 		template <class T>
 		void Quadtree<T>::Descend()
 		{
-			float leftX, rightX, midX, topY, bottomY, midY;
-			leftX = llPosition.X();
-			rightX = trPosition.X();
-			topY = trPosition.Y();
-			bottomY = llPosition.Y();
-			midX = (leftX + rightX) / 2.0f;
-			midY = (topY + bottomY) / 2.0f;
+			float	leftX = llPosition.X(),
+					rightX = trPosition.X(),
+					topY = trPosition.Y(),
+					bottomY = llPosition.Y(),
+					midX = (leftX + rightX) / 2.0f,
+					midY = (topY + bottomY) / 2.0f;
+
 			ll = new Quadtree(vec2(leftX, bottomY), vec2(midX, midY), descentLevel - 1, this);
 			lr = new Quadtree(vec2(midX, bottomY), vec2(rightX, midY), descentLevel - 1, this);
 			tl = new Quadtree(vec2(leftX, midY), vec2(rightX, midY), descentLevel - 1, this);
 			tr = new Quadtree(vec2(midX, midY), vec2(rightX, topY), descentLevel - 1, this);
 			/* distribute all current nodes */
-			DArray<QtNode<T> *> oldCopy = nodes;
-			nodes.setSize(0);
-			for (unsigned i = 0; i < oldCopy.size(); i++) {
-				if (oldCopy.valid(i)) {
-					InsertObject(oldCopy[i]->data, oldCopy[i]->pos, oldCopy[i]->collisionRadius);
-				}
+			std::vector<QtNode<T>*> oldCopy = nodes;
+			nodes.clear();
+			for (typename std::vector<QtNode<T>*>::iterator i = oldCopy.begin();
+				 i != oldCopy.end();
+				 i++)
+			{
+				QtNode<T> *node = *i;
+				InsertObject(node->data, node->pos, node->collisionRadius);
+				delete node;
 			}
 		}
 
@@ -193,11 +165,14 @@ namespace CrissCross
 		bool Quadtree<T>::RemoveObject(T const &_object, vec2 const &_position, float radius)
 		{
 			/* find objects stored in this quadtree */
-			for (unsigned i = 0; i < nodes.size(); i++) {
-				if (nodes.valid(i) && CircleCollision(_position, radius, nodes[i]->pos, nodes[i]->collisionRadius)) {
-					if (nodes[i]->data == _object) {
-						QtNode<T> *node = nodes[i];
-						nodes.remove(i);
+			for (typename std::vector<QtNode<T>*>::iterator i = nodes.begin();
+				 i != nodes.end();
+				 i++)
+			{
+				QtNode<T> *node = *i;
+				if (CircleCollision(_position, radius, node->pos, node->collisionRadius)) {
+					if (node->data == _object) {
+						nodes.erase(i);
 						delete node;
 						/* check for ascension */
 						if (parent) {
@@ -217,18 +192,15 @@ namespace CrissCross
 				return false;
 
 			/* find objects stored in the child quadtrees */
-			float x, y;
-			float left, right;
-			float top, bottom;
-			float midX, midY;
-			x = _position.X();
-			y = _position.Y();
-			left = x - radius;
-			right = x + radius;
-			top = y + radius;
-			bottom = y - radius;
-			midX = (llPosition.X() + trPosition.X()) / 2.0f;
-			midY = (llPosition.Y() + trPosition.Y()) / 2.0f;
+			float	x = _position.X(),
+					y = _position.Y(),
+					left = x - radius,
+					right = x + radius,
+					top = y + radius,
+					bottom = y - radius,
+					midX = (llPosition.X() + trPosition.X()) / 2.0f,
+					midY = (llPosition.Y() + trPosition.Y()) / 2.0f;
+
 			if (top > midY && left < midX) {
 				/* need to descend into top left quadtree */
 				if ( tl->RemoveObject(_object, _position, radius) )
@@ -253,46 +225,41 @@ namespace CrissCross
 		}
 
 		template <class T>
-		void Quadtree<T>::InsertObject(T const &_object, vec2 const &_position, float _collisionRadius)
+		void Quadtree<T>::InsertObject(T const &_object, vec2 const &_position, float radius)
 		{
 			if (nodes.size() < qtMax || descentLevel == 0) {
-				nodes.insert(new QtNode<T>(_object, _position, _collisionRadius));
+				nodes.push_back(new QtNode<T>(_object, _position, radius));
 			} else {
 				if (!ll)
 					Descend();
+
 				/* get relevant information for neatness checking */
-				float radius;
-				float x, y;
-				float left, right;
-				float top, bottom;
-				float midX, midY;
-				x = _position.X();
-				y = _position.Y();
-				radius = _collisionRadius;
-				left = x - radius;
-				right = x + radius;
-				top = y + radius;
-				bottom = y - radius;
-				midX = (llPosition.X() + trPosition.X()) / 2.0f;
-				midY = (llPosition.Y() + trPosition.Y()) / 2.0f;
+				float	x = _position.X(),
+						y = _position.Y(),
+						left = x - radius,
+						right = x + radius,
+						top = y + radius,
+						bottom = y - radius,
+						midX = (llPosition.X() + trPosition.X()) / 2.0f,
+						midY = (llPosition.Y() + trPosition.Y()) / 2.0f;
 
 				/* is it a nasty case, crossing the borderline? */
 				if (InRange(left, right, midX) ||
 				    InRange(top, bottom, midY))	{
 					/* yes, it is :/ */
-					nodes.insert(new QtNode<T>(_object, _position, _collisionRadius));
+					nodes.push_back(new QtNode<T>(_object, _position, radius));
 				} else {
 					if (!ll)  /* create the subquadrants */
 						Descend();
 					/* determine the quadrant */
 					if (x < midX && y < midY) {
-						ll->InsertObject(_object, _position, _collisionRadius);
+						ll->InsertObject(_object, _position, radius);
 					} else if (x > midX && y < midY) {
-						lr->InsertObject(_object, _position, _collisionRadius);
+						lr->InsertObject(_object, _position, radius);
 					} else if (x < midX && y > midY) {
-						tl->InsertObject(_object, _position, _collisionRadius);
+						tl->InsertObject(_object, _position, radius);
 					} else {
-						tr->InsertObject(_object, _position, _collisionRadius);
+						tr->InsertObject(_object, _position, radius);
 					}
 				}
 			}
@@ -315,12 +282,13 @@ namespace CrissCross
 		{
 			Ascend();
 
-			for (unsigned i = 0; i < nodes.size(); i++) {
-				if (nodes.valid(i)) {
-					delete nodes[i];
-				}
+			for (typename std::vector<QtNode<T>*>::iterator i = nodes.begin();
+				 i != nodes.end();
+				 i++)
+			{
+				delete *i;
 			}
-			nodes.empty();
+			nodes.clear();
 		}
 	}
 }
