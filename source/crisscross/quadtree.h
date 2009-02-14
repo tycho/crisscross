@@ -94,7 +94,7 @@ namespace CrissCross
 		};
 
 		template <class T>
-		bool Quadtree<T>::InRange(float lower_bound, float upper_bound, float point)
+		__forceinline bool Quadtree<T>::InRange(float lower_bound, float upper_bound, float point)
 		{
 			return point > lower_bound && point <= upper_bound;
 		}
@@ -192,11 +192,9 @@ namespace CrissCross
 		template <class T>
 		bool Quadtree<T>::RemoveObject(T const &_object, vec2 const &_position, float radius)
 		{
-			bool removed = false;
-
 			/* find objects stored in this quadtree */
 			for (unsigned i = 0; i < nodes.size(); i++) {
-				if (nodes.valid(i) /* && CircleCollision(_position, radius, nodes[i]->pos, nodes[i]->collisionRadius) */) {
+				if (nodes.valid(i) && CircleCollision(_position, radius, nodes[i]->pos, nodes[i]->collisionRadius)) {
 					if (nodes[i]->data == _object) {
 						QtNode<T> *node = nodes[i];
 						nodes.remove(i);
@@ -210,13 +208,14 @@ namespace CrissCross
 								parent->Ascend();
 							}
 						}
-						removed = true;
-						break;
+						return true;
 					}
 				}
 			}
+
 			if (!ll)  /* if no subtrees, return this as-is */
-				return removed;
+				return false;
+
 			/* find objects stored in the child quadtrees */
 			float x, y;
 			float left, right;
@@ -233,24 +232,24 @@ namespace CrissCross
 			if (top > midY && left < midX) {
 				/* need to descend into top left quadtree */
 				if ( tl->RemoveObject(_object, _position, radius) )
-					removed = true;
+					return true;
 			}
 			if (top > midY && right > midX)	{
 				/* top right quadtree */
 				if ( tr->RemoveObject(_object, _position, radius) )
-					removed = true;
+					return true;
 			}
 			if (bottom < midY && right > midX) {
 				/* lower right quadtree */
 				if ( lr->RemoveObject(_object, _position, radius) )
-					removed = true;
+					return true;
 			}
 			if (bottom < midY && left < midX) {
 				/* lower left quadtree */
 				if ( ll->RemoveObject(_object, _position, radius) )
-					removed = true;
+					return true;
 			}
-			return removed;
+			return false;
 		}
 
 		template <class T>
