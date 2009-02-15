@@ -11,10 +11,13 @@
 
 #include <crisscross/universal_include.h>
 
+
+#ifdef ENABLE_OPENGL
 #ifdef TARGET_OS_MACOSX
 #include <OpenGL/gl.h>
 #else
 #include <GL/gl.h>
+#endif
 #endif
 
 #include <crisscross/compare.h>
@@ -213,7 +216,9 @@ namespace CrissCross
 
 			if (m_currentElement->m_isExpanded) {
 				if (m_doGlFinish && m_inRenderSection) {
+#ifdef ENABLE_OPENGL
 					glFinish();
+#endif
 				}
 				pe->Start();
 			}
@@ -234,7 +239,9 @@ namespace CrissCross
 			{
 				if (m_currentElement->m_parent->m_isExpanded) {
 					if (m_doGlFinish && m_inRenderSection) {
+#ifdef ENABLE_OPENGL
 						glFinish();
+#endif
 					}
 
 					CoreAssert(m_currentElement != m_rootElement);
