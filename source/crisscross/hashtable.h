@@ -101,20 +101,20 @@ namespace CrissCross
 
 			bool valid(int _index) const
 			{
-				CoreAssert(_index >= 0 && _index < m_size);
+				CoreAssert(_index >= 0 && (size_t)_index < m_size);
 				return m_keys[_index] != NULL &&
 				       m_keys[_index] != (char*)-1;
 			};
 
 			Data const &operator [](int _index) const
 			{
-				CoreAssert(_index >= 0 && _index < m_size);
+				CoreAssert(_index >= 0 && (size_t)_index < m_size);
 				return m_data[_index];
 			};
 
 			Data &operator [](int _index)
 			{
-				CoreAssert(_index >= 0 && _index < m_size);
+				CoreAssert(_index >= 0 && (size_t)_index < m_size);
 				return m_data[_index];
 			};
 
