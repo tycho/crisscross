@@ -27,7 +27,12 @@ fi
 if [ $IN_GIT -eq 0 ]; then
 	VERSTRING=$RELEASEVER
 else
-	VERSTRING=$(git describe --tags --long)
+	VERSTRING=$(git describe --tags --long 2> err || git describe --tags)
+
+	# is this an old version of git without --long support?
+	if [ "x$(echo $VERSTRING | cut -d'-' -f 3)" == "x" ]; then
+		VERSTRING="$(echo $VERSTRING | cut -d'-' -f 1)-0-$(echo $VERSTRING | cut -d'-' -f 2)"
+	fi
 fi
 OUT=$1
 
