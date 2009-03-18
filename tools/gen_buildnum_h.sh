@@ -4,7 +4,7 @@ if [ -f ~/.bashrc ]; then
 	source ~/.bashrc
 fi
 
-SCRIPTPATH="$(pwd)/$(echo $0 | rev | cut -d '/' -f2,3,4,5,6,7 | rev)"
+SCRIPTPATH="$(echo $0 | rev | cut -d '/' -f2,3,4,5,6,7,8,9,10,11,12,13 | rev)"
 RELEASEVER="$(cat $SCRIPTPATH/release_ver &> /dev/null)"
 RELEASEVER_TAG="$(cat $SCRIPTPATH/release_ver &> /dev/null | cut -d'-' -f1)"
 
