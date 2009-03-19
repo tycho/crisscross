@@ -40,12 +40,13 @@ else
 	
 	# is this an old version of git without --long support?
 	REVCOUNT="$(echo $VERSTRING | cut -d'-' -f $FID)"
-	if [ "$REVCOUNT" -ge 0 -o "$REVCOUNT" -lt 0 2>&- && echo "$REVCOUNT" ] 2>&-; then
-		BASE_VERSION="$(echo $VERSTRING | cut -d'-' -f 1)"
-		if [ $IS_RC -e 1 ]; then
-			BASE_VERSION="$BASE_VERSION-$(echo $VERSTRING | cut -d'-' -f 2)"
-		fi
-		REVCOUNT="$(git rev-list $BASE_VERSION..HEAD)"
+	BASE_VERSION="$(echo $VERSTRING | cut -d'-' -f 1)"
+	if [ $IS_RC -eq 1 ]; then
+		BASE_VERSION="$BASE_VERSION-$(echo $VERSTRING | cut -d'-' -f 2)"
+	fi
+
+	if [ "$(echo $REVCOUNT | grep ^g)x" == "x" ]; then
+		REVCOUNT="$(git rev-list $BASE_VERSION..HEAD | wc -l)"
 		VERSTRING="$BASE_VERSION-$REVCOUNT-$(echo $VERSTRING | cut -d'-' -f $(($FID - 1)))"
 	fi
 fi
