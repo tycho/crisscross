@@ -29,9 +29,24 @@ if [ $IN_GIT -eq 0 ]; then
 else
 	VERSTRING=$(git describe --tags --long 2> err || git describe --tags)
 
+	# is this an RC?
+	if [ "x$(echo $VERSTRING | grep rc)" != "x" ]; then
+		FID=4
+		IS_RC=1
+	else
+		FID=3
+		IS_RC=0
+	fi
+	
 	# is this an old version of git without --long support?
-	if [ "x$(echo $VERSTRING | cut -d'-' -f 3)" == "x" ]; then
-		VERSTRING="$(echo $VERSTRING | cut -d'-' -f 1)-0-$(echo $VERSTRING | cut -d'-' -f 2)"
+	REVCOUNT="$(echo $VERSTRING | cut -d'-' -f $FID)"
+	if [ "$REVCOUNT" -ge 0 -o "$REVCOUNT" -lt 0 2>&- && echo "$REVCOUNT" ] 2>&-; then
+		BASE_VERSION="$(echo $VERSTRING | cut -d'-' -f 1)"
+		if [ $IS_RC -e 1 ]; then
+			BASE_VERSION="$BASE_VERSION-$(echo $VERSTRING | cut -d'-' -f 2)"
+		fi
+		REVCOUNT="$(git rev-list $BASE_VERSION..HEAD)"
+		VERSTRING="$BASE_VERSION-$REVCOUNT-$(echo $VERSTRING | cut -d'-' -f $(($FID - 1)))"
 	fi
 fi
 OUT=$1
