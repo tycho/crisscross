@@ -5,8 +5,8 @@ if [ -f ~/.bashrc ]; then
 fi
 
 SCRIPTPATH="$(echo $0 | rev | cut -d '/' -f2,3,4,5,6,7,8,9,10,11,12,13 | rev)"
-RELEASEVER="$(cat $SCRIPTPATH/release_ver &> /dev/null)"
-RELEASEVER_TAG="$(cat $SCRIPTPATH/release_ver &> /dev/null | cut -d'-' -f1)"
+RELEASEVER="$(cat $SCRIPTPATH/release_ver 2> /dev/null)"
+RELEASEVER_TAG="$(cat $SCRIPTPATH/release_ver 2> /dev/null | cut -d'-' -f1)"
 
 echo -n "Is CrissCross under version control? "
 if [ -x "$SCRIPTPATH/../.git" ]; then
@@ -27,7 +27,7 @@ fi
 if [ $IN_GIT -eq 0 ]; then
 	VERSTRING=$RELEASEVER
 else
-	VERSTRING=$(git describe --tags --long 2> err || git describe --tags)
+	VERSTRING=$(git describe --tags --long 2> /dev/null || git describe --tags)
 
 	# is this an RC?
 	if [ "x$(echo $VERSTRING | grep rc)" != "x" ]; then
