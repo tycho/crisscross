@@ -93,7 +93,6 @@ int RunApplication(int argc, char * *argv)
 	console = new Console();
 
 #if !defined (DISABLE_DEPRECATED_CODE)
-	BubbleSort<char *>    bs;
 	QuickSort<char *>     qs;
 	InsertionSort<char *> is;
 #endif
@@ -125,11 +124,6 @@ int RunApplication(int argc, char * *argv)
 	BenchmarkDArray(qs);
 	console->WriteLine();
 #if !defined (DISABLE_DEPRECATED_CODE)
-	console->SetColour(console->FG_BLUE | console->FG_INTENSITY);
-	console->WriteLine("BubbleSort...");
-	console->SetColour();
-	BenchmarkDArray(bs);
-	console->WriteLine();
 	console->SetColour(console->FG_BLUE | console->FG_INTENSITY);
 	console->WriteLine("InsertionSort...");
 	console->SetColour();
