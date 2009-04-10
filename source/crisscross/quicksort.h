@@ -16,6 +16,7 @@
 
 #include <crisscross/deprecate.h>
 #include <crisscross/sort.h>
+#include <crisscross/system.h>
 #include <crisscross/heapsort.h>
 
 namespace CrissCross
@@ -40,9 +41,9 @@ namespace CrissCross
 							j = _right;
 
 							/* Pivot zufaellig waehlen */
-							p1 = _left + ((lrand48()) % (_right - _left + 1));
-							p2 = _left + ((lrand48()) % (_right - _left + 1));
-							p3 = _left + ((lrand48()) % (_right - _left + 1));
+							p1 = _left + (System::RandomNumber() % (_right - _left + 1));
+							p2 = _left + (System::RandomNumber() % (_right - _left + 1));
+							p3 = _left + (System::RandomNumber() % (_right - _left + 1));
 							if (Compare(_array[p1], _array[p2]) < 0)
 								if (Compare(_array[p2], _array[p3]) < 0) {
 									p = p2;
