@@ -174,6 +174,7 @@ int RunApplication(int argc, char * *argv)
 	delete splaytree;
 	splaytree = NULL;
 
+#ifndef TARGET_COMPILER_VC
 	console->WriteLine();
 	console->WriteLine("Testing STLTree...");
 	console->WriteLine("%10s %10s %10s %10s %10s %10s", "size", "add", "srch+", "srch", "srch-", "empty");
@@ -184,6 +185,7 @@ int RunApplication(int argc, char * *argv)
 	console->WriteLine("STLTree tests complete.");
 	delete stltree;
 	stltree = NULL;
+#endif
 	
 	delete dataset;
 	console->WriteLine();

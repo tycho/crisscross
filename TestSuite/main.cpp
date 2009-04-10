@@ -83,9 +83,11 @@ int RunApplication(int argc, char * *argv)
 	WritePrefix("SplayTree<std::string, std::string>"); retval |= WriteResult(TestSplayTree_String());
 	WritePrefix("SplayTree<int, int>"); retval |= WriteResult(TestSplayTree_Int());
 
+#ifndef TARGET_COMPILER_VC
 	WritePrefix("STLTree<const char *, const char *>"); retval |= WriteResult(TestSTLTree_CString());
 	WritePrefix("STLTree<std::string, std::string>"); retval |= WriteResult(TestSTLTree_String());
 	WritePrefix("STLTree<int, int>"); retval |= WriteResult(TestSTLTree_Int());
+#endif
 
 	WritePrefix("AVLTree<const char *, const char *>"); retval |= WriteResult(TestAVLTree_CString());
 	WritePrefix("AVLTree<std::string, std::string>"); retval |= WriteResult(TestAVLTree_String());

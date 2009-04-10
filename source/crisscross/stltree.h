@@ -12,6 +12,13 @@
 #ifndef __included_cc_stltree_h
 #define __included_cc_stltree_h
 
+
+/*
+ * Something is wrong with Microsoft's
+ * std::map implementation.
+ */
+#ifndef TARGET_COMPILER_VC
+
 #include <crisscross/deprecate.h>
 #include <crisscross/compare.h>
 #include <crisscross/node.h>
@@ -191,4 +198,5 @@ namespace CrissCross
 	}
 }
 
+#endif
 #endif

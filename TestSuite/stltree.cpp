@@ -13,6 +13,8 @@
 #include "stltree.h"
 #include "testutils.h"
 
+#ifndef TARGET_COMPILER_VC
+
 #include <crisscross/stltree.h>
 
 using namespace CrissCross::Data;
@@ -226,3 +228,5 @@ int TestSTLTree_Int()
 
 	return 0;
 }
+
+#endif
