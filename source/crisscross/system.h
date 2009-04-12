@@ -15,7 +15,6 @@
 #ifndef __GNUC__
 #include <crisscross/universal_include.h>
 #endif
-#include <crisscross/cpuid.h>
 
 #if defined (TARGET_OS_WINDOWS)
 #include <windows.h>
