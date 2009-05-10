@@ -26,7 +26,7 @@
 			<Tool
 				Name="VCPreBuildEventTool"
 				Description="Generating build_number.h..."
-				CommandLine="set PATH=c:\cygwin\bin;%PATH%&#x0D;&#x0A;cd $(ProjectDir)\..\..\source\crisscross\&#x0D;&#x0A;bash.exe &quot;$(ProjectDir)/../../tools/gen_buildnum_h.sh&quot; build_number.h&#x0D;&#x0A;"
+				CommandLine="cd $(ProjectDir)\..\..&#x0D;&#x0A;tools\gen_buildnum_h_helper.cmd ."
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -92,7 +92,7 @@
 			<Tool
 				Name="VCPreBuildEventTool"
 				Description="Generating build_number.h..."
-				CommandLine="set PATH=c:\cygwin\bin;%PATH%&#x0D;&#x0A;cd $(ProjectDir)\..\..\source\crisscross\&#x0D;&#x0A;bash.exe &quot;$(ProjectDir)/../../tools/gen_buildnum_h.sh&quot; build_number.h&#x0D;&#x0A;"
+				CommandLine="cd $(ProjectDir)\..\..&#x0D;&#x0A;tools\gen_buildnum_h_helper.cmd ."
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
