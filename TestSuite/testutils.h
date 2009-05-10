@@ -17,6 +17,9 @@
 
 extern CrissCross::IO::Console *g_console;
 
+//#define VERBOSE
+
+#ifdef VERBOSE
 #define TEST_ASSERT(condition) \
         if (!(condition)) { \
 		g_console->SetColour(g_console->FG_YELLOW | g_console->FG_INTENSITY); \
@@ -27,6 +30,14 @@ extern CrissCross::IO::Console *g_console;
 		g_console->SetColour(); \
 		return 1; \
 	}
+
+#else
+#define TEST_ASSERT(condition) \
+        if (!(condition)) { \
+		return 1; \
+	}
+
+#endif
 
 void WritePrefix(const char *_prefix);
 int WriteResult(int _result);

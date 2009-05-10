@@ -24,6 +24,7 @@
 #include "hashtable.h"
 #include "heapsort.h"
 #include "quicksort.h"
+#include "sanity.h"
 #include "shellsort.h"
 #include "insertionsort.h"
 #include "combsort.h"
@@ -61,6 +62,8 @@ int RunApplication(int argc, char * *argv)
 	WritePrefix("Size of cc_float_t"); retval |= WriteResult(TestDatatypes_Float());
 	WritePrefix("Size of cc_double_t"); retval |= WriteResult(TestDatatypes_Double());
 	WritePrefix("Size of cc_ptr_t"); retval |= WriteResult(TestDatatypes_Pointer());
+
+	WritePrefix("Type-based aliasing sanity"); retval |= WriteResult(TestSanity_TypeBasedAliasing());
 
 	WritePrefix("MD4"); retval |= WriteResult(TestMD4());
 	WritePrefix("MD5"); retval |= WriteResult(TestMD5());
