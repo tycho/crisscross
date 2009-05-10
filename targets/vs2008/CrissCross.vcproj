@@ -6,7 +6,6 @@
 	ProjectGUID="{D41B6899-77A7-4CB8-B739-BE29475EF864}"
 	RootNamespace="CrissCross"
 	Keyword="Win32Proj"
-	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
 		<Platform
@@ -22,11 +21,12 @@
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			CharacterSet="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
 				Description="Generating build_number.h..."
-				CommandLine="&quot;$(ProjectDir)\..\..\tools\GenerateBuildNumber.exe&quot; &quot;$(ProjectDir)\..\..\source\crisscross&quot; &quot;$(ProjectDir)\..\..\source\crisscross&quot;"
+				CommandLine="set PATH=c:\cygwin\bin;%PATH%&#x0D;&#x0A;cd $(ProjectDir)\..\..\source\crisscross\&#x0D;&#x0A;bash.exe &quot;$(ProjectDir)/../../tools/gen_buildnum_h.sh&quot; build_number.h&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -87,12 +87,12 @@
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			CharacterSet="1"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
 				Description="Generating build_number.h..."
-				CommandLine="&quot;$(ProjectDir)\..\..\tools\GenerateBuildNumber.exe&quot; &quot;$(ProjectDir)\..\..\source\crisscross&quot; &quot;$(ProjectDir)\..\..\source\crisscross&quot;"
+				CommandLine="set PATH=c:\cygwin\bin;%PATH%&#x0D;&#x0A;cd $(ProjectDir)\..\..\source\crisscross\&#x0D;&#x0A;bash.exe &quot;$(ProjectDir)/../../tools/gen_buildnum_h.sh&quot; build_number.h&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -191,6 +191,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\source\filesystem.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\source\filewriter.cpp"
 				>
 			</File>
@@ -204,6 +208,10 @@
 			</File>
 			<File
 				RelativePath="..\..\source\mutex.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\source\profiler.cpp"
 				>
 			</File>
 			<File
@@ -411,6 +419,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\source\crisscross\filesystem.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\source\crisscross\filewriter.h"
 				>
 			</File>
@@ -500,6 +512,10 @@
 			</File>
 			<File
 				RelativePath="..\..\source\crisscross\platform_detect.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\source\crisscross\profiler.h"
 				>
 			</File>
 			<File
