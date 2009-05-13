@@ -14,6 +14,8 @@
 
 #include <crisscross/universal_include.h>
 
+#include <crisscross/version.h>
+
 #include <crisscross/deprecate.h>
 #include <crisscross/datatypes.h>
 #include <crisscross/sort.h>
@@ -49,6 +51,5 @@
 #include <crisscross/sha256.h>
 #include <crisscross/sha512.h>
 #include <crisscross/tiger.h>
-#include <crisscross/version.h>
 
 #endif

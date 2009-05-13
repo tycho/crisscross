@@ -45,7 +45,7 @@ int RunApplication(int argc, char * *argv)
 	g_console = new IO::Console();
 
 	g_console->SetColour(IO::Console::FG_RED | IO::Console::FG_INTENSITY);
-	g_console->WriteLine("CrissCross Test Suite v" CC_LIB_VERSION_STRING);
+	g_console->WriteLine("CrissCross Test Suite v%s", CrissCross::Version::LongVersion());
 	g_console->SetColour();
 	g_console->WriteLine();
 

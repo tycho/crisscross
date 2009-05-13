@@ -29,7 +29,7 @@ int RunApplication(int argc, char * *argv)
 	CrissCross::System::Stopwatch sw;
 
 	console->SetColour(console->FG_RED | console->FG_INTENSITY);
-	console->WriteLine("CheckMark v" CC_LIB_VERSION);
+	console->WriteLine("CheckMark v%s", CrissCross::Version::LongVersion());
 	console->SetColour();
 	console->WriteLine("A checksum (hashing) algorithm benchmark.");
 	console->WriteLine();

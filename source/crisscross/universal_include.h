@@ -16,8 +16,6 @@
 #pragma warning (disable:4530)
 #endif
 
-#include <crisscross/build_number.h>
-
 #ifndef SDL_APPLICATION
 /* #define SDL_APPLICATION */ /* Define if your application uses SDLmain. */
 #endif

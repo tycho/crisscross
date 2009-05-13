@@ -16,10 +16,23 @@ namespace CrissCross
 {
 	namespace Version
 	{
+		//! The short version string.
 		/*!
-		 * \return A C string containing the version number of the CrissCross library.
+		 * The short version format is %d.%d.%d (<major>.<minor>.<revision>).
+		 * \return The version number of the CrissCross library.
 		 */
-		const char *Version();
+		const char *ShortVersion();
+
+		//! The long version string.
+		/*!
+		 * The long version can currently be in a couple different forms, and
+		 * the formats may change across versions, so don't make much effort to
+		 * parse these out:
+		 *    %d.%d.%d-%d-g%07x (<major>.<minor>.<revision>-<build>-g<commit id>)
+		 *    %d.%d.%d-rc%d-%d-g%07x (<major>.<minor>.<revision>-rc<rc number>-<build>-g<commit id>)
+		 * \return The version number of the CrissCross library.
+		 */
+		const char *LongVersion();
 
 		/*!
 		 * \return The major version number (i.e. in v1.2.3.4, it would be '1').

@@ -11,15 +11,21 @@
 
 #include <crisscross/universal_include.h>
 
+#include <crisscross/build_number.h>
 #include <crisscross/version.h>
 
 namespace CrissCross
 {
 	namespace Version
 	{
-		const char *Version()
+		const char *ShortVersion()
 		{
 			return CC_LIB_VERSION;
+		}
+
+		const char *LongVersion()
+		{
+			return CC_LIB_VERSION_STRING;
 		}
 
 		int Major()

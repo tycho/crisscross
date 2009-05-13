@@ -12,6 +12,7 @@
 #include <crisscross/universal_include.h>
 #include <crisscross/debug.h>
 #include <crisscross/console.h>
+#include <crisscross/version.h>
 
 #ifndef TARGET_OS_WINDOWS
 #ifndef TARGET_OS_NDSFIRMWARE
@@ -105,18 +106,20 @@ namespace CrissCross
 #endif
 			if (_clearOnInit) Clear();
 
-			SetTitle(CC_LIB_NAME " " CC_LIB_VERSION_STRING);
+			char tmp[64];
+			sprintf(tmp, CC_LIB_NAME " %s", CrissCross::Version::LongVersion());
+			SetTitle(tmp);
 
 #ifdef ENABLE_CREDITS
 #if defined (TARGET_OS_NDSFIRMWARE)
 			g_stdout->SetColour(g_stdout->FG_GREEN | g_stdout->FG_INTENSITY);
-			g_stdout->WriteLine("Powered by " CC_LIB_NAME " v" CC_LIB_VERSION_STRING);
+			g_stdout->WriteLine("Powered by " CC_LIB_NAME " v%s", CrissCross::Version::LongVersion());
 			g_stdout->SetColour(0);
 			g_stdout->WriteLine(CC_LIB_NDS_COPYRIGHT);
 			g_stdout->WriteLine();
 #else
 			g_stdout->SetColour(g_stdout->FG_GREEN | g_stdout->FG_INTENSITY);
-			g_stdout->WriteLine("Powered by " CC_LIB_NAME " " CC_LIB_VERSION_STRING "\n    " CC_LIB_URL);
+			g_stdout->WriteLine("Powered by " CC_LIB_NAME " %s\n    " CC_LIB_URL, CrissCross::Version::LongVersion());
 			g_stdout->SetColour(0);
 			g_stdout->WriteLine(CC_LIB_COPYRIGHT);
 			g_stdout->WriteLine();

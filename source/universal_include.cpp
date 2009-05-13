@@ -288,7 +288,7 @@ int main(int argc, char * *argv)
 #endif
 	}
 #ifdef ENABLE_CRASHREPORTS
-	__except(RecordExceptionInfo(GetExceptionInformation(), "WinMain", CC_LIB_NAME, CC_LIB_VERSION)){
+	__except(RecordExceptionInfo(GetExceptionInformation(), "WinMain", CC_LIB_NAME, CrissCross::Version::LongVersion())){
 	}
 #endif
 
