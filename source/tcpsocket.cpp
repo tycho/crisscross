@@ -53,6 +53,8 @@ namespace CrissCross
 
 		int TCPSocket::Accept(TCPSocket * *_socket)
 		{
+			CoreAssert(this != NULL);
+
 			/* We're forced to accept any incoming connection, unfortunately. */
 			socket_t sock = accept(m_sock, 0, 0);
 
@@ -89,6 +91,8 @@ namespace CrissCross
 
 		int TCPSocket::Connect(const char *_address, unsigned short _port)
 		{
+			CoreAssert(this != NULL);
+
 			struct sockaddr_in sin;
 			struct hostent *host;
 
@@ -152,6 +156,8 @@ namespace CrissCross
 
 		int TCPSocket::Listen(unsigned short _port)
 		{
+			CoreAssert(this != NULL);
+
 			struct sockaddr_in sin;
 
 			/* Verify our socket isn't in use. */
@@ -215,6 +221,8 @@ namespace CrissCross
 
 		int TCPSocket::SetAttributes(socket_t _socket)
 		{
+			CoreAssert(this != NULL);
+
 			/* TCP_NODELAY */
 			int err, optval = 1, optlen = sizeof optval;
 			err = setsockopt(_socket, IPPROTO_TCP, TCP_NODELAY,
@@ -275,6 +283,8 @@ namespace CrissCross
 
 		socketState TCPSocket::State() const
 		{
+			CoreAssert(this != NULL);
+
 			/* Make sure there have been no spontaneous state changes. */
 			switch (m_state)
 			{

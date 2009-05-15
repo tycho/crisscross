@@ -47,6 +47,8 @@ namespace CrissCross
 
 		int UDPSocket::Bind(const char *_address, unsigned short _port)
 		{
+			CoreAssert(this != NULL);
+
 			struct sockaddr_in sin;
 			struct hostent *host;
 
@@ -84,11 +86,14 @@ namespace CrissCross
 
 		int UDPSocket::SetAttributes(socket_t _socket)
 		{
+			CoreAssert(this != NULL);
 			return 0;
 		}
 
 		int UDPSocket::Listen(unsigned short _port)
 		{
+			CoreAssert(this != NULL);
+
 			struct sockaddr_in sin;
 
 			if (m_sock != INVALID_SOCKET) return CC_ERR_NOT_SOCKET;

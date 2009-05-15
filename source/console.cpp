@@ -135,6 +135,7 @@ namespace CrissCross
 
 		Console::~Console()
 		{
+			CoreAssert(this != NULL);
 			SetColour(0);
 #ifdef TARGET_OS_WINDOWS
 			if (m_consoleAllocated) FreeConsole();
@@ -150,6 +151,7 @@ namespace CrissCross
 
 		bool Console::AllocateConsole()
 		{
+			CoreAssert(this != NULL);
 #ifdef TARGET_OS_WINDOWS
 			m_consoleAllocated = (AllocConsole() == TRUE);
 #elif defined (TARGET_OS_MACOSX) && 0
@@ -219,6 +221,7 @@ namespace CrissCross
 
 		void Console::SetColour()
 		{
+			CoreAssert(this != NULL);
 			SetColour(0);
 		}
 
@@ -306,6 +309,7 @@ namespace CrissCross
 
 		void Console::SetTitle(const char *_title)
 		{
+			CoreAssert(this != NULL);
 #ifdef TARGET_OS_WINDOWS
 			SetConsoleTitleA(_title);
 #else
@@ -319,6 +323,7 @@ namespace CrissCross
 
 		void Console::SetTitle(std::string &_title)
 		{
+			CoreAssert(this != NULL);
 			SetTitle(_title.c_str());
 		}
 
@@ -349,12 +354,14 @@ namespace CrissCross
 
 		void Console::Flush()
 		{
+			CoreAssert(this != NULL);
 			CoreIOReader::Flush();
 			CoreIOWriter::Flush();
 		}
 
 		void Console::MoveUp(int _lines)
 		{
+			CoreAssert(this != NULL);
 #if defined (TARGET_OS_WINDOWS)
 			COORD coordScreen = { 0, 0 };
 			CONSOLE_SCREEN_BUFFER_INFO csbi;

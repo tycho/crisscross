@@ -23,11 +23,14 @@ namespace CrissCross
 
 		FileWriter::~FileWriter()
 		{
+			CoreAssert(this != NULL);
 			Close();
 		}
 
 		CrissCross::Errors FileWriter::Open(const char *_file, FileWriteMode _writeMode, LineEndingType _lnEnding)
 		{
+			CoreAssert(this != NULL);
+
 			Close();
 
 			SetLineEndings(_lnEnding);
@@ -57,6 +60,8 @@ namespace CrissCross
 
 		CrissCross::Errors FileWriter::Close()
 		{
+			CoreAssert(this != NULL);
+
 			Flush();
 
 			if (m_fileOutputPointer)

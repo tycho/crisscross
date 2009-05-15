@@ -933,6 +933,8 @@ namespace CrissCross
 
 		int MD5Hash::Process(const void * _data, size_t _length)
 		{
+			CoreAssert(this != NULL);
+
 			Reset();
 			if (!_data) return -1;
 
@@ -944,6 +946,8 @@ namespace CrissCross
 
 		int MD5Hash::Process(CrissCross::IO::CoreIOReader *_reader)
 		{
+			CoreAssert(this != NULL);
+
 			Reset();
 			if (!_reader) return -1;
 
@@ -963,6 +967,8 @@ namespace CrissCross
 
 		int MD5Hash::ProcessBlock(const void * _data, size_t _length)
 		{
+			CoreAssert(this != NULL);
+
 			if (!_data) return -1;
 
 			MD5Update(&m_state, (unsigned char *)_data, _length);
@@ -971,6 +977,8 @@ namespace CrissCross
 
 		void MD5Hash::Finalize()
 		{
+			CoreAssert(this != NULL);
+
 			if (m_hash) delete [] m_hash;
 
 			m_hash = new unsigned char[MD5_DIGEST_LENGTH];
@@ -979,6 +987,8 @@ namespace CrissCross
 
 		const char *MD5Hash::ToString() const
 		{
+			CoreAssert(this != NULL);
+
 			if (m_hashString) return m_hashString;
 
 			m_hashString = new char[33];
@@ -990,6 +1000,8 @@ namespace CrissCross
 
 		void MD5Hash::Reset()
 		{
+			CoreAssert(this != NULL);
+
 			delete [] m_hash; m_hash = NULL;
 			delete [] m_hashString; m_hashString = NULL;
 
@@ -998,6 +1010,8 @@ namespace CrissCross
 
 		bool MD5Hash::operator==(const MD5Hash &_other) const
 		{
+			CoreAssert(this != NULL);
+
 			return (memcmp(m_hash, _other.m_hash, MD5_DIGEST_LENGTH) == 0);
 		}
 	}
