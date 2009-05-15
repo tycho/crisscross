@@ -1,6 +1,6 @@
 /*
  *   CrissCross
- *   A multi-purpose cross-platform	library.
+ *   A multi-purpose cross-platform library.
  *
  *   A product of Uplink Laboratories.
  *
