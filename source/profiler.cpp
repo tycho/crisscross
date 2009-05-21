@@ -90,7 +90,7 @@ namespace CrissCross
 			m_historyNumSeconds += 1.0;
 			m_historyNumCalls += m_lastNumCalls;
 
-			float thisMax = m_lastTotalTime;
+			double thisMax = m_lastTotalTime;
 			if( thisMax > m_profiler->m_maxFound ) m_profiler->m_maxFound = thisMax;
 
 			for (size_t i = 0; i < m_children.Size(); ++i) {
@@ -131,7 +131,7 @@ namespace CrissCross
 			short  i = first;
 			while (i != -1)
 			{
-				float            val = m_children[i]->m_historyTotalTime;
+				double val = m_children[i]->m_historyTotalTime;
 
 				if (val > rv) {
 					rv = val;
