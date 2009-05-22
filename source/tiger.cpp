@@ -881,6 +881,8 @@ namespace CrissCross
 
 		int TigerHash::Process(const void * _data, size_t _length)
 		{
+			CoreAssert(this != NULL);
+
 			Reset();
 			if (!_data) return -1;
 
@@ -892,6 +894,8 @@ namespace CrissCross
 
 		int TigerHash::Process(CrissCross::IO::CoreIOReader *_reader)
 		{
+			CoreAssert(this != NULL);
+
 			Reset();
 			if (!_reader) return -1;
 
@@ -911,6 +915,8 @@ namespace CrissCross
 
 		int TigerHash::ProcessBlock(const void * _data, size_t _length)
 		{
+			CoreAssert(this != NULL);
+
 			if (!_data) return -1;
 
 			tiger_update(&m_state, (unsigned char *)_data, _length);
@@ -919,6 +925,8 @@ namespace CrissCross
 
 		void TigerHash::Finalize()
 		{
+			CoreAssert(this != NULL);
+
 			if (m_hash) delete [] m_hash;
 
 			m_hash = new unsigned char[TIGER_DIGEST_SIZE];
@@ -927,6 +935,8 @@ namespace CrissCross
 
 		const char *TigerHash::ToString() const
 		{
+			CoreAssert(this != NULL);
+
 			if (m_hashString) return m_hashString;
 
 			m_hashString = new char[TIGER_DIGEST_SIZE * 2 + 1];
@@ -938,6 +948,8 @@ namespace CrissCross
 
 		void TigerHash::Reset()
 		{
+			CoreAssert(this != NULL);
+
 			delete [] m_hash; m_hash = NULL;
 			delete [] m_hashString; m_hashString = NULL;
 
@@ -946,6 +958,8 @@ namespace CrissCross
 
 		bool TigerHash::operator==(const TigerHash &_other) const
 		{
+			CoreAssert(this != NULL);
+
 			return (memcmp(m_hash, _other.m_hash, TIGER_DIGEST_SIZE) == 0);
 		}
 	}

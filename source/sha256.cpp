@@ -303,6 +303,8 @@ namespace CrissCross
 
 		int SHA256Hash::Process(const void * _data, size_t _length)
 		{
+			CoreAssert(this != NULL);
+
 			Reset();
 			if (!_length || !_data) return -1;
 
@@ -314,6 +316,8 @@ namespace CrissCross
 
 		int SHA256Hash::Process(CrissCross::IO::CoreIOReader *_reader)
 		{
+			CoreAssert(this != NULL);
+
 			Reset();
 			if (!_reader) return -1;
 
@@ -333,6 +337,8 @@ namespace CrissCross
 
 		int SHA256Hash::ProcessBlock(const void * _data, size_t _length)
 		{
+			CoreAssert(this != NULL);
+
 			if (!_data) return -1;
 
 			sha256_update(&m_state, (unsigned char *)_data, _length);
@@ -341,6 +347,8 @@ namespace CrissCross
 
 		void SHA256Hash::Finalize()
 		{
+			CoreAssert(this != NULL);
+
 			if (m_hash) delete [] m_hash;
 
 			m_hash = new unsigned char[SHA256_DIGEST_SIZE];
@@ -349,6 +357,8 @@ namespace CrissCross
 
 		const char *SHA256Hash::ToString() const
 		{
+			CoreAssert(this != NULL);
+
 			if (m_hashString) return m_hashString;
 
 			m_hashString = new char[SHA256_DIGEST_SIZE * 2 + 1];
@@ -360,6 +370,8 @@ namespace CrissCross
 
 		void SHA256Hash::Reset()
 		{
+			CoreAssert(this != NULL);
+
 			delete [] m_hash; m_hash = NULL;
 			delete [] m_hashString; m_hashString = NULL;
 
@@ -368,6 +380,8 @@ namespace CrissCross
 
 		bool SHA256Hash::operator==(const SHA256Hash &_other) const
 		{
+			CoreAssert(this != NULL);
+
 			return (memcmp(m_hash, _other.m_hash, SHA256_DIGEST_SIZE) == 0);
 		}
 	}

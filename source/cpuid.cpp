@@ -288,6 +288,8 @@ namespace CrissCross
 
 		int CPUID::VirtualCount()
 		{
+			CoreAssert(this != NULL);
+
 			int count = 0, i;
 
 			for (i = 0; i < MAX_PROCESSORS; i++) {
@@ -300,11 +302,13 @@ namespace CrissCross
 
 		int CPUID::CoresPerPackage()
 		{
+			CoreAssert(this != NULL);
 			return proc[0]->CoresPerPackage;
 		}
 
 		int CPUID::LogicalPerPackage()
 		{
+			CoreAssert(this != NULL);
 			return proc[0]->LogicalPerPackage;
 		}
 
@@ -314,6 +318,7 @@ namespace CrissCross
 		long int CPUID::GoThread(int processor)
 #endif
 		{
+			CoreAssert(this != NULL);
 #ifdef TARGET_OS_WINDOWS
 			int processor;
 			memcpy(&processor, params, sizeof(int));
@@ -335,7 +340,7 @@ namespace CrissCross
 
 		void CPUID::Go()
 		{
-			CoreAssert(this);
+			CoreAssert(this != NULL);
 #ifdef TARGET_OS_WINDOWS
 			DWORD dThread = NULL;
 			SYSTEM_INFO siSystem;
@@ -393,6 +398,7 @@ namespace CrissCross
 
 		void CPUID::DetectManufacturer(int processor)
 		{
+			CoreAssert(this != NULL);
 			char *manufacturer = new char[(4 * 3) + 1];
 			char *_man = &manufacturer[0];
 
@@ -408,6 +414,8 @@ namespace CrissCross
 
 		void CPUID::DetectProcessorName(int processor)
 		{
+			CoreAssert(this != NULL);
+
 			char *processorname = new char[(4 * 12) + 1];
 			char *_proc = &processorname[0];
 
@@ -441,6 +449,8 @@ namespace CrissCross
 
 		void CPUID::DetectCacheInfo(int processor)
 		{
+			CoreAssert(this != NULL);
+
 			if (proc[processor]->Manufacturer) {
 				if (strcmp(proc[processor]->Manufacturer, "GenuineIntel") == 0)	{
 					int ntlb = 255, i;
@@ -486,6 +496,8 @@ namespace CrissCross
 
 		const char *CPUID::CreateCacheDescription(cacheType _type, const char *_pages, unsigned int _size, unsigned int _assoc, unsigned int _entries, unsigned int _linesize, bool _sectored)
 		{
+			CoreAssert(this != NULL);
+
 			static char description[512];
 			char assoc[64], prefix[64], size[32], sectored[32], linesz[32], entries[32];
 
@@ -590,6 +602,8 @@ namespace CrissCross
 
 		void CPUID::DecodeAMDCacheIdentifiers(int processor)
 		{
+			CoreAssert(this != NULL);
+
 			/* L1 Cache Information */
 			unsigned int L1DTlb2and4MAssoc, L1DTlb2and4MSize, L1ITlb2and4MAssoc, L1ITlb2and4MSize;
 			unsigned int L1DTlb4KAssoc, L1DTlb4KSize, L1ITlb4KAssoc, L1ITlb4KSize;
@@ -713,6 +727,8 @@ namespace CrissCross
 
 		void CPUID::AddCacheDescription(int processor, const char *description)
 		{
+			CoreAssert(this != NULL);
+
 			if (!description) return;
 
 			char *temp = new char[strlen(description) + 1];
@@ -725,6 +741,8 @@ namespace CrissCross
 
 		void CPUID::AddIntelCacheData(int processor, int x)
 		{
+			CoreAssert(this != NULL);
+
 			/* Compliant with Intel document #241618, save for the ENABLE_SANDPILE sections. */
 
 			x &= 0xff;
@@ -845,6 +863,8 @@ namespace CrissCross
 
 		void CPUID::DetectFMS(int processor)
 		{
+			CoreAssert(this != NULL);
+
 			/* Compliant with Intel document #241618. */
 			proc[processor]->Family = (char)(((Std[1].eax >> 8) + (Std[1].eax >> 20)) & 0xff);
 			proc[processor]->Model = (char)(((((Std[1].eax >> 16) & 0xf) << 4) + ((Std[1].eax >> 4) & 0xf)) & 0xff);
@@ -853,12 +873,16 @@ namespace CrissCross
 
 		void CPUID::DetectBrandID(int processor)
 		{
+			CoreAssert(this != NULL);
+
 			/* Compliant with Intel document #241618. */
 			proc[processor]->BrandID = (char)(Std[1].ebx & 0xff);
 		}
 
 		void CPUID::DetectCount(int processor)
 		{
+			CoreAssert(this != NULL);
+
 			/* Compliant with Intel document #241618. */
 
 			/* Do we have HTT flag set? */
@@ -898,12 +922,16 @@ namespace CrissCross
 
 		void CPUID::DetectAPIC(int processor)
 		{
+			CoreAssert(this != NULL);
+
 			/* Found at http://www.intel.com/cd/ids/developer/asmo-na/eng/211924.htm */
 			proc[processor]->APICID = (char)((Std[1].ebx & 0xFF000000) >> 24);
 		}
 
 		void CPUID::DetectFeature(const unsigned int *_register, long _flag, int _processor, const char *_name)
 		{
+			CoreAssert(this != NULL);
+
 			/* Compliant with Intel document #241618. */
 
 			bool supported = (*_register & _flag) > 0;
@@ -913,6 +941,8 @@ namespace CrissCross
 
 		void CPUID::DetectFeatures(int processor)
 		{
+			CoreAssert(this != NULL);
+
 			/* Compliant with Intel document #241618. */
 
 			DetectFeature(&Std[1].edx, FPU_FLAG, processor, "FPU");

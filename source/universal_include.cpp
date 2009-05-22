@@ -86,17 +86,16 @@ void ParseMemoryLeakFile(const char *_inputFilename, const char *_outputFilename
 
 				/* Put the result into our BTree */
 
-				int result = 0;
-				bool found = combined.find(sourcelocation, result);
+				int result = combined.find(sourcelocation, -1);
 
-				if (found)
+				if (result != -1)
 					combined.replace(sourcelocation, result + size);
 				else
 					combined.insert(sourcelocation, size);
 
-				found = frequency.find(sourcelocation, result);
+				result = frequency.find(sourcelocation, -1);
 
-				if (frequency.exists(sourcelocation))
+				if (result != -1)
 					frequency.replace(sourcelocation, result + size);
 				else
 					frequency.insert(sourcelocation, 1);
@@ -139,9 +138,8 @@ void ParseMemoryLeakFile(const char *_inputFilename, const char *_outputFilename
 
 			for (size_t i = 0; i < sorted.size(); i++) {
 				char *existingsource = sorted.get(i);
-				int existingsize;
 
-				combined.find(existingsource, existingsize);
+				int existingsize = combined.find(existingsource, -1);
 
 				if (newsize <= existingsize) {
 					sorted.insert_at(newsource, i);
@@ -178,8 +176,8 @@ void ParseMemoryLeakFile(const char *_inputFilename, const char *_outputFilename
 		for (int k = (int)sorted.size() - 1; k >= 0 && k < (int)sorted.size(); k--) {
 			char *source = sorted.get(k);
 			CoreAssert(source);
-			int size; combined.find(source, size);
-			int freq; frequency.find(source, freq);
+			int size = combined.find(source, -1);
+			int freq = frequency.find(source, -1);
 
 			if (size > 1048576) {
 				fprintf(output, "%-95s (%d MB in %d leaks)\n", source,
@@ -288,7 +286,7 @@ int main(int argc, char * *argv)
 #endif
 	}
 #ifdef ENABLE_CRASHREPORTS
-	__except(RecordExceptionInfo(GetExceptionInformation(), "WinMain", CC_LIB_NAME, CC_LIB_VERSION)){
+	__except(RecordExceptionInfo(GetExceptionInformation(), "WinMain", CC_LIB_NAME, CrissCross::Version::LongVersion())){
 	}
 #endif
 

@@ -194,6 +194,8 @@ namespace CrissCross
 
                 int SHA1Hash::Process(const void * _data, size_t _length)
                 {
+			CoreAssert(this != NULL);
+
                         Reset();
                         if (!_length || !_data) return -1;
 
@@ -205,6 +207,8 @@ namespace CrissCross
 
                 int SHA1Hash::Process(CrissCross::IO::CoreIOReader *_reader)
                 {
+			CoreAssert(this != NULL);
+
                         Reset();
                         if (!_reader) return -1;
 
@@ -224,6 +228,8 @@ namespace CrissCross
 
                 int SHA1Hash::ProcessBlock(const void * _data, size_t _length)
                 {
+			CoreAssert(this != NULL);
+
                         if (!_data) return -1;
 
                         SHA1Update(&m_state, (unsigned char *)_data, _length);
@@ -232,6 +238,8 @@ namespace CrissCross
 
                 void SHA1Hash::Finalize()
                 {
+			CoreAssert(this != NULL);
+
                         if (m_hash) delete [] m_hash;
 
                         m_hash = new unsigned char[SHA1_DIGEST_SIZE];
@@ -240,6 +248,8 @@ namespace CrissCross
 
                 const char *SHA1Hash::ToString() const
                 {
+			CoreAssert(this != NULL);
+
                         if (m_hashString) return m_hashString;
 
                         m_hashString = new char[SHA1_DIGEST_SIZE * 2 + 1];
@@ -251,6 +261,8 @@ namespace CrissCross
 
                 void SHA1Hash::Reset()
                 {
+			CoreAssert(this != NULL);
+
                         delete [] m_hash; m_hash = NULL;
                         delete [] m_hashString; m_hashString = NULL;
 
@@ -259,6 +271,8 @@ namespace CrissCross
 
                 bool SHA1Hash::operator==(const SHA1Hash &_other) const
                 {
+			CoreAssert(this != NULL);
+
                         return (memcmp(m_hash, _other.m_hash, SHA1_DIGEST_SIZE) == 0);
 		}
 	}

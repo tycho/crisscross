@@ -71,6 +71,7 @@ namespace CrissCross
 
 		CoreSocket::~CoreSocket()
 		{
+			CoreAssert(this != NULL);
 			Close();
 			if (m_calledInitialise == 1)
 				__cleanup_network();
@@ -78,6 +79,8 @@ namespace CrissCross
 
 		int CoreSocket::Close()
 		{
+			CoreAssert(this != NULL);
+
 			if (m_sock == INVALID_SOCKET) return CC_ERR_NOT_SOCKET;
 
 			/* Close the socket. */
@@ -93,6 +96,8 @@ namespace CrissCross
 
 		const char *CoreSocket::GetRemoteIP()
 		{
+			CoreAssert(this != NULL);
+
 			/* Verify the socket. */
 			if (m_sock == INVALID_SOCKET) return NULL;
 
@@ -112,6 +117,8 @@ namespace CrissCross
 
 		u_long CoreSocket::GetLocalHost()
 		{
+			CoreAssert(this != NULL);
+
 			char str[512];
 			long result = gethostname(str, sizeof(str));
 			if (result < 0) {
@@ -133,6 +140,8 @@ namespace CrissCross
 
 		u_long CoreSocket::GetRemoteHost()
 		{
+			CoreAssert(this != NULL);
+
 			if (m_sock == INVALID_SOCKET) return 0;
 
 			struct sockaddr_in addr; int sock_size = sizeof(addr);
@@ -145,12 +154,16 @@ namespace CrissCross
 
 		socket_t CoreSocket::GetSocket()
 		{
+			CoreAssert(this != NULL);
+
 			/* ugh. Allow the user to do whatever they want with the socket. */
 			return m_sock;
 		}
 
 		int CoreSocket::Read(std::string &_output)
 		{
+			CoreAssert(this != NULL);
+
 			if (m_sock == INVALID_SOCKET) return CC_ERR_NOT_SOCKET;
 			if (!IsReadable()) return CC_ERR_WOULD_BLOCK;
 
@@ -184,6 +197,8 @@ namespace CrissCross
 
 		int CoreSocket::Read(char *_output, unsigned int *_len)
 		{
+			CoreAssert(this != NULL);
+
 			/* Sanity checks. */
 			if (m_sock == INVALID_SOCKET) return CC_ERR_NOT_SOCKET;
 			if (_len == NULL || *_len < 1) return CC_ERR_BADPARAMETER;
@@ -207,6 +222,8 @@ namespace CrissCross
 
 		int CoreSocket::GetError() const
 		{
+			CoreAssert(this != NULL);
+
 			CoreAssert(m_sock != 0);
 			int retval = 0;
 
@@ -229,6 +246,8 @@ namespace CrissCross
 
 		int CoreSocket::Send(const void *_data, size_t _length)
 		{
+			CoreAssert(this != NULL);
+
 			if (m_sock == INVALID_SOCKET) return CC_ERR_NOT_SOCKET;
 			if (!IsWritable()) return CC_ERR_WOULD_BLOCK;
 
@@ -253,11 +272,15 @@ namespace CrissCross
 
 		int CoreSocket::Send(std::string _data)
 		{
+			CoreAssert(this != NULL);
+
 			return Send(_data.c_str(), _data.size());
 		}
 
 		bool CoreSocket::IsReadable() const
 		{
+			CoreAssert(this != NULL);
+
 			int ret;
 			fd_set read;
 			struct timeval timeout;
@@ -293,6 +316,8 @@ namespace CrissCross
 
 		bool CoreSocket::IsWritable() const
 		{
+			CoreAssert(this != NULL);
+
 			int ret;
 			fd_set write;
 			struct timeval timeout;
@@ -328,6 +353,8 @@ namespace CrissCross
 
 		socketState CoreSocket::State() const
 		{
+			CoreAssert(this != NULL);
+
 			/* SO_ACCEPTCONN (DWORD:boolean, get) : determine whether a socket is listening. */
 			/* SO_CONDITIONAL_ACCEPT (DWORD:boolean, get/set): determines whether a socket on */
 			/*    the stack level will accept connections or not. */

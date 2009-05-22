@@ -56,11 +56,13 @@ namespace CrissCross
 
 		void ProfiledElement::Start()
 		{
+			CoreAssert(this != NULL);
 			m_callStartTime = CrissCross::System::GetHighResTime();
 		}
 
 		void ProfiledElement::End()
 		{
+			CoreAssert(this != NULL);
 			double const timeNow = CrissCross::System::GetHighResTime();
 
 			m_currentNumCalls++;
@@ -78,6 +80,8 @@ namespace CrissCross
 
 		void ProfiledElement::Advance()
 		{
+			CoreAssert(this != NULL);
+
 			m_lastTotalTime = m_currentTotalTime;
 			m_lastNumCalls = m_currentNumCalls;
 			m_currentTotalTime = 0.0;
@@ -86,7 +90,7 @@ namespace CrissCross
 			m_historyNumSeconds += 1.0;
 			m_historyNumCalls += m_lastNumCalls;
 
-			float thisMax = m_lastTotalTime;
+			double thisMax = m_lastTotalTime;
 			if( thisMax > m_profiler->m_maxFound ) m_profiler->m_maxFound = thisMax;
 
 			for (size_t i = 0; i < m_children.Size(); ++i) {
@@ -98,6 +102,8 @@ namespace CrissCross
 
 		void ProfiledElement::ResetHistory()
 		{
+			CoreAssert(this != NULL);
+
 			m_historyTotalTime = 0.0;
 			m_historyNumSeconds = 0.0;
 			m_historyNumCalls = 0;
@@ -113,6 +119,8 @@ namespace CrissCross
 
 		double ProfiledElement::GetMaxChildTime()
 		{
+			CoreAssert(this != NULL);
+
 			double rv = 0.0;
 
 			short  first = m_children.StartOrderedWalk();
@@ -123,7 +131,7 @@ namespace CrissCross
 			short  i = first;
 			while (i != -1)
 			{
-				float            val = m_children[i]->m_historyTotalTime;
+				double val = m_children[i]->m_historyTotalTime;
 
 				if (val > rv) {
 					rv = val;
@@ -155,6 +163,8 @@ namespace CrissCross
 
 		void Profiler::Advance()
 		{
+			CoreAssert(this != NULL);
+
 			double timeNow = CrissCross::System::GetHighResTime();
 			if (timeNow > m_endOfSecond)
 			{
@@ -179,11 +189,14 @@ namespace CrissCross
 
 		void Profiler::ResetHistory()
 		{
+			CoreAssert(this != NULL);
+
 			m_rootElement->ResetHistory();
 		}
 
 		void Profiler::SetMasterThread()
 		{
+			CoreAssert(this != NULL);
 	#ifdef TARGET_OS_WINDOWS
 			m_masterThread = GetCurrentThreadId();
 	#else
@@ -193,6 +206,7 @@ namespace CrissCross
 
 		bool Profiler::IsMasterThread()
 		{
+			CoreAssert(this != NULL);
 	#ifdef TARGET_OS_WINDOWS
 			return m_masterThread == GetCurrentThreadId();
 	#else
@@ -202,6 +216,8 @@ namespace CrissCross
 
 		void Profiler::StartProfile(char const *_name)
 		{
+			CoreAssert(this != NULL);
+
 			if (!IsMasterThread()) return;
 
 			ProfiledElement *pe = m_currentElement->m_children.GetData(_name);
@@ -230,6 +246,8 @@ namespace CrissCross
 
 		void Profiler::EndProfile(char const *_name)
 		{
+			CoreAssert(this != NULL);
+
 			if (!IsMasterThread()) return;
 
 			//CoreAssert(m_currentElement->m_wasExpanded == m_currentElement->m_parent->m_isExpanded);

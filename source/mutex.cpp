@@ -52,6 +52,8 @@ namespace CrissCross
 
 		Mutex::~Mutex()
 		{
+			CoreAssert(this != NULL);
+
 			CoreAssert(m_lockCount == 0);
 #ifdef TARGET_OS_WINDOWS
 			DeleteCriticalSection(&m_mutex);
@@ -63,6 +65,7 @@ namespace CrissCross
 
 		void Mutex::Lock()
 		{
+			CoreAssert(this != NULL);
 #ifdef TARGET_OS_WINDOWS
 			EnterCriticalSection(&m_mutex);
 #else
@@ -74,6 +77,7 @@ namespace CrissCross
 
 		void Mutex::Unlock()
 		{
+			CoreAssert(this != NULL);
 #ifdef TARGET_OS_WINDOWS
 			LeaveCriticalSection(&m_mutex);
 #else
@@ -86,11 +90,13 @@ namespace CrissCross
 		MutexHolder::MutexHolder(Mutex *_mutex)
 			: m_mutex(_mutex)
 		{
+			CoreAssert(this != NULL);
 			m_mutex->Lock();
 		}
 
 		MutexHolder::~MutexHolder()
 		{
+			CoreAssert(this != NULL);
 			m_mutex->Unlock();
 		}
 
@@ -130,6 +136,7 @@ namespace CrissCross
 
 		bool ReadWriteLock::LockRead()
 		{
+			CoreAssert(this != NULL);
 #ifdef TARGET_OS_WINDOWS
 			bool wait = false;
 			DWORD timeout = INFINITE;
@@ -182,6 +189,7 @@ namespace CrissCross
 
 		bool ReadWriteLock::LockWrite()
 		{
+			CoreAssert(this != NULL);
 #ifdef TARGET_OS_WINDOWS
 			bool wait = false;
 			DWORD timeout = INFINITE;
@@ -235,6 +243,7 @@ namespace CrissCross
 #ifdef TARGET_OS_WINDOWS
 		void ReadWriteLock::UnlockRead()
 		{
+			CoreAssert(this != NULL);
 			EnterCriticalSection(&rwcs);
 
 			rdcount--;
@@ -258,6 +267,7 @@ namespace CrissCross
 
 		void ReadWriteLock::UnlockWrite()
 		{
+			CoreAssert(this != NULL);
 			EnterCriticalSection(&rwcs);
 
 			wrcount--;
@@ -280,6 +290,7 @@ namespace CrissCross
 #else
 		void ReadWriteLock::Unlock()
 		{
+			CoreAssert(this != NULL);
 			pthread_rwlock_unlock(&m_rwlock);
 		}
 #endif
@@ -303,6 +314,7 @@ namespace CrissCross
 
 		RWLockHolder::~RWLockHolder()
 		{
+			CoreAssert(this != NULL);
 #ifdef TARGET_OS_WINDOWS
 			switch(m_type)
 			{
