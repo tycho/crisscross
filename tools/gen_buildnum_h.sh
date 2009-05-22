@@ -65,8 +65,6 @@ fi
 
 if [ $IN_GIT -eq 0 ]; then
 	VERSTRING=$RELEASEVER_TAG
-else
-	VERSTRING=$(git describe --tags)
 fi
 
 rm -f $OUT.tmp
