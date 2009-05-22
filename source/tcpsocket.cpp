@@ -239,7 +239,7 @@ namespace CrissCross
 #endif
 
 			/* SO_KEEPALIVE */
-#ifdef TARGET_OS_WINDOWS
+#ifdef TARGET_COMPILER_VC
 			DWORD bytesReturned = 0;
 			tcp_keepalive vals;
 			vals.keepalivetime = 30000;

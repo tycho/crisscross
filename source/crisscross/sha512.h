@@ -13,6 +13,7 @@
 #define __included_cc_sha512_h
 
 #ifdef ENABLE_HASHES
+#ifdef ENABLE_SHA512
 
 #include <crisscross/deprecate.h>
 
@@ -111,6 +112,7 @@ namespace CrissCross
 	}
 }
 
+#endif
 #endif
 
 #endif

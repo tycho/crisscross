@@ -46,27 +46,27 @@ namespace CrissCross
 		}
 
 		template <class T>
-		__inline T NullKey()
+		__inline void NullKey(T *_dest)
 		{
-			return 0;
+			*_dest = 0;
 		}
 
 		template <>
-		__inline char *NullKey()
+		__inline void NullKey(char **_dest)
 		{
-			return NULL;
+			*_dest = NULL;
 		}
 
 		template <>
-		__inline const char *NullKey()
+		__inline void NullKey(const char **_dest)
 		{
-			return NULL;
+			*_dest = NULL;
 		}
 
 		template <>
-		__inline std::string NullKey()
+		__inline void NullKey(std::string *_dest)
 		{
-			return std::string("");
+			*_dest = std::string("");
 		}
 
 		template <class T>

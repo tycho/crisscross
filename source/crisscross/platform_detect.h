@@ -169,6 +169,16 @@
 #endif
 #endif
 
+#if !defined (COMPILER_DETECTED)
+#if defined (__BORLANDC__)
+/* Earlier Borland compilers break terribly */
+#if __BORLANDC__ >= 0x0600
+#define COMPILER_DETECTED
+#define TARGET_COMPILER_BORLAND
+#endif
+#endif
+#endif
+
 /* ------------ *
 * OS DETECTION *
 * ------------ */

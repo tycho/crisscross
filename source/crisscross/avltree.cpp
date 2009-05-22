@@ -60,7 +60,12 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		typename AVLTree<Key, Data>::Result AVLTree<Key, Data>::erase(AVLNode<Key, Data> * *_node, Key const &_key, Data const &_data)
+		#ifndef TARGET_COMPILER_BORLAND
+		typename AVLTree<Key, Data>::Result
+		#else
+		int
+		#endif
+		AVLTree<Key, Data>::erase(AVLNode<Key, Data> * *_node, Key const &_key, Data const &_data)
 		{
 			if (!*_node)
 				return INVALID;
@@ -120,7 +125,12 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		typename AVLTree<Key, Data>::Result AVLTree<Key, Data>::erase(AVLNode<Key, Data> * *_node, Key const &_key)
+		#ifndef TARGET_COMPILER_BORLAND
+		typename AVLTree<Key, Data>::Result
+		#else
+		int
+		#endif
+		AVLTree<Key, Data>::erase(AVLNode<Key, Data> * *_node, Key const &_key)
 		{
 			if (!*_node)
 				return INVALID;
@@ -251,7 +261,12 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		typename AVLTree<Key, Data>::Result AVLTree<Key, Data>::balanceLeftGrown(AVLNode<Key, Data> * *_node)
+		#ifndef TARGET_COMPILER_BORLAND
+		typename AVLTree<Key, Data>::Result
+		#else
+		int
+		#endif
+		AVLTree<Key, Data>::balanceLeftGrown(AVLNode<Key, Data> * *_node)
 		{
 			switch ((*_node)->balance)
 			{
@@ -311,7 +326,12 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		typename AVLTree<Key, Data>::Result AVLTree<Key, Data>::balanceRightGrown(AVLNode<Key, Data> * *_node)
+		#ifndef TARGET_COMPILER_BORLAND
+		typename AVLTree<Key, Data>::Result
+		#else
+		int
+		#endif
+		AVLTree<Key, Data>::balanceRightGrown(AVLNode<Key, Data> * *_node)
 		{
 			switch ((*_node)->balance)
 			{
@@ -371,7 +391,12 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		typename AVLTree<Key, Data>::Result AVLTree<Key, Data>::balanceLeftShrunk(AVLNode<Key, Data> * *_node)
+		#ifndef TARGET_COMPILER_BORLAND
+		typename AVLTree<Key, Data>::Result
+		#else
+		int
+		#endif
+		AVLTree<Key, Data>::balanceLeftShrunk(AVLNode<Key, Data> * *_node)
 		{
 			switch ((*_node)->balance)
 			{
@@ -449,7 +474,12 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		typename AVLTree<Key, Data>::Result AVLTree<Key, Data>::balanceRightShrunk(AVLNode<Key, Data> * * _node)
+		#ifndef TARGET_COMPILER_BORLAND
+		typename AVLTree<Key, Data>::Result
+		#else
+		int
+		#endif
+		AVLTree<Key, Data>::balanceRightShrunk(AVLNode<Key, Data> * * _node)
 		{
 			switch ((*_node)->balance)
 			{
@@ -603,7 +633,12 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		typename AVLTree<Key, Data>::Result AVLTree<Key, Data>::insert(AVLNode<Key, Data> * * pp_parent, AVLNode<Key, Data> * * _node, Key const &_key, Data const &_data)
+		#ifndef TARGET_COMPILER_BORLAND
+		Result
+		#else
+		int
+		#endif
+		AVLTree<Key, Data>::insert(AVLNode<Key, Data> * * pp_parent, AVLNode<Key, Data> * * _node, Key const &_key, Data const &_data)
 		{
 			Result result = OK;
 

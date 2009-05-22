@@ -13,6 +13,8 @@
 #include "testutils.h"
 #include "shellsort.h"
 
+#ifdef ENABLE_SORTS
+
 #include <crisscross/universal_include.h>
 #include <crisscross/darray.h>
 #include <crisscross/shellsort.h>
@@ -75,3 +77,5 @@ int TestShellSort_LList()
 	delete llist;
 	return 0;
 }
+
+#endif

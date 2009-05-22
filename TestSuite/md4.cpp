@@ -12,6 +12,8 @@
 #include "header.h"
 #include "md4.h"
 
+#ifdef ENABLE_MD4
+
 using namespace CrissCross::Crypto;
 using namespace CrissCross::IO;
 
@@ -68,3 +70,5 @@ int TestMD4()
 
 	return 0;
 }
+
+#endif

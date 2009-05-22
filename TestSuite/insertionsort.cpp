@@ -13,6 +13,7 @@
 #include "testutils.h"
 #include "insertionsort.h"
 
+#ifdef ENABLE_SORTS
 #if !defined (DISABLE_DEPRECATED_CODE)
 
 #include <crisscross/darray.h>
@@ -77,4 +78,5 @@ int TestInsertionSort_LList()
 	return 0;
 }
 
+#endif
 #endif

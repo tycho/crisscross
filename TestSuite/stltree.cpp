@@ -13,7 +13,7 @@
 #include "stltree.h"
 #include "testutils.h"
 
-#ifndef TARGET_COMPILER_VC
+#ifdef ENABLE_STLTREE
 
 #include <crisscross/stltree.h>
 

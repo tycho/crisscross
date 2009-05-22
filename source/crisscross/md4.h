@@ -13,6 +13,7 @@
 #define __included_cc_md4_h
 
 #ifdef ENABLE_HASHES
+#ifdef ENABLE_MD4
 
 #include <crisscross/deprecate.h>
 
@@ -115,6 +116,7 @@ namespace CrissCross
 	}
 }
 
+#endif
 #endif
 
 #endif

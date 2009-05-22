@@ -14,10 +14,10 @@
 
 
 /*
- * Something is wrong with Microsoft's
- * std::map implementation.
+ * Something is wrong with Microsoft's and
+ * Borland's std::map implementation.
  */
-#ifndef TARGET_COMPILER_VC
+#ifdef ENABLE_STLTREE
 
 #include <crisscross/deprecate.h>
 #include <crisscross/compare.h>
@@ -101,12 +101,12 @@ namespace CrissCross
 					return true;
 				};
 
-                                /*! \brief Finds a node in the tree and returns the data at that node. */
-                                /*!
-                                 * \param _key The key of the node to find.
-                                 * \param _default The value to return if the item couldn't be found.
-                                 * \return If found, returns the data at the node, otherwise _default is returned.
-                                 */
+				/*! \brief Finds a node in the tree and returns the data at that node. */
+				/*!
+				 * \param _key The key of the node to find.
+				 * \param _default The value to return if the item couldn't be found.
+				 * \return If found, returns the data at the node, otherwise _default is returned.
+				 */
 				__forceinline Data find(Key const &_key, Data const &_default = NULL) const
 				{
 					if (!exists(_key))

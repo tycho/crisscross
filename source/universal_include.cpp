@@ -302,7 +302,7 @@ int main(int argc, char * *argv)
 	return retval;
 }
 
-#ifdef TARGET_OS_WINDOWS
+#ifdef TARGET_COMPILER_VC
 #ifndef SDL_APPLICATION
 int WINAPI WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPSTR _cmdLine, int _iCmdShow)
 {

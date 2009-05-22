@@ -12,6 +12,8 @@
 #include "header.h"
 #include "md5.h"
 
+#ifdef ENABLE_MD5
+
 using namespace CrissCross::Crypto;
 using namespace CrissCross::IO;
 
@@ -68,3 +70,5 @@ int TestMD5()
 
 	return 0;
 }
+
+#endif

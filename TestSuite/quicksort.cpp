@@ -13,7 +13,7 @@
 #include "testutils.h"
 #include "quicksort.h"
 
-#if !defined (DISABLE_DEPRECATED_CODE)
+#ifdef ENABLE_SORTS
 
 #include <crisscross/universal_include.h>
 #include <crisscross/darray.h>

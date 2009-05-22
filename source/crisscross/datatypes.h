@@ -24,7 +24,7 @@ typedef unsigned int cc_uint32_t;
 typedef long cc_long_t;
 typedef unsigned long cc_ulong_t;
 
-#ifdef TARGET_COMPILER_VC
+#if defined(TARGET_COMPILER_VC) || defined(TARGET_COMPILER_BORLAND)
 typedef __int64 cc_int64_t;
 typedef unsigned __int64 cc_uint64_t;
 #else
