@@ -65,7 +65,7 @@ void TestTree(T _tree, DArray<ktype_t> *dataset, unsigned long _size)
 	// successful searches
 	sw.Start();
 	for (size_t i = 0; i < MaxSearches; i++) {
-		_tree->find(searchItems[i]);
+		_tree->find(searchItems[i], 0);
 	}
 	sw.Stop();
 	console->Write("%9.5lfs ", sw.Elapsed());
@@ -85,7 +85,7 @@ void TestTree(T _tree, DArray<ktype_t> *dataset, unsigned long _size)
 	// mixed success searches
 	sw.Start();
 	for (size_t i = 0; i < MaxSearches; i++) {
-		_tree->find(searchItems[i]);
+		_tree->find(searchItems[i], 0);
 	}
 	sw.Stop();
 	console->Write("%9.5lfs ", sw.Elapsed());
@@ -100,7 +100,7 @@ void TestTree(T _tree, DArray<ktype_t> *dataset, unsigned long _size)
 	// invalid searches
 	sw.Start();
 	for (size_t i = 0; i < MaxSearches; i++) {
-		_tree->find(searchItems[i]);
+		_tree->find(searchItems[i], 0);
 	}
 	sw.Stop();
 	console->Write("%9.5lfs ", sw.Elapsed());
