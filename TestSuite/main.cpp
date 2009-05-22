@@ -63,7 +63,9 @@ int RunApplication(int argc, char * *argv)
 	WritePrefix("Size of cc_double_t"); retval |= WriteResult(TestDatatypes_Double());
 	WritePrefix("Size of cc_ptr_t"); retval |= WriteResult(TestDatatypes_Pointer());
 
+#ifdef TARGET_LITTLE_ENDIAN
 	WritePrefix("Type-based aliasing sanity"); retval |= WriteResult(TestSanity_TypeBasedAliasing());
+#endif
 
 #ifdef ENABLE_MD4
 	WritePrefix("MD4"); retval |= WriteResult(TestMD4());
