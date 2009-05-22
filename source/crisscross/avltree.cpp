@@ -634,7 +634,7 @@ namespace CrissCross
 
 		template <class Key, class Data>
 		#ifndef TARGET_COMPILER_BORLAND
-		Result
+		typename AVLTree<Key, Data>::Result
 		#else
 		int
 		#endif
