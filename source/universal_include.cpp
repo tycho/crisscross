@@ -279,6 +279,9 @@ namespace
 #endif
 		}
 	};
+
+	// Statically initialize the library.
+	CrissCrossInitializer ccinit;
 }
 
 #ifndef NO_RUN_APPLICATION
