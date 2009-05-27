@@ -12,6 +12,7 @@
 #include "header.h"
 #include "testutils.h"
 
+#include "backtrace.h"
 #include "compare.h"
 #include "datatypes.h"
 #include "darray.h"
@@ -52,6 +53,8 @@ int RunApplication(int argc, char * *argv)
 	int retval = 0;
 
 	System::SeedRandom();
+	g_console->WriteLine("Testing PrintStackTrace()");
+	TestBacktrace();
 
 	WritePrefix("Size of cc_uint8_t"); retval |= WriteResult(TestDatatypes_Uint8());
 	WritePrefix("Size of cc_uint16_t"); retval |= WriteResult(TestDatatypes_Uint16());
