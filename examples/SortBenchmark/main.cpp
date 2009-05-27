@@ -18,6 +18,7 @@ using namespace std;
 
 Console *console = NULL;
 
+#ifdef ENABLE_SORTS
 void BenchmarkDArray(Sorter<char *> &sorter)
 {
 	DArray<char *> data, rdata;
@@ -87,13 +88,16 @@ void BenchmarkDArray(Sorter<char *> &sorter)
 		console->WriteLine("Dataset not found.");
 	}
 }
+#endif
 
 int RunApplication(int argc, char * *argv)
 {
 	console = new Console();
 
-#if !defined (DISABLE_DEPRECATED_CODE)
+#ifdef ENABLE_SORTS
+
 	QuickSort<char *>     qs;
+#if !defined (DISABLE_DEPRECATED_CODE)
 	InsertionSort<char *> is;
 #endif
 	HeapSort<char *>      hs;
@@ -128,8 +132,13 @@ int RunApplication(int argc, char * *argv)
 	console->WriteLine("InsertionSort...");
 	console->SetColour();
 	BenchmarkDArray(is);
-	console->WriteLine();
 #endif
+
+#else
+	console->WriteLine("Sorting algorithms are disabled in this build of CrissCross.\nDefine ENABLE_SORTS in universal_include.h if you want them.");
+#endif
+
+	console->WriteLine();
 
 #ifdef TARGET_OS_WINDOWS
 	system("pause");

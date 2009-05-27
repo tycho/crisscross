@@ -13,6 +13,8 @@
 #include "testutils.h"
 #include "combsort.h"
 
+#ifdef ENABLE_SORTS
+
 #include <crisscross/universal_include.h>
 #include <crisscross/darray.h>
 #include <crisscross/combsort.h>
@@ -75,3 +77,5 @@ int TestCombSort_LList()
 	delete llist;
 	return 0;
 }
+
+#endif

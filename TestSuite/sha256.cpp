@@ -12,6 +12,8 @@
 #include "header.h"
 #include "sha256.h"
 
+#ifdef ENABLE_SHA256
+
 using namespace CrissCross::Crypto;
 using namespace CrissCross::IO;
 
@@ -59,3 +61,5 @@ int TestSHA256()
 
 	return 0;
 }
+
+#endif

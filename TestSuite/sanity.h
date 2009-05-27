@@ -12,6 +12,10 @@
 #ifndef __included_sanity_h
 #define __included_sanity_h
 
+#ifdef TARGET_LITTLE_ENDIAN
+
 int TestSanity_TypeBasedAliasing();
+
+#endif
 
 #endif

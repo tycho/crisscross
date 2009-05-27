@@ -13,6 +13,7 @@
 #define __included_cc_sha1_h
 
 #ifdef ENABLE_HASHES
+#ifdef ENABLE_SHA1
 
 #define SHA1_DIGEST_SIZE 20
 
@@ -104,6 +105,7 @@ namespace CrissCross
 	}
 }
 
+#endif
 #endif
 
 #endif

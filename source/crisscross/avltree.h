@@ -85,7 +85,13 @@ namespace CrissCross
 				 * \param _node Pointer to current node pointer to balance
 				 * \return OK if tree is balanced (entire tree is valid), BALANCE if local tree is balanced but has grown in height (entire tree not guaranteed to be valid)
 				 */
-				inline Result balanceLeftGrown(AVLNode<Key, Data> * *_node);
+				inline
+				#ifndef TARGET_COMPILER_BORLAND
+				Result
+				#else
+				int
+				#endif
+				balanceLeftGrown(AVLNode<Key, Data> * *_node);
 
 				/*! \brief Rebalance tree */
 				/*!
@@ -93,7 +99,13 @@ namespace CrissCross
 				 * \param _node Pointer to current node pointer to balance
 				 * \return OK if tree is balanced (entire tree is valid), BALANCE if local tree is balanced but has grown in height (entire tree not guaranteed to be valid)
 				 */
-				inline Result balanceRightGrown(AVLNode<Key, Data> * *_node);
+				inline
+				#ifndef TARGET_COMPILER_BORLAND
+				Result
+				#else
+				int
+				#endif
+				balanceRightGrown(AVLNode<Key, Data> * *_node);
 
 				/*! \brief Rebalance tree */
 				/*!
@@ -101,7 +113,13 @@ namespace CrissCross
 				 * \param _node Pointer to current node pointer to balance
 				 * \return OK if tree is balanced (entire tree is valid), BALANCE if local tree is balanced but has shrunk in height (entire tree not guaranteed to be valid)
 				 */
-				inline Result balanceLeftShrunk(AVLNode<Key, Data> * *_node);
+				inline
+				#ifndef TARGET_COMPILER_BORLAND
+				Result
+				#else
+				int
+				#endif
+				balanceLeftShrunk(AVLNode<Key, Data> * *_node);
 
 				/*! \brief Rebalance tree */
 				/*!
@@ -109,7 +127,13 @@ namespace CrissCross
 				 * \param _node Pointer to current node pointer to balance
 				 * \return OK if tree is balanced (entire tree is valid), BALANCE if local tree is balanced but has shrunk in height (entire tree not guaranteed to be valid)
 				 */
-				inline Result balanceRightShrunk(AVLNode<Key, Data> * *_node);
+				inline
+				#ifndef TARGET_COMPILER_BORLAND
+				Result
+				#else
+				int
+				#endif
+				balanceRightShrunk(AVLNode<Key, Data> * *_node);
 
 				/*! \brief Replace node */
 				/*!
@@ -140,7 +164,12 @@ namespace CrissCross
 				 * \param _data Data to insert
 				 * \return Result of addition (OK if subtree is balanced, BALANCE if tree is heavy on either side)
 				 */
-				Result insert(AVLNode<Key, Data> * *_parent, AVLNode<Key, Data> * *_node, Key const &_key, Data const &_data);
+				#ifndef TARGET_COMPILER_BORLAND
+				Result
+				#else
+				int
+				#endif
+				insert(AVLNode<Key, Data> * *_parent, AVLNode<Key, Data> * *_node, Key const &_key, Data const &_data);
 
 				/*! \brief Remove object */
 				/*!
@@ -149,7 +178,12 @@ namespace CrissCross
 				 * \param _key Identifier of node to remove
 				 * \return Result of removal (OK if subtree is balanced, BALANCE if tree is heavy on either side)
 				 */
-				Result erase(AVLNode<Key, Data> * *_node, Key const &_key);
+				#ifndef TARGET_COMPILER_BORLAND
+				Result
+				#else
+				int
+				#endif
+				erase(AVLNode<Key, Data> * *_node, Key const &_key);
 
 				/*! \brief Remove object */
 				/*!
@@ -159,7 +193,12 @@ namespace CrissCross
 				 * \param _data Data identifier of node to remove
 				 * \return Result of removal (OK if subtree is balanced, BALANCE if tree is heavy on either side)
 				 */
-				Result erase(AVLNode<Key, Data> * *_node, Key const &_key, Data const &_data);
+				#ifndef TARGET_COMPILER_BORLAND
+				Result
+				#else
+				int
+				#endif
+				erase(AVLNode<Key, Data> * *_node, Key const &_key, Data const &_data);
 
 				/*! \brief Find a node in the tree */
 				/*!

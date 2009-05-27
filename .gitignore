@@ -4,3 +4,11 @@ cmake_install.cmake
 Makefile
 *~
 *.DS_Store
+
+# Windows outputs
+*.exe
+*.lib
+
+# Borland junk files
+*.@@@
+*.tds

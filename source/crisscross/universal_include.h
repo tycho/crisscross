@@ -48,7 +48,15 @@
 /* Disabling these will save space but limit functionality. */
 #define ENABLE_CPUID
 #define ENABLE_HASHES
+#define ENABLE_MD4
+#define ENABLE_MD5
+#define ENABLE_SHA1
+#define ENABLE_SHA256
+#define ENABLE_SHA512
+#define ENABLE_TIGER
+#define ENABLE_STLTREE
 #define ENABLE_SORTS
+
 /* #define ENABLE_CRASHREPORTS / * Enables XCrashReports on Windows. * / */
 /* #define DISABLE_DEPRECATED_CODE */ /* This will be enabled by default in a future release */
 
@@ -142,6 +150,7 @@
 #include <sys/stat.h>
 
 #if defined (TARGET_OS_WINDOWS) && (defined (TARGET_COMPILER_VC) || defined (TARGET_COMPILER_ICC))
+#undef ENABLE_STLTREE
 #if TARGET_CPU_BITS == 32
 #define ENABLE_SYMBOL_ENGINE
 #else
@@ -216,6 +225,11 @@
 #if defined (TARGET_COMPILER_CYGWIN)
 #undef ENABLE_BACKTRACE
 #undef HAS_FPOS64
+#endif
+
+#if defined (TARGET_COMPILER_BORLAND)
+#undef ENABLE_BACKTRACE
+#undef ENABLE_STLTREE
 #endif
 
 #if defined (TARGET_OS_LINUX) && defined (ENABLE_BACKTRACE)
@@ -305,11 +319,13 @@ typedef long intptr_t;
 #define unlikely(x)    (x)
 #endif
 
+#ifndef TARGET_COMPILER_BORLAND
 template <typename TO, typename FROM> TO nasty_cast(FROM f) {
 	union {
 		FROM f; TO t;
 	} u; u.f = f; return u.t;
 }
+#endif
 
 inline char *cc_strdup(const char *x)
 {

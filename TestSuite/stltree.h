@@ -12,8 +12,12 @@
 #ifndef __included_stltree_test_h
 #define __included_stltree_test_h
 
+#ifdef ENABLE_STLTREE
+
 int TestSTLTree_CString();
 int TestSTLTree_String();
 int TestSTLTree_Int();
+
+#endif
 
 #endif

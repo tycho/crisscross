@@ -12,8 +12,12 @@
 #ifndef __included_shellsort_test_h
 #define __included_shellsort_test_h
 
+#ifdef ENABLE_SORTS
+
 int TestShellSort_IntArray();
 int TestShellSort_DArray();
 int TestShellSort_LList();
+
+#endif
 
 #endif

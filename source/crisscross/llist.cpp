@@ -168,7 +168,8 @@ namespace CrissCross
 			}
 
 			/* Below wastes memory -- need a cleaner way to error out. */
-			static T nullVar = NullKey<T>();
+			static T nullVar;
+			NullKey<T>(&nullVar);
 			return nullVar;
 		}
 

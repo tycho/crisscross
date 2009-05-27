@@ -12,8 +12,12 @@
 #ifndef __included_quicksort_test_h
 #define __included_quicksort_test_h
 
+#ifdef ENABLE_SORTS
+
 int TestQuickSort_IntArray();
 int TestQuickSort_DArray();
 int TestQuickSort_LList();
+
+#endif
 
 #endif

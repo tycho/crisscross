@@ -178,11 +178,16 @@ int RunApplication(int argc, char * *argv)
 	}
 
 #ifdef TARGET_OS_WINDOWS
+	/* These braces are here because the Borland compiler complains
+	 * that the above goto statements skip these variable declarations
+	 * and initializations. It's right, but we also don't care.
+	 */
+	{
 	HANDLE hThread = GetCurrentThread();
 	HANDLE hProcess = GetCurrentProcess();
 	SetThreadPriority(hThread, THREAD_PRIORITY_TIME_CRITICAL);
 	SetPriorityClass(hProcess, HIGH_PRIORITY_CLASS);
-
+	}
 #endif
 
 #ifdef TARGET_OS_NDSFIRMWARE

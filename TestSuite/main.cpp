@@ -63,14 +63,28 @@ int RunApplication(int argc, char * *argv)
 	WritePrefix("Size of cc_double_t"); retval |= WriteResult(TestDatatypes_Double());
 	WritePrefix("Size of cc_ptr_t"); retval |= WriteResult(TestDatatypes_Pointer());
 
+#ifdef TARGET_LITTLE_ENDIAN
 	WritePrefix("Type-based aliasing sanity"); retval |= WriteResult(TestSanity_TypeBasedAliasing());
+#endif
 
+#ifdef ENABLE_MD4
 	WritePrefix("MD4"); retval |= WriteResult(TestMD4());
+#endif
+#ifdef ENABLE_MD5
 	WritePrefix("MD5"); retval |= WriteResult(TestMD5());
+#endif
+#ifdef ENABLE_SHA1
 	WritePrefix("SHA-1"); retval |= WriteResult(TestSHA1());
+#endif
+#ifdef ENABLE_SHA256
 	WritePrefix("SHA-256"); retval |= WriteResult(TestSHA256());
+#endif
+#ifdef ENABLE_SHA512
 	WritePrefix("SHA-512"); retval |= WriteResult(TestSHA512());
+#endif
+#ifdef ENABLE_TIGER
 	WritePrefix("Tiger"); retval |= WriteResult(TestTiger());
+#endif
 
 	WritePrefix("Stopwatch"); retval |= WriteResult(TestStopwatch());
 
@@ -86,7 +100,7 @@ int RunApplication(int argc, char * *argv)
 	WritePrefix("SplayTree<std::string, std::string>"); retval |= WriteResult(TestSplayTree_String());
 	WritePrefix("SplayTree<int, int>"); retval |= WriteResult(TestSplayTree_Int());
 
-#ifndef TARGET_COMPILER_VC
+#ifdef ENABLE_STLTREE
 	WritePrefix("STLTree<const char *, const char *>"); retval |= WriteResult(TestSTLTree_CString());
 	WritePrefix("STLTree<std::string, std::string>"); retval |= WriteResult(TestSTLTree_String());
 	WritePrefix("STLTree<int, int>"); retval |= WriteResult(TestSTLTree_Int());
@@ -102,6 +116,7 @@ int RunApplication(int argc, char * *argv)
 
 	WritePrefix("HashTable<const char *, const char *>"); retval |= WriteResult(TestHashTable_CString());
 
+#ifdef ENABLE_SORTS
 	WritePrefix("CombSort (integer array)"); retval |= WriteResult(TestCombSort_IntArray());
 	WritePrefix("CombSort (integer DArray)"); retval |= WriteResult(TestCombSort_DArray());
 	WritePrefix("CombSort (integer LList)"); retval |= WriteResult(TestCombSort_LList());
@@ -120,7 +135,6 @@ int RunApplication(int argc, char * *argv)
 	WritePrefix("ShellSort (integer DArray)"); retval |= WriteResult(TestShellSort_DArray());
 	WritePrefix("ShellSort (integer LList)"); retval |= WriteResult(TestShellSort_LList());
 
-#if !defined (DISABLE_DEPRECATED_CODE)
 	WritePrefix("QuickSort (integer array)"); retval |= WriteResult(TestQuickSort_IntArray());
 	WritePrefix("QuickSort (integer DArray)"); retval |= WriteResult(TestQuickSort_DArray());
 	WritePrefix("QuickSort (integer LList)"); retval |= WriteResult(TestQuickSort_LList());

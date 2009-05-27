@@ -23,6 +23,10 @@
 #include <signal.h>
 #endif
 
+#if defined(TARGET_COMPILER_BORLAND)
+typedef long intptr_t;
+#endif
+
 namespace CrissCross
 {
 	namespace IO
@@ -32,7 +36,7 @@ namespace CrissCross
 			m_consoleAllocated(false)
 		{
 			AllocateConsole();
-#ifdef TARGET_OS_WINDOWS
+#ifdef TARGET_COMPILER_VC
 			if (m_consoleAllocated) {
 				/* Redirect stdout to the console. */
 				int hCrt = _open_osfhandle(( intptr_t )GetStdHandle(STD_OUTPUT_HANDLE), _O_TEXT);

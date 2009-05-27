@@ -12,6 +12,10 @@
 #ifndef __included_md5_test_h
 #define __included_md5_test_h
 
+#ifdef ENABLE_MD5
+
 int TestMD5();
+
+#endif
 
 #endif

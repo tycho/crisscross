@@ -3,6 +3,8 @@
 
 #include "sanity.h"
 
+#ifdef TARGET_LITTLE_ENDIAN
+
 int TestSanity_TypeBasedAliasing()
 {
 	unsigned long a;
@@ -11,3 +13,5 @@ int TestSanity_TypeBasedAliasing()
 	TEST_ASSERT(a == 5);
 	return 0;
 }
+
+#endif
