@@ -16,6 +16,10 @@
 #pragma warning (disable:4530)
 #endif
 
+#ifndef NO_RUN_APPLICATION
+/* #define NO_RUN_APPLICATION */ /* Disable the RunApplication entry point. */
+#endif
+
 #ifndef SDL_APPLICATION
 /* #define SDL_APPLICATION */ /* Define if your application uses SDLmain. */
 #endif

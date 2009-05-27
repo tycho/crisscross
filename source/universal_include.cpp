@@ -250,6 +250,41 @@ void AppPrintMemoryLeaks(char *_filename)
 }
 #endif
 
+namespace
+{
+	class CrissCrossInitializer
+	{
+	public:
+		CrissCrossInitializer ()
+		{
+#ifdef TARGET_OS_NDSFIRMWARE
+			fatInitDefault();
+#endif
+
+#ifdef ENABLE_MEMLEAK_STATS
+			_CrtMemCheckpoint(&s1);
+#endif
+
+			g_stderr = new Console(stderr, NULL);
+			g_stdout = new Console(stdout, NULL);
+
+			CrissCross::System::InitTimer();
+		}
+
+		~CrissCrossInitializer ()
+		{
+			delete g_stderr; g_stderr = NULL;
+			delete g_stdout; g_stdout = NULL;
+
+#ifdef DETECT_MEMORY_LEAKS
+			AppPrintMemoryLeaks("memleak.txt");
+#endif
+		}
+	};
+}
+
+#ifndef NO_RUN_APPLICATION
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -264,18 +299,6 @@ int RunApplication(int argc, char * *argv)
 int main(int argc, char * *argv)
 {
 	int retval = 0;
-
-#ifdef TARGET_OS_NDSFIRMWARE
-	fatInitDefault();
-#endif
-
-#ifdef ENABLE_MEMLEAK_STATS
-	_CrtMemCheckpoint(&s1);
-#endif
-	g_stderr = new Console(stderr, NULL);
-	g_stdout = new Console(stdout, NULL);
-
-	CrissCross::System::InitTimer();
 
 #ifdef ENABLE_CRASHREPORTS
 	__try
@@ -295,10 +318,6 @@ int main(int argc, char * *argv)
 	delete g_stderr; g_stderr = NULL;
 	delete g_stdout; g_stdout = NULL;
 
-#ifdef DETECT_MEMORY_LEAKS
-	AppPrintMemoryLeaks("memleak.txt");
-#endif
-
 	return retval;
 }
 
@@ -313,4 +332,6 @@ int WINAPI WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPSTR _cmdLin
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif
