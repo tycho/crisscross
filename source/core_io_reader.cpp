@@ -77,7 +77,8 @@ namespace CrissCross
 			CoreAssert(IsOpen());
 #ifdef HAS_FPOS64
 			fpos64_t lastpos;
-#if defined(TARGET_COMPILER_VC) || defined(TARGET_COMPILER_BORLAND)
+#if defined(TARGET_COMPILER_VC) || defined(TARGET_COMPILER_BORLAND) || \
+	(defined(TARGET_COMPILER_ICC) && defined(TARGET_OS_WINDOWS))
 			lastpos = _ftelli64(m_fileInputPointer);
 			return lastpos;
 #elif defined (TARGET_OS_MACOSX) || defined (TARGET_OS_NETBSD) || \
@@ -106,7 +107,8 @@ namespace CrissCross
 
 #ifdef HAS_FPOS64
 			fpos64_t lastpos, endpos;
-#if defined(TARGET_COMPILER_VC) || defined(TARGET_COMPILER_BORLAND)
+#if defined(TARGET_COMPILER_VC) || defined(TARGET_COMPILER_BORLAND) || \
+	(defined(TARGET_COMPILER_ICC) && defined(TARGET_OS_WINDOWS))
 			lastpos = _ftelli64(m_fileInputPointer);
 			_fseeki64(m_fileInputPointer, 0, SEEK_END);
 			endpos = _ftelli64(m_fileInputPointer);
@@ -231,7 +233,8 @@ namespace CrissCross
 			MutexHolder mh(&m_ioMutex);
 #endif
 #ifdef HAS_FPOS64
-#if defined(TARGET_COMPILER_VC) || defined(TARGET_COMPILER_BORLAND)
+#if defined(TARGET_COMPILER_VC) || defined(TARGET_COMPILER_BORLAND) || \
+	(defined(TARGET_COMPILER_ICC) && defined(TARGET_OS_WINDOWS))
 			int res = _fseeki64(m_fileInputPointer, _position, _origin);
 #elif defined (TARGET_OS_MACOSX) || defined (TARGET_OS_NETBSD) || \
 	  defined (TARGET_OS_FREEBSD) || defined (TARGET_OS_OPENBSD)
