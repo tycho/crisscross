@@ -232,7 +232,7 @@
 #endif
 #endif
 
-#if defined (_LP64) || defined (__LP64__)
+#if defined (_LP64) || defined (__LP64__) || defined (_M_X64) || defined(_M_IA64)
 #define TARGET_CPU_BITS 64
 #else
 #define TARGET_CPU_BITS 32
