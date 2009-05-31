@@ -238,9 +238,9 @@ namespace CrissCross
 				 *      Provided for compatibility with Tosser I
 				 */
 				/*! @cond */
-				_CC_DEPRECATE_FUNCTION(insert) inline size_t PutData(T const & _rec)
+				_CC_DEPRECATE_FUNCTION(insert) inline int PutData(T const & _rec)
 				{
-					return insert(_rec);
+					return (int)insert(_rec);
 				};
 				_CC_DEPRECATE_FUNCTION(insert) inline void PutData(T const & _rec, size_t _index)
 				{
