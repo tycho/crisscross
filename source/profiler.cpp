@@ -91,10 +91,12 @@ namespace CrissCross
 			m_historyNumCalls += m_lastNumCalls;
 
 			double thisMax = m_lastTotalTime;
-			if( thisMax > m_profiler->m_maxFound ) m_profiler->m_maxFound = thisMax;
+			if (thisMax > m_profiler->m_maxFound) {
+				m_profiler->m_maxFound = (float)thisMax;
+			}
 
 			for (size_t i = 0; i < m_children.Size(); ++i) {
-				if (m_children.ValidIndex(i)) {
+				if (m_children.valid(i)) {
 					m_children[i]->Advance();
 				}
 			}
@@ -111,7 +113,7 @@ namespace CrissCross
 			m_shortest = DBL_MAX;
 
 			for (unsigned int i = 0; i < m_children.Size(); ++i) {
-				if (m_children.ValidIndex(i)) {
+				if (m_children.valid(i)) {
 					m_children[i]->ResetHistory();
 				}
 			}
@@ -123,12 +125,12 @@ namespace CrissCross
 
 			double rv = 0.0;
 
-			short  first = m_children.StartOrderedWalk();
+			size_t  first = m_children.StartOrderedWalk();
 			if (first == -1) {
 				return 0.0;
 			}
 
-			short  i = first;
+			size_t  i = first;
 			while (i != -1)
 			{
 				double val = m_children[i]->m_historyTotalTime;

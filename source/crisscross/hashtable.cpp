@@ -57,9 +57,9 @@ namespace CrissCross
 			memset(m_keys, 0, sizeof(char *) * m_size);
 			memset(m_data, 0, sizeof(Data) * m_size);
 
-			for (unsigned int i = 0; i < oldSize; ++i) {
+			for (size_t i = 0; i < oldSize; ++i) {
 				if (oldKeys[i] != NULL) {
-					unsigned int newIndex = findInsertIndex(oldKeys[i]);
+					size_t newIndex = findInsertIndex(oldKeys[i]);
 					m_keys[newIndex] = oldKeys[i];
 					m_data[newIndex] = oldData[i];
 				}
@@ -72,9 +72,9 @@ namespace CrissCross
 		}
 
 		template <class Data>
-		int HashTable<Data>::findInsertIndex(const char *_key) const
+		size_t HashTable<Data>::findInsertIndex(const char *_key) const
 		{
-			unsigned int index = Hash<const char *>(_key) & m_mask;
+			size_t index = Hash<const char *>(_key) & m_mask;
 
 			while (m_keys[index] != NULL &&
 			       m_keys[index] != (char *)-1)
@@ -88,9 +88,9 @@ namespace CrissCross
 		}
 
 		template <class Data>
-		int HashTable<Data>::findIndex(const char *_key) const
+		size_t HashTable<Data>::findIndex(const char *_key) const
 		{
-			int index = Hash<const char *>(_key) & m_mask;
+			size_t index = Hash<const char *>(_key) & m_mask;
 
 			if (m_keys[index] == NULL) {
 				return -1;
@@ -117,8 +117,8 @@ namespace CrissCross
 		template <class Data>
 		Data HashTable<Data>::find(const char * _key, Data const &_default) const
 		{
-			int index = findIndex(_key);
-			if (index != -1) {
+			size_t index = findIndex(_key);
+			if (index != (size_t)-1) {
 				return m_data[index];
 			}
 			return _default;
@@ -133,8 +133,8 @@ namespace CrissCross
 		template <class Data>
 		bool HashTable<Data>::erase(const char *_key)
 		{
-			int index = findIndex(_key);
-			if (index != -1) {
+			size_t index = findIndex(_key);
+			if (index != (size_t)-1) {
 				Dealloc(m_keys[index]);
 				m_keys[index] = (char*)-1;
 				m_slotsFree++;
@@ -156,13 +156,13 @@ namespace CrissCross
 		}
 
 		template <class Data>
-		int HashTable<Data>::insert(const char *_key, Data const &_data)
+		size_t HashTable<Data>::insert(const char *_key, Data const &_data)
 		{
 			if (m_slotsFree * 2 <= m_size) {
 				grow();
 			}
 
-			unsigned int index = findInsertIndex(_key);
+			size_t index = findInsertIndex(_key);
 			CoreAssert(m_keys[index] == NULL || m_keys[index] == (char*)-1);
 			m_keys[index] = cc_strdup(_key);
 			m_data[index] = _data;
@@ -181,34 +181,34 @@ namespace CrissCross
 			/* Copy pointers to existing data */
 			char      * *oldKeys = this->m_keys;
 			T           *oldData = this->m_data;
-			short       *oldOrderedIndices = m_orderedIndices;
+			size_t      *oldOrderedIndices = m_orderedIndices;
 
 			/* Make new data */
 			this->m_keys = new char *[this->m_size];
 			this->m_data = new T [this->m_size];
-			m_orderedIndices = new short [this->m_size];
+			m_orderedIndices = new size_t[this->m_size];
 
 			/* Set all new data to zero */
 			memset(this->m_keys, 0, sizeof(char *) * this->m_size);
 			memset(this->m_data, 0, sizeof(T) * this->m_size);
 			for (size_t i = 0; i < this->m_size; i++)
-				m_orderedIndices[i] = (short)-1;
+				m_orderedIndices[i] = (size_t)-1;
 
 			/* */
 			/* Go through the existing ordered index list, inserting elements into the */
 			/* new table as we go */
 
-			short oldI = m_firstOrderedIndex;
-			short newI = this->findInsertIndex(oldKeys[oldI]);
+			size_t oldI = m_firstOrderedIndex;
+			size_t newI = this->findInsertIndex(oldKeys[oldI]);
 			m_firstOrderedIndex = newI;
 			while (oldI != -1)
 			{
-				short nextOldI = oldOrderedIndices[oldI];
+				size_t nextOldI = oldOrderedIndices[oldI];
 
 				this->m_keys[newI] = oldKeys[oldI];
 				this->m_data[newI] = oldData[oldI];
 
-				short nextNewI = (nextOldI != -1) ? this->findInsertIndex(oldKeys[nextOldI]) : -1;
+				size_t nextNewI = (nextOldI != -1) ? this->findInsertIndex(oldKeys[nextOldI]) : -1;
 
 				m_orderedIndices[newI] = nextNewI;
 
@@ -225,10 +225,10 @@ namespace CrissCross
 
 		/* See header for description */
 		template <class T>
-		short SortingHashTable<T>::findPrevKey(char const *_key) const
+		size_t SortingHashTable<T>::findPrevKey(char const *_key) const
 		{
-			short prevI = -1;
-			short i = m_firstOrderedIndex;
+			size_t prevI = -1;
+			size_t i = m_firstOrderedIndex;
 
 			while (1)
 			{
@@ -247,8 +247,8 @@ namespace CrissCross
 			HashTable<T>(),
 			m_firstOrderedIndex(-1)
 		{
-			m_orderedIndices = new short [this->m_size];
-			memset(m_orderedIndices, 0, sizeof(short) * this->m_size);
+			m_orderedIndices = new size_t[this->m_size];
+			memset(m_orderedIndices, 0, sizeof(size_t) * this->m_size);
 		}
 
 		template <class T>
@@ -258,7 +258,7 @@ namespace CrissCross
 		}
 
 		template <class T>
-		int SortingHashTable<T>::insert(char const *_key, T const &_data)
+		size_t SortingHashTable<T>::insert(char const *_key, T const &_data)
 		{
 			/* */
 			/* Make sure the table is big enough */
@@ -270,7 +270,7 @@ namespace CrissCross
 			/* */
 			/* Do the main insert */
 
-			unsigned int index = HashTable<T>::findInsertIndex(_key);
+			size_t index = HashTable<T>::findInsertIndex(_key);
 			CoreAssert(this->m_keys[index] == NULL || this->m_keys[index] == (char*)-1);
 			this->m_keys[index] = cc_strdup(_key);
 			this->m_data[index] = _data;
@@ -279,7 +279,7 @@ namespace CrissCross
 			/* */
 			/* Insert us into the alphabetically order index list */
 
-			short        i = findPrevKey(_key);
+			size_t i = findPrevKey(_key);
 			if (i == -1) {
 				/* Handle the case when the table is empty, or the new element is going */
 				/* to be the new first alphabetical element */
@@ -338,16 +338,16 @@ namespace CrissCross
 		}
 
 		template <class T>
-		short SortingHashTable<T>::beginOrderedWalk()
+		size_t SortingHashTable<T>::beginOrderedWalk()
 		{
 			m_nextOrderedIndex = m_orderedIndices[m_firstOrderedIndex];
 			return m_firstOrderedIndex;
 		}
 
 		template <class T>
-		short SortingHashTable<T>::nextOrderedIndex()
+		size_t SortingHashTable<T>::nextOrderedIndex()
 		{
-			short rv = m_nextOrderedIndex;
+			size_t rv = m_nextOrderedIndex;
 			if (rv != -1)
 				m_nextOrderedIndex = m_orderedIndices[m_nextOrderedIndex];
 			return rv;

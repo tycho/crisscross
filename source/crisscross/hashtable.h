@@ -27,8 +27,8 @@ namespace CrissCross
 			unsigned int m_size;
 			unsigned int m_mask;
 
-			int findInsertIndex(const char *_key) const;
-			int findIndex(const char *_key) const;
+			size_t findInsertIndex(const char *_key) const;
+			size_t findIndex(const char *_key) const;
 			virtual void   grow();
 
 		public:
@@ -45,7 +45,7 @@ namespace CrissCross
 			 * \param _data The data to insert.
 			 * \return True on success, false on failure.
 			 */
-			virtual int insert(const char *_key, Data const &_data);
+			virtual size_t insert(const char *_key, Data const &_data);
 
 			/*! \brief Finds a node in the table and returns the data at that node. */
 			/*!
@@ -99,20 +99,20 @@ namespace CrissCross
 				return m_size - m_slotsFree;
 			};
 
-			bool valid(int _index) const
+			bool valid(size_t _index) const
 			{
-				CoreAssert(_index >= 0 && (size_t)_index < m_size);
+				CoreAssert(_index < m_size);
 				return m_keys[_index] != NULL &&
 				       m_keys[_index] != (char*)-1;
 			};
 
-			Data const &operator [](int _index) const
+			Data const &operator [](size_t _index) const
 			{
 				CoreAssert(_index >= 0 && (size_t)_index < m_size);
 				return m_data[_index];
 			};
 
-			Data &operator [](int _index)
+			Data &operator [](size_t _index)
 			{
 				CoreAssert(_index >= 0 && (size_t)_index < m_size);
 				return m_data[_index];
@@ -126,11 +126,11 @@ namespace CrissCross
 			/*! @cond */
 			int GetIndex(const char *_key) const
 			{
-				return findIndex(_key);
+				return (int)findIndex(_key);
 			};
 			int PutData(const char *_key, Data const &_data)
 			{
-				return insert(_key, _data);
+				return (int)insert(_key, _data);
 			};
 			Data GetData(const char *_key, Data const &_default = NULL) const
 			{
@@ -159,8 +159,8 @@ namespace CrissCross
 			void RemoveData(unsigned int _index)
 			{
 			};
-			unsigned int Size() const { return size(); };
-			unsigned int NumUsed() const { return used(); };
+			unsigned int Size() const { return (int)size(); };
+			unsigned int NumUsed() const { return (int)used(); };
 			bool ValidIndex(unsigned int _x) const { return valid(_x); };
 			char const *GetName(unsigned int _index) const { return m_keys[_index]; };
 			void Empty() { empty(); };
@@ -181,31 +181,31 @@ namespace CrissCross
 		class SortingHashTable : public HashTable<Data>
 		{
 		protected:
-			short  *m_orderedIndices;                     /* Stores a chain of indices that make it easy to walk through the table in alphabetical key order */
-			short	m_firstOrderedIndex;                  /* The index of the alphabetically first table element */
-			short	m_nextOrderedIndex;                   /* Used by nextOrderedIndex */
+			size_t	*m_orderedIndices;                    /* Stores a chain of indices that make it easy to walk through the table in alphabetical key order */
+			size_t	m_firstOrderedIndex;                  /* The index of the alphabetically first table element */
+			size_t	m_nextOrderedIndex;                   /* Used by nextOrderedIndex */
 
 			void	grow();
-			short	findPrevKey(char const *_key) const;  /* Returns the index of the table element whose key is alphabetically previous to the specified key */
+			size_t	findPrevKey(char const *_key) const;  /* Returns the index of the table element whose key is alphabetically previous to the specified key */
 
 		public:
 			SortingHashTable();
 			~SortingHashTable();
 
-			int	insert(char const *_key, Data const &_data);
+			size_t	insert(char const *_key, Data const &_data);
 			bool	erase(char const *_key);
 			bool	erase(size_t _index);
 
-			short	beginOrderedWalk();
-			short	nextOrderedIndex();
+			size_t	beginOrderedWalk();
+			size_t	nextOrderedIndex();
 #if !defined (DISABLE_DEPRECATED_CODE)
 			/*
 			 *      Deprecated Compatibility Functions
 			 *      Provided for compatibility with Tosser I
 			 */
 			/*! @cond */
-			short	StartOrderedWalk() { return beginOrderedWalk(); };
-			short	GetNextOrderedIndex() { return nextOrderedIndex(); };
+			size_t	StartOrderedWalk() { return beginOrderedWalk(); };
+			size_t	GetNextOrderedIndex() { return nextOrderedIndex(); };
 			/*! @endcond */
 #endif
 		};
