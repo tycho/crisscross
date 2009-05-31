@@ -308,7 +308,7 @@ namespace CrissCross
 			Reset();
 			if (!_length || !_data) return -1;
 
-			sha256_update(&m_state, (const unsigned char *)_data, _length);
+			sha256_update(&m_state, (const unsigned char *)_data, (unsigned int)_length);
 			m_hash = new unsigned char[SHA256_DIGEST_SIZE];
 			sha256_final(&m_state, m_hash);
 			return 0;
@@ -341,7 +341,7 @@ namespace CrissCross
 
 			if (!_data) return -1;
 
-			sha256_update(&m_state, (unsigned char *)_data, _length);
+			sha256_update(&m_state, (unsigned char *)_data, (unsigned int)_length);
 			return 0;
 		}
 

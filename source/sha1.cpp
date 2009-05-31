@@ -180,100 +180,105 @@ static void SHA1Final(unsigned char digest[20], cc_sha1_ctx * context)
 
 namespace CrissCross
 {
-        namespace Crypto
-        {
-                SHA1Hash::SHA1Hash() : m_hashString(NULL), m_hash(NULL)
-                {
-                        Reset();
+	namespace Crypto
+	{
+		SHA1Hash::SHA1Hash() : m_hashString(NULL), m_hash(NULL)
+		{
+			Reset();
 		}
 
-                SHA1Hash::~SHA1Hash()
-                {
-                        Reset();
+		SHA1Hash::~SHA1Hash()
+		{
+			Reset();
 		}
 
-                int SHA1Hash::Process(const void * _data, size_t _length)
-                {
+		int SHA1Hash::Process(const void * _data, size_t _length)
+		{
 			CoreAssert(this != NULL);
 
-                        Reset();
-                        if (!_length || !_data) return -1;
+			Reset();
+			if (!_length || !_data)
+				return -1;
 
-                        SHA1Update(&m_state, (unsigned char *)_data, _length);
-                        m_hash = new unsigned char[SHA1_DIGEST_SIZE];
-                        SHA1Final(m_hash, &m_state);
-                        return 0;
+			SHA1Update(&m_state, (unsigned char *)_data, (unsigned int)_length);
+			m_hash = new unsigned char[SHA1_DIGEST_SIZE];
+			SHA1Final(m_hash, &m_state);
+			return 0;
 		}
 
-                int SHA1Hash::Process(CrissCross::IO::CoreIOReader *_reader)
-                {
+		int SHA1Hash::Process(CrissCross::IO::CoreIOReader *_reader)
+		{
 			CoreAssert(this != NULL);
 
-                        Reset();
-                        if (!_reader) return -1;
+			Reset();
+			if (!_reader)
+				return -1;
 
-                        cc_int64_t pos = _reader->Position();
-                        _reader->Seek(0);
-                        char buffer[8192]; int bytesRead = 0;
-                        do
-                        {
-                                bytesRead = _reader->Read(buffer, sizeof(buffer), 0, sizeof(buffer));
-                                if (bytesRead >= 0)
+			cc_int64_t pos = _reader->Position();
+			_reader->Seek(0);
+			char buffer[8192];
+			int bytesRead = 0;
+
+			do
+			{
+				bytesRead = _reader->Read(buffer, sizeof(buffer), 0, sizeof(buffer));
+				if (bytesRead >= 0)
 					ProcessBlock(buffer, bytesRead);
 			} while (bytesRead == sizeof(buffer) && !_reader->EndOfFile());
-                        Finalize();
-                        _reader->Seek(pos);
-                        return 0;
+
+			Finalize();
+			_reader->Seek(pos);
+			return 0;
 		}
 
-                int SHA1Hash::ProcessBlock(const void * _data, size_t _length)
-                {
+		int SHA1Hash::ProcessBlock(const void * _data, size_t _length)
+		{
 			CoreAssert(this != NULL);
 
-                        if (!_data) return -1;
+			if (!_data) return -1;
 
-                        SHA1Update(&m_state, (unsigned char *)_data, _length);
-                        return 0;
+			SHA1Update(&m_state, (unsigned char *)_data, (unsigned int)_length);
+			return 0;
 		}
 
-                void SHA1Hash::Finalize()
-                {
+		void SHA1Hash::Finalize()
+		{
 			CoreAssert(this != NULL);
 
-                        if (m_hash) delete [] m_hash;
+			if (m_hash) delete [] m_hash;
 
-                        m_hash = new unsigned char[SHA1_DIGEST_SIZE];
-                        SHA1Final(m_hash, &m_state);
+			m_hash = new unsigned char[SHA1_DIGEST_SIZE];
+			SHA1Final(m_hash, &m_state);
 		}
 
-                const char *SHA1Hash::ToString() const
-                {
+		const char *SHA1Hash::ToString() const
+		{
 			CoreAssert(this != NULL);
 
-                        if (m_hashString) return m_hashString;
+			if (m_hashString) return m_hashString;
 
-                        m_hashString = new char[SHA1_DIGEST_SIZE * 2 + 1];
-                        for (int i = 0; i < SHA1_DIGEST_SIZE; i++)
+			m_hashString = new char[SHA1_DIGEST_SIZE * 2 + 1];
+			for (int i = 0; i < SHA1_DIGEST_SIZE; i++)
 				sprintf(m_hashString + (i * 2), "%02x", m_hash[i]);
 
-                        return m_hashString;
+			return m_hashString;
 		}
 
-                void SHA1Hash::Reset()
-                {
+		void SHA1Hash::Reset()
+		{
 			CoreAssert(this != NULL);
 
-                        delete [] m_hash; m_hash = NULL;
-                        delete [] m_hashString; m_hashString = NULL;
+			delete [] m_hash; m_hash = NULL;
+			delete [] m_hashString; m_hashString = NULL;
 
-                        SHA1Init(&m_state);
+			SHA1Init(&m_state);
 		}
 
-                bool SHA1Hash::operator==(const SHA1Hash &_other) const
-                {
+		bool SHA1Hash::operator==(const SHA1Hash &_other) const
+		{
 			CoreAssert(this != NULL);
 
-                        return (memcmp(m_hash, _other.m_hash, SHA1_DIGEST_SIZE) == 0);
+			return (memcmp(m_hash, _other.m_hash, SHA1_DIGEST_SIZE) == 0);
 		}
 	}
 }

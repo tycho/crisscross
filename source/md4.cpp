@@ -306,7 +306,7 @@ namespace CrissCross
 			Reset();
 			if (!_data) return -1;
 
-			MD4Update(&m_state, (unsigned char *)_data, _length);
+			MD4Update(&m_state, (unsigned char *)_data, (unsigned int)_length);
 			m_hash = new unsigned char[MD4_DIGEST_LENGTH];
 			MD4Final((unsigned char *)m_hash, &m_state);
 			return 0;
@@ -339,7 +339,7 @@ namespace CrissCross
 
 			if (!_data) return -1;
 
-			MD4Update(&m_state, (unsigned char *)_data, _length);
+			MD4Update(&m_state, (unsigned char *)_data, (unsigned int)_length);
 			return 0;
 		}
 

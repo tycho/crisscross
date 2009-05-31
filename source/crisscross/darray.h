@@ -277,13 +277,13 @@ namespace CrissCross
 				{
 					return get(_index);
 				};
-				_CC_DEPRECATE_FUNCTION(used) inline size_t numUsed() const
+				_CC_DEPRECATE_FUNCTION(used) inline int numUsed() const
 				{
-					return used();
+					return (int)used();
 				};
-				_CC_DEPRECATE_FUNCTION(used) inline size_t NumUsed() const
+				_CC_DEPRECATE_FUNCTION(used) inline int NumUsed() const
 				{
-					return used();
+					return (int)used();
 				};
 				_CC_DEPRECATE_FUNCTION(setSize) inline void SetSize(size_t _newsize)
 				{

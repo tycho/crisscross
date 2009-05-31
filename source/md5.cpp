@@ -939,7 +939,7 @@ namespace CrissCross
 			Reset();
 			if (!_data) return -1;
 
-			MD5Update(&m_state, (unsigned char *)_data, _length);
+			MD5Update(&m_state, (unsigned char *)_data, (unsigned int)_length);
 			m_hash = new unsigned char[MD5_DIGEST_LENGTH];
 			MD5Final((unsigned char *)m_hash, &m_state);
 			return 0;
@@ -972,7 +972,7 @@ namespace CrissCross
 
 			if (!_data) return -1;
 
-			MD5Update(&m_state, (unsigned char *)_data, _length);
+			MD5Update(&m_state, (unsigned char *)_data, (unsigned int)_length);
 			return 0;
 		}
 

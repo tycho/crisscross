@@ -295,7 +295,7 @@ namespace CrissCross
 			int errbefore = GetError(), errafter;
 
 			/* Select to check if it's readable. */
-			ret = select(m_sock + 1, &read, NULL, NULL, &timeout);
+			ret = select((int)m_sock + 1, &read, NULL, NULL, &timeout);
 
 			errafter = GetError();
 
@@ -332,7 +332,7 @@ namespace CrissCross
 			int errbefore = GetError(), errafter;
 
 			/* Select to check if it's readable. */
-			ret = select(m_sock + 1, NULL, &write, NULL, &timeout);
+			ret = select((int)m_sock + 1, NULL, &write, NULL, &timeout);
 
 			errafter = GetError();
 
