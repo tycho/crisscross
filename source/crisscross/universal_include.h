@@ -337,6 +337,16 @@ inline char *cc_strdup(const char *x)
 	return strcpy(dup, x);
 }
 
+inline char *cc_newstr(const char *x)
+{
+	if (!x) return NULL;
+
+	char *dup = new char[strlen(x) + 1];
+	if (!dup) return NULL;
+
+	return strcpy(dup, x);
+}
+
 #include <crisscross/compare.h>
 
 #define cc_min(x, y) (CrissCross::Data::Compare(x, y) < 0 ? x : y)
