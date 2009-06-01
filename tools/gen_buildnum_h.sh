@@ -29,24 +29,24 @@ if [ $IN_GIT -eq 0 ]; then
 else
 	VERSTRING=$(git describe --tags --long 2> /dev/null || git describe --tags)
 
-	# is this an RC?
-	if [ "x$(echo $VERSTRING | grep rc)" != "x" ]; then
+	# is this an rc, alpha, or beta?
+	if [ "$(echo $VERSTRING | cut -d'-' -f 3 | grep "^[0-9]*$")" != "" ]; then
 		FID=4
-		IS_RC=1
+		IS_PRE=1
 	else
 		FID=3
-		IS_RC=0
+		IS_PRE=0
 	fi
 	
 	# is this an old version of git without --long support?
 	REVCOUNT="$(echo $VERSTRING | cut -d'-' -f $FID)"
 	BASE_VERSION="$(echo $VERSTRING | cut -d'-' -f 1)"
-	if [ $IS_RC -eq 1 ]; then
+	if [ $IS_PRE -eq 1 ]; then
 		BASE_VERSION="$BASE_VERSION-$(echo $VERSTRING | cut -d'-' -f 2)"
 	fi
 
 	if [ "$(echo $REVCOUNT | grep ^g)x" == "x" ]; then
-		REVCOUNT="$(git rev-list $BASE_VERSION..HEAD | wc -l)"
+		REVCOUNT="$(git rev-list $BASE_VERSION..HEAD | wc -l | sed 's/[ ]//g')"
 		VERSTRING="$BASE_VERSION-$REVCOUNT-$(echo $VERSTRING | cut -d'-' -f $(($FID - 1)))"
 	fi
 fi
@@ -56,10 +56,10 @@ MAJOR=`echo $VERSTRING | cut -d'.' -f1`
 MINOR=`echo $VERSTRING | cut -d'.' -f2`
 REVIS=`echo $VERSTRING | cut -d'.' -f3 | cut -d'-' -f 1`
 TINYBUILD=`echo $VERSTRING | cut -d'-' -f2`
-RC=
-if [ $(echo $TINYBUILD | grep rc) ]; then
+PRE=
+if [ $IS_PRE == 1 ]; then
 	# We've got a release candidate. Reparse to get the build -number-.
-	RC=-$TINYBUILD
+	PRE=-$TINYBUILD
 	TINYBUILD=`echo $VERSTRING | cut -d'-' -f3`
 fi
 
@@ -69,19 +69,22 @@ fi
 
 rm -f $OUT.tmp
 
+PREFIX=CC_LIB
+SHORT_TAG=cc
+
 cat >> $OUT.tmp << __eof__
-#ifndef __included_cc_build_number_h
-#define __included_cc_build_number_h
+#ifndef __included_$(echo $SHORT_TAG)_build_number_h
+#define __included_$(echo $SHORT_TAG)_build_number_h
 
-#define CC_LIB_VERSION_MAJOR $MAJOR
-#define CC_LIB_VERSION_MINOR $MINOR
-#define CC_LIB_VERSION_REVISION $REVIS
-#define CC_LIB_VERSION_BUILD $TINYBUILD
-#define CC_LIB_VERSION "$MAJOR.$MINOR.$REVIS$RC"
-#define CC_LIB_VERSION_STRING "$VERSTRING"
+#define $(echo $PREFIX)_VERSION_MAJOR $MAJOR
+#define $(echo $PREFIX)_VERSION_MINOR $MINOR
+#define $(echo $PREFIX)_VERSION_REVISION $REVIS
+#define $(echo $PREFIX)_VERSION_BUILD $TINYBUILD
+#define $(echo $PREFIX)_VERSION "$MAJOR.$MINOR.$REVIS$PRE"
+#define $(echo $PREFIX)_VERSION_STRING "$VERSTRING"
 
-#define CC_RESOURCE_VERSION $MAJOR,$MINOR,$REVIS,$TINYBUILD
-#define CC_RESOURCE_VERSION_STRING "$MAJOR, $MINOR, $REVIS, $TINYBUILD"
+#define $(echo $PREFIX)_RESOURCE_VERSION $MAJOR,$MINOR,$REVIS,$TINYBUILD
+#define $(echo $PREFIX)_RESOURCE_VERSION_STRING "$MAJOR, $MINOR, $REVIS, $TINYBUILD"
 
 #endif
 
