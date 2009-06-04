@@ -96,6 +96,8 @@
 		B0BD2C900BE26C7C00F71A26 /* llist.cpp in Headers */ = {isa = PBXBuildFile; fileRef = B0BD2BC10BE2542600F71A26 /* llist.cpp */; };
 		B0DA22920F2028C1007F11B7 /* quadtree.h in Headers */ = {isa = PBXBuildFile; fileRef = B0DA22910F2028C1007F11B7 /* quadtree.h */; };
 		B0DA22950F202C61007F11B7 /* vec2.h in Headers */ = {isa = PBXBuildFile; fileRef = B0DA22940F202C61007F11B7 /* vec2.h */; };
+		B0E512E50FD73F1F00590EDF /* zombiehunter.h in Headers */ = {isa = PBXBuildFile; fileRef = B0E512E40FD73F1F00590EDF /* zombiehunter.h */; };
+		B0E512E90FD7697200590EDF /* zombiehunter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0E512E70FD7697200590EDF /* zombiehunter.cpp */; };
 		B0ED57BE0BEAF76A00F6033B /* platform_detect.h in Headers */ = {isa = PBXBuildFile; fileRef = B0ED57BD0BEAF76A00F6033B /* platform_detect.h */; };
 /* End PBXBuildFile section */
 
@@ -194,6 +196,8 @@
 		B0BD2C480BE26BDC00F71A26 /* libCrissCross Static.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libCrissCross Static.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0DA22910F2028C1007F11B7 /* quadtree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = quadtree.h; path = ../../source/crisscross/quadtree.h; sourceTree = SOURCE_ROOT; };
 		B0DA22940F202C61007F11B7 /* vec2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vec2.h; path = ../../source/crisscross/vec2.h; sourceTree = SOURCE_ROOT; };
+		B0E512E40FD73F1F00590EDF /* zombiehunter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = zombiehunter.h; path = ../../source/crisscross/zombiehunter.h; sourceTree = SOURCE_ROOT; };
+		B0E512E70FD7697200590EDF /* zombiehunter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = zombiehunter.cpp; path = ../../source/zombiehunter.cpp; sourceTree = SOURCE_ROOT; };
 		B0ED57BD0BEAF76A00F6033B /* platform_detect.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = platform_detect.h; path = ../../source/crisscross/platform_detect.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -321,6 +325,8 @@
 				32BAE0B70371A74B00C91783 /* CrissCross_Prefix.pch */,
 				B0DA22910F2028C1007F11B7 /* quadtree.h */,
 				B0DA22940F202C61007F11B7 /* vec2.h */,
+				B0E512E40FD73F1F00590EDF /* zombiehunter.h */,
+				B0E512E70FD7697200590EDF /* zombiehunter.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -383,6 +389,7 @@
 				B0DA22920F2028C1007F11B7 /* quadtree.h in Headers */,
 				B0DA22950F202C61007F11B7 /* vec2.h in Headers */,
 				B05FACB30F40BE590036CF37 /* profiler.h in Headers */,
+				B0E512E50FD73F1F00590EDF /* zombiehunter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -472,6 +479,7 @@
 				B07FD4B10D6CD41400464636 /* filereader.cpp in Sources */,
 				B07FD4B20D6CD41400464636 /* filewriter.cpp in Sources */,
 				B05FACB10F40BE420036CF37 /* profiler.cpp in Sources */,
+				B0E512E90FD7697200590EDF /* zombiehunter.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
