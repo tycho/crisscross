@@ -13,6 +13,10 @@
 
 #ifndef TARGET_OS_WINDOWS
 
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <signal.h>
+
 #include <pthread.h>
 
 #include <crisscross/zombiehunter.h>
