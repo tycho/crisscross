@@ -191,16 +191,16 @@
 #endif
 
 #if !defined (OS_DETECTED)
-#if defined (TARGET_CPU_ARM)
+#if defined (__linux__) || defined (linux) || defined (__linux) || defined (__gnu_linux__) || defined (__CYGWIN__)
 #define OS_DETECTED
-#define TARGET_OS_NDSFIRMWARE
+#define TARGET_OS_LINUX
 #endif
 #endif
 
 #if !defined (OS_DETECTED)
-#if defined (__linux__) || defined (linux) || defined (__linux) || defined (__gnu_linux__) || defined (__CYGWIN__)
+#if defined (TARGET_CPU_ARM)
 #define OS_DETECTED
-#define TARGET_OS_LINUX
+#define TARGET_OS_NDSFIRMWARE
 #endif
 #endif
 
