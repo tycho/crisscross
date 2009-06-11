@@ -360,7 +360,7 @@ namespace CrissCross
 			char buffer[8192]; int bytesRead = 0;
 			do
 			{
-				bytesRead = _reader->Read(buffer, sizeof(buffer), 0, sizeof(buffer));
+				bytesRead = _reader->Read(buffer, sizeof(buffer));
 				if (bytesRead >= 0)
 					ProcessBlock(buffer, bytesRead);
 			} while (bytesRead == sizeof(buffer) && !_reader->EndOfFile());

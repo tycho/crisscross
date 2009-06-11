@@ -140,7 +140,7 @@ namespace CrissCross
 				int Forward(cc_int64_t _position);
 				int Seek(cc_int64_t _position);
 				cc_int64_t Length();
-				int Read(char *_buffer, size_t _bufferLength, size_t _bufferIndex, size_t _count);
+				int Read(void *_buffer, size_t _count);
 		};
 	}
 }

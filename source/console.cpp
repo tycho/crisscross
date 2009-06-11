@@ -394,7 +394,7 @@ namespace CrissCross
 		{
 			return 0;
 		}
-		int Console::Read(char *_buffer, size_t _bufferLength, size_t _bufferIndex, size_t _count)
+		int Console::Read(void *_buffer, size_t _count)
 		{
 			return 0;
 		}

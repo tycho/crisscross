@@ -84,12 +84,10 @@ namespace CrissCross
 				/*! \brief Reads a block of data from the file buffer. */
 				/*!
 				 * \param _buffer The output buffer to read to.
-				 * \param _bufferLength The size of _buffer (in bytes).
-				 * \param _bufferIndex The position in _buffer to begin writing.
 				 * \param _count The number of bytes to read.
 				 * \return The actual number of bytes read.
 				 */
-				virtual int Read(char *_buffer, size_t _bufferLength, size_t _bufferIndex, size_t _count);
+				virtual int Read(void *_buffer, size_t _count);
 
 				/*! \brief Reads a line of data. */
 				/*!

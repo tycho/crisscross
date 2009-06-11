@@ -144,7 +144,7 @@ namespace CrissCross
 #endif
 		}
 
-		int CoreIOReader::Read(char *_buffer, size_t _bufferLength, size_t _bufferIndex, size_t _count)
+		int CoreIOReader::Read(void *_buffer, size_t _count)
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
@@ -152,12 +152,11 @@ namespace CrissCross
 			size_t retval;
 
 			CoreAssert(_buffer != NULL);
-			CoreAssert(_bufferLength - _bufferIndex <= _count);
 			CoreAssert(_count > 0);
 #ifndef __GNUC__
 			MutexHolder mh(&m_ioMutex);
 #endif
-			retval = fread(&_buffer[_bufferIndex], sizeof(char), _count, m_fileInputPointer);
+			retval = fread(_buffer, _count, 1, m_fileInputPointer);
 			return (int)retval;
 		}
 
