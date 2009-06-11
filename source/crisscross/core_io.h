@@ -41,6 +41,14 @@ namespace CrissCross
 			CC_LN_LF,                         /*! \brief< Line feed only. (default for UNIX and UNIX-like systems, Linux, AIX, Xenix, Mac OS X, BeOS, Amiga, RISC OS and others) */
 			CC_LN_CRLF                        /*! \brief< Carriage return and line feed. (default for CP/M, MP/M, DOS, OS/2, Microsoft Windows) */
 		};
+
+		/*! \brief The endianness to convert from/to. */
+		enum Endian
+		{
+			CC_ENDIAN_NATIVE,
+			CC_ENDIAN_LITTLE,
+			CC_ENDIAN_BIG
+		};
 	}
 }
 

@@ -11,6 +11,7 @@
 
 #include <crisscross/universal_include.h>
 
+#include <crisscross/endian.h>
 #include <crisscross/debug.h>
 #include <crisscross/core_io.h>
 #include <crisscross/system.h>
@@ -21,10 +22,12 @@ namespace CrissCross
 {
 	namespace IO
 	{
-		CoreIOReader::CoreIOReader(FILE * _fileBuffer, bool _isUnicode, LineEndingType _lnEnding) : m_fileInputPointer(_fileBuffer),
-			m_unicode(_isUnicode)
+		CoreIOReader::CoreIOReader(FILE * _fileBuffer, bool _isUnicode, LineEndingType _lnEnding, Endian _inputEndianness)
+			: m_fileInputPointer(_fileBuffer),
+			  m_unicode(_isUnicode)
 		{
 			SetLineEndings(_lnEnding);
+			SetEndian(_inputEndianness);
 		}
 
 		CoreIOReader::~CoreIOReader()
@@ -148,6 +151,8 @@ namespace CrissCross
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
+			if (!_buffer) return CC_ERR_INVALID_BUFFER;
+			if (!_count) return CC_ERR_INVALID_BUFFER;
 
 			size_t retval;
 
@@ -160,10 +165,113 @@ namespace CrissCross
 			return (int)retval;
 		}
 
+		int CoreIOReader::ReadU8(cc_uint8_t *_buffer)
+		{
+			CoreAssert(this != NULL);
+			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
+			if (!_buffer) return CC_ERR_INVALID_BUFFER;
+
+#ifndef __GNUC__
+			MutexHolder mh(&m_ioMutex);
+#endif
+
+			size_t retval;
+			retval = fread(_buffer, sizeof(cc_uint8_t), 1, m_fileInputPointer);
+			return retval;
+		}
+
+		int CoreIOReader::ReadU16(cc_uint16_t *_buffer)
+		{
+			CoreAssert(this != NULL);
+			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
+			if (!_buffer) return CC_ERR_INVALID_BUFFER;
+
+#ifndef __GNUC__
+			MutexHolder mh(&m_ioMutex);
+#endif
+			size_t retval;
+			retval = fread(_buffer, sizeof(cc_uint16_t), 1, m_fileInputPointer);
+
+			switch (m_endianness)
+			{
+			case CC_ENDIAN_LITTLE:
+				*_buffer = CC_SwapLE16(*_buffer);
+				break;
+			case CC_ENDIAN_BIG:
+				*_buffer = CC_SwapBE16(*_buffer);
+				break;
+			case CC_ENDIAN_NATIVE:
+				/* Do nothing */
+				break;
+			}
+
+			return retval;
+		}
+
+		int CoreIOReader::ReadU32(cc_uint32_t *_buffer)
+		{
+			CoreAssert(this != NULL);
+			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
+			if (!_buffer) return CC_ERR_INVALID_BUFFER;
+
+#ifndef __GNUC__
+			MutexHolder mh(&m_ioMutex);
+#endif
+
+			size_t retval;
+			retval = fread(_buffer, sizeof(cc_uint32_t), 1, m_fileInputPointer);
+
+			switch (m_endianness)
+			{
+			case CC_ENDIAN_LITTLE:
+				*_buffer = CC_SwapLE32(*_buffer);
+				break;
+			case CC_ENDIAN_BIG:
+				*_buffer = CC_SwapBE32(*_buffer);
+				break;
+			case CC_ENDIAN_NATIVE:
+				/* Do nothing */
+				break;
+			}
+
+			return retval;
+		}
+
+		int CoreIOReader::ReadU64(cc_uint64_t *_buffer)
+		{
+			CoreAssert(this != NULL);
+			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
+			if (!_buffer) return CC_ERR_INVALID_BUFFER;
+
+#ifndef __GNUC__
+			MutexHolder mh(&m_ioMutex);
+#endif
+
+			size_t retval;
+			retval = fread(_buffer, sizeof(cc_uint64_t), 1, m_fileInputPointer);
+
+			switch (m_endianness)
+			{
+			case CC_ENDIAN_LITTLE:
+				*_buffer = CC_SwapLE64(*_buffer);
+				break;
+			case CC_ENDIAN_BIG:
+				*_buffer = CC_SwapBE64(*_buffer);
+				break;
+			case CC_ENDIAN_NATIVE:
+				/* Do nothing */
+				break;
+			}
+
+			return retval;
+		}
+
 		int CoreIOReader::ReadLine(char *_buffer, size_t _bufferLength)
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
+			if (!_buffer) return CC_ERR_INVALID_BUFFER;
+			if (!_bufferLength) return CC_ERR_INVALID_BUFFER;
 
 #ifndef __GNUC__
 			MutexHolder mh(&m_ioMutex);
@@ -288,6 +396,11 @@ namespace CrissCross
 				return CC_ERR_BADPARAMETER;
 			}
 			return CC_ERR_NONE;
+		}
+
+		void CoreIOReader::SetEndian(Endian _inputEndianness)
+		{
+			m_endianness = _inputEndianness;
 		}
 	}
 }

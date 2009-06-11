@@ -28,7 +28,6 @@ namespace CrissCross
 		class CoreIOReader
 		{
 			protected:
-
 				/*! \brief Line ending buffer. */
 				/*!
 				 * Stores the line ending selected by CoreIOReader::SetLineEndings.
@@ -40,6 +39,9 @@ namespace CrissCross
 
 				/*! \brief Indicates whether the buffer is to be read in unicode or not. (UNIMPLEMENTED) */
 				bool m_unicode;
+
+				/*! \brief Indicates the expected input endianness. */
+				Endian m_endianness;
 
 		#ifndef TARGET_COMPILER_GCC
 				/*! \brief Thread-safe mutex. */
@@ -57,8 +59,10 @@ namespace CrissCross
 				 * \param _inputBuffer The buffer to be used for read operations.
 				 * \param _isUnicode The buffer is going to be a Unicode read buffer. (UNIMPLEMENTED)
 				 * \param _lnEnding The line ending to use.
+				 * \param _inputEndianness The expected input endianness. Will be converted to native.
 				 */
-				CoreIOReader(FILE * _inputBuffer, bool _isUnicode, LineEndingType _lnEnding = CC_LN_NATIVE);
+				CoreIOReader(FILE * _inputBuffer, bool _isUnicode, LineEndingType _lnEnding = CC_LN_NATIVE,
+					Endian _inputEndianness = CC_ENDIAN_NATIVE);
 
 				/*! \brief The destructor. */
 				virtual ~CoreIOReader();
@@ -88,6 +92,18 @@ namespace CrissCross
 				 * \return The actual number of bytes read.
 				 */
 				virtual int Read(void *_buffer, size_t _count);
+
+				/*! \brief Read an unsigned 8-bit integer. */
+				virtual int ReadU8(cc_uint8_t *_buffer);
+
+				/*! \brief Read an unsigned 16-bit integer. */
+				virtual int ReadU16(cc_uint16_t *_buffer);
+
+				/*! \brief Read an unsigned 32-bit integer. */
+				virtual int ReadU32(cc_uint32_t *_buffer);
+
+				/*! \brief Read an unsigned 64-bit integer. */
+				virtual int ReadU64(cc_uint64_t *_buffer);
 
 				/*! \brief Reads a line of data. */
 				/*!
@@ -132,6 +148,13 @@ namespace CrissCross
 				 * success. Any non-zero number indicates failure.
 				 */
 				virtual int Forward(cc_int64_t _position);
+
+				/*! \brief Sets which endianness to convert from when reading. */
+				/*!
+				 * \param _inputEndianness The endianness to expect when reading. Will convert
+				 *		from this endianness to the native endianness when using the size-specific reads.
+				 */
+				virtual void SetEndian(Endian _inputEndianness);
 
 				/*! \brief Flushes the input buffer. */
 				void Flush();
