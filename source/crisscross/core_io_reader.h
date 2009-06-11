@@ -91,7 +91,7 @@ namespace CrissCross
 				 * \param _count The number of bytes to read.
 				 * \return The actual number of bytes read.
 				 */
-				virtual int Read(void *_buffer, size_t _count);
+				virtual int ReadBlock(void *_buffer, size_t _count);
 
 				/*! \brief Read an unsigned 8-bit integer. */
 				virtual int ReadU8(cc_uint8_t *_buffer);

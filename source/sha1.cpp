@@ -224,7 +224,7 @@ namespace CrissCross
 
 			do
 			{
-				bytesRead = _reader->Read(buffer, sizeof(buffer));
+				bytesRead = _reader->ReadBlock(buffer, sizeof(buffer));
 				if (bytesRead >= 0)
 					ProcessBlock(buffer, bytesRead);
 			} while (bytesRead == sizeof(buffer) && !_reader->EndOfFile());

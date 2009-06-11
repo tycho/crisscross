@@ -147,7 +147,7 @@ namespace CrissCross
 #endif
 		}
 
-		int CoreIOReader::Read(void *_buffer, size_t _count)
+		int CoreIOReader::ReadBlock(void *_buffer, size_t _count)
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;

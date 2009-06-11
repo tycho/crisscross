@@ -12,6 +12,7 @@
 #include <crisscross/universal_include.h>
 
 #include <crisscross/debug.h>
+#include <crisscross/endian.h>
 #include <crisscross/core_io.h>
 #include <crisscross/system.h>
 
@@ -21,10 +22,12 @@ namespace CrissCross
 {
 	namespace IO
 	{
-		CoreIOWriter::CoreIOWriter(FILE * _fileBuffer, bool _isUnicode, LineEndingType _lnEnding) : m_fileOutputPointer(_fileBuffer),
-			m_unicode(_isUnicode)
+		CoreIOWriter::CoreIOWriter(FILE * _fileBuffer, bool _isUnicode, LineEndingType _lnEnding, Endian _outputEndianness)
+		: m_fileOutputPointer(_fileBuffer),
+		  m_unicode(_isUnicode)
 		{
 			SetLineEndings(_lnEnding);
+			SetEndian(_outputEndianness);
 		}
 
 		CoreIOWriter::~CoreIOWriter()
@@ -85,6 +88,11 @@ namespace CrissCross
 				return CC_ERR_BADPARAMETER;
 			}
 			return CC_ERR_NONE;
+		}
+
+		void CoreIOWriter::SetEndian(Endian _inputEndianness)
+		{
+			m_endianness = _inputEndianness;
 		}
 
 		CrissCross::Errors CoreIOWriter::WriteLine(const char *_format, ...)
@@ -195,6 +203,111 @@ namespace CrissCross
 			va_end(args);
 
 			return CC_ERR_NONE;
+		}
+
+		int CoreIOWriter::WriteBlock(const void *_buffer, size_t _count)
+		{
+			CoreAssert(this != NULL);
+			if (!IsOpen()) return 0;
+
+			if (_buffer == NULL)
+				return 0;
+
+#ifndef __GNUC__
+			MutexHolder mh(&m_ioMutex);
+#endif
+
+			size_t ret = fwrite(_buffer, _count, 1, m_fileOutputPointer);
+
+			return ret;
+		}
+
+		int CoreIOWriter::WriteU8(cc_uint8_t _data)
+		{
+			CoreAssert(this != NULL);
+			if (!IsOpen()) return 0;
+
+#ifndef __GNUC__
+			MutexHolder mh(&m_ioMutex);
+#endif
+			size_t ret = fwrite(&_data, sizeof(cc_uint8_t), 1, m_fileOutputPointer);
+
+			return ret;
+		}
+
+		int CoreIOWriter::WriteU16(cc_uint16_t _data)
+		{
+			CoreAssert(this != NULL);
+			if (!IsOpen()) return 0;
+
+#ifndef __GNUC__
+			MutexHolder mh(&m_ioMutex);
+#endif
+			switch (m_endianness)
+			{
+			case CC_ENDIAN_LITTLE:
+				_data = CC_SwapBE16(_data);
+				break;
+			case CC_ENDIAN_BIG:
+				_data = CC_SwapLE16(_data);
+				break;
+			case CC_ENDIAN_NATIVE:
+				/* Do nothing */
+				break;
+			}
+			size_t ret = fwrite(&_data, sizeof(cc_uint16_t), 1, m_fileOutputPointer);
+
+			return ret;
+		}
+
+		int CoreIOWriter::WriteU32(cc_uint32_t _data)
+		{
+			CoreAssert(this != NULL);
+			if (!IsOpen()) return 0;
+
+#ifndef __GNUC__
+			MutexHolder mh(&m_ioMutex);
+#endif
+			switch (m_endianness)
+			{
+			case CC_ENDIAN_LITTLE:
+				_data = CC_SwapBE32(_data);
+				break;
+			case CC_ENDIAN_BIG:
+				_data = CC_SwapLE32(_data);
+				break;
+			case CC_ENDIAN_NATIVE:
+				/* Do nothing */
+				break;
+			}
+			size_t ret = fwrite(&_data, sizeof(cc_uint32_t), 1, m_fileOutputPointer);
+
+			return ret;
+		}
+
+		int CoreIOWriter::WriteU64(cc_uint64_t _data)
+		{
+			CoreAssert(this != NULL);
+			if (!IsOpen()) return 0;
+
+#ifndef __GNUC__
+			MutexHolder mh(&m_ioMutex);
+#endif
+			switch (m_endianness)
+			{
+			case CC_ENDIAN_LITTLE:
+				_data = CC_SwapBE64(_data);
+				break;
+			case CC_ENDIAN_BIG:
+				_data = CC_SwapLE64(_data);
+				break;
+			case CC_ENDIAN_NATIVE:
+				/* Do nothing */
+				break;
+			}
+			size_t ret = fwrite(&_data, sizeof(cc_uint64_t), 1, m_fileOutputPointer);
+
+			return ret;
 		}
 	}
 }
