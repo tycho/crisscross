@@ -37,80 +37,80 @@ namespace CrissCross
 {
 	namespace System
 	{
-		#define FPU_FLAG 0x0001
-		#define LAHF_FLAG 0x0001
-		#define SSE3_FLAG 0x0001
-		#define VME_FLAG 0x0002
-		#define DE_FLAG 0x0004
-		#define DTES64_FLAG 0x0004
-		#define MONITOR_FLAG 0x0008
-		#define PSE_FLAG 0x0008
-		#define DS_CPL_FLAG 0x0010
-		#define TSC_FLAG 0x0010
-		#define MSR_FLAG 0x0020
-		#define VMX_FLAG 0x0020
-		#define PAE_FLAG 0x0040
-		#define SMX_FLAG 0x0040
-		#define EIST_FLAG 0x0080
-		#define MCE_FLAG 0x0080
-		#define CX8_FLAG 0x0100
-		#define TM2_FLAG 0x0100
-		#define APIC_FLAG 0x0200
-		#define SSSE3_FLAG 0x0200
-		#define CNXTID_FLAG 0x0400
-		#define SEP_FLAG 0x0800
-		#define SYSCALL_FLAG 0x0800
-		#define MTRR_FLAG 0x1000
-		#define CX16_FLAG 0x2000
-		#define PGE_FLAG 0x2000
-		#define MCA_FLAG 0x4000
-		#define XTPR_FLAG 0x4000
-		#define PDCM_FLAG 0x8000
-		#define CMOV_FLAG 0x8000
-		#define PAT_FLAG 0x10000
-		#define PSE36_FLAG 0x20000
-		#define DCA_FLAG 0x40000
-		#define PSNUM_FLAG 0x40000
-		#define CLFLUSH_FLAG 0x80000
-		#define SSE4_1_FLAG 0x80000
-		#define SSE4_2_FLAG 0x100000
-		#define XD_FLAG 0x100000
-		#define DTS_FLAG 0x200000
-		#define ACPI_FLAG 0x400000
-		#define MMX_FLAG 0x800000
-		#define FXSR_FLAG 0x1000000
-		#define SSE_FLAG 0x2000000
-		#define SSE2_FLAG 0x4000000
-		#define SS_FLAG 0x8000000
-		#define HTT_FLAG 0x10000000
-		#define EM64T_FLAG 0x20000000
-		#define TM1_FLAG 0x20000000
-		#define IA64_FLAG 0x40000000
-		#define PBE_FLAG 0x80000000
+#define FPU_FLAG 0x0001
+#define LAHF_FLAG 0x0001
+#define SSE3_FLAG 0x0001
+#define VME_FLAG 0x0002
+#define DE_FLAG 0x0004
+#define DTES64_FLAG 0x0004
+#define MONITOR_FLAG 0x0008
+#define PSE_FLAG 0x0008
+#define DS_CPL_FLAG 0x0010
+#define TSC_FLAG 0x0010
+#define MSR_FLAG 0x0020
+#define VMX_FLAG 0x0020
+#define PAE_FLAG 0x0040
+#define SMX_FLAG 0x0040
+#define EIST_FLAG 0x0080
+#define MCE_FLAG 0x0080
+#define CX8_FLAG 0x0100
+#define TM2_FLAG 0x0100
+#define APIC_FLAG 0x0200
+#define SSSE3_FLAG 0x0200
+#define CNXTID_FLAG 0x0400
+#define SEP_FLAG 0x0800
+#define SYSCALL_FLAG 0x0800
+#define MTRR_FLAG 0x1000
+#define CX16_FLAG 0x2000
+#define PGE_FLAG 0x2000
+#define MCA_FLAG 0x4000
+#define XTPR_FLAG 0x4000
+#define PDCM_FLAG 0x8000
+#define CMOV_FLAG 0x8000
+#define PAT_FLAG 0x10000
+#define PSE36_FLAG 0x20000
+#define DCA_FLAG 0x40000
+#define PSNUM_FLAG 0x40000
+#define CLFLUSH_FLAG 0x80000
+#define SSE4_1_FLAG 0x80000
+#define SSE4_2_FLAG 0x100000
+#define XD_FLAG 0x100000
+#define DTS_FLAG 0x200000
+#define ACPI_FLAG 0x400000
+#define MMX_FLAG 0x800000
+#define FXSR_FLAG 0x1000000
+#define SSE_FLAG 0x2000000
+#define SSE2_FLAG 0x4000000
+#define SS_FLAG 0x8000000
+#define HTT_FLAG 0x10000000
+#define EM64T_FLAG 0x20000000
+#define TM1_FLAG 0x20000000
+#define IA64_FLAG 0x40000000
+#define PBE_FLAG 0x80000000
 
 		/* AMD 8000_0001 EDX flags */
-		#define _3DNOW_FLAG 0x80000000
-		#define _3DNOWEXT_FLAG 0x40000000
-		#define LM_FLAG 0x20000000
-		#define RDTSCP_FLAG 0x8000000
-		#define FFXSR_FLAG 0x2000000
-		#define FXSR_FLAG 0x1000000
-		#define MMXEXT_FLAG 0x800000
-		#define NX_FLAG 0x100000
+#define _3DNOW_FLAG 0x80000000
+#define _3DNOWEXT_FLAG 0x40000000
+#define LM_FLAG 0x20000000
+#define RDTSCP_FLAG 0x8000000
+#define FFXSR_FLAG 0x2000000
+#define FXSR_FLAG 0x1000000
+#define MMXEXT_FLAG 0x800000
+#define NX_FLAG 0x100000
 
 		/* AMD 8000_0001 ECX flags */
-		#define WDT_FLAG 0x2000
-		#define SKINIT_FLAG 0x1000
-		#define OSVW_FLAG 0x200
-		#define _3DNP_FLAG 0x100
-		#define MAS_FLAG 0x80
-		#define SSE4A_FLAG 0x40
-		#define ABM_FLAG 0x20
-		#define AMC8_FLAG 0x10
-		#define EAS_FLAG 0x8
-		#define SVM_FLAG 0x4
-		#define CL_FLAG 0x2
-		#define LS_FLAG 0x1
+#define WDT_FLAG 0x2000
+#define SKINIT_FLAG 0x1000
+#define OSVW_FLAG 0x200
+#define _3DNP_FLAG 0x100
+#define MAS_FLAG 0x80
+#define SSE4A_FLAG 0x40
+#define ABM_FLAG 0x20
+#define AMC8_FLAG 0x10
+#define EAS_FLAG 0x8
+#define SVM_FLAG 0x4
+#define CL_FLAG 0x2
+#define LS_FLAG 0x1
 
 		struct Registers
 		{
@@ -129,86 +129,89 @@ namespace CrissCross
 		 * one, with REQUEST in %eax, and set *EAX, *EBX, *ECX, and *EDX to
 		 * the values the 'cpuid' stored in those registers.  Return true if
 		 * the current processor supports CPUID, false otherwise.  */
-		static bool call_cpuid(unsigned int request, unsigned int *_eax, unsigned int *_ebx, unsigned int *_ecx, unsigned int *_edx)
+		namespace
 		{
+			bool call_cpuid(unsigned int request, unsigned int *_eax, unsigned int *_ebx, unsigned int *_ecx, unsigned int *_edx)
+			{
 #ifndef TARGET_CPU_X64
-			unsigned int pre_change, post_change;
-			const unsigned int id_flag = 0x200000;
+				unsigned int pre_change, post_change;
+				const unsigned int id_flag = 0x200000;
 #endif
-
-			/* This is pretty much the standard way to detect whether the CPUID
-			 *     instruction is supported: try to change the ID bit in the EFLAGS
-			 *     register.  If we can change it, then the CPUID instruction is
-			 *     implemented.  */
+	
+				/* This is pretty much the standard way to detect whether the CPUID
+				 *     instruction is supported: try to change the ID bit in the EFLAGS
+				 *     register.  If we can change it, then the CPUID instruction is
+				 *     implemented.  */
 #ifndef TARGET_CPU_X64
 #if defined (TARGET_COMPILER_GCC)
-			asm ("pushfl\n\t"          /* Save %eflags to restore later.  */
-			     "pushfl\n\t"          /* Push second copy, for manipulation.  */
-			     "popl %1\n\t"         /* Pop it into post_change.  */
-			     "movl %1,%0\n\t"      /* Save copy in pre_change.   */
-			     "xorl %2,%1\n\t"      /* Tweak bit in post_change.  */
-			     "pushl %1\n\t"                /* Push tweaked copy... */
-			     "popfl\n\t"           /* ... and pop it into %eflags.  */
-			     "pushfl\n\t"          /* Did it change?  Push new %eflags... */
-			     "popl %1\n\t"         /* ... and pop it into post_change.  */
-			     "popfl"                     /* Restore original value.  */
-			     : "=&r" (pre_change), "=&r" (post_change)
-			     : "ir" (id_flag));
+				asm ("pushfl\n\t"          /* Save %eflags to restore later.  */
+					 "pushfl\n\t"          /* Push second copy, for manipulation.  */
+					 "popl %1\n\t"         /* Pop it into post_change.  */
+					 "movl %1,%0\n\t"      /* Save copy in pre_change.   */
+					 "xorl %2,%1\n\t"      /* Tweak bit in post_change.  */
+					 "pushl %1\n\t"                /* Push tweaked copy... */
+					 "popfl\n\t"           /* ... and pop it into %eflags.  */
+					 "pushfl\n\t"          /* Did it change?  Push new %eflags... */
+					 "popl %1\n\t"         /* ... and pop it into post_change.  */
+					 "popfl"                     /* Restore original value.  */
+					 : "=&r" (pre_change), "=&r" (post_change)
+					 : "ir" (id_flag));
 #else
-			__asm {
-				mov edx, id_flag;
-				pushfd;                         /* Save %eflags to restore later.  */
-				pushfd;                         /* Push second copy, for manipulation.  */
-				pop ebx;                       /* Pop it into post_change.  */
-				mov eax, ebx;          /* Save copy in pre_change.   */
-				xor ebx, edx;           /* Tweak bit in post_change.  */
-				push ebx;                       /* Push tweaked copy... */
-				popfd;                          /* ... and pop it into eflags.  */
-				pushfd;                         /* Did it change?  Push new %eflags... */
-				pop ebx;                       /* ... and pop it into post_change.  */
-				popfd;                          /* Restore original value.  */
-				mov pre_change, eax;
-				mov post_change, ebx;
-			}
+				__asm {
+					mov edx, id_flag;
+					pushfd;                         /* Save %eflags to restore later.  */
+					pushfd;                         /* Push second copy, for manipulation.  */
+					pop ebx;                       /* Pop it into post_change.  */
+					mov eax, ebx;          /* Save copy in pre_change.   */
+					xor ebx, edx;           /* Tweak bit in post_change.  */
+					push ebx;                       /* Push tweaked copy... */
+					popfd;                          /* ... and pop it into eflags.  */
+					pushfd;                         /* Did it change?  Push new %eflags... */
+					pop ebx;                       /* ... and pop it into post_change.  */
+					popfd;                          /* Restore original value.  */
+					mov pre_change, eax;
+					mov post_change, ebx;
+				}
 #endif
 #endif
-
-			/* If the bit changed, then we support the CPUID instruction.  */
+	
+				/* If the bit changed, then we support the CPUID instruction.  */
 #ifndef TARGET_CPU_X64
-			if ((pre_change ^ post_change) & id_flag) {
+				if ((pre_change ^ post_change) & id_flag) {
 #endif
 #if defined (TARGET_COMPILER_GCC)
-			asm volatile ("mov %%ebx, %%esi\n\t"     /* Save %ebx.  */
-			              "xorl %%ecx, %%ecx\n\t"
-			              "cpuid\n\t"
-			              "xchgl %%ebx, %%esi"           /* Restore %ebx.  */
-				      : "=a" (*_eax), "=S" (*_ebx), "=c" (*_ecx), "=d" (*_edx)
-				      : "0" (request)
-				      : "memory");
+				asm volatile ("mov %%ebx, %%esi\n\t"     /* Save %ebx.  */
+							  "xorl %%ecx, %%ecx\n\t"
+							  "cpuid\n\t"
+							  "xchgl %%ebx, %%esi"           /* Restore %ebx.  */
+						  : "=a" (*_eax), "=S" (*_ebx), "=c" (*_ecx), "=d" (*_edx)
+						  : "0" (request)
+						  : "memory");
 #else
-			__asm {
-				push esi;
-				push edi;
-				xor ecx, ecx;
-				mov eax, request;
-				cpuid;
-				mov edi, [_eax];
-				mov esi, [_ebx];
-				mov[edi], eax;
-				mov[esi], ebx;
-				mov edi, [_ecx];
-				mov esi, [_edx];
-				mov[edi], ecx;
-				mov[esi], edx;
-				pop edi;
-				pop esi;
-			}
+				__asm {
+					push esi;
+					push edi;
+					xor ecx, ecx;
+					mov eax, request;
+					cpuid;
+					mov edi, [_eax];
+					mov esi, [_ebx];
+					mov[edi], eax;
+					mov[esi], ebx;
+					mov edi, [_ecx];
+					mov esi, [_edx];
+					mov[edi], ecx;
+					mov[esi], edx;
+					pop edi;
+					pop esi;
+				}
 #endif
-			return true;
+				return true;
 #ifndef TARGET_CPU_X64
-		} else
-			return false;
+			} else
+				return false;
 #endif
+			}
 		}
 
 		CPUID::CPUID()

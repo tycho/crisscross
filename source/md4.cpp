@@ -17,6 +17,9 @@
 #include <crisscross/core_io_reader.h>
 #include <crisscross/md4.h>
 
+namespace
+{
+
 #define MD4_CTX cc_md4_ctx
 
 typedef unsigned char *POINTER;
@@ -37,11 +40,11 @@ typedef const unsigned char *CONST_POINTER;
 #define S33 11
 #define S34 15
 
-static void MD4Transform(cc_uint32_t [4], unsigned char [64]);
-static void Encode(unsigned char *, cc_uint32_t *, unsigned int);
-static void Decode(cc_uint32_t *, unsigned char *, unsigned int);
+void MD4Transform(cc_uint32_t [4], unsigned char [64]);
+void Encode(unsigned char *, cc_uint32_t *, unsigned int);
+void Decode(cc_uint32_t *, unsigned char *, unsigned int);
 
-static unsigned char PADDING[64] = {
+unsigned char PADDING[64] = {
 	0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
@@ -177,7 +180,7 @@ void MD4Final(unsigned char digest[16], MD4_CTX *context)
 * Procedure MD4Transform
 *
 ***************************************************************/
-static void MD4Transform(cc_uint32_t state[4], unsigned char block[64])
+void MD4Transform(cc_uint32_t state[4], unsigned char block[64])
 
 {
 	cc_uint32_t a = state[0], b = state[1], c = state[2], d = state[3], x[16];
@@ -256,7 +259,7 @@ static void MD4Transform(cc_uint32_t state[4], unsigned char block[64])
 * Procedure Encode
 *
 ***************************************************************/
-static void Encode(unsigned char *output, cc_uint32_t *input, unsigned int len)
+void Encode(unsigned char *output, cc_uint32_t *input, unsigned int len)
 {
 	unsigned int i, j;
 
@@ -276,13 +279,15 @@ static void Encode(unsigned char *output, cc_uint32_t *input, unsigned int len)
 * Procedure Decode
 *
 ***************************************************************/
-static void Decode(cc_uint32_t *output, unsigned char *input, unsigned int len)
+void Decode(cc_uint32_t *output, unsigned char *input, unsigned int len)
 {
 	unsigned int i, j;
 
 	for (i = 0, j = 0; j < len; i++, j += 4)
 		output[i] = ((cc_uint32_t)input[j]) | (((cc_uint32_t)input[j + 1]) << 8) |
 		            (((cc_uint32_t)input[j + 2]) << 16) | (((cc_uint32_t)input[j + 3]) << 24);
+}
+
 }
 
 namespace CrissCross

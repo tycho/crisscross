@@ -23,38 +23,41 @@
 
 using namespace CrissCross::System;
 
-static void *prepareToShotgunTheZombieMenace(void *param)
+namespace
 {
-	ZombieHunter::ZombieWatcherDossier *data = (ZombieHunter::ZombieWatcherDossier *)param;
-	CoreAssert(data != NULL);
-	size_t ticks = 0;
-	pid_t ret = 0;
+	void *prepareToShotgunTheZombieMenace(void *param)
+	{
+		ZombieHunter::ZombieWatcherDossier *data = (ZombieHunter::ZombieWatcherDossier *)param;
+		CoreAssert(data != NULL);
+		size_t ticks = 0;
+		pid_t ret = 0;
+		
+		// Wait for us to hit the time limit.
+		while (ticks < data->m_maxWait) {
+			// With WNOHANG, this can exit immediately.
+			ret = waitpid(data->m_pid, &data->m_ret, WNOHANG);
+			
+			// ret == 0 means it exited because it was
+			// instructed not to hang.
+			if (ret != 0) break;
+			
+			// Sleep for 1s.
+			for (size_t i = 0; i < 100; i++)
+				usleep(10000);
 	
-	// Wait for us to hit the time limit.
-	while (ticks < data->m_maxWait) {
-		// With WNOHANG, this can exit immediately.
-		ret = waitpid(data->m_pid, &data->m_ret, WNOHANG);
-		
-		// ret == 0 means it exited because it was
-		// instructed not to hang.
-		if (ret != 0) break;
-		
-		// Sleep for 1s.
-		for (size_t i = 0; i < 100; i++)
-			usleep(10000);
-
-		ticks++;
+			ticks++;
+		}
+	
+		// Kill the child process because it took too long.
+		if (ret == 0)
+			kill(data->m_pid, 9);
+	
+		data->m_active = false;
+		if (!data->m_storeExitCode)
+			delete data;
+	
+		return NULL;
 	}
-
-	// Kill the child process because it took too long.
-	if (ret == 0)
-		kill(data->m_pid, 9);
-
-	data->m_active = false;
-	if (!data->m_storeExitCode)
-		delete data;
-
-	return NULL;
 }
 
 namespace CrissCross

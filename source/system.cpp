@@ -17,32 +17,35 @@ namespace CrissCross
 {
 	namespace System
 	{
-		static long holdrand = 1L;
-
-		static double pausedAt = 0.0;
-		static double timeShift = 0.0;
-		static bool timerPaused = false;
+		namespace
+		{
+			long holdrand = 1L;
+	
+			double pausedAt = 0.0;
+			double timeShift = 0.0;
+		    bool timerPaused = false;
 	#if defined (TARGET_OS_WINDOWS)
 
-		/* ! The result of QueryPerformanceFrequency(). (Windows only) */
-		static double __m_tickInterval;
+			/* ! The result of QueryPerformanceFrequency(). (Windows only) */
+			double __m_tickInterval;
 
 	#elif defined (TARGET_OS_MACOSX)
 
-		/* ! The time index at which the timer started. ( Mac OS X only) */
-		static uint64_t __m_start;
-
-		/* ! The time base information. (Mac OS X only) */
-		static mach_timebase_info_data_t __m_timebase;
+			/* ! The time index at which the timer started. ( Mac OS X only) */
+			uint64_t __m_start;
+	
+			/* ! The time base information. (Mac OS X only) */
+			mach_timebase_info_data_t __m_timebase;
 
 	#elif defined (TARGET_OS_LINUX) || defined (TARGET_OS_FREEBSD) || \
 		defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD) || \
 		defined (TARGET_OS_NDSFIRMWARE)
 
-		/* ! The time index at which the timer started. (Linux only) */
-		static timeval __m_start;
+			/* ! The time index at which the timer started. (Linux only) */
+			timeval __m_start;
 
 	#endif
+		}
 
 		void InitTimer()
 		{

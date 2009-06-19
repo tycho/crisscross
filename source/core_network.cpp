@@ -17,7 +17,10 @@
 #include <signal.h>
 #endif
 
-static int s_initialised = 0;
+namespace
+{
+	int s_initialised = 0;
+}
 
 CrissCross::Errors CrissCross::Network::__initialise_network()
 {
