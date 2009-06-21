@@ -70,7 +70,7 @@ namespace CrissCross
 		}
 
 		template <class T>
-		__inline void Dealloc(T &_data)
+		__inline void Dealloc(__unused_param T &_data)
 		{
 		}
 
