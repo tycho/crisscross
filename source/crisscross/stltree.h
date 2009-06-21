@@ -43,10 +43,10 @@ namespace CrissCross
 			public:
 
 				/*! \brief The default constructor. */
-				__forceinline STLTree() {};
+				STLTree() {};
 
 				/*! \brief The destructor. */
-				__forceinline ~STLTree() { empty(); };
+				~STLTree() { empty(); };
 
 				/*! \brief Empties the entire tree. */
 				/*!
