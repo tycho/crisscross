@@ -126,12 +126,12 @@ namespace CrissCross
 			double rv = 0.0;
 
 			size_t  first = m_children.StartOrderedWalk();
-			if (first == -1) {
+			if (first == (size_t)-1) {
 				return 0.0;
 			}
 
 			size_t  i = first;
-			while (i != -1)
+			while (i != (size_t)-1)
 			{
 				double val = m_children[i]->m_historyTotalTime;
 

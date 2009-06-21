@@ -201,14 +201,14 @@ namespace CrissCross
 			size_t oldI = m_firstOrderedIndex;
 			size_t newI = this->findInsertIndex(oldKeys[oldI]);
 			m_firstOrderedIndex = newI;
-			while (oldI != -1)
+			while (oldI != (size_t)-1)
 			{
 				size_t nextOldI = oldOrderedIndices[oldI];
 
 				this->m_keys[newI] = oldKeys[oldI];
 				this->m_data[newI] = oldData[oldI];
 
-				size_t nextNewI = (nextOldI != -1) ? this->findInsertIndex(oldKeys[nextOldI]) : -1;
+				size_t nextNewI = (nextOldI != (size_t)-1) ? this->findInsertIndex(oldKeys[nextOldI]) : (size_t)-1;
 
 				m_orderedIndices[newI] = nextNewI;
 
@@ -232,7 +232,7 @@ namespace CrissCross
 
 			while (1)
 			{
-				if (i == -1) return prevI;
+				if (i == (size_t)-1) return prevI;
 
 				if (Compare((const char *)this->m_keys[i], _key) >= 0)
 					return prevI;
@@ -280,7 +280,7 @@ namespace CrissCross
 			/* Insert us into the alphabetically order index list */
 
 			size_t i = findPrevKey(_key);
-			if (i == -1) {
+			if (i == (size_t)-1) {
 				/* Handle the case when the table is empty, or the new element is going */
 				/* to be the new first alphabetical element */
 				m_orderedIndices[index] = m_firstOrderedIndex;
@@ -348,7 +348,7 @@ namespace CrissCross
 		size_t SortingHashTable<T>::nextOrderedIndex()
 		{
 			size_t rv = m_nextOrderedIndex;
-			if (rv != -1)
+			if (rv != (size_t)-1)
 				m_nextOrderedIndex = m_orderedIndices[m_nextOrderedIndex];
 			return rv;
 		}
