@@ -108,13 +108,13 @@ namespace CrissCross
 
 			Data const &operator [](size_t _index) const
 			{
-				CoreAssert(_index >= 0 && (size_t)_index < m_size);
+				CoreAssert(_index < m_size);
 				return m_data[_index];
 			};
 
 			Data &operator [](size_t _index)
 			{
-				CoreAssert(_index >= 0 && (size_t)_index < m_size);
+				CoreAssert(_index < m_size);
 				return m_data[_index];
 			};
 
