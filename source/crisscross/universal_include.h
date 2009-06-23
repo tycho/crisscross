@@ -101,7 +101,7 @@
 #undef  _WINDOWS
 #define _CONSOLE
 #endif
-#define ENABLE_OPENGL
+#define _CC_ENABLE_OPENGL
 #endif
 
 #if defined (_OPENMP)

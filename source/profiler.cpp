@@ -12,7 +12,7 @@
 #include <crisscross/universal_include.h>
 
 
-#ifdef ENABLE_OPENGL
+#ifdef _CC_ENABLE_OPENGL
 #ifdef TARGET_OS_MACOSX
 #include <OpenGL/gl.h>
 #else
@@ -234,7 +234,7 @@ namespace CrissCross
 
 			if (m_currentElement->m_isExpanded) {
 				if (m_doGlFinish && m_inRenderSection) {
-#ifdef ENABLE_OPENGL
+#ifdef _CC_ENABLE_OPENGL
 					glFinish();
 #endif
 				}
@@ -259,7 +259,7 @@ namespace CrissCross
 			{
 				if (m_currentElement->m_parent->m_isExpanded) {
 					if (m_doGlFinish && m_inRenderSection) {
-#ifdef ENABLE_OPENGL
+#ifdef _CC_ENABLE_OPENGL
 						glFinish();
 #endif
 					}
