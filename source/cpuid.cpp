@@ -214,19 +214,81 @@ namespace CrissCross
 			}
 		}
 
+		X86Processor::X86Processor()
+		: m_manufacturer(NULL),
+		  m_name(NULL),
+		  m_logical(0),
+		  m_cores(0),
+		  m_family(0),
+		  m_model(0),
+		  m_stepping(0),
+		  m_brandID(0),
+		  m_apicID(0)
+		{
+		}
+
+		X86Processor::~X86Processor()
+		{
+		}
+
+		const char *X86Processor::Manufacturer() const
+		{
+			return m_manufacturer;
+		}
+
+		const char *X86Processor::Name() const
+		{
+			return m_name;
+		}
+
+		char X86Processor::Family() const
+		{
+			return m_family;
+		}
+
+		char X86Processor::Model() const
+		{
+			return m_model;
+		}
+
+		char X86Processor::Stepping() const
+		{
+			return m_stepping;
+		}
+
+		char X86Processor::BrandID() const
+		{
+			return m_brandID;
+		}
+
+		char X86Processor::APICID() const
+		{
+			return m_apicID;
+		}
+
+		const features_t *X86Processor::Features() const
+		{
+			return &m_features;
+		}
+
+		const caches_t *X86Processor::Caches() const
+		{
+			return &m_caches;
+		}
+
 		CPUID::CPUID()
 		{
 			unsigned int i = 0;
 
 			for (i = 0; i < MAX_PROCESSORS; i++) {
-				proc[i] = new Processor();
+				proc[i] = new X86Processor();
 				CoreAssert(proc[i]);
-				proc[i]->Manufacturer = NULL;
-				proc[i]->ProcessorName = NULL;
 			}
 
 			Std = new Registers[32];
+			CoreAssert(Std);
 			Ext = new Registers[32];
+			CoreAssert(Ext);
 
 			memset(Std, 0, sizeof(Registers) * 32);
 			memset(Ext, 0, sizeof(Registers) * 32);
@@ -277,13 +339,13 @@ namespace CrissCross
 			delete [] Std;
 			delete [] Ext;
 			for (i = 0; i < MAX_PROCESSORS; i++) {
-				for (j = 0; j < proc[i]->caches.size(); j++) {
-					if (proc[i]->caches.valid(j))
-						delete [] proc[i]->caches.get(j);
+				for (j = 0; j < proc[i]->m_caches.size(); j++) {
+					if (proc[i]->m_caches.valid(j))
+						delete [] proc[i]->m_caches.get(j);
 				}
 
-				delete [] (char *)proc[i]->Manufacturer;
-				delete [] (char *)proc[i]->ProcessorName;
+				delete [] (char *)proc[i]->m_manufacturer;
+				delete [] (char *)proc[i]->m_name;
 
 				delete proc[i];
 			}
@@ -296,7 +358,7 @@ namespace CrissCross
 			int count = 0, i;
 
 			for (i = 0; i < MAX_PROCESSORS; i++) {
-				if (proc[i]->Manufacturer)
+				if (proc[i]->m_manufacturer)
 					count++;
 			}
 
@@ -306,13 +368,13 @@ namespace CrissCross
 		int CPUID::CoresPerPackage()
 		{
 			CoreAssert(this != NULL);
-			return proc[0]->CoresPerPackage;
+			return proc[0]->m_cores;
 		}
 
 		int CPUID::LogicalPerPackage()
 		{
 			CoreAssert(this != NULL);
-			return proc[0]->LogicalPerPackage;
+			return proc[0]->m_logical;
 		}
 
 #ifdef TARGET_OS_WINDOWS
@@ -412,7 +474,7 @@ namespace CrissCross
 			memcpy(_man, &Std[0].ecx, 4);
 			_man += 4;
 			*_man = '\x0';
-			proc[processor]->Manufacturer = manufacturer;
+			proc[processor]->m_manufacturer = manufacturer;
 		}
 
 		void CPUID::DetectProcessorName(int processor)
@@ -447,15 +509,15 @@ namespace CrissCross
 			memcpy(_proc, &Ext[4].edx, 4);
 			_proc += 4;
 			*_proc = '\x0';
-			proc[processor]->ProcessorName = processorname;
+			proc[processor]->m_name = processorname;
 		}
 
 		void CPUID::DetectCacheInfo(int processor)
 		{
 			CoreAssert(this != NULL);
 
-			if (proc[processor]->Manufacturer) {
-				if (strcmp(proc[processor]->Manufacturer, "GenuineIntel") == 0)	{
+			if (proc[processor]->m_manufacturer) {
+				if (strcmp(proc[processor]->m_manufacturer, "GenuineIntel") == 0)	{
 					int ntlb = 255, i;
 
 					for (i = 0; i < ntlb; i++) {
@@ -486,14 +548,14 @@ namespace CrissCross
 							AddIntelCacheData(processor, Std[2].edx >> 24);
 						}
 					}
-				} else if (strcmp(proc[processor]->Manufacturer, "AuthenticAMD") == 0) {
+				} else if (strcmp(proc[processor]->m_manufacturer, "AuthenticAMD") == 0) {
 					DecodeAMDCacheIdentifiers(processor);
 				}
 			}
 
 #ifdef ENABLE_SORTS
 			CrissCross::Data::QuickSort<char *> sorter;
-			proc[processor]->caches.sort(sorter);
+			proc[processor]->m_caches.sort(sorter);
 #endif
 		}
 
@@ -738,7 +800,7 @@ namespace CrissCross
 
 			CoreAssert(temp);
 			strcpy(temp, description);
-			proc[processor]->caches.insert(temp);
+			proc[processor]->m_caches.insert(temp);
 			temp = NULL;
 		}
 
@@ -794,7 +856,7 @@ namespace CrissCross
 #endif
 			case 0x49:      AddCacheDescription(processor, CreateCacheDescription(
 				                                    /* This is an L3 on the P4 and an L2 on the Core 2 */
-				                                    proc[processor]->features.exists("SSSE3") ? CACHE_TYPE_L2 : CACHE_TYPE_L3, NULL, 4096, 16, 0, 64, false)); break;
+				                                    proc[processor]->m_features.exists("SSSE3") ? CACHE_TYPE_L2 : CACHE_TYPE_L3, NULL, 4096, 16, 0, 64, false)); break;
 			case 0x4A:      AddCacheDescription(processor, CreateCacheDescription(CACHE_TYPE_L3, NULL, 6144, 12, 0, 64, false)); break;
 			case 0x4B:      AddCacheDescription(processor, CreateCacheDescription(CACHE_TYPE_L3, NULL, 8192, 16, 0, 64, false)); break;
 			case 0x4C:      AddCacheDescription(processor, CreateCacheDescription(CACHE_TYPE_L3, NULL, 12288, 12, 0, 64, false)); break;
@@ -803,8 +865,8 @@ namespace CrissCross
 			case 0x50:      AddCacheDescription(processor, CreateCacheDescription(CACHE_TYPE_CODE_TLB, "4KB, 2MB or 4MB", 0, 255, 64, 0, false)); break;
 			case 0x51:      AddCacheDescription(processor, CreateCacheDescription(CACHE_TYPE_CODE_TLB, "4KB, 2MB or 4MB", 0, 255, 128, 0, false)); break;
 			case 0x52:      AddCacheDescription(processor, CreateCacheDescription(CACHE_TYPE_CODE_TLB, "4KB, 2MB or 4MB", 0, 255, 256, 0, false)); break;
-			case 0x56:  AddCacheDescription(processor, CreateCacheDescription(CACHE_TYPE_L1DATA_TLB, "4MB", 0, 4, 16, 0, false)); break;
-			case 0x57:        AddCacheDescription(processor, CreateCacheDescription(CACHE_TYPE_L1DATA_TLB, "4KB", 0, 4, 16, 0, false)); break;
+			case 0x56:      AddCacheDescription(processor, CreateCacheDescription(CACHE_TYPE_L1DATA_TLB, "4MB", 0, 4, 16, 0, false)); break;
+			case 0x57:      AddCacheDescription(processor, CreateCacheDescription(CACHE_TYPE_L1DATA_TLB, "4KB", 0, 4, 16, 0, false)); break;
 			case 0x5b:      AddCacheDescription(processor, CreateCacheDescription(CACHE_TYPE_DATA_TLB, "4KB or 4MB", 0, 255, 64, 0, false)); break;
 			case 0x5c:      AddCacheDescription(processor, CreateCacheDescription(CACHE_TYPE_DATA_TLB, "4KB or 4MB", 0, 255, 128, 0, false)); break;
 			case 0x5d:      AddCacheDescription(processor, CreateCacheDescription(CACHE_TYPE_DATA_TLB, "4KB or 4MB", 0, 255, 256, 0, false)); break;
@@ -869,9 +931,9 @@ namespace CrissCross
 			CoreAssert(this != NULL);
 
 			/* Compliant with Intel document #241618. */
-			proc[processor]->Family = (char)(((Std[1].eax >> 8) + (Std[1].eax >> 20)) & 0xff);
-			proc[processor]->Model = (char)(((((Std[1].eax >> 16) & 0xf) << 4) + ((Std[1].eax >> 4) & 0xf)) & 0xff);
-			proc[processor]->Stepping = (char)(Std[1].eax & 0xf);
+			proc[processor]->m_family = (char)(((Std[1].eax >> 8) + (Std[1].eax >> 20)) & 0xff);
+			proc[processor]->m_model = (char)(((((Std[1].eax >> 16) & 0xf) << 4) + ((Std[1].eax >> 4) & 0xf)) & 0xff);
+			proc[processor]->m_stepping = (char)(Std[1].eax & 0xf);
 		}
 
 		void CPUID::DetectBrandID(int processor)
@@ -879,7 +941,7 @@ namespace CrissCross
 			CoreAssert(this != NULL);
 
 			/* Compliant with Intel document #241618. */
-			proc[processor]->BrandID = (char)(Std[1].ebx & 0xff);
+			proc[processor]->m_brandID = (char)(Std[1].ebx & 0xff);
 		}
 
 		void CPUID::DetectCount(int processor)
@@ -889,37 +951,37 @@ namespace CrissCross
 			/* Compliant with Intel document #241618. */
 
 			/* Do we have HTT flag set? */
-			if (proc[processor]->features.exists("HTT")) {
+			if (proc[processor]->m_features.exists("HTT")) {
 				/* AMD and Intel documentations state that if HTT is supported */
 				/* then this the EBX:16 will reflect the logical processor count */
 				/* otherwise the flag is reserved. */
 
-				proc[processor]->features.insert("CMP", NULL);
+				proc[processor]->m_features.insert("CMP", NULL);
 
-				proc[processor]->CoresPerPackage = (char)((Std[4].eax & 0xFC000000) >> 26) + 1;
-				proc[processor]->LogicalPerPackage = (char)((Std[1].ebx & 0x00FF0000) >> 16);
+				proc[processor]->m_cores = (char)((Std[4].eax & 0xFC000000) >> 26) + 1;
+				proc[processor]->m_logical = (char)((Std[1].ebx & 0x00FF0000) >> 16);
 
-				if (proc[processor]->CoresPerPackage < 1)
-					proc[processor]->CoresPerPackage = 1;
+				if (proc[processor]->m_cores < 1)
+					proc[processor]->m_cores = 1;
 
-				if (proc[processor]->LogicalPerPackage < 1)
-					proc[processor]->LogicalPerPackage = 1;
+				if (proc[processor]->m_logical < 1)
+					proc[processor]->m_logical = 1;
 
-				if (proc[processor]->CoresPerPackage > 1 &&
-				    proc[processor]->LogicalPerPackage > proc[processor]->CoresPerPackage) {
+				if (proc[processor]->m_cores > 1 &&
+				    proc[processor]->m_logical > proc[processor]->m_cores) {
 					/* Hyperthreaded dual core. */
-				} else if (proc[processor]->CoresPerPackage > 1 &&
-				           proc[processor]->LogicalPerPackage == proc[processor]->CoresPerPackage) {
+				} else if (proc[processor]->m_cores > 1 &&
+				           proc[processor]->m_logical == proc[processor]->m_cores) {
 					/* Dual core. */
-					proc[processor]->features.erase("HTT");
-				} else if (proc[processor]->CoresPerPackage == 1 &&
-				           proc[processor]->LogicalPerPackage > proc[processor]->CoresPerPackage) {
+					proc[processor]->m_features.erase("HTT");
+				} else if (proc[processor]->m_cores == 1 &&
+				           proc[processor]->m_logical > proc[processor]->m_cores) {
 					/* Hyperthreaded. */
-					proc[processor]->features.erase("CMP");
+					proc[processor]->m_features.erase("CMP");
 				}
 			} else {
 				/* HTT not supported. Report logical processor count as 1. */
-				proc[processor]->LogicalPerPackage = 1;
+				proc[processor]->m_logical = 1;
 			}
 		}
 
@@ -928,7 +990,7 @@ namespace CrissCross
 			CoreAssert(this != NULL);
 
 			/* Found at http://www.intel.com/cd/ids/developer/asmo-na/eng/211924.htm */
-			proc[processor]->APICID = (char)((Std[1].ebx & 0xFF000000) >> 24);
+			proc[processor]->m_apicID = (char)((Std[1].ebx & 0xFF000000) >> 24);
 		}
 
 		void CPUID::DetectFeature(const unsigned int *_register, long _flag, int _processor, const char *_name)
@@ -939,7 +1001,7 @@ namespace CrissCross
 
 			bool supported = (*_register & _flag) > 0;
 			if (supported)
-				proc[_processor]->features.insert(_name, NULL);
+				proc[_processor]->m_features.insert(_name, NULL);
 		}
 
 		void CPUID::DetectFeatures(int processor)
@@ -980,8 +1042,8 @@ namespace CrissCross
 			DetectFeature(&Std[1].ecx, SSE3_FLAG, processor, "SSE3");
 			DetectFeature(&Std[1].ecx, CX16_FLAG, processor, "CX16");
 
-			if (proc[processor]->Manufacturer) {
-				if (strcmp(proc[processor]->Manufacturer, "GenuineIntel") == 0)	{
+			if (proc[processor]->m_manufacturer) {
+				if (strcmp(proc[processor]->m_manufacturer, "GenuineIntel") == 0)	{
 					/* IA64 and PBE are on Intel where the 3DNow! flags are on AMD */
 					DetectFeature(&Std[1].edx, IA64_FLAG, processor, "IA64");
 					DetectFeature(&Std[1].edx, PBE_FLAG, processor, "PBE");
@@ -1005,7 +1067,7 @@ namespace CrissCross
 					DetectFeature(&Std[1].ecx, VMX_FLAG, processor, "VMX");
 					DetectFeature(&Std[1].ecx, SMX_FLAG, processor, "SMX");
 					DetectFeature(&Std[1].ecx, PDCM_FLAG, processor, "PDCM");
-				} else if (strcmp(proc[processor]->Manufacturer, "AuthenticAMD") == 0) {
+				} else if (strcmp(proc[processor]->m_manufacturer, "AuthenticAMD") == 0) {
 					/* AMD-only flags, EDX 8000_0001 */
 					DetectFeature(&Ext[1].edx, NX_FLAG, processor, "NX");
 					DetectFeature(&Ext[1].edx, MMXEXT_FLAG, processor, "MMXEXT");

@@ -29,28 +29,38 @@ namespace CrissCross
 {
 	namespace System
 	{
-		class Processor
-		{
-			public:
-				const char *Manufacturer;
-				const char *ProcessorName;
-				unsigned int LogicalPerPackage;
-				unsigned int CoresPerPackage;
-				char Family;
-				char Model;
-				char Stepping;
-				char BrandID;
-				char APICID;
-				CrissCross::Data::RedBlackTree<const char *, void *> features;
-				CrissCross::Data::DArray <char *>                    caches;
-			public:
-				Processor()
-				{
-				}
+		typedef CrissCross::Data::RedBlackTree<const char *, void *> features_t;
+		typedef CrissCross::Data::DArray<char *> caches_t;
 
-				~Processor()
-				{
-				}
+		class X86Processor
+		{
+			protected:
+				const char *m_manufacturer;
+				const char *m_name;
+				unsigned int m_logical;
+				unsigned int m_cores;
+				char m_family;
+				char m_model;
+				char m_stepping;
+				char m_brandID;
+				char m_apicID;
+				features_t m_features;
+				caches_t m_caches;
+
+			public:
+				X86Processor();
+				~X86Processor();
+				const char *Manufacturer() const;
+				const char *Name() const;
+				char Family() const;
+				char Model() const;
+				char Stepping() const;
+				char BrandID() const;
+				char APICID() const;
+				const features_t *Features()const ;
+				const caches_t *Caches() const;
+
+				friend class CPUID;
 		};
 
 
@@ -134,7 +144,7 @@ namespace CrissCross
 				 */
 				int VirtualCount();
 
-				Processor *proc[MAX_PROCESSORS];            /* Support up to MAX_PROCESSORS */
+				X86Processor *proc[MAX_PROCESSORS];            /* Support up to MAX_PROCESSORS */
 		};
 	}
 }

@@ -80,28 +80,28 @@ int RunApplication(int argc, char * *argv)
 
 	for (int i = 0; i < MAX_PROCESSORS; i++) {
 		/* Go through each Virtual processor. */
-		if (cpuid->proc[i]->Manufacturer != NULL) {
+		if (cpuid->proc[i]->Manufacturer() != NULL) {
 			/* Print out the manufacturer string */
 			console->WriteLine("CPU[%d] Manufacturer: %s", i,
-			                   cpuid->proc[i]->Manufacturer);
+			                   cpuid->proc[i]->Manufacturer());
 
 			/* Print out the CPU name string, if available. */
-			if (strlen(cpuid->proc[i]->ProcessorName) > 0)
+			if (strlen(cpuid->proc[i]->Name()) > 0)
 				console->WriteLine("CPU[%d] Name: %s", i,
-				                   cpuid->proc[i]->ProcessorName);
+				                   cpuid->proc[i]->Name());
 
 			/* Print out Family/Model/Stepping info. */
 			console->WriteLine("CPU[%d] Family: %d, Model: %d, Stepping: %d", i,
-			                   cpuid->proc[i]->Family, cpuid->proc[i]->Model,
-			                   cpuid->proc[i]->Stepping);
+			                   cpuid->proc[i]->Family(), cpuid->proc[i]->Model(),
+			                   cpuid->proc[i]->Stepping());
 
 			/* Print out the CPU cache info. */
-			if (cpuid->proc[i]->caches.size() > 0) {
+			const CrissCross::System::caches_t *caches = cpuid->proc[i]->Caches();
+			if (caches->size() > 0) {
 				console->WriteLine("CPU[%d] Caches:", i);
-				for (size_t j = 0; j < cpuid->proc[i]->caches.size(); j++) {
-					if (cpuid->proc[i]->caches.valid(j))
-						console->Write("  %s",
-						               cpuid->proc[i]->caches.get(j));
+				for (size_t j = 0; j < caches->size(); j++) {
+					if (caches->valid(j))
+						console->Write("  %s", caches->get(j));
 				}
 
 				console->WriteLine();
@@ -110,8 +110,8 @@ int RunApplication(int argc, char * *argv)
 			/* Print out CPU features (MMX, SSE, and so on). */
 			console->Write("CPU[%d] Features: ", i);
 
-			CrissCross::Data::DArray<const char *>                  *featureIDs =
-			        cpuid->proc[i]->features.ConvertIndexToDArray();
+			CrissCross::Data::DArray<const char *> *featureIDs =
+			        cpuid->proc[i]->Features()->ConvertIndexToDArray();
 
 			for (size_t i = 0; i < featureIDs->size(); i++) {
 				if (featureIDs->valid(i))
