@@ -446,7 +446,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\n\nsource ~/.bashrc\n\necho \"Generating build_number.h...\";\n\ncd \"$PROJECT_DIR/../..\"\n\"tools/gen_buildnum_h.sh\" \"source/crisscross/build_number.h\"";
+			shellScript = "#!/bin/bash\n\nsource ~/.bashrc\n\necho \"Generating build_number.h...\";\n\ncd \"$PROJECT_DIR/../..\"\n\"tools/gen_buildnum_h.pl\" \"source/crisscross/build_number.h\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
