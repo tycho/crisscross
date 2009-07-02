@@ -4,10 +4,12 @@ use strict;
 use warnings;
 
 use File::Basename;
-use File::Spec::Functions qw(rel2abs);
+
+use Cwd;
+my $cwd = cwd;
 
 my $in_git = 0;
-my $scriptpath = rel2abs(dirname($0));
+my $scriptpath = $cwd . "/" . dirname($0);
 my $outfile = $ARGV[0];
 
 my $releasever;
@@ -39,6 +41,10 @@ if ($in_git == 0) {
 	$verstring = $releasever;
 } else {
 	$verstring = `git describe --tags --long 2> /dev/null || git describe --tags`;
+}
+
+if (!$verstring) {
+	die "couldn't get the version information\n";
 }
 
 chomp($verstring);
