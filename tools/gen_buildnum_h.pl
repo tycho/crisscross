@@ -33,7 +33,7 @@ if (-d "$scriptpath/../.git" ) {
 	$in_git = 0;
 }
 
-my $verstring;
+my $verstring = "";
 
 if ($in_git == 0) {
 	$verstring = $releasever;
@@ -63,6 +63,8 @@ if ( !$build ) {
 if ( $pre ) {
 	# We have a prerelease version.
 	$pre = "-$pre";
+} else {
+	$pre = "";
 }
 
 unlink("$outfile.tmp");
@@ -75,15 +77,15 @@ print OUT <<__eof__;
 #ifndef __included_${tag}_build_number_h
 #define __included_${tag}_build_number_h
 
-#define ${prefix}_VERSION_MAJOR $major
-#define ${prefix}_VERSION_MINOR $minor
-#define ${prefix}_VERSION_REVISION $revis
-#define ${prefix}_VERSION_BUILD $build
-#define ${prefix}_VERSION "$major.$minor.$revis$pre"
-#define ${prefix}_VERSION_STRING "$verstring"
+#define ${prefix}_VERSION_MAJOR ${major}
+#define ${prefix}_VERSION_MINOR ${minor}
+#define ${prefix}_VERSION_REVISION ${revis}
+#define ${prefix}_VERSION_BUILD ${build}
+#define ${prefix}_VERSION \"${major}.${minor}.${revis}${pre}\"
+#define ${prefix}_VERSION_STRING "${verstring}"
 
-#define ${prefix}_RESOURCE_VERSION $major,$minor,$revis,$build
-#define ${prefix}_RESOURCE_VERSION_STRING "$major, $minor, $revis, $build"
+#define ${prefix}_RESOURCE_VERSION ${major},${minor},${revis},${build}
+#define ${prefix}_RESOURCE_VERSION_STRING \"${major}, ${minor}, ${revis}, ${build}\"
 
 #endif
 
