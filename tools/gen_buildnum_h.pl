@@ -49,7 +49,7 @@ if (!$verstring) {
 
 chomp($verstring);
 
-my $pattern = "([0-9]).([0-9]).([0-9])(?:(?:-([a-zA-Z]+[0-9]+))?(?:-([0-9]+)-g[a-fA-F0-9]+)?)?";
+my $pattern = "([0-9]+).([0-9]+).([0-9]+)(?:(?:-([a-zA-Z]+[0-9]+))?(?:-([0-9]+)-g[a-fA-F0-9]+)?)?";
 
 if ($verstring =~ $pattern) {
 } else {
