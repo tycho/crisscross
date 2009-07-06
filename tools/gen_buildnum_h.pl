@@ -49,49 +49,67 @@ if (!$verstring) {
 
 chomp($verstring);
 
-my $pattern = "([0-9]+).([0-9]+).([0-9]+)(?:(?:-([a-zA-Z]+[0-9]+))?(?:-([0-9]+)-g[a-fA-F0-9]+)?)?";
+# This gets us:
+#  $1.$2.$3.$4-$5-$6
+my $component_pattern = "([0-9]+)[.]([0-9]+)[.]([0-9]+)(?:[.]([0-9]+))?(?:(?:-([a-zA-Z]+[0-9]+))?(?:-([0-9]+)-g[a-fA-F0-9]+)?)?";
 
-if ($verstring =~ $pattern) {
+if ($verstring =~ $component_pattern) {
 } else {
 	die "Version string '$verstring' is malformed...\n";
 }
 
-my $major = $1;
-my $minor = $2;
-my $revis = $3;
-my $build = $5;
-my $pre   = $4;
+my $major  = $1;
+my $minor  = $2;
+my $revis  = $3;
+my $build  = $4;
+my $commit = $6;
 
-if ( !$build ) {
-	$build = "0";
+# Git didn't give us a --long format?
+if ( !$commit ) {
+	$commit = 0;
 }
 
-if ( $pre ) {
-	# We have a prerelease version.
-	$pre = "-$pre";
+# This gets us just the tag:
+my $tag_pattern = "([0-9]+[.][0-9]+[.][0-9]+(?:[.][0-9]+)?(?:(?:-[a-zA-Z]+[0-9]+)?))";
+
+if ($verstring =~ $tag_pattern) {
 } else {
-	$pre = "";
+	die "Version string '$verstring' is malformed...\n";
+}
+
+my $tag    = $1;
+
+# We assume here that we must be using a different
+# version number convention.
+if ( !$build ) {
+	$build = $commit;
+}
+
+# If we're at the tag, don't make the long
+# version longer than necessary.
+if ( $commit == 0 ) {
+	$verstring = $tag;
 }
 
 unlink("$outfile.tmp");
 
-my $prefix = "CC_LIB";
-my $tag    = "cc";
+my $prefix   = "CC_LIB";
+my $smprefix = "cc";
 
 open OUT, ">", "$outfile.tmp" or die $!;
 print OUT <<__eof__;
-#ifndef __included_${tag}_build_number_h
-#define __included_${tag}_build_number_h
+#ifndef __included_${smprefix}_build_number_h
+#define __included_${smprefix}_build_number_h
 
 #define ${prefix}_VERSION_MAJOR ${major}
 #define ${prefix}_VERSION_MINOR ${minor}
 #define ${prefix}_VERSION_REVISION ${revis}
 #define ${prefix}_VERSION_BUILD ${build}
-#define ${prefix}_VERSION \"${major}.${minor}.${revis}${pre}\"
-#define ${prefix}_VERSION_STRING "${verstring}"
+#define ${prefix}_VERSION_TAG "${tag}"
+#define ${prefix}_VERSION_LONG "${verstring}"
 
 #define ${prefix}_RESOURCE_VERSION ${major},${minor},${revis},${build}
-#define ${prefix}_RESOURCE_VERSION_STRING \"${major}, ${minor}, ${revis}, ${build}\"
+#define ${prefix}_RESOURCE_VERSION_STRING "${major}, ${minor}, ${revis}, ${build}"
 
 #endif
 

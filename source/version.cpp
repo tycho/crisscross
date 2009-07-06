@@ -20,12 +20,12 @@ namespace CrissCross
 	{
 		const char *ShortVersion()
 		{
-			return CC_LIB_VERSION;
+			return CC_LIB_VERSION_TAG;
 		}
 
 		const char *LongVersion()
 		{
-			return CC_LIB_VERSION_STRING;
+			return CC_LIB_VERSION_LONG;
 		}
 
 		int Major()
