@@ -51,7 +51,7 @@ chomp($verstring);
 
 # This gets us:
 #  $1.$2.$3.$4-$5-$6
-my $component_pattern = "([0-9]+)[.]([0-9]+)[.]([0-9]+)(?:[.]([0-9]+))?(?:(?:-([a-zA-Z]+[0-9]+))?(?:-([0-9]+)-g[a-fA-F0-9]+)?)?";
+my $component_pattern = "[v]?([0-9]+)[.]([0-9]+)[.]([0-9]+)(?:[.]([0-9]+))?(?:(?:-([a-zA-Z]+[0-9]+))?(?:-([0-9]+)-g[a-fA-F0-9]+)?)?";
 
 if ($verstring =~ $component_pattern) {
 } else {
@@ -70,7 +70,7 @@ if ( !$commit ) {
 }
 
 # This gets us just the tag:
-my $tag_pattern = "([0-9]+[.][0-9]+[.][0-9]+(?:[.][0-9]+)?(?:(?:-[a-zA-Z]+[0-9]+)?))";
+my $tag_pattern = "([v]?[0-9]+[.][0-9]+[.][0-9]+(?:[.][0-9]+)?(?:(?:-[a-zA-Z]+[0-9]+)?))";
 
 if ($verstring =~ $tag_pattern) {
 } else {
