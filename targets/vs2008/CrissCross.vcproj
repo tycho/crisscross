@@ -856,6 +856,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\source\crisscross\stltree.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\source\crisscross\stopwatch.h"
 				>
 			</File>
