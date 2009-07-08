@@ -18,8 +18,10 @@
  * need to familiarize ourselves with the devkitARM API for sockets first */
 #if !defined (TARGET_OS_NDSFIRMWARE)
 
-#if defined (TARGET_OS_WINDOWS)
+#if defined (TARGET_COMPILER_VC)
 #pragma comment (lib,"ws2_32.lib")
+#endif
+#if defined (TARGET_OS_WINDOWS)
 typedef int socklen_t;
 #endif
 

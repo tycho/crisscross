@@ -82,7 +82,8 @@ namespace CrissCross
 			lastpos = _ftelli64(m_fileInputPointer);
 			return lastpos;
 #elif defined (TARGET_OS_MACOSX) || defined (TARGET_OS_NETBSD) || \
-	  defined (TARGET_OS_FREEBSD) || defined (TARGET_OS_OPENBSD)
+	  defined (TARGET_OS_FREEBSD) || defined (TARGET_OS_OPENBSD) || \
+      defined (TARGET_COMPILER_MINGW)
 			fgetpos(m_fileInputPointer, &lastpos);
 			return lastpos;
 #else
@@ -114,7 +115,8 @@ namespace CrissCross
 			endpos = _ftelli64(m_fileInputPointer);
 			_fseeki64(m_fileInputPointer, lastpos, SEEK_SET);
 #elif defined (TARGET_OS_MACOSX) || defined (TARGET_OS_NETBSD) || \
-	  defined (TARGET_OS_FREEBSD) || defined (TARGET_OS_OPENBSD)
+	  defined (TARGET_OS_FREEBSD) || defined (TARGET_OS_OPENBSD) || \
+      defined (TARGET_COMPILER_MINGW)
 			fgetpos(m_fileInputPointer, &lastpos);
 			fseek(m_fileInputPointer, 0, SEEK_END);
 			fgetpos(m_fileInputPointer, &endpos);

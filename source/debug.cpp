@@ -22,7 +22,7 @@ typedef char **(*backtrace_symbols_t)(void * const *, int);
 #endif
 
 #ifndef ENABLE_SYMBOL_ENGINE
-#ifdef TARGET_OS_WINDOWS
+#ifdef TARGET_COMPILER_VC
 #pragma warning (disable: 4311)
 #endif
 #else
@@ -144,7 +144,8 @@ void SymbolEngine::StackTrace(PCONTEXT _pContext, CoreIOWriter * _outputBuffer)
 #endif
 void CrissCross::Debug::PrintStackTrace(CrissCross::IO::CoreIOWriter * _outputBuffer)
 {
-#if !defined (TARGET_OS_NETBSD) && !defined (TARGET_OS_FREEBSD) && !defined (TARGET_OS_OPENBSD)
+#if !defined (TARGET_OS_NETBSD) && !defined (TARGET_OS_FREEBSD) && !defined (TARGET_OS_OPENBSD) \
+ && !defined(TARGET_COMPILER_MINGW) && !defined(TARGET_COMPILER_CYGWIN)
 #ifdef ENABLE_SYMBOL_ENGINE
 
 	CONTEXT context = { CONTEXT_FULL };
