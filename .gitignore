@@ -5,6 +5,15 @@ Makefile
 *~
 *.DS_Store
 
+# Visual Studio junk
+*.ncb
+*.suo
+*.vcproj.*.user
+
+# CMake junk
+*.dir
+*.rule
+
 # Windows outputs
 *.exe
 *.lib
