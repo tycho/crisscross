@@ -112,7 +112,7 @@ void TestTree(T _tree, DArray<ktype_t> *dataset, unsigned long _size)
 	console->WriteLine("%9.5lfs", sw.Elapsed());
 }
 
-int RunApplication(int argc, char * *argv)
+int main(int argc, char * *argv)
 {
 	console = new Console();
 

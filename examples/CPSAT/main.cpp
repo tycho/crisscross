@@ -17,7 +17,7 @@ using namespace std;
 
 Console *console = NULL;
 
-int RunApplication(int argc, char * *argv)
+int main(int argc, char * *argv)
 {
 	console = new Console();
 

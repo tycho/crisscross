@@ -37,7 +37,7 @@ using namespace CrissCross;
 
 CrissCross::IO::Console *g_console;
 
-int RunApplication(int argc, char * *argv)
+int main(int argc, char * *argv)
 {
 	g_console = new IO::Console();
 

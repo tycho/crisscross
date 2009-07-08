@@ -90,7 +90,7 @@ void BenchmarkDArray(Sorter<char *> &sorter)
 }
 #endif
 
-int RunApplication(int argc, char * *argv)
+int main(int argc, char * *argv)
 {
 	console = new Console();
 

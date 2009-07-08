@@ -120,7 +120,7 @@ void PrecalculatePrimes()
 			AddPrimeToCache((prime_t)n);
 }
 
-int RunApplication(int argc, char * *argv)
+int main(int argc, char * *argv)
 {
 	Console *console = new Console();
 
