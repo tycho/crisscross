@@ -1,14 +1,14 @@
-if(WIN32 AND NOT CYGWIN)
+if(WIN32 AND MSVC)
 add_custom_command(
 	OUTPUT ${CrissCross_BINARY_DIR}/source/crisscross/build_number.h
 	COMMAND "${CrissCross_SOURCE_DIR}/tools/gen_buildnum_h_helper.cmd" "${CrissCross_SOURCE_DIR}"
 )
-else(WIN32 AND NOT CYGWIN)
+else(WIN32 AND MSVC)
 add_custom_command(
 	OUTPUT ${CrissCross_BINARY_DIR}/source/crisscross/build_number.h
 	COMMAND "${CrissCross_SOURCE_DIR}/tools/gen_buildnum_h.pl" "${CrissCross_BINARY_DIR}/source/crisscross/build_number.h"
 )
-endif(WIN32 AND NOT CYGWIN)
+endif(WIN32 AND MSVC)
 
 add_custom_target(BuildNumber DEPENDS ${CrissCross_BINARY_DIR}/source/crisscross/build_number.h)
 add_library(CrissCross console.cpp core_io_reader.cpp core_io_writer.cpp core_network.cpp core_socket.cpp cpuid.cpp debug.cpp error.cpp filesystem.cpp filereader.cpp filewriter.cpp md4.cpp md5.cpp mutex.cpp profiler.cpp sha1.cpp sha256.cpp sha512.cpp stopwatch.cpp system.cpp tcpsocket.cpp tiger.cpp udpsocket.cpp universal_include.cpp version.cpp zombiehunter.cpp)
