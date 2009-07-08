@@ -150,7 +150,6 @@
 #include <sys/stat.h>
 
 #if defined (TARGET_OS_WINDOWS) && (defined (TARGET_COMPILER_VC) || defined (TARGET_COMPILER_ICC))
-#undef ENABLE_STLTREE
 #if TARGET_CPU_BITS == 32
 #define ENABLE_SYMBOL_ENGINE
 #else
