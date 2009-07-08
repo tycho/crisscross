@@ -211,14 +211,14 @@ namespace CrissCross
 				 * \param _index The index of the node to get data from.
 				 * \return The data stored at the index.
 				 */
-				__forceinline T & operator [](size_t _index);
+				__inline T & operator [](size_t _index);
 
 				/*! \brief Gets the data at the given index. */
 				/*!
 				 * \param _index The index of the node to get data from.
 				 * \return The data stored at the index.
 				 */
-				__forceinline T const & operator [](size_t _index) const;
+				__inline T const & operator [](size_t _index) const;
 
 				/*! \brief Returns the overhead caused by the data structure. */
 				/*!
