@@ -111,7 +111,7 @@ namespace CrissCross
 				{
 					if (!exists(_key))
 						return _default;
-					typename std::map<Key,Data,CrissCross::Data::LessThanComparator<Key>>::const_iterator iter;
+					typename std::map<Key,Data,CrissCross::Data::LessThanComparator<Key> >::const_iterator iter;
 					iter = m_map.find(_key);
 					return iter->second;
 				};
@@ -140,7 +140,7 @@ namespace CrissCross
 				__forceinline DArray <Data> *ConvertToDArray() const
 				{
 					DArray<Data> *darray = new DArray<Data>(size());
-					typename std::map<Key,Data,CrissCross::Data::LessThanComparator<Key>>::const_iterator iter;
+					typename std::map<Key,Data,CrissCross::Data::LessThanComparator<Key> >::const_iterator iter;
 					for (iter = m_map.begin(); iter != m_map.end(); iter++) {
 						darray->insert(iter->second);
 					}
@@ -155,7 +155,7 @@ namespace CrissCross
 				__forceinline DArray <Key> *ConvertIndexToDArray() const
 				{
 					DArray<Key> *darray = new DArray<Key>(size());
-					typename std::map<Key,Data,CrissCross::Data::LessThanComparator<Key>>::const_iterator iter;
+					typename std::map<Key,Data,CrissCross::Data::LessThanComparator<Key> >::const_iterator iter;
 					for (iter = m_map.begin(); iter != m_map.end(); iter++) {
 						darray->insert(iter->first);
 					}
