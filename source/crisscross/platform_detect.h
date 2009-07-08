@@ -153,6 +153,9 @@
 #if defined (__CYGWIN__) || defined (__CYGWIN32__)
 #define TARGET_COMPILER_CYGWIN
 #endif
+#if defined (__MINGW32__)
+#define TARGET_COMPILER_MINGW
+#endif
 #endif
 
 #if !defined (COMPILER_DETECTED)
