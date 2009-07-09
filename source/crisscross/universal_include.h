@@ -92,8 +92,12 @@
 /* ----------------------- */
 
 #if defined (TARGET_OS_WINDOWS)
+#ifndef _WIN32_WINNT
 #define _WIN32_WINNT 0x0500   /* Windows 2000 */
+#endif
+#ifndef _WIN32_IE_
 #define _WIN32_IE_   0x0550   /* IE 5.5 */
+#endif
 #endif
 
 #if defined (SDL_APPLICATION)
