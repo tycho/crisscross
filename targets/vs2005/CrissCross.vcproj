@@ -423,10 +423,6 @@
 				RelativePath="..\..\source\version.cpp"
 				>
 			</File>
-			<File
-				RelativePath="..\..\source\windows_version.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Headers"
@@ -612,10 +608,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\source\crisscross\exception_handler.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\source\crisscross\filereader.h"
 				>
 			</File>
@@ -729,10 +721,6 @@
 			</File>
 			<File
 				RelativePath="..\..\source\crisscross\md5.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\source\crisscross\mini_version.h"
 				>
 			</File>
 			<File
@@ -885,10 +873,6 @@
 			</File>
 			<File
 				RelativePath="..\..\source\crisscross\version.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\source\crisscross\windows_version.h"
 				>
 			</File>
 		</Filter>
