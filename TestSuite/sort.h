@@ -14,9 +14,9 @@
 
 #ifdef ENABLE_SORTS
 
-int TestQuickSort_IntArray();
-int TestQuickSort_DArray();
-int TestQuickSort_LList();
+int TestSort_IntArray(CrissCross::Data::Sorter<int> *_sorter);
+int TestSort_DArray(CrissCross::Data::Sorter<int> *_sorter);
+int TestSort_LList(CrissCross::Data::Sorter<int> *_sorter);
 
 #endif
 

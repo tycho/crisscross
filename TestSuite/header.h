@@ -21,8 +21,10 @@
 
 #ifdef HIGH_INTENSITY
 #  define TREE_ITEMS 1024
+#  define SORT_ITEMS 10000
 #else
 #  define TREE_ITEMS 256
+#  define SORT_ITEMS 1000
 #endif
 
 #endif

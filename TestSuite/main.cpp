@@ -23,13 +23,9 @@
 #include "avltree.h"
 #include "rbtree.h"
 #include "hashtable.h"
-#include "heapsort.h"
-#include "quicksort.h"
 #include "sanity.h"
-#include "shellsort.h"
-#include "insertionsort.h"
-#include "combsort.h"
 #include "stopwatch.h"
+#include "sort.h"
 #include "md4.h"
 #include "md5.h"
 #include "sha1.h"
@@ -120,27 +116,32 @@ int RunApplication(int argc, char * *argv)
 	WritePrefix("HashTable<const char *, const char *>"); retval |= WriteResult(TestHashTable_CString());
 
 #ifdef ENABLE_SORTS
-	WritePrefix("CombSort (integer array)"); retval |= WriteResult(TestCombSort_IntArray());
-	WritePrefix("CombSort (integer DArray)"); retval |= WriteResult(TestCombSort_DArray());
-	WritePrefix("CombSort (integer LList)"); retval |= WriteResult(TestCombSort_LList());
+	CrissCross::Data::CombSort<int> cs;
+	WritePrefix("CombSort (integer array)"); retval |= WriteResult(TestSort_IntArray(&cs));
+	WritePrefix("CombSort (integer DArray)"); retval |= WriteResult(TestSort_DArray(&cs));
+	WritePrefix("CombSort (integer LList)"); retval |= WriteResult(TestSort_LList(&cs));
 
-	WritePrefix("HeapSort (integer array)"); retval |= WriteResult(TestHeapSort_IntArray());
-	WritePrefix("HeapSort (integer DArray)"); retval |= WriteResult(TestHeapSort_DArray());
-	WritePrefix("HeapSort (integer LList)"); retval |= WriteResult(TestHeapSort_LList());
+	CrissCross::Data::HeapSort<int> hs;
+	WritePrefix("HeapSort (integer array)"); retval |= WriteResult(TestSort_IntArray(&hs));
+	WritePrefix("HeapSort (integer DArray)"); retval |= WriteResult(TestSort_DArray(&hs));
+	WritePrefix("HeapSort (integer LList)"); retval |= WriteResult(TestSort_LList(&hs));
 
 #if !defined (DISABLE_DEPRECATED_CODE)
-	WritePrefix("InsertionSort (integer array)"); retval |= WriteResult(TestInsertionSort_IntArray());
-	WritePrefix("InsertionSort (integer DArray)"); retval |= WriteResult(TestInsertionSort_DArray());
-	WritePrefix("InsertionSort (integer LList)"); retval |= WriteResult(TestInsertionSort_LList());
+	CrissCross::Data::InsertionSort<int> is;
+	WritePrefix("InsertionSort (integer array)"); retval |= WriteResult(TestSort_IntArray(&is));
+	WritePrefix("InsertionSort (integer DArray)"); retval |= WriteResult(TestSort_DArray(&is));
+	WritePrefix("InsertionSort (integer LList)"); retval |= WriteResult(TestSort_LList(&is));
 #endif
 
-	WritePrefix("ShellSort (integer array)"); retval |= WriteResult(TestShellSort_IntArray());
-	WritePrefix("ShellSort (integer DArray)"); retval |= WriteResult(TestShellSort_DArray());
-	WritePrefix("ShellSort (integer LList)"); retval |= WriteResult(TestShellSort_LList());
+	CrissCross::Data::ShellSort<int> ss;
+	WritePrefix("ShellSort (integer array)"); retval |= WriteResult(TestSort_IntArray(&ss));
+	WritePrefix("ShellSort (integer DArray)"); retval |= WriteResult(TestSort_DArray(&ss));
+	WritePrefix("ShellSort (integer LList)"); retval |= WriteResult(TestSort_LList(&ss));
 
-	WritePrefix("QuickSort (integer array)"); retval |= WriteResult(TestQuickSort_IntArray());
-	WritePrefix("QuickSort (integer DArray)"); retval |= WriteResult(TestQuickSort_DArray());
-	WritePrefix("QuickSort (integer LList)"); retval |= WriteResult(TestQuickSort_LList());
+	CrissCross::Data::QuickSort<int> qs;
+	WritePrefix("QuickSort (integer array)"); retval |= WriteResult(TestSort_IntArray(&qs));
+	WritePrefix("QuickSort (integer DArray)"); retval |= WriteResult(TestSort_DArray(&qs));
+	WritePrefix("QuickSort (integer LList)"); retval |= WriteResult(TestSort_LList(&qs));
 #endif
 
 	if (retval == 0) {
