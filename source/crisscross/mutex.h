@@ -140,6 +140,10 @@ namespace CrissCross
 			 *  Unlocks the held mutex.
 			 */
 			~MutexHolder();
+
+		private:
+			MutexHolder(MutexHolder const &);
+			MutexHolder &operator =(const MutexHolder &);
 		};
 
 		/*! \brief The type of mutex holder to create. */
@@ -155,21 +159,33 @@ namespace CrissCross
 		protected:
 			ReadWriteLock *m_lock;
 			RWLockHolderType m_type;
+			mutable bool m_copied;
 
 		public:
 			/*! \brief The constructor. */
 			/*!
 			 *  Locks the specified read/write lock.
 			 *  \param _lock The read/write lock to be held.
-			 *  \param _type Indicates whether this lock holder should lock for reading or for writing.
+			 *  \param _type Indicates whether this lock holder should
+			 *               lock for reading or for writing.
 			 */
 			RWLockHolder(ReadWriteLock *_lock, RWLockHolderType _type);
+
+			/*! \brief The copy constructor. */
+			/*!
+			 *  Copies the RWLock and invalidates the original (the
+			 *  copy takes over the task of the original).
+			 */
+			RWLockHolder(RWLockHolder const &);
 
 			/*! \brief The destructor. */
 			/*!
 			 *  Unlocks the held lock.
 			 */
 			~RWLockHolder();
+
+		private:
+			RWLockHolder &operator =(RWLockHolder const &);
 		};
 	}
 }

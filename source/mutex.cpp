@@ -296,7 +296,7 @@ namespace CrissCross
 #endif
 
 		RWLockHolder::RWLockHolder(ReadWriteLock *_lock, RWLockHolderType _type)
-			: m_lock(_lock), m_type(_type)
+			: m_lock(_lock), m_type(_type), m_copied(false)
 		{
 			CoreAssert(_lock);
 			switch(_type)
@@ -315,21 +315,31 @@ namespace CrissCross
 		RWLockHolder::~RWLockHolder()
 		{
 			CoreAssert(this != NULL);
+			if (!m_copied) {
 #ifdef TARGET_OS_WINDOWS
-			switch(m_type)
-			{
-			case RW_LOCK_READ:
-				m_lock->UnlockRead();
-				break;
-			case RW_LOCK_WRITE:
-				m_lock->UnlockWrite();
-				break;
-			default:
-				CoreAssert(m_type != RW_LOCK_READ && m_type != RW_LOCK_WRITE);
-			}
+				switch(m_type)
+				{
+				case RW_LOCK_READ:
+					m_lock->UnlockRead();
+					break;
+				case RW_LOCK_WRITE:
+					m_lock->UnlockWrite();
+					break;
+				default:
+					CoreAssert(m_type != RW_LOCK_READ && m_type != RW_LOCK_WRITE);
+				}
 #else
-			m_lock->Unlock();
+				m_lock->Unlock();
 #endif
+			}
+		}
+
+		RWLockHolder::RWLockHolder(RWLockHolder const &_lock)
+		{
+			CoreAssert(this != &_lock);
+			_lock.m_copied = true;
+			m_lock = _lock.m_lock;
+			m_type = _lock.m_type;
 		}
 	}
 }
