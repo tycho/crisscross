@@ -108,21 +108,41 @@ namespace CrissCross
 					midX = (llPosition.X() + trPosition.X()) / 2.0f,
 					midY = (llPosition.Y() + trPosition.Y()) / 2.0f;
 
-			if (top > midY && left < midX) {
-				/* need to descend into top left quadtree */
-				tl->ObjectsInCircle(array, circle, radius);
-			}
-			if (top > midY && right > midX)	{
-				/* top right quadtree */
-				tr->ObjectsInCircle(array, circle, radius);
-			}
-			if (bottom < midY && right > midX) {
-				/* lower right quadtree */
-				lr->ObjectsInCircle(array, circle, radius);
-			}
-			if (bottom < midY && left < midX) {
-				/* lower left quadtree */
-				ll->ObjectsInCircle(array, circle, radius);
+			#ifdef _OPENMP
+			#pragma omp parallel sections
+			#endif
+			{
+				#ifdef _OPENMP
+				#pragma omp section
+				#endif
+				if (top > midY && left < midX) {
+					/* need to descend into top left quadtree */
+					tl->ObjectsInCircle(array, circle, radius);
+				}
+
+				#ifdef _OPENMP
+				#pragma omp section
+				#endif
+				if (top > midY && right > midX)	{
+					/* top right quadtree */
+					tr->ObjectsInCircle(array, circle, radius);
+				}
+
+				#ifdef _OPENMP
+				#pragma omp section
+				#endif
+				if (bottom < midY && right > midX) {
+					/* lower right quadtree */
+					lr->ObjectsInCircle(array, circle, radius);
+				}
+
+				#ifdef _OPENMP
+				#pragma omp section
+				#endif
+				if (bottom < midY && left < midX) {
+					/* lower left quadtree */
+					ll->ObjectsInCircle(array, circle, radius);
+				}
 			}
 		}
 
