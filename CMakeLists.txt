@@ -8,15 +8,6 @@ project (CrissCross)
 
 set(CMAKE_BUILD_TYPE CrissCrossDefaultBuildType)
 
-# - Try to find precompiled headers support for GCC 3.4 and 4.x
-# Once done this will define:
-#
-# Variable:
-#   PCHSupport_FOUND
-#
-# Macro:
-#   ADD_PRECOMPILED_HEADER
-
 IF(CMAKE_COMPILER_IS_GNUCXX)
     EXEC_PROGRAM(
     	${CMAKE_CXX_COMPILER} 
@@ -24,7 +15,10 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
         OUTPUT_VARIABLE _compiler_output)
     STRING(REGEX REPLACE ".* ([0-9]\\.[0-9]\\.[0-9]) .*" "\\1" 
            gcc_compiler_version ${_compiler_output})
-    #MESSAGE("GCC Version: ${gcc_compiler_version}")
+    MESSAGE("GCC Version: ${gcc_compiler_version}")
+    IF(gcc_compiler_version MATCHES "4\\.[2-9]\\.[0-9]")
+        SET(GCCOpenMPSupport TRUE)
+    ENDIF(gcc_compiler_version MATCHES "4\\.[2-9]\\.[0-9]")
     IF(gcc_compiler_version MATCHES "4\\.[0-9]\\.[0-9]")
         SET(PCHSupport_FOUND TRUE)
     ELSE(gcc_compiler_version MATCHES "4\\.[0-9]\\.[0-9]")
@@ -122,6 +116,10 @@ ENDMACRO(ADD_FLAG)
 
 if(CMAKE_COMPILER_IS_GNUCXX)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -std=gnu++98 -fno-common -fno-strict-aliasing -fno-rtti -fno-exceptions -Wall -Wundef -Wno-long-long -pedantic -I/usr/local/include")
+	if(GCCOpenMPSupport)
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
+		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
+	endif(GCCOpenMPSupport)
 	if(NOT CYGWIN)
 		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb")
 		if(NOT APPLE)
