@@ -76,11 +76,18 @@ namespace CrissCross
 
 							Swap(_array, i, _right);
 
-							if (i - 1 - _left < _right - i + 1) {
-								InternalSort(_array, _left, i - 1);
+							#ifdef _OPENMP
+							#pragma omp parallel sections
+							#endif
+							{
+								#ifdef _OPENMP
+								#pragma omp section
+								#endif
 								InternalSort(_array, i + 1, _right);
-							} else {
-								InternalSort(_array, i + 1, _right);
+
+								#ifdef _OPENMP
+								#pragma omp section
+								#endif
 								InternalSort(_array, _left, i - 1);
 							}
 						}
