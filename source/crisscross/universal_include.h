@@ -108,12 +108,16 @@
 #include <omp.h>
 #endif
 
+#ifdef TARGET_COMPILER_VC
 #ifndef _CRT_SECURE_NO_DEPRECATE
 #define _CRT_SECURE_NO_DEPRECATE
 #endif
-
 #ifndef _CRT_NONSTDC_NO_DEPRECATE
 #define _CRT_NONSTDC_NO_DEPRECATE
+#endif
+#ifndef _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
+#endif
 #endif
 
 #if (!defined (TARGET_COMPILER_VC) && !defined (TARGET_COMPILER_ICC)) || defined (NO_DETECT_MEMORY_LEAKS)
