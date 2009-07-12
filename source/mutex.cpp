@@ -115,7 +115,7 @@ namespace CrissCross
 			int ret;
 			ret = pthread_rwlockattr_init(&m_rwlockAttr);
 			CoreAssert(ret == 0);
-			ret = pthread_rwlockattr_setpshared(&m_rwlockAttr, PTHREAD_PROCESS_SHARED);
+			ret = pthread_rwlockattr_setpshared(&m_rwlockAttr, PTHREAD_PROCESS_PRIVATE);
 			CoreAssert(ret == 0);
 			ret = pthread_rwlock_init(&m_rwlock, &m_rwlockAttr);
 			CoreAssert(ret == 0);
