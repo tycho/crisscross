@@ -51,7 +51,7 @@ chomp($verstring);
 
 # This gets us:
 #  $1.$2.$3.$4-$5-$6
-my $component_pattern = "[v]?([0-9]+)[.]([0-9]+)[.]([0-9]+)(?:[.]([0-9]+))?(?:(?:-([a-zA-Z]+[0-9]+))?(?:-([0-9]+)-g[a-fA-F0-9]+)?)?";
+my $component_pattern = "[v]?([0-9]+)[.]([0-9]+)[.]([0-9]+)(?:[.]([0-9]+))?(?:(?:-([a-zA-Z]+[0-9]+))?(?:-([0-9]+)?-g[a-fA-F0-9]+)?)?";
 
 if ($verstring =~ $component_pattern) {
 } else {
@@ -85,9 +85,15 @@ if ( !$build ) {
 	$build = $commit;
 }
 
-# If we're at the tag, don't make the long
-# version longer than necessary.
+# Old versions of git omit the commits-since-tag number,
+# so we can try 'git rev-list' to get this instead.
 if ( $commit == 0 ) {
+	$commit = `git rev-list $tag.. | wc -l`
+}
+
+if ( $commit == 0 ) {
+	# If we're at the tag, don't make the long
+	# version longer than necessary.
 	$verstring = $tag;
 }
 
