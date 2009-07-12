@@ -42,7 +42,6 @@
 		B01CB6A10D52D2B40081CCAC /* splaytree.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB68D0D52D2B40081CCAC /* splaytree.h */; };
 		B01CB6A20D52D2B40081CCAC /* tiger.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB68E0D52D2B40081CCAC /* tiger.h */; };
 		B02A92870EA070F300A7DB38 /* hash.h in Headers */ = {isa = PBXBuildFile; fileRef = B02A92860EA070F300A7DB38 /* hash.h */; };
-		B03C0F3C0EC7800800D8A516 /* CHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B03C0F3B0EC7800800D8A516 /* CHUD.framework */; };
 		B05FACB10F40BE420036CF37 /* profiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B05FACB00F40BE420036CF37 /* profiler.cpp */; };
 		B05FACB30F40BE590036CF37 /* profiler.h in Headers */ = {isa = PBXBuildFile; fileRef = B05FACB20F40BE590036CF37 /* profiler.h */; };
 		B07FD4B10D6CD41400464636 /* filereader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B07FD4AF0D6CD41400464636 /* filereader.cpp */; };
@@ -139,7 +138,6 @@
 		B01CB68E0D52D2B40081CCAC /* tiger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tiger.h; path = ../../source/crisscross/tiger.h; sourceTree = SOURCE_ROOT; };
 		B01CB6A50D52D2E60081CCAC /* avltree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = avltree.cpp; path = ../../source/crisscross/avltree.cpp; sourceTree = SOURCE_ROOT; };
 		B02A92860EA070F300A7DB38 /* hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hash.h; path = ../../source/crisscross/hash.h; sourceTree = SOURCE_ROOT; };
-		B03C0F3B0EC7800800D8A516 /* CHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CHUD.framework; path = /System/Library/PrivateFrameworks/CHUD.framework; sourceTree = "<absolute>"; };
 		B05FACB00F40BE420036CF37 /* profiler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = profiler.cpp; path = ../../source/profiler.cpp; sourceTree = SOURCE_ROOT; };
 		B05FACB20F40BE590036CF37 /* profiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = profiler.h; path = ../../source/crisscross/profiler.h; sourceTree = SOURCE_ROOT; };
 		B07FD4AF0D6CD41400464636 /* filereader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = filereader.cpp; path = ../../source/filereader.cpp; sourceTree = SOURCE_ROOT; };
@@ -201,17 +199,6 @@
 		B0ED57BD0BEAF76A00F6033B /* platform_detect.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = platform_detect.h; path = ../../source/crisscross/platform_detect.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
-/* Begin PBXFrameworksBuildPhase section */
-		B0BD2C460BE26BDB00F71A26 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B03C0F3C0EC7800800D8A516 /* CHUD.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
-
 /* Begin PBXGroup section */
 		034768DDFF38A45A11DB9C8B /* Products */ = {
 			isa = PBXGroup;
@@ -224,7 +211,6 @@
 		0867D691FE84028FC02AAC07 /* CrissCross */ = {
 			isa = PBXGroup;
 			children = (
-				B03C0F3B0EC7800800D8A516 /* CHUD.framework */,
 				08FB77ACFE841707C02AAC07 /* Source */,
 				089C1665FE841158C02AAC07 /* Resources */,
 				034768DDFF38A45A11DB9C8B /* Products */,
@@ -402,7 +388,6 @@
 			buildPhases = (
 				B0BD2C440BE26BDB00F71A26 /* Headers */,
 				B0BD2C450BE26BDB00F71A26 /* Sources */,
-				B0BD2C460BE26BDB00F71A26 /* Frameworks */,
 			);
 			buildRules = (
 			);

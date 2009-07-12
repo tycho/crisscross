@@ -39,6 +39,7 @@ namespace CrissCross
 				const char *m_name;
 				unsigned int m_logical;
 				unsigned int m_cores;
+				unsigned int m_index;
 				char m_family;
 				char m_model;
 				char m_stepping;
@@ -49,6 +50,7 @@ namespace CrissCross
 
 			public:
 				X86Processor();
+				X86Processor(X86Processor const &_copy);
 				~X86Processor();
 				const char *Manufacturer() const;
 				const char *Name() const;
@@ -57,8 +59,10 @@ namespace CrissCross
 				char Stepping() const;
 				char BrandID() const;
 				char APICID() const;
-				const features_t *Features()const ;
+				const features_t *Features() const;
 				const caches_t *Caches() const;
+
+				void Print(CrissCross::IO::CoreIOWriter *_writer = g_stdout) const;
 
 				friend class CPUID;
 		};

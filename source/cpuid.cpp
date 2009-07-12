@@ -18,12 +18,22 @@
 
 #ifdef ENABLE_CPUID
 
-#ifdef TARGET_OS_MACOSX
+//#define USE_CHUD_FOR_CPUID
+
+#if defined(TARGET_OS_MACOSX)
+#if defined(USE_CHUD_FOR_CPUID)
 extern "C" {
 int chudProcessorCount();
 int utilBindThreadToCPU(int n);
 int utilUnbindThreadFromCPU();
 }
+#else
+#include <sys/types.h>
+#include <sys/sysctl.h>
+namespace {
+	int getProcessorCount();
+}
+#endif
 #endif
 
 /* The following definition enables some rather suspicious cache descriptors */
@@ -32,6 +42,21 @@ int utilUnbindThreadFromCPU();
 
 #include <crisscross/cpuid.h>
 #include <crisscross/core_io.h>
+
+#if defined(TARGET_OS_MACOSX) && !defined(USE_CHUD_FOR_CPUID)
+namespace {
+	int getProcessorCount()
+	{
+		int     count;
+		size_t  size = sizeof(count);
+
+		if (sysctlbyname("hw.ncpu",&count,&size,NULL,0))
+			return 1;
+
+		return count;
+	}
+}
+#endif
 
 namespace CrissCross
 {
@@ -227,8 +252,79 @@ namespace CrissCross
 		{
 		}
 
+		X86Processor::X86Processor(X86Processor const &_copy)
+		: m_manufacturer(cc_newstr(_copy.m_manufacturer)),
+		  m_name(cc_newstr(_copy.m_name)),
+		  m_logical(_copy.m_logical),
+		  m_cores(_copy.m_cores),
+		  m_family(_copy.m_family),
+		  m_model(_copy.m_model),
+		  m_stepping(_copy.m_stepping),
+		  m_brandID(_copy.m_brandID),
+		  m_apicID(_copy.m_apicID)
+		{
+			CrissCross::Data::DArray<const char *> *features = _copy.m_features.ConvertIndexToDArray();
+			for (size_t i = 0; i < features->size(); i++) {
+				if (!features->valid(i)) continue;
+				m_features.insert(features->get(i), NULL);
+			}
+			delete features;
+
+			m_caches.setSize(_copy.m_caches.size());
+			for (size_t i = 0; i < _copy.m_caches.size(); i++)
+			{
+				if (!_copy.m_caches.valid(i)) continue;
+				m_caches.insert(cc_newstr(_copy.m_caches.get(i)));
+			}
+		}
+
 		X86Processor::~X86Processor()
 		{
+		}
+
+		void X86Processor::Print(CrissCross::IO::CoreIOWriter *_writer) const
+		{
+			/* Print the Manufacturer tag if it was read properly. */
+			if (Manufacturer())
+				_writer->WriteLine("CPU[%u] Manufacturer: %s", m_index, Manufacturer());
+
+			/* Print the Name tag if it was read properly. */
+			if (Name())
+				_writer->WriteLine("CPU[%u] Name: %s", m_index, Name());
+
+			_writer->WriteLine("CPU[%u] Family %X Model %X Stepping %X", m_index,
+				Family(), Model(), Stepping());
+
+			/* Print out the CPU cache info. */
+			const CrissCross::System::caches_t *caches = Caches();
+			if (caches->size() > 0) {
+				_writer->WriteLine("CPU[%u] Caches:", m_index);
+				for (size_t j = 0; j < caches->size(); j++) {
+					if (caches->valid(j))
+						_writer->Write("  %s", caches->get(j));
+				}
+
+				_writer->WriteLine();
+			}
+
+			/* Print out CPU features (MMX, SSE, and so on). */
+			if (Features()->size() > 0) {
+				_writer->Write("CPU[%u] Features: ", m_index);
+
+				CrissCross::Data::DArray<const char *> *featureIDs =
+						Features()->ConvertIndexToDArray();
+
+				for (size_t i = 0; i < featureIDs->size(); i++) {
+					if (featureIDs->valid(i))
+						_writer->Write("%s ", featureIDs->get(i));
+				}
+
+				delete featureIDs;
+
+				_writer->WriteLine();
+			}
+
+			_writer->WriteLine();
 		}
 
 		const char *X86Processor::Manufacturer() const
@@ -280,10 +376,7 @@ namespace CrissCross
 		{
 			unsigned int i = 0;
 
-			for (i = 0; i < MAX_PROCESSORS; i++) {
-				proc[i] = new X86Processor();
-				CoreAssert(proc[i]);
-			}
+			memset(proc, 0, sizeof(X86Processor *) * MAX_PROCESSORS);
 
 			Std = new Registers[32];
 			CoreAssert(Std);
@@ -339,6 +432,8 @@ namespace CrissCross
 			delete [] Std;
 			delete [] Ext;
 			for (i = 0; i < MAX_PROCESSORS; i++) {
+				if (!proc[i]) continue;
+
 				for (j = 0; j < proc[i]->m_caches.size(); j++) {
 					if (proc[i]->m_caches.valid(j))
 						delete [] proc[i]->m_caches.get(j);
@@ -358,7 +453,7 @@ namespace CrissCross
 			int count = 0, i;
 
 			for (i = 0; i < MAX_PROCESSORS; i++) {
-				if (proc[i]->m_manufacturer)
+				if (proc[i])
 					count++;
 			}
 
@@ -423,6 +518,13 @@ namespace CrissCross
 
 			for (params.processor = 0; params.processor < iCount;
 			     params.processor++) {
+				if (params.processor > 0)
+				{
+					proc[params.processor] = new X86Processor(*proc[0]);
+					proc[params.processor]->m_index = params.processor;
+					break;
+				}
+				proc[params.processor] = new X86Processor();
 				HANDLE hThread =
 				        CreateThread(NULL, 0, ( LPTHREAD_START_ROUTINE )s_GoThreadProc,
 				                     &params, CREATE_SUSPENDED, &dThread);
@@ -434,6 +536,7 @@ namespace CrissCross
 				SetThreadPriority(hThread, THREAD_PRIORITY_ABOVE_NORMAL);
 				ResumeThread(hThread);
 				WaitForSingleObject(hThread, INFINITE);
+				proc[params.processor]->m_index = params.processor;
 			}
 
 #elif defined (TARGET_OS_LINUX)
@@ -443,21 +546,36 @@ namespace CrissCross
 
 			sched_getaffinity(0, sizeof(originalmask), &originalmask);
 			for (i = 0; i < NUM_PROCS; i++) {
+				proc[i] = new X86Processor();
 				CPU_ZERO(&mask);
 				CPU_SET(( int )pow(2, i), &mask);
 				sched_setaffinity(0, sizeof(mask), &mask);
 				GoThread(i);
+				proc[i]->m_index = i;
 			}
 
 			sched_setaffinity(0, sizeof(originalmask), &originalmask);
 #elif defined (TARGET_OS_MACOSX)
+#if defined(USE_CHUD_FOR_CPUID)
 			int NUM_PROCS = chudProcessorCount();
 			for (int i = 0; i < NUM_PROCS; i++) {
+				proc[i] = new X86Processor();
 				utilUnbindThreadFromCPU();
 				utilBindThreadToCPU(i);
 				GoThread(i);
+				procs[i]->m_index = i;
 			}
 			utilUnbindThreadFromCPU();
+#else
+			int NUM_PROCS = getProcessorCount();
+			proc[0] = new X86Processor();
+			GoThread(0);
+			proc[0]->m_index = 0;
+			for (int i = 1; i < NUM_PROCS; i++) {
+				proc[i] = new X86Processor(*proc[0]);
+				proc[i]->m_index = i;
+			}
+#endif
 #endif
 		}
 
