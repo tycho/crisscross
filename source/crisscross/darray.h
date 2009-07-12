@@ -84,7 +84,7 @@ namespace CrissCross
 				DArray(T *_array, size_t _indices);
 
 				/*! \brief Initialize the DArray with an existing array. */
-				DArray(DArray const &_array);
+				DArray(DArray<T> const &_array);
 
 				/*! \brief The secondary constructor. */
 				/*!

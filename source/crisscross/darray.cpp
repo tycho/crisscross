@@ -58,7 +58,7 @@ namespace CrissCross
 		}
 
 		template <class T>
-		DArray <T>::DArray(DArray const &_array)
+		DArray <T>::DArray(DArray<T> const &_array)
 		{
 			m_array = new T[_array.m_arraySize];
 			memcpy(m_array, _array.m_array, _array.m_arraySize * sizeof(T));
