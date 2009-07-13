@@ -23,7 +23,7 @@ print "Is this project under Git? ";
 if (-d "$scriptpath/../.git" ) {
 	print "Yes\n";
 	print "Is Git installed? ";
-	if ( ! system("which git &> /dev/null") ) {
+	if ( `which git` ) {
 		print "Yes\n";
 		$in_git = 1;
 	} else {
@@ -87,7 +87,7 @@ if ( !$build ) {
 
 # Old versions of git omit the commits-since-tag number,
 # so we can try 'git rev-list' to get this instead.
-if ( $commit == 0 ) {
+if ( $commit == 0 && $in_git ) {
 	$commit = `git rev-list $tag.. | wc -l`
 }
 
