@@ -29,7 +29,7 @@ namespace CrissCross
 			nullNode = new RedBlackNode<Key, Data>();
 			nullNode->left = nullNode->right = nullNode->parent = nullNode;
 			nullNode->color = BLACK;
-			NullKey<Key>(&nullNode->id);
+			nullNode->id = NullKey<Key>();
 			rootNode = nullNode;
 			m_cachedSize = 0;
 		}
