@@ -158,7 +158,7 @@ namespace CrissCross
 			return m_numItems;
 		}
 
-		template <class T> T const & LList <T>::get(size_t index) const
+		template <class T> T const & LList <T>::get(size_t index, T const &_default) const
 		{
 			LListNode <T> const *item = getItem(index);
 
@@ -167,10 +167,7 @@ namespace CrissCross
 				return ret;
 			}
 
-			/* Below wastes memory -- need a cleaner way to error out. */
-			static T nullVar;
-			NullKey<T>(&nullVar);
-			return nullVar;
+			return _default;
 		}
 
 		template <class T> T * LList <T>::getPointer(size_t index) const

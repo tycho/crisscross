@@ -110,9 +110,10 @@ namespace CrissCross
 				/*!
 				 * \warning Slow unless you're sequentially iterating through.
 				 * \param _index The index of the data to fetch.
-				 * \return The data contained in the node at the index.
+				 * \param _default The default value to return if the index couldn't be retrieved.
+				 * \return The data contained in the node at the index or _default if not found.
 				 */
-				inline T const &get(size_t _index) const;
+				inline T const &get(size_t _index, T const &_default = NULL) const;
 
 				/*! \brief Gets the address of where the data at the specified index is stored. */
 				/*!
