@@ -111,19 +111,19 @@ namespace CrissCross
 			if (_clearOnInit) Clear();
 
 			char tmp[64];
-			sprintf(tmp, CC_LIB_NAME " %s", CrissCross::Version::LongVersion());
+			sprintf(tmp, CC_LIB_NAME " %s", CrissCross::Version::Long());
 			SetTitle(tmp);
 
 #ifdef ENABLE_CREDITS
 #if defined (TARGET_OS_NDSFIRMWARE)
 			g_stdout->SetColour(g_stdout->FG_GREEN | g_stdout->FG_INTENSITY);
-			g_stdout->WriteLine("Powered by " CC_LIB_NAME " v%s", CrissCross::Version::LongVersion());
+			g_stdout->WriteLine("Powered by " CC_LIB_NAME " v%s", CrissCross::Version::Long());
 			g_stdout->SetColour(0);
 			g_stdout->WriteLine(CC_LIB_NDS_COPYRIGHT);
 			g_stdout->WriteLine();
 #else
 			g_stdout->SetColour(g_stdout->FG_GREEN | g_stdout->FG_INTENSITY);
-			g_stdout->WriteLine("Powered by " CC_LIB_NAME " %s\n    " CC_LIB_URL, CrissCross::Version::LongVersion());
+			g_stdout->WriteLine("Powered by " CC_LIB_NAME " %s\n    " CC_LIB_URL, CrissCross::Version::Long());
 			g_stdout->SetColour(0);
 			g_stdout->WriteLine(CC_LIB_COPYRIGHT);
 			g_stdout->WriteLine();

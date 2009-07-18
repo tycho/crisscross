@@ -18,12 +18,12 @@ namespace CrissCross
 {
 	namespace Version
 	{
-		const char *ShortVersion()
+		const char *Short()
 		{
 			return CC_LIB_VERSION_TAG;
 		}
 
-		const char *LongVersion()
+		const char *Long()
 		{
 			return CC_LIB_VERSION_LONG;
 		}
