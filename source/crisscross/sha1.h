@@ -17,13 +17,13 @@
 
 #define SHA1_DIGEST_SIZE 20
 
-/* @cond */
+/*! @cond */
 typedef struct {
 	unsigned int state[5];
 	unsigned int count[2];
 	unsigned char buffer[64];
 } cc_sha1_ctx;
-/* @endcond */
+/*! @endcond */
 
 namespace CrissCross
 {

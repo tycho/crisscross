@@ -18,7 +18,7 @@
 #define MD5_DIGEST_LENGTH       16
 
 /* MD5 context. */
-/* @cond */
+/*! @cond */
 typedef struct  {
 	cc_uint32_t state[4];       /* state (ABCD) */
 	cc_uint32_t count[2];       /* number of bits, modulo 2^64 (lsb first) */
@@ -27,7 +27,7 @@ typedef struct  {
 		cc_uint32_t buf32[16];                  /* realigned input */
 	} buf_un;
 } cc_md5_ctx;
-/* @endcond */
+/*! @endcond */
 
 namespace CrissCross
 {

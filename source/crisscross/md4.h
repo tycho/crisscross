@@ -20,13 +20,13 @@
 #define MD4_DIGEST_LENGTH       16
 
 /* MD4 context. */
-/* @cond */
+/*! @cond */
 typedef struct  {
 	cc_uint32_t state[4];                                 /* state (ABCD) */
 	cc_uint32_t count[2];      /* number of bits, modulo 2^64 (lsb first) */
 	unsigned char buffer[64];                       /* input buffer */
 } cc_md4_ctx;
-/* @endcond */
+/*! @endcond */
 
 namespace CrissCross
 {
