@@ -78,6 +78,7 @@ namespace CrissCross
 		void Mutex::Unlock()
 		{
 			CoreAssert(this != NULL);
+			CoreAssert(m_lockCount > 0);
 #ifdef TARGET_OS_WINDOWS
 			LeaveCriticalSection(&m_mutex);
 #else
