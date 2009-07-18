@@ -142,12 +142,7 @@
 #include <sys/stat.h>
 
 #if defined (TARGET_OS_WINDOWS) && (defined (TARGET_COMPILER_VC) || defined (TARGET_COMPILER_ICC))
-#if TARGET_CPU_BITS == 32
 #define ENABLE_SYMBOL_ENGINE
-#else
-#undef ENABLE_SYMBOL_ENGINE
-#undef ENABLE_BACKTRACE
-#endif
 #ifdef _MSC_VER
 #if _MSC_VER > 1200 && _MSC_VER < 1400
 #pragma warning ( disable : 4345 4100 4800 )
