@@ -96,7 +96,7 @@ namespace CrissCross
 		}
 
 		template <class dataType>
-		dataType const & DStack<dataType>::peek()
+		dataType const & DStack<dataType>::peek() const
 		{
 			static dataType nullItem(0);
 			if (!m_top) return nullItem;
