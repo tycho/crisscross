@@ -126,13 +126,6 @@ int main(int argc, char * *argv)
 	WritePrefix("HeapSort (integer DArray)"); retval |= WriteResult(TestSort_DArray(&hs));
 	WritePrefix("HeapSort (integer LList)"); retval |= WriteResult(TestSort_LList(&hs));
 
-#if !defined (DISABLE_DEPRECATED_CODE)
-	CrissCross::Data::InsertionSort<int> is;
-	WritePrefix("InsertionSort (integer array)"); retval |= WriteResult(TestSort_IntArray(&is));
-	WritePrefix("InsertionSort (integer DArray)"); retval |= WriteResult(TestSort_DArray(&is));
-	WritePrefix("InsertionSort (integer LList)"); retval |= WriteResult(TestSort_LList(&is));
-#endif
-
 	CrissCross::Data::ShellSort<int> ss;
 	WritePrefix("ShellSort (integer array)"); retval |= WriteResult(TestSort_IntArray(&ss));
 	WritePrefix("ShellSort (integer DArray)"); retval |= WriteResult(TestSort_DArray(&ss));

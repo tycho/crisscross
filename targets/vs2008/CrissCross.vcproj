@@ -672,10 +672,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\source\crisscross\insertionsort.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\source\crisscross\internal_mem.h"
 				>
 			</File>

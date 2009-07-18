@@ -31,7 +31,6 @@
 		B01CB6920D52D2B40081CCAC /* build_number.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB67E0D52D2B40081CCAC /* build_number.h */; };
 		B01CB6930D52D2B40081CCAC /* datatypes.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB67F0D52D2B40081CCAC /* datatypes.h */; };
 		B01CB6960D52D2B40081CCAC /* hashtable.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB6820D52D2B40081CCAC /* hashtable.h */; };
-		B01CB6970D52D2B40081CCAC /* insertionsort.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB6830D52D2B40081CCAC /* insertionsort.h */; };
 		B01CB6980D52D2B40081CCAC /* internal_mem.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB6840D52D2B40081CCAC /* internal_mem.h */; };
 		B01CB69A0D52D2B40081CCAC /* md4.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB6860D52D2B40081CCAC /* md4.h */; };
 		B01CB69B0D52D2B40081CCAC /* md5.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB6870D52D2B40081CCAC /* md5.h */; };
@@ -125,7 +124,6 @@
 		B01CB67F0D52D2B40081CCAC /* datatypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = datatypes.h; path = ../../source/crisscross/datatypes.h; sourceTree = SOURCE_ROOT; };
 		B01CB6810D52D2B40081CCAC /* hashtable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hashtable.cpp; path = ../../source/crisscross/hashtable.cpp; sourceTree = SOURCE_ROOT; };
 		B01CB6820D52D2B40081CCAC /* hashtable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hashtable.h; path = ../../source/crisscross/hashtable.h; sourceTree = SOURCE_ROOT; };
-		B01CB6830D52D2B40081CCAC /* insertionsort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = insertionsort.h; path = ../../source/crisscross/insertionsort.h; sourceTree = SOURCE_ROOT; };
 		B01CB6840D52D2B40081CCAC /* internal_mem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = internal_mem.h; path = ../../source/crisscross/internal_mem.h; sourceTree = SOURCE_ROOT; };
 		B01CB6860D52D2B40081CCAC /* md4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = md4.h; path = ../../source/crisscross/md4.h; sourceTree = SOURCE_ROOT; };
 		B01CB6870D52D2B40081CCAC /* md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = md5.h; path = ../../source/crisscross/md5.h; sourceTree = SOURCE_ROOT; };
@@ -243,7 +241,6 @@
 				B01CB67F0D52D2B40081CCAC /* datatypes.h */,
 				B01CB6810D52D2B40081CCAC /* hashtable.cpp */,
 				B01CB6820D52D2B40081CCAC /* hashtable.h */,
-				B01CB6830D52D2B40081CCAC /* insertionsort.h */,
 				B01CB6840D52D2B40081CCAC /* internal_mem.h */,
 				B01CB6860D52D2B40081CCAC /* md4.h */,
 				B01CB6870D52D2B40081CCAC /* md5.h */,
@@ -359,7 +356,6 @@
 				B01CB6920D52D2B40081CCAC /* build_number.h in Headers */,
 				B01CB6930D52D2B40081CCAC /* datatypes.h in Headers */,
 				B01CB6960D52D2B40081CCAC /* hashtable.h in Headers */,
-				B01CB6970D52D2B40081CCAC /* insertionsort.h in Headers */,
 				B01CB6980D52D2B40081CCAC /* internal_mem.h in Headers */,
 				B01CB69A0D52D2B40081CCAC /* md4.h in Headers */,
 				B01CB69B0D52D2B40081CCAC /* md5.h in Headers */,
