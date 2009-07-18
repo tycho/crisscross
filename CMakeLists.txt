@@ -13,7 +13,7 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
     	${CMAKE_CXX_COMPILER} 
         ARGS 			--version 
         OUTPUT_VARIABLE _compiler_output)
-    STRING(REGEX REPLACE ".* ([0-9]\\.[0-9]\\.[0-9]) .*" "\\1" 
+    STRING(REGEX REPLACE ".*([0-9]+\\.[0-9]+\\.[0-9]+).*" "\\1"
            gcc_compiler_version ${_compiler_output})
     MESSAGE("GCC Version: ${gcc_compiler_version}")
     IF(gcc_compiler_version MATCHES "4\\.[2-9]\\.[0-9]")
