@@ -42,6 +42,8 @@ namespace CrissCross
 		template <class T>
 		void DStack<T>::setSize(size_t _size)
 		{
+			CrissCross::System::MutexHolder lock(&m_lock);
+
 			/* This function is ONLY stable for increases in size, not decreases. */
 			T *newstack_ = NULL;
 			newstack_ = new T[_size];
@@ -72,6 +74,8 @@ namespace CrissCross
 		template <class T>
 		void DStack<T>::push(T const &val)
 		{
+			CrissCross::System::MutexHolder lock(&m_lock);
+
 			if (count() == m_size) {                /* the stack is full. need more space! */
 				grow();
 			}
@@ -89,6 +93,8 @@ namespace CrissCross
 		template <class T>
 		T DStack<T>::pop()
 		{
+			CrissCross::System::MutexHolder lock(&m_lock);
+
 			if (!m_top) return NullKey<T>();
 
 			m_top--;
@@ -99,6 +105,8 @@ namespace CrissCross
 		template <class T>
 		T DStack<T>::peek() const
 		{
+			CrissCross::System::MutexHolder lock(&m_lock);
+
 			if (!m_top) return NullKey<T>();
 
 			const T &ret = *(m_top - 1);
@@ -108,6 +116,8 @@ namespace CrissCross
 		template <class T>
 		void DStack<T>::empty()
 		{
+			CrissCross::System::MutexHolder lock(&m_lock);
+
 			delete [] m_bottom;
 			m_top = m_bottom = NULL;
 			m_size = m_origSize = 0;
