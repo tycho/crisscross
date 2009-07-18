@@ -19,6 +19,7 @@ namespace CrissCross
 		/*! \brief Hash function for use in a HashTable. */
 		/*!
 		 * Can hash any primitive type as well as C-style strings and STL strings.
+		 * \note The algorithm was taken from <a href="http://en.wikipedia.org/wiki/Jenkins_hash_function">here</a>.
 		 * \param _data The data to hash.
 		 * \return Hash of the data provided.
 		 */
