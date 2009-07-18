@@ -2,9 +2,9 @@
  *   CrissCross
  *   A multi-purpose cross-platform library.
  *
- *   A product of IO.IN Research.
+ *   A product of Uplink Laboratories.
  *
- *   (c) 2006-2008 Steven Noonan.
+ *   (c) 2006-2009 Steven Noonan.
  *   Licensed under the New BSD License.
  *
  */
