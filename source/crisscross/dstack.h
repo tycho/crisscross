@@ -19,7 +19,7 @@ namespace CrissCross
 	namespace Data
 	{
 		/*! \brief A dynamic stack implementation. */
-		template <class dataType>
+		template <class T>
 		class DStack
 		{
 			private:
@@ -27,10 +27,10 @@ namespace CrissCross
 				size_t m_stepSize;
 
 				/*! \brief The actual stack itself. */
-				dataType *m_bottom;
+				T *m_bottom;
 
 				/*! \brief The pointer to the current position in the stack. */
-				dataType *m_top;
+				T *m_top;
 
 				/*! \brief The size of the stack. */
 				size_t m_size;
@@ -55,31 +55,31 @@ namespace CrissCross
 				~DStack();
 
 				/*! \brief Increases the array size by the number in m_stepSize */
-				inline void grow();
+				void grow();
 
 				/*! \brief Pushes a value onto the stack. */
 				/*!
 				 * \param _val The value to put on the stack.
 				 */
-				inline void push(dataType _val);
+				__forceinline void push(T const &_val);
 
 				/*! \brief Pops a value off the stack. */
 				/*!
 				 * \return The topmost value on the stack.
 				 */
-				inline dataType pop();
+				__forceinline T pop();
 
 				/*! \brief Returns whatever value is on the top of the stack without removing it from the stack. */
 				/*!
 				 * \return The topmost value on the stack.
 				 */
-				dataType const &peek() const;
+				__forceinline T peek() const;
 
 				/*! \brief Indicates the number of items on the stack. */
 				/*!
 				 * \return Number of items on the stack.
 				 */
-				size_t count() const;
+				__forceinline size_t count() const;
 
 				/*! \brief Empties the stack. */
 				/*!
