@@ -79,13 +79,13 @@ namespace CrissCross
 		{
 			CoreAssert(this != NULL);
 			CoreAssert(m_lockCount > 0);
+			m_lockCount--;
 #ifdef TARGET_OS_WINDOWS
 			LeaveCriticalSection(&m_mutex);
 #else
 			int error = pthread_mutex_unlock(&m_mutex);
 			CoreAssert(error == 0);
 #endif
-			m_lockCount--;
 		}
 
 		MutexHolder::MutexHolder(Mutex *_mutex)
