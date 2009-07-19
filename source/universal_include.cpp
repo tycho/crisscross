@@ -43,6 +43,9 @@ namespace {
 
 		FILE *memoryfile = fopen(_inputFilename, "rb");
 
+		if (!memoryfile)
+			return;
+
 		while (memoryfile && !feof(memoryfile))	{
 			char thisline[1024];
 
