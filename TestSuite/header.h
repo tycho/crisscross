@@ -23,8 +23,8 @@
 #  define TREE_ITEMS 1024
 #  define SORT_ITEMS 10000
 #else
-#  define TREE_ITEMS 256
-#  define SORT_ITEMS 1000
+#  define TREE_ITEMS 128
+#  define SORT_ITEMS 100
 #endif
 
 #endif
