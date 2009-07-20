@@ -63,6 +63,7 @@ namespace CrissCross
 						if (!keys->valid(i)) continue;
 						Dealloc((*keys)[i]);
 					}
+					delete keys;
 				};
 
 				/*! \brief Inserts data into the tree. */
@@ -123,7 +124,16 @@ namespace CrissCross
 				 * \return True on success, false on failure
 				 */
 				__forceinline bool erase(Key const &_key)
-				{ return m_map.erase(_key) == 1; };
+				{
+					typename std::map<Key,Data,CrissCross::Data::LessThanComparator<Key> >::iterator iter;
+					iter = m_map.find(_key);
+					if (iter == m_map.end())
+						return false;
+					Key key = iter->first;
+					m_map.erase(iter);
+					Dealloc(key);
+					return true;
+				};
 
 				/*! \brief Indicates the size of the tree. */
 				/*!
