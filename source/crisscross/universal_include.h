@@ -84,13 +84,11 @@
 #endif
 #endif
 
-#if defined (SDL_APPLICATION)
 #if !defined (_CONSOLE)
 #undef  _WINDOWS
 #define _CONSOLE
 #endif
 #define _CC_ENABLE_OPENGL
-#endif
 
 #if defined (_OPENMP)
 #include <omp.h>
