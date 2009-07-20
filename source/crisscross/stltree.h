@@ -57,13 +57,11 @@ namespace CrissCross
 				 */
 				__forceinline void empty()
 				{
-					DArray<Key> *keys = ConvertIndexToDArray();
-					m_map.clear();
-					for (size_t i = 0; i < keys->size(); i++) {
-						if (!keys->valid(i)) continue;
-						Dealloc((*keys)[i]);
+					typename std::map<Key,Data,CrissCross::Data::LessThanComparator<Key> >::iterator iter;
+					for (iter = m_map.begin(); iter != m_map.end(); iter++) {
+						Dealloc(iter->first);
 					}
-					delete keys;
+					m_map.clear();
 				};
 
 				/*! \brief Inserts data into the tree. */
