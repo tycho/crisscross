@@ -21,7 +21,7 @@ int TestSort_IntArray(Sorter<int> *_sorter)
 {
 	int int_array [SORT_ITEMS];
 	for (int i = 0; i < SORT_ITEMS; i++) {
-		int_array[i] = rand();
+		int_array[i] = CrissCross::System::RandomNumber();
 	}
 
 	_sorter->Sort(int_array, SORT_ITEMS);
@@ -38,7 +38,7 @@ int TestSort_DArray(Sorter<int> *_sorter)
 	DArray<int>    *darray = new DArray<int>();
 
 	for (int i = 0; i < SORT_ITEMS; i++) {
-		darray->insert(rand());
+		darray->insert(CrissCross::System::RandomNumber());
 	}
 
 	darray->sort(_sorter);
