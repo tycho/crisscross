@@ -14,10 +14,7 @@ my $outfile = $ARGV[0];
 
 my $releasever;
 
-if (open RELEASE, "<", "$scriptpath/release_ver") {
-	$releasever = <RELEASE>;
-	close RELEASE;
-}
+$releasever = `cat $scriptpath/release_ver`;
 
 print "Is this project under Git? ";
 if (-d "$scriptpath/../.git" ) {
@@ -40,7 +37,12 @@ my $verstring = "";
 if ($in_git == 0) {
 	$verstring = $releasever;
 } else {
-	$verstring = `git describe --tags --long 2> /dev/null || git describe --tags`;
+	$verstring = `git describe --tags --long 2> /dev/null || git describe --tags 2> /dev/null`;
+
+	if (!$verstring) {
+		$verstring = $releasever;
+		$in_git = 0;
+	}
 }
 
 if (!$verstring) {
