@@ -106,7 +106,7 @@
 #endif
 #endif
 
-#if (!defined (TARGET_COMPILER_VC) && !defined (TARGET_COMPILER_ICC)) || defined (NO_DETECT_MEMORY_LEAKS)
+#if (!defined (TARGET_COMPILER_VC) && !defined (TARGET_COMPILER_ICC)) || defined (NO_DETECT_MEMORY_LEAKS) || defined (NDEBUG)
 #undef DETECT_MEMORY_LEAKS
 #endif
 
