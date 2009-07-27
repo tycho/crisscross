@@ -106,12 +106,12 @@ namespace CrissCross
 				 */
 				bool replace(Key const &_key, Data const &_rec);
 
-                                /*! \brief Finds a node in the tree and returns the data at that node. */
-                                /*!
-                                 * \param _key The key of the node to find.
-                                 * \param _default The value to return if the item couldn't be found.
-                                 * \return If found, returns the data at the node, otherwise _default is returned.
-                                 */
+				/*! \brief Finds a node in the tree and returns the data at that node. */
+				/*!
+				 * \param _key The key of the node to find.
+				 * \param _default The value to return if the item couldn't be found.
+				 * \return If found, returns the data at the node, otherwise _default is returned.
+				 */
 				Data find(Key const &_key, Data const &_default = NULL) const;
 
 				/*! \brief Deletes a node from the tree, specified by the node's key. */

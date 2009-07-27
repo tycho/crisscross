@@ -185,21 +185,6 @@ namespace CrissCross
 				#endif
 				erase(AVLNode<Key, Data> * *_node, Key const &_key);
 
-				/*! \brief Remove object */
-				/*!
-				 * Remove object from tree and rebalance, taking the key and data into account
-				 * \param _node Pointer to current node pointer
-				 * \param _key Identifier of node to remove
-				 * \param _data Data identifier of node to remove
-				 * \return Result of removal (OK if subtree is balanced, BALANCE if tree is heavy on either side)
-				 */
-				#ifndef TARGET_COMPILER_BORLAND
-				Result
-				#else
-				int
-				#endif
-				erase(AVLNode<Key, Data> * *_node, Key const &_key, Data const &_data);
-
 				/*! \brief Find a node in the tree */
 				/*!
 				 * Get a pointer to a node with the specified key value

@@ -303,36 +303,6 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		bool RedBlackTree<Key, Data>::erase(Key const &key, Data const &rec)
-		{
-			RedBlackNode<Key, Data> *node = findNode(key);
-			return erase(key, rec, node);
-		}
-
-		template <class Key, class Data>
-		bool RedBlackTree<Key, Data>::erase(Key const &key, Data const &rec, RedBlackNode<Key, Data> *curnode)
-		{
-			if (!valid(curnode)) return false;
-
-			bool killed = false;
-
-			if (Compare(curnode->id, key) == 0) {
-				if (Compare(curnode->data, rec) == 0) {
-					killNode(curnode);
-					killed = true;
-				}
-
-				if (!killed)
-					killed = erase(key, rec, curnode->left);
-
-				if (!killed)
-					killed = erase(key, rec, curnode->right);
-			}
-
-			return killed;
-		}
-
-		template <class Key, class Data>
 		bool RedBlackTree<Key, Data>::killNode(RedBlackNode<Key, Data> * z)
 		{
 			RedBlackNode<Key, Data> *x, *y;

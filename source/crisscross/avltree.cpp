@@ -42,13 +42,6 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		bool AVLTree<Key, Data>::erase(Key const &_key, Data const &_data)
-		{
-			Result ret = erase(&m_root, _key, _data);
-			return (ret == OK || ret == BALANCE);
-		}
-
-		template <class Key, class Data>
 		bool AVLTree<Key, Data>::replace(Key const &key, Data const &_data)
 		{
 			AVLNode<Key, Data> *current;
@@ -57,71 +50,6 @@ namespace CrissCross
 
 			current->data = _data;
 			return true;
-		}
-
-		template <class Key, class Data>
-		#ifndef TARGET_COMPILER_BORLAND
-		typename AVLTree<Key, Data>::Result
-		#else
-		int
-		#endif
-		AVLTree<Key, Data>::erase(AVLNode<Key, Data> * *_node, Key const &_key, Data const &_data)
-		{
-			if (!*_node)
-				return INVALID;
-
-			Result result = OK;
-
-			if (Compare(_key, (*_node)->id) != 0 || Compare(_data, (*_node)->data) != 0) {
-				if (Compare(_key, (*_node)->id) < 0) {
-					if ((*_node)->left) {
-						if ((result = erase(&(*_node)->left, _key)) == BALANCE)
-							return balanceLeftShrunk(_node);
-
-						if (result != INVALID)
-							return result;
-					}
-				} else if ((*_node)->right) {
-					if ((result = erase(&(*_node)->right, _key)) == BALANCE)
-						return balanceRightShrunk(_node);
-
-					if (result != INVALID)
-						return result;
-				}
-
-				/* Node not found */
-				return INVALID;
-			}
-
-			/* Erase this node */
-			--m_size;
-			Dealloc((*_node)->id);
-
-			if ((*_node)->left) {
-				if (replaceWithHighest(*_node, &(*_node)->left, &result)) {
-					if (result == BALANCE)
-						result = balanceLeftShrunk(_node);
-
-					return result;
-				}
-			}
-
-			if ((*_node)->right) {
-				if (replaceWithLowest(*_node, &(*_node)->right, &result)) {
-					if (result == BALANCE)
-						result = balanceRightShrunk(_node);
-
-					return result;
-				}
-			}
-
-			(*_node)->left = NULL;
-			(*_node)->right = NULL;
-
-			/* Leaf, delete and rebalance */
-			delete *_node, *_node = 0;
-
-			return BALANCE;
 		}
 
 		template <class Key, class Data>
