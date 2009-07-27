@@ -9,12 +9,14 @@ use Cwd;
 my $cwd = cwd;
 
 my $in_git = 0;
-my $scriptpath = $cwd . "/" . dirname($0);
+my $scriptpath = dirname($0);
 my $outfile = $ARGV[0];
 
 my $releasever;
 
 $releasever = `cat $scriptpath/release_ver`;
+
+mkdir dirname($outfile);
 
 print "Is this project under Git? ";
 if (-d "$scriptpath/../.git" ) {
