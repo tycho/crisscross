@@ -36,7 +36,11 @@ class SymbolEngine
 {
 	public:
 		static SymbolEngine & instance();
+#if TARGET_CPU_BITS == 32
 		std::string addressToString(DWORD address);
+#else
+		std::string addressToString(DWORD64 address);
+#endif
 		void StackTrace(PCONTEXT _pContext, CoreIOWriter * _outputBuffer);
 	private:
 		SymbolEngine(SymbolEngine const &);
@@ -73,12 +77,21 @@ SymbolEngine::~SymbolEngine()
 	::SymCleanup(hProcess);
 }
 
+#if TARGET_CPU_BITS == 32
 std::string SymbolEngine::addressToString(DWORD address)
+#elif TARGET_CPU_BITS == 64
+std::string SymbolEngine::addressToString(DWORD64 address)
+#endif
 {
 	char buffer[4096];
+#if TARGET_CPU_BITS == 32
+	const char *format = "0x%08x";
+#elif TARGET_CPU_BITS == 64
+	const char *format = "0x%016x";
+#endif
 
 	/* First the raw address */
-	sprintf(buffer, "0x%08x", address);
+	sprintf(buffer, format, address);
 
 	/* Then any name for the symbol */
 	struct tagSymInfo
@@ -93,10 +106,14 @@ std::string SymbolEngine::addressToString(DWORD address)
 	pSym->MaxNameLength =
 	        sizeof(SymInfo) - offsetof(tagSymInfo, symInfo.Name);
 
+#if TARGET_CPU_BITS == 32
 	DWORD
+#elif TARGET_CPU_BITS == 64
+	DWORD64
+#endif
 	dwDisplacement;
 
-	if (SymGetSymFromAddr(GetCurrentProcess(), ( DWORD )address, &dwDisplacement, pSym)) {
+	if (SymGetSymFromAddr(GetCurrentProcess(), address, &dwDisplacement, pSym)) {
 		strcat(buffer, " ");
 		strcat(buffer, pSym->Name);
 		/*if ( dwDisplacement != 0 )
@@ -106,7 +123,7 @@ std::string SymbolEngine::addressToString(DWORD address)
 	/* Finally any file/line number */
 	IMAGEHLP_LINE
 	lineInfo = { sizeof(IMAGEHLP_LINE) };
-	if (SymGetLineFromAddr(GetCurrentProcess(), (DWORD)address, &dwDisplacement, &lineInfo)) {
+	if (SymGetLineFromAddr(GetCurrentProcess(), (DWORD)address, (PDWORD)&dwDisplacement, &lineInfo)) {
 		const char *pDelim = strrchr(lineInfo.FileName, '\\');
 		char temp[1024];
 		sprintf(temp, " at %s(%u)", (pDelim ? pDelim + 1 : lineInfo.FileName), lineInfo.LineNumber);
@@ -118,25 +135,52 @@ std::string SymbolEngine::addressToString(DWORD address)
 
 void SymbolEngine::StackTrace(PCONTEXT _pContext, CoreIOWriter * _outputBuffer)
 {
+#if TARGET_CPU_BITS == 32
 	_outputBuffer->WriteLine("  Frame       Address   Code");
+#else
+	_outputBuffer->WriteLine("  Frame              Address            Code");
+#endif
 
 	STACKFRAME stackFrame = { 0 };
 
-	stackFrame.AddrPC.Offset = _pContext->Eip;
+	stackFrame.AddrPC.Offset =
+#if TARGET_CPU_BITS == 32
+		_pContext->Eip;
+#else
+		_pContext->Rip;
+#endif
 	stackFrame.AddrPC.Mode = AddrModeFlat;
 
-	stackFrame.AddrFrame.Offset = _pContext->Ebp;
+	stackFrame.AddrFrame.Offset =
+#if TARGET_CPU_BITS == 32
+		_pContext->Ebp;
+#else
+		_pContext->Rbp;
+#endif
 	stackFrame.AddrFrame.Mode = AddrModeFlat;
 
-	stackFrame.AddrStack.Offset = _pContext->Esp;
+	stackFrame.AddrStack.Offset =
+#if TARGET_CPU_BITS == 32
+		_pContext->Esp;
+#else
+		_pContext->Rsp;
+#endif
 	stackFrame.AddrStack.Mode = AddrModeFlat;
 
-	while (::StackWalk(IMAGE_FILE_MACHINE_I386, hProcess, GetCurrentThread(),        /* this value doesn't matter much if previous one is a real handle */
+#ifdef TARGET_CPU_X86
+	DWORD machine = IMAGE_FILE_MACHINE_I386;
+	const char *format = " 0x%08x %s";
+#elif defined(TARGET_CPU_X64)
+	DWORD machine = IMAGE_FILE_MACHINE_AMD64;
+	const char *format = " 0x%016x %s";
+#endif
+
+	while (::StackWalk(machine, hProcess, GetCurrentThread(),        /* this value doesn't matter much if previous one is a real handle */
 	                   &stackFrame,
 	                   _pContext,
 	                   NULL, ::SymFunctionTableAccess, ::SymGetModuleBase,
 	                   NULL)) {
-		_outputBuffer->WriteLine(" 0x%08xd %s", stackFrame.AddrFrame.Offset,
+		_outputBuffer->WriteLine(format, stackFrame.AddrFrame.Offset,
 		                         addressToString(stackFrame.AddrPC.
 		                                         Offset).c_str());
 	}
@@ -148,14 +192,19 @@ void CrissCross::Debug::PrintStackTrace(CrissCross::IO::CoreIOWriter * _outputBu
  && !defined(TARGET_COMPILER_MINGW) && !defined(TARGET_COMPILER_CYGWIN)
 #ifdef ENABLE_SYMBOL_ENGINE
 
-	CONTEXT context = { CONTEXT_FULL };
-	::GetThreadContext(GetCurrentThread(), &context);
+	CONTEXT context = { CONTEXT_ALL };
+	BOOL ret = ::GetThreadContext(GetCurrentThread(), &context);
+	CoreAssert(ret != FALSE);
+#ifdef TARGET_CPU_X64
+	RtlCaptureContext(&context);
+#elif defined(TARGET_CPU_X86)
 	_asm call $ + 5;
 	_asm pop eax;
 	_asm mov context.Eip, eax;
 	_asm mov eax, esp;
 	_asm mov context.Esp, eax;
 	_asm mov context.Ebp, ebp;
+#endif
 	SymbolEngine::instance().StackTrace(&context, _outputBuffer);
 
 #elif defined (ENABLE_BACKTRACE)

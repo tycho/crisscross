@@ -29,7 +29,7 @@
 			<Tool
 				Name="VCPreBuildEventTool"
 				Description="Generating build_number.h..."
-				CommandLine="cd $(ProjectDir)\..\..&#x0D;&#x0A;tools\gen_buildnum_h_helper.cmd .&#x0D;&#x0A;"
+				CommandLine="cd $(ProjectDir)\..\..&#x0D;&#x0A;tools\gen_buildnum_h_helper.cmd $(ProjectDir)\..\..&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -51,6 +51,7 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
+				OpenMP="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="crisscross/universal_include.h"
 				WarningLevel="3"
@@ -95,7 +96,7 @@
 			<Tool
 				Name="VCPreBuildEventTool"
 				Description="Generating build_number.h..."
-				CommandLine="cd $(ProjectDir)\..\..&#x0D;&#x0A;tools\gen_buildnum_h_helper.cmd .&#x0D;&#x0A;"
+				CommandLine="cd $(ProjectDir)\..\..&#x0D;&#x0A;tools\gen_buildnum_h_helper.cmd $(ProjectDir)\..\..&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -116,6 +117,7 @@
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\..\source&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				RuntimeLibrary="0"
+				OpenMP="true"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="crisscross/universal_include.h"
@@ -161,7 +163,7 @@
 			<Tool
 				Name="VCPreBuildEventTool"
 				Description="Generating build_number.h..."
-				CommandLine="cd $(ProjectDir)\..\..&#x0D;&#x0A;tools\gen_buildnum_h_helper.cmd .&#x0D;&#x0A;"
+				CommandLine="cd $(ProjectDir)\..\..&#x0D;&#x0A;tools\gen_buildnum_h_helper.cmd $(ProjectDir)\..\..&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -184,6 +186,7 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
+				OpenMP="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="crisscross/universal_include.h"
 				WarningLevel="3"
@@ -228,7 +231,7 @@
 			<Tool
 				Name="VCPreBuildEventTool"
 				Description="Generating build_number.h..."
-				CommandLine="cd $(ProjectDir)\..\..&#x0D;&#x0A;tools\gen_buildnum_h_helper.cmd .&#x0D;&#x0A;"
+				CommandLine="cd $(ProjectDir)\..\..&#x0D;&#x0A;tools\gen_buildnum_h_helper.cmd $(ProjectDir)\..\..&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -250,6 +253,7 @@
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)\..\..\source&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				RuntimeLibrary="0"
+				OpenMP="true"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="crisscross/universal_include.h"
@@ -421,10 +425,6 @@
 			</File>
 			<File
 				RelativePath="..\..\source\version.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\source\windows_version.cpp"
 				>
 			</File>
 		</Filter>
@@ -612,10 +612,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\source\crisscross\exception_handler.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\source\crisscross\filereader.h"
 				>
 			</File>
@@ -676,10 +672,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\source\crisscross\insertionsort.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\source\crisscross\internal_mem.h"
 				>
 			</File>
@@ -729,10 +721,6 @@
 			</File>
 			<File
 				RelativePath="..\..\source\crisscross\md5.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\source\crisscross\mini_version.h"
 				>
 			</File>
 			<File
@@ -885,10 +873,6 @@
 			</File>
 			<File
 				RelativePath="..\..\source\crisscross\version.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\source\crisscross\windows_version.h"
 				>
 			</File>
 		</Filter>

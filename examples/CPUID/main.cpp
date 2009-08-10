@@ -15,7 +15,7 @@ using namespace CrissCross::IO;
 using namespace CrissCross::System;
 using namespace std;
 
-int RunApplication(int argc, char * *argv)
+int main(int argc, char * *argv)
 {
 	Console *console = new Console();
 
@@ -80,49 +80,8 @@ int RunApplication(int argc, char * *argv)
 
 	for (int i = 0; i < MAX_PROCESSORS; i++) {
 		/* Go through each Virtual processor. */
-		if (cpuid->proc[i]->Manufacturer() != NULL) {
-			/* Print out the manufacturer string */
-			console->WriteLine("CPU[%d] Manufacturer: %s", i,
-			                   cpuid->proc[i]->Manufacturer());
-
-			/* Print out the CPU name string, if available. */
-			if (strlen(cpuid->proc[i]->Name()) > 0)
-				console->WriteLine("CPU[%d] Name: %s", i,
-				                   cpuid->proc[i]->Name());
-
-			/* Print out Family/Model/Stepping info. */
-			console->WriteLine("CPU[%d] Family: %d, Model: %d, Stepping: %d", i,
-			                   cpuid->proc[i]->Family(), cpuid->proc[i]->Model(),
-			                   cpuid->proc[i]->Stepping());
-
-			/* Print out the CPU cache info. */
-			const CrissCross::System::caches_t *caches = cpuid->proc[i]->Caches();
-			if (caches->size() > 0) {
-				console->WriteLine("CPU[%d] Caches:", i);
-				for (size_t j = 0; j < caches->size(); j++) {
-					if (caches->valid(j))
-						console->Write("  %s", caches->get(j));
-				}
-
-				console->WriteLine();
-			}
-
-			/* Print out CPU features (MMX, SSE, and so on). */
-			console->Write("CPU[%d] Features: ", i);
-
-			CrissCross::Data::DArray<const char *> *featureIDs =
-			        cpuid->proc[i]->Features()->ConvertIndexToDArray();
-
-			for (size_t i = 0; i < featureIDs->size(); i++) {
-				if (featureIDs->valid(i))
-					console->Write("%s ", featureIDs->get(i));
-			}
-
-			delete featureIDs;
-
-			console->WriteLine();
-			console->WriteLine();
-		}
+		if (cpuid->proc[i])
+			cpuid->proc[i]->Print(console);
 	}
 
 	delete cpuid;

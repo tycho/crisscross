@@ -8,27 +8,24 @@ project (CrissCross)
 
 set(CMAKE_BUILD_TYPE CrissCrossDefaultBuildType)
 
-# - Try to find precompiled headers support for GCC 3.4 and 4.x
-# Once done this will define:
-#
-# Variable:
-#   PCHSupport_FOUND
-#
-# Macro:
-#   ADD_PRECOMPILED_HEADER
-
 IF(CMAKE_COMPILER_IS_GNUCXX)
     EXEC_PROGRAM(
     	${CMAKE_CXX_COMPILER} 
         ARGS 			--version 
         OUTPUT_VARIABLE _compiler_output)
-    STRING(REGEX REPLACE ".* ([0-9]\\.[0-9]\\.[0-9]) .*" "\\1" 
+    STRING(REGEX REPLACE ".*([0-9]+\\.[0-9]+\\.[0-9]+).*" "\\1"
            gcc_compiler_version ${_compiler_output})
-    #MESSAGE("GCC Version: ${gcc_compiler_version}")
+    MESSAGE("GCC Version: ${gcc_compiler_version}")
+    IF(gcc_compiler_version MATCHES "4\\.[2-9]\\.[0-9]")
+        MESSAGE("Enabling OpenMP")
+        SET(GCCOpenMPSupport TRUE)
+    ENDIF(gcc_compiler_version MATCHES "4\\.[2-9]\\.[0-9]")
     IF(gcc_compiler_version MATCHES "4\\.[0-9]\\.[0-9]")
+        MESSAGE("Enabling precompiled headers")
         SET(PCHSupport_FOUND TRUE)
     ELSE(gcc_compiler_version MATCHES "4\\.[0-9]\\.[0-9]")
         IF(gcc_compiler_version MATCHES "3\\.4\\.[0-9]")
+            MESSAGE("Enabling precompiled headers")
             SET(PCHSupport_FOUND TRUE)
         ENDIF(gcc_compiler_version MATCHES "3\\.4\\.[0-9]")
     ENDIF(gcc_compiler_version MATCHES "4\\.[0-9]\\.[0-9]")
@@ -122,6 +119,10 @@ ENDMACRO(ADD_FLAG)
 
 if(CMAKE_COMPILER_IS_GNUCXX)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -std=gnu++98 -fno-common -fno-strict-aliasing -fno-rtti -fno-exceptions -Wall -Wundef -Wno-long-long -pedantic -I/usr/local/include")
+	if(GCCOpenMPSupport)
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
+		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
+	endif(GCCOpenMPSupport)
 	if(NOT CYGWIN)
 		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb")
 		if(NOT APPLE)
@@ -141,7 +142,7 @@ IF(MSVC)
        SET(CMAKE_C_FLAGS_RELWITHDEBINFO "/MTd /Od")
      ENDIF(CMAKE_GENERATOR STREQUAL "Visual Studio 7" OR CMAKE_GENERATOR STREQUAL "Visual Studio 7 .NET 2003")
      IF(CMAKE_GENERATOR STREQUAL "Visual Studio 8 2005" OR CMAKE_GENERATOR STREQUAL "Visual Studio 9 2008")
-       SET(CMAKE_C_FLAGS "/nologo /W3 /Gy /Gm /GS- /Zi")
+       SET(CMAKE_C_FLAGS "/nologo /W3 /Gy /Gm /GS- /Zi /openmp")
        SET(CMAKE_C_FLAGS_DEBUG "/MTd /Od")
        SET(CMAKE_C_FLAGS_RELEASE "/MT /O2 /Ot")
        SET(CMAKE_C_FLAGS_MINSIZEREL "/MT /O2 /Os")
@@ -160,7 +161,7 @@ IF(MSVC)
        SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO "/MTd /Od")
      ENDIF(CMAKE_GENERATOR STREQUAL "Visual Studio 7" OR CMAKE_GENERATOR STREQUAL "Visual Studio 7 .NET 2003")
      IF(CMAKE_GENERATOR STREQUAL "Visual Studio 8 2005" OR CMAKE_GENERATOR STREQUAL "Visual Studio 9 2008")
-       SET(CMAKE_CXX_FLAGS "/nologo /W3 /Gy /Gm /GS- /Zi /EHa")
+       SET(CMAKE_CXX_FLAGS "/nologo /W3 /Gy /Gm /GS- /Zi /EHa /openmp")
        SET(CMAKE_CXX_FLAGS_DEBUG "/MTd /Od")
        SET(CMAKE_CXX_FLAGS_RELEASE "/MT /O2 /Ot")
        SET(CMAKE_CXX_FLAGS_MINSIZEREL "/MT /O2 /Os")

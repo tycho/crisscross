@@ -37,7 +37,7 @@ using namespace CrissCross;
 
 CrissCross::IO::Console *g_console;
 
-int RunApplication(int argc, char * *argv)
+int main(int argc, char * *argv)
 {
 	g_console = new IO::Console();
 
@@ -125,13 +125,6 @@ int RunApplication(int argc, char * *argv)
 	WritePrefix("HeapSort (integer array)"); retval |= WriteResult(TestSort_IntArray(&hs));
 	WritePrefix("HeapSort (integer DArray)"); retval |= WriteResult(TestSort_DArray(&hs));
 	WritePrefix("HeapSort (integer LList)"); retval |= WriteResult(TestSort_LList(&hs));
-
-#if !defined (DISABLE_DEPRECATED_CODE)
-	CrissCross::Data::InsertionSort<int> is;
-	WritePrefix("InsertionSort (integer array)"); retval |= WriteResult(TestSort_IntArray(&is));
-	WritePrefix("InsertionSort (integer DArray)"); retval |= WriteResult(TestSort_DArray(&is));
-	WritePrefix("InsertionSort (integer LList)"); retval |= WriteResult(TestSort_LList(&is));
-#endif
 
 	CrissCross::Data::ShellSort<int> ss;
 	WritePrefix("ShellSort (integer array)"); retval |= WriteResult(TestSort_IntArray(&ss));

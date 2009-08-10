@@ -71,8 +71,6 @@ namespace CrissCross
 
 				bool killNode(RedBlackNode<Key, Data> * z);
 
-				bool erase(Key const &key, Data const &rec, RedBlackNode<Key, Data> *curnode);
-
 				RedBlackNode<Key, Data> *findNode(Key const &key) const;
 
 				/*! \brief Verifies that a node is valid. */
@@ -120,21 +118,12 @@ namespace CrissCross
 				 */
 				bool erase(Key const &_key);
 
-				/*! \brief Deletes a node from the tree, specified by the node's key and data. */
+				/*! \brief Finds a node in the tree and returns the data at that node. */
 				/*!
-				 * \warning This won't free the memory occupied by the data, so the data must be freed separately.
-				 * \param _key The key of the node to delete.
-				 * \param _rec The data of the node to delete.
-				 * \return True on success, false on failure.
+				 * \param _key The key of the node to find.
+				 * \param _default The value to return if the item couldn't be found.
+				 * \return If found, returns the data at the node, otherwise _default is returned.
 				 */
-				bool erase(Key const &_key, Data const & _rec);
-
-                                /*! \brief Finds a node in the tree and returns the data at that node. */
-                                /*!
-                                 * \param _key The key of the node to find.
-                                 * \param _default The value to return if the item couldn't be found.
-                                 * \return If found, returns the data at the node, otherwise _default is returned.
-                                 */
 				Data find(Key const &_key, Data const &_default = NULL) const;
 
 				/*! \brief Empties the entire tree. */

@@ -16,18 +16,6 @@
 #pragma warning (disable:4530)
 #endif
 
-#ifndef NO_RUN_APPLICATION
-/* #define NO_RUN_APPLICATION */ /* Disable the RunApplication entry point. */
-#endif
-
-#ifndef SDL_APPLICATION
-/* #define SDL_APPLICATION */ /* Define if your application uses SDLmain. */
-#endif
-
-#ifndef COCOA_APPLICATION
-/* #  define COCOA_APPLICATION */ /* Define if your application uses NSApplicationMain */
-#endif
-
 #define CC_LIB_NAME                "CrissCross"
 
 /* #  define CC_LIB_CODENAME            "Technetium"    // v0.1.0 codename */
@@ -57,7 +45,6 @@
 #define ENABLE_STLTREE
 #define ENABLE_SORTS
 
-/* #define ENABLE_CRASHREPORTS / * Enables XCrashReports on Windows. * / */
 /* #define DISABLE_DEPRECATED_CODE */ /* This will be enabled by default in a future release */
 
 /* NOTE: By disabling this line, you will not be in compliance with the New BSD License. */
@@ -67,9 +54,6 @@
 
 /* Sorry, this is Windows-only... (Use Valgrind on Linux) */
 #define DETECT_MEMORY_LEAKS
-
-/* Don't use it. It doesn't do anything except potentially screw up memory leak detection. */
-/* # define ENABLE_MEMLEAK_STATS */
 
 /* Linux backtrace() */
 #define ENABLE_BACKTRACE
@@ -100,13 +84,11 @@
 #endif
 #endif
 
-#if defined (SDL_APPLICATION)
 #if !defined (_CONSOLE)
 #undef  _WINDOWS
 #define _CONSOLE
 #endif
 #define _CC_ENABLE_OPENGL
-#endif
 
 #if defined (_OPENMP)
 #include <omp.h>
@@ -124,7 +106,7 @@
 #endif
 #endif
 
-#if (!defined (TARGET_COMPILER_VC) && !defined (TARGET_COMPILER_ICC)) || defined (NO_DETECT_MEMORY_LEAKS)
+#if (!defined (TARGET_COMPILER_VC) && !defined (TARGET_COMPILER_ICC)) || defined (NO_DETECT_MEMORY_LEAKS) || defined (NDEBUG)
 #undef DETECT_MEMORY_LEAKS
 #endif
 
@@ -158,12 +140,7 @@
 #include <sys/stat.h>
 
 #if defined (TARGET_OS_WINDOWS) && (defined (TARGET_COMPILER_VC) || defined (TARGET_COMPILER_ICC))
-#if TARGET_CPU_BITS == 32
 #define ENABLE_SYMBOL_ENGINE
-#else
-#undef ENABLE_SYMBOL_ENGINE
-#undef ENABLE_BACKTRACE
-#endif
 #ifdef _MSC_VER
 #if _MSC_VER > 1200 && _MSC_VER < 1400
 #pragma warning ( disable : 4345 4100 4800 )
@@ -397,7 +374,7 @@ static char THIS_FILE [] = __FILE__;
 #endif
 
 /*! \brief The application entry point. */
-extern int RunApplication(int argc, char * *argv);
+extern int main(int argc, char * *argv);
 /*! \brief An internal initialization function for the program. */
 int CrissCrossInitialize(int argc, char * *argv);
 

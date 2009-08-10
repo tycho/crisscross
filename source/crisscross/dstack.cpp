@@ -13,14 +13,15 @@
 #error "This file shouldn't be compiled directly."
 #endif
 
+#include <crisscross/internal_mem.h>
 #include <crisscross/dstack.h>
 
 namespace CrissCross
 {
 	namespace Data
 	{
-		template <class dataType>
-		DStack<dataType>::DStack(size_t N)
+		template <class T>
+		DStack<T>::DStack(size_t N)
 		{
 			if (N < 1)
 				m_stepSize = (size_t)-1;
@@ -31,21 +32,23 @@ namespace CrissCross
 			m_size = m_origSize = 0;
 		}
 
-		template <class dataType>
-		DStack<dataType>::~DStack()
+		template <class T>
+		DStack<T>::~DStack()
 		{
 			delete [] m_bottom;
 			m_top = m_bottom = NULL;
 		}
 
-		template <class dataType>
-		void DStack<dataType>::setSize(size_t _size)
+		template <class T>
+		void DStack<T>::setSize(size_t _size)
 		{
+			CrissCross::System::MutexHolder lock(&m_lock);
+
 			/* This function is ONLY stable for increases in size, not decreases. */
-			dataType *newstack_ = NULL;
-			newstack_ = new dataType[_size];
+			T *newstack_ = NULL;
+			newstack_ = new T[_size];
 			if (m_bottom) {
-				memcpy(newstack_, m_bottom, sizeof(dataType) * m_size);
+				memcpy(newstack_, m_bottom, sizeof(T) * m_size);
 				delete [] m_bottom;
 			}
 
@@ -54,8 +57,8 @@ namespace CrissCross
 			m_size = _size;
 		}
 
-		template <class dataType>
-		void DStack<dataType>::grow()
+		template <class T>
+		void DStack<T>::grow()
 		{
 			if (m_stepSize == (size_t)-1) {
 				if (m_size == 0) {
@@ -68,9 +71,11 @@ namespace CrissCross
 			}
 		}
 
-		template <class dataType>
-		void DStack<dataType>::push(dataType val)
+		template <class T>
+		void DStack<T>::push(T const &val)
 		{
+			CrissCross::System::MutexHolder lock(&m_lock);
+
 			if (count() == m_size) {                /* the stack is full. need more space! */
 				grow();
 			}
@@ -79,35 +84,40 @@ namespace CrissCross
 			m_top++;
 		}
 
-		template <class dataType>
-		size_t DStack<dataType>::count() const
+		template <class T>
+		size_t DStack<T>::count() const
 		{
 			return (m_top - m_bottom);
 		}
 
-		template <class dataType>
-		dataType DStack<dataType>::pop()
+		template <class T>
+		T DStack<T>::pop()
 		{
-			if (!m_top) return (dataType)0;
+			CrissCross::System::MutexHolder lock(&m_lock);
+
+			if (!m_top) return NullKey<T>();
 
 			m_top--;
-			dataType ret = *m_top;
+			T ret = *m_top;
 			return ret;
 		}
 
-		template <class dataType>
-		dataType const & DStack<dataType>::peek()
+		template <class T>
+		T DStack<T>::peek() const
 		{
-			static dataType nullItem(0);
-			if (!m_top) return nullItem;
+			CrissCross::System::MutexHolder lock(&m_lock);
 
-			const dataType &ret = *(m_top - 1);
+			if (!m_top) return NullKey<T>();
+
+			const T &ret = *(m_top - 1);
 			return ret;
 		}
 
-		template <class dataType>
-		void DStack<dataType>::empty()
+		template <class T>
+		void DStack<T>::empty()
 		{
+			CrissCross::System::MutexHolder lock(&m_lock);
+
 			delete [] m_bottom;
 			m_top = m_bottom = NULL;
 			m_size = m_origSize = 0;

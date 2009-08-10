@@ -31,7 +31,6 @@
 		B01CB6920D52D2B40081CCAC /* build_number.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB67E0D52D2B40081CCAC /* build_number.h */; };
 		B01CB6930D52D2B40081CCAC /* datatypes.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB67F0D52D2B40081CCAC /* datatypes.h */; };
 		B01CB6960D52D2B40081CCAC /* hashtable.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB6820D52D2B40081CCAC /* hashtable.h */; };
-		B01CB6970D52D2B40081CCAC /* insertionsort.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB6830D52D2B40081CCAC /* insertionsort.h */; };
 		B01CB6980D52D2B40081CCAC /* internal_mem.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB6840D52D2B40081CCAC /* internal_mem.h */; };
 		B01CB69A0D52D2B40081CCAC /* md4.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB6860D52D2B40081CCAC /* md4.h */; };
 		B01CB69B0D52D2B40081CCAC /* md5.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB6870D52D2B40081CCAC /* md5.h */; };
@@ -42,7 +41,6 @@
 		B01CB6A10D52D2B40081CCAC /* splaytree.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB68D0D52D2B40081CCAC /* splaytree.h */; };
 		B01CB6A20D52D2B40081CCAC /* tiger.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB68E0D52D2B40081CCAC /* tiger.h */; };
 		B02A92870EA070F300A7DB38 /* hash.h in Headers */ = {isa = PBXBuildFile; fileRef = B02A92860EA070F300A7DB38 /* hash.h */; };
-		B03C0F3C0EC7800800D8A516 /* CHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B03C0F3B0EC7800800D8A516 /* CHUD.framework */; };
 		B05FACB10F40BE420036CF37 /* profiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B05FACB00F40BE420036CF37 /* profiler.cpp */; };
 		B05FACB30F40BE590036CF37 /* profiler.h in Headers */ = {isa = PBXBuildFile; fileRef = B05FACB20F40BE590036CF37 /* profiler.h */; };
 		B07FD4B10D6CD41400464636 /* filereader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B07FD4AF0D6CD41400464636 /* filereader.cpp */; };
@@ -126,7 +124,6 @@
 		B01CB67F0D52D2B40081CCAC /* datatypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = datatypes.h; path = ../../source/crisscross/datatypes.h; sourceTree = SOURCE_ROOT; };
 		B01CB6810D52D2B40081CCAC /* hashtable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hashtable.cpp; path = ../../source/crisscross/hashtable.cpp; sourceTree = SOURCE_ROOT; };
 		B01CB6820D52D2B40081CCAC /* hashtable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hashtable.h; path = ../../source/crisscross/hashtable.h; sourceTree = SOURCE_ROOT; };
-		B01CB6830D52D2B40081CCAC /* insertionsort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = insertionsort.h; path = ../../source/crisscross/insertionsort.h; sourceTree = SOURCE_ROOT; };
 		B01CB6840D52D2B40081CCAC /* internal_mem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = internal_mem.h; path = ../../source/crisscross/internal_mem.h; sourceTree = SOURCE_ROOT; };
 		B01CB6860D52D2B40081CCAC /* md4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = md4.h; path = ../../source/crisscross/md4.h; sourceTree = SOURCE_ROOT; };
 		B01CB6870D52D2B40081CCAC /* md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = md5.h; path = ../../source/crisscross/md5.h; sourceTree = SOURCE_ROOT; };
@@ -139,7 +136,6 @@
 		B01CB68E0D52D2B40081CCAC /* tiger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tiger.h; path = ../../source/crisscross/tiger.h; sourceTree = SOURCE_ROOT; };
 		B01CB6A50D52D2E60081CCAC /* avltree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = avltree.cpp; path = ../../source/crisscross/avltree.cpp; sourceTree = SOURCE_ROOT; };
 		B02A92860EA070F300A7DB38 /* hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hash.h; path = ../../source/crisscross/hash.h; sourceTree = SOURCE_ROOT; };
-		B03C0F3B0EC7800800D8A516 /* CHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CHUD.framework; path = /System/Library/PrivateFrameworks/CHUD.framework; sourceTree = "<absolute>"; };
 		B05FACB00F40BE420036CF37 /* profiler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = profiler.cpp; path = ../../source/profiler.cpp; sourceTree = SOURCE_ROOT; };
 		B05FACB20F40BE590036CF37 /* profiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = profiler.h; path = ../../source/crisscross/profiler.h; sourceTree = SOURCE_ROOT; };
 		B07FD4AF0D6CD41400464636 /* filereader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = filereader.cpp; path = ../../source/filereader.cpp; sourceTree = SOURCE_ROOT; };
@@ -201,17 +197,6 @@
 		B0ED57BD0BEAF76A00F6033B /* platform_detect.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = platform_detect.h; path = ../../source/crisscross/platform_detect.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
-/* Begin PBXFrameworksBuildPhase section */
-		B0BD2C460BE26BDB00F71A26 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B03C0F3C0EC7800800D8A516 /* CHUD.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
-
 /* Begin PBXGroup section */
 		034768DDFF38A45A11DB9C8B /* Products */ = {
 			isa = PBXGroup;
@@ -224,7 +209,6 @@
 		0867D691FE84028FC02AAC07 /* CrissCross */ = {
 			isa = PBXGroup;
 			children = (
-				B03C0F3B0EC7800800D8A516 /* CHUD.framework */,
 				08FB77ACFE841707C02AAC07 /* Source */,
 				089C1665FE841158C02AAC07 /* Resources */,
 				034768DDFF38A45A11DB9C8B /* Products */,
@@ -257,7 +241,6 @@
 				B01CB67F0D52D2B40081CCAC /* datatypes.h */,
 				B01CB6810D52D2B40081CCAC /* hashtable.cpp */,
 				B01CB6820D52D2B40081CCAC /* hashtable.h */,
-				B01CB6830D52D2B40081CCAC /* insertionsort.h */,
 				B01CB6840D52D2B40081CCAC /* internal_mem.h */,
 				B01CB6860D52D2B40081CCAC /* md4.h */,
 				B01CB6870D52D2B40081CCAC /* md5.h */,
@@ -373,7 +356,6 @@
 				B01CB6920D52D2B40081CCAC /* build_number.h in Headers */,
 				B01CB6930D52D2B40081CCAC /* datatypes.h in Headers */,
 				B01CB6960D52D2B40081CCAC /* hashtable.h in Headers */,
-				B01CB6970D52D2B40081CCAC /* insertionsort.h in Headers */,
 				B01CB6980D52D2B40081CCAC /* internal_mem.h in Headers */,
 				B01CB69A0D52D2B40081CCAC /* md4.h in Headers */,
 				B01CB69B0D52D2B40081CCAC /* md5.h in Headers */,
@@ -402,7 +384,6 @@
 			buildPhases = (
 				B0BD2C440BE26BDB00F71A26 /* Headers */,
 				B0BD2C450BE26BDB00F71A26 /* Sources */,
-				B0BD2C460BE26BDB00F71A26 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -446,7 +427,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\n\nsource ~/.bashrc\n\necho \"Generating build_number.h...\";\n\ncd \"$PROJECT_DIR/../..\"\n\"tools/gen_buildnum_h.pl\" \"source/crisscross/build_number.h\"";
+			shellScript = "#!/bin/bash\n\nsource ~/.bashrc\n\necho \"Generating build_number.h...\";\n\"$PROJECT_DIR/../../tools/gen_buildnum_h.pl\" \"$PROJECT_DIR/../../source/crisscross/build_number.h\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 

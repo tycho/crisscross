@@ -93,7 +93,7 @@ namespace CrissCross
 				 * \return True on success, false on failure.
 				 */
 				__forceinline bool replace(Key const &_key, Data const &_rec)
-				{ 
+				{
 					if (!exists(_key))
 						return false;
 					m_map[_key] = _rec;

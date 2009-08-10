@@ -90,16 +90,13 @@ void BenchmarkDArray(Sorter<char *> &sorter)
 }
 #endif
 
-int RunApplication(int argc, char * *argv)
+int main(int argc, char * *argv)
 {
 	console = new Console();
 
 #ifdef ENABLE_SORTS
 
 	QuickSort<char *>     qs;
-#if !defined (DISABLE_DEPRECATED_CODE)
-	InsertionSort<char *> is;
-#endif
 	HeapSort<char *>      hs;
 	CombSort<char *>      cs;
 	ShellSort<char *>     ss;
@@ -127,13 +124,6 @@ int RunApplication(int argc, char * *argv)
 	console->SetColour();
 	BenchmarkDArray(qs);
 	console->WriteLine();
-#if !defined (DISABLE_DEPRECATED_CODE)
-	console->SetColour(console->FG_BLUE | console->FG_INTENSITY);
-	console->WriteLine("InsertionSort...");
-	console->SetColour();
-	BenchmarkDArray(is);
-#endif
-
 #else
 	console->WriteLine("Sorting algorithms are disabled in this build of CrissCross.\nDefine ENABLE_SORTS in universal_include.h if you want them.");
 #endif

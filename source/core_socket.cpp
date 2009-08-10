@@ -103,7 +103,7 @@ namespace CrissCross
 			/* Verify the socket. */
 			if (m_sock == INVALID_SOCKET) return NULL;
 
-			static char buffer[15];
+			static char buffer[16];
 			struct sockaddr_in sock; int sock_size = sizeof(sock);
 			memset(&sock, 0, sizeof(sock));
 
