@@ -354,6 +354,9 @@ namespace CrissCross
 		{
 			size_t const size = this->size();
 
+			if (Compare(get(m_previousIndex), data) == 0)
+				return m_previousIndex;
+
 			for (size_t i = 0; i < size; ++i) {
 				if (Compare(get(i), data) == 0)	{
 					return i;
