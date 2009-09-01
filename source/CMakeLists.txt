@@ -15,6 +15,9 @@ add_library(CrissCross console.cpp core_io_reader.cpp core_io_writer.cpp core_ne
 add_precompiled_header(CrissCross ${CMAKE_CURRENT_SOURCE_DIR}/crisscross/universal_include.h ${CMAKE_CURRENT_SOURCE_DIR}/universal_include.cpp)
 add_dependencies(CrissCross BuildNumber)
 
+install(TARGETS CrissCross ARCHIVE DESTINATION lib)
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/crisscross/ DESTINATION include/crisscross)
+
 if(NOT WIN32)
 	target_link_libraries(CrissCross pthread)
 ENDIF(NOT WIN32)
