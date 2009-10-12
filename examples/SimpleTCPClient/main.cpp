@@ -60,7 +60,6 @@ int main(int argc, char * *argv)
 
 	delete sock;
 
-	return 0;
 	/* End your application here. */
 
 #ifdef TARGET_OS_WINDOWS
