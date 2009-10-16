@@ -518,12 +518,6 @@ namespace CrissCross
 
 			for (params.processor = 0; params.processor < iCount;
 			     params.processor++) {
-				if (params.processor > 0)
-				{
-					proc[params.processor] = new X86Processor(*proc[0]);
-					proc[params.processor]->m_index = params.processor;
-					break;
-				}
 				proc[params.processor] = new X86Processor();
 				HANDLE hThread =
 				        CreateThread(NULL, 0, ( LPTHREAD_START_ROUTINE )s_GoThreadProc,
