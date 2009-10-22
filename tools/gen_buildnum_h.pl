@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+$|=1;	# Flush writes as soon as print finishes.
 
 use strict;
 use warnings;
@@ -11,22 +12,29 @@ my $cwd = cwd;
 my $in_git = 0;
 my $scriptpath = dirname($0);
 my $outfile = $ARGV[0];
+# NOTE: ToFix: This breaks if the full path to the file contains a space character.
 
 my $releasever;
 
-$releasever = `cat $scriptpath/release_ver`;
+my $Win32 = 0;
 
+$Win32 = 1 if ($^O =~ /MSWin/i);
+open RELEASEVER, "$scriptpath/release_ver" || die ("Can't open release_ver:$!");
+$releasever = <RELEASEVER>;
+close RELEASEVER;
 mkdir dirname($outfile);
 
 print "Is this project under Git? ";
 if (-d "$scriptpath/../.git" ) {
 	print "Yes\n";
 	print "Is Git installed? ";
-	if ( `which git` ) {
+	if ( !$Win32 && `which git` ) {
 		print "Yes\n";
 		$in_git = 1;
 	} else {
-		print "No\n";
+		print "No";
+		print " - can't check on Win32." if ($Win32);
+		print "\n";
 		$in_git = 0;
 	}
 } else {
