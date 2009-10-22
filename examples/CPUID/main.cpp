@@ -40,7 +40,13 @@ int main(int argc, char * *argv)
 	/* hyperthreads, cores, or truly physical CPUs. */
 	/* */
 	/* If the Physical and Logical counts are equal, the number of Physical/Logical is the */
-	/* core count, because it's a dual core system. */
+	/* core count, because it's a multi-core system. */
+	/* */
+	/* If a count of the processor packages is needed, simply divide VirtualCount */
+	/* by LogicalPerPackage to get the number.  This may fail in some situations where */
+	/* the OS or a HyperVisor (VMWare or HyperV) limit the number of processors the OS */
+	/* sees - the CPU hardware will still report the total number of cores it has, but */
+	/* the underlying software will not have access to it. */
 
 	console->WriteLine("There are %d processors in the system (%d cores per package, %d logical per package).",
 	                   cpuid->VirtualCount(),
@@ -71,7 +77,7 @@ int main(int argc, char * *argv)
 	if ((int)ratio < 1) {
 		console->WriteLine();
 		console->SetColour(console->FG_YELLOW | console->FG_INTENSITY);
-		console->WriteLine("WARNING: Expected at least 1 physical package, but detected %0.1lf. Are you\n"
+		console->WriteLine("WARNING: Expected at least 1 physical package, but detected %0.2lf. Are you\n"
 		                   "running this under a hypervisor?", ratio);
 		console->SetColour();
 	}

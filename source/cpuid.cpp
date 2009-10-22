@@ -1081,10 +1081,10 @@ namespace CrissCross
 
 				if (proc[processor]->m_cores > 1 &&
 				    proc[processor]->m_logical > proc[processor]->m_cores) {
-					/* Hyperthreaded dual core. */
+					/* Hyperthreaded core. */
 				} else if (proc[processor]->m_cores > 1 &&
 				           proc[processor]->m_logical == proc[processor]->m_cores) {
-					/* Dual core. */
+					/* Multi-core processor not presenting HTT */
 					proc[processor]->m_features.erase("HTT");
 				} else if (proc[processor]->m_cores == 1 &&
 				           proc[processor]->m_logical > proc[processor]->m_cores) {
@@ -1092,8 +1092,9 @@ namespace CrissCross
 					proc[processor]->m_features.erase("CMP");
 				}
 			} else {
-				/* HTT not supported. Report logical processor count as 1. */
-				proc[processor]->m_logical = 1;
+				/* HTT not supported. Report cores and logical processor count as equal. */
+				proc[processor]->m_cores = (char)(((Std[4].eax & 0xFC000000) >> 26) + 1);
+				proc[processor]->m_logical = proc[processor]->m_cores;
 			}
 		}
 
