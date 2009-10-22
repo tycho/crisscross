@@ -1102,7 +1102,7 @@ namespace CrissCross
 
 				if (proc[processor]->m_cores > 1 &&
 				    proc[processor]->m_logical > proc[processor]->m_cores) {
-					/* Hyperthreaded core. */
+					/* Hyperthreaded multi-core. */
 				} else if (proc[processor]->m_cores > 1 &&
 				           proc[processor]->m_logical == proc[processor]->m_cores) {
 					/* Multi-core processor not presenting HTT */
