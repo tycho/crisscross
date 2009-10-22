@@ -292,7 +292,7 @@ namespace CrissCross
 			if (Name())
 				_writer->WriteLine("CPU[%u] Name: %s", m_index, Name());
 
-			_writer->WriteLine("CPU[%u] Family %X Model %X Stepping %X", m_index,
+			_writer->WriteLine("CPU[%u] Family %2d Model %2d Stepping %2d", m_index,
 				Family(), Model(), Stepping());
 
 			/* Print out the CPU cache info. */
@@ -589,6 +589,27 @@ namespace CrissCross
 			proc[processor]->m_manufacturer = manufacturer;
 		}
 
+		char *squeeze(char *str)
+		{
+			int r; /* next character to be read */
+			int w; /* next character to be written */
+
+			r=w=0;
+			while (str[r])
+			{
+				if (isspace(str[r]) || iscntrl(str[r]))
+				{
+					if (w > 0 && !isspace(str[w-1]))
+						str[w++] = ' ';
+				}
+				else
+					str[w++] = str[r];
+				r++;
+			}
+			str[w] = 0;
+			return str;
+		}
+
 		void CPUID::DetectProcessorName(int processor)
 		{
 			CoreAssert(this != NULL);
@@ -621,7 +642,7 @@ namespace CrissCross
 			memcpy(_proc, &Ext[4].edx, 4);
 			_proc += 4;
 			*_proc = '\x0';
-			proc[processor]->m_name = processorname;
+			proc[processor]->m_name = squeeze(processorname);
 		}
 
 		void CPUID::DetectCacheInfo(int processor)
