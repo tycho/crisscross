@@ -37,21 +37,21 @@ namespace CrissCross
 		/*! \brief Possible states of socket instances. */
 		typedef enum
 		{
-			SOCKET_STATE_UNKNOWN,           /*! \brief< The state has not yet been specified or is currently not known. */
-			SOCKET_STATE_NOT_CREATED,       /*! \brief< The socket is not yet instantiated. */
-			SOCKET_STATE_ERROR,             /*! \brief< The socket has encountered an error. */
-			SOCKET_STATE_CLOSED,            /*! \brief< The socket is closed. */
-			SOCKET_STATE_LISTENING,         /*! \brief< The socket is listening for incoming connections (or data, if UDP). */
-			SOCKET_STATE_CONNECTING,        /*! \brief< The socket is doing an asynchronous connect to a remote host. */
-			SOCKET_STATE_CONNECTED          /*! \brief< The socket is connected to a remote host. */
+			SOCKET_STATE_UNKNOWN,           /*!< \brief The state has not yet been specified or is currently not known. */
+			SOCKET_STATE_NOT_CREATED,       /*!< \brief The socket is not yet instantiated. */
+			SOCKET_STATE_ERROR,             /*!< \brief The socket has encountered an error. */
+			SOCKET_STATE_CLOSED,            /*!< \brief The socket is closed. */
+			SOCKET_STATE_LISTENING,         /*!< \brief The socket is listening for incoming connections (or data, if UDP). */
+			SOCKET_STATE_CONNECTING,        /*!< \brief The socket is doing an asynchronous connect to a remote host. */
+			SOCKET_STATE_CONNECTED          /*!< \brief The socket is connected to a remote host. */
 		} socketState;
 
 		/*! \brief Socket protocols. */
 		typedef enum
 		{
-			PROTOCOL_NONE,                          /*! \brief< No protocol specified. */
-			PROTOCOL_TCP,                            /*! \brief< Transmission Control Protocol. */
-			PROTOCOL_UDP                            /*! \brief< User Datagram Protocol. */
+			PROTOCOL_NONE,                          /*!< \brief No protocol specified. */
+			PROTOCOL_TCP,                           /*!< \brief Transmission Control Protocol. */
+			PROTOCOL_UDP                            /*!< \brief User Datagram Protocol. */
 		} socketProtocol;
 
 		/*! \brief The abstract core socket class. */
