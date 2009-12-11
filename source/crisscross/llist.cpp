@@ -349,12 +349,12 @@ namespace CrissCross
 
 		template <class T> size_t LList <T>::find(const T & data)
 		{
-			size_t const size = this->size();
+			size_t const lsize = this->size();
 
 			if (Compare(get(m_previousIndex), data) == 0)
 				return m_previousIndex;
 
-			for (size_t i = 0; i < size; ++i) {
+			for (size_t i = 0; i < lsize; ++i) {
 				if (Compare(get(i), data) == 0)	{
 					return i;
 				}
