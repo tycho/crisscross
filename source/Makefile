@@ -123,6 +123,11 @@ $(includedir)/%.h: crisscross/%.h
 	$(QUIET_INSTALL)cp $< $@
 	@chmod 0644 $@
 
+$(includedir)/%.cpp: crisscross/%.cpp
+	-@if [ ! -d $(includedir)  ]; then mkdir -p $(includedir); fi
+	$(QUIET_INSTALL)cp $< $@
+	@chmod 0644 $@
+
 $(libdir)/%.a: %.a
 	-@if [ ! -d $(libdir)  ]; then mkdir -p $(libdir); fi
 	$(QUIET_INSTALL)cp $< $@
