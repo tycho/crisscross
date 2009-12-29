@@ -37,6 +37,9 @@
 		<Compiler>
 			<Add directory="../../source" />
 		</Compiler>
+		<ExtraCommands>
+			<Add before="perl ../../tools/gen_buildnum_h.pl ../../source/crisscross/build_number.h" />
+		</ExtraCommands>
 		<Unit filename="../../source/console.cpp" />
 		<Unit filename="../../source/core_io_reader.cpp" />
 		<Unit filename="../../source/core_io_writer.cpp" />
