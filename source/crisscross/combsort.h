@@ -60,7 +60,7 @@ namespace CrissCross
 						for (size_t i = 0; i < _size - gap; i++) {
 							size_t j = i + gap;
 							if (Compare(_array[i], _array[j]) > 0) {
-								Swap(_array, i, j);
+								Sorter<T>::Swap(_array, i, j);
 								swapped = true;
 							}
 						}

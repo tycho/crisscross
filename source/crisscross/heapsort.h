@@ -46,7 +46,7 @@ namespace CrissCross
 								k++;
 
 							if (Compare(_array[j], _array[k]) < 0)
-								Swap(_array, j, k);
+								Sorter<T>::Swap(_array, j, k);
 							else
 								break;
 
@@ -58,14 +58,14 @@ namespace CrissCross
 					/* items at the end of the array. each time reconstructing the */
 					/* heap in the slots of the array not yet sorted. */
 					for (i = _size - 1; (int)i > 0; i--) {
-						Swap(_array, 0, i);
+						Sorter<T>::Swap(_array, 0, i);
 						for (size_t j = 0; j *2 + 1 < i;) {
 							size_t k = (j * 2) + 1;
 							if (k + 1 < i && Compare(_array[k], _array[k + 1]) < 0)
 								k++;
 
 							if (Compare(_array[j], _array[k]) < 0)
-								Swap(_array, j, k);
+								Sorter<T>::Swap(_array, j, k);
 							else
 								break;
 

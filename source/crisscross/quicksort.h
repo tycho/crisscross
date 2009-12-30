@@ -63,7 +63,7 @@ namespace CrissCross
 									p = p1;
 							}
 
-							Swap(_array, p, _right);
+							Sorter<T>::Swap(_array, p, _right);
 
 							for (;;) {
 								do i++;while (Compare(_array[i], _array[_right]) < 0);
@@ -71,10 +71,10 @@ namespace CrissCross
 
 								if (i >= j) break;
 
-								Swap(_array, i, j);
+								Sorter<T>::Swap(_array, i, j);
 							}
 
-							Swap(_array, i, _right);
+							Sorter<T>::Swap(_array, i, _right);
 
 							#ifdef _OPENMP
 							#pragma omp parallel sections
@@ -107,7 +107,7 @@ namespace CrissCross
 				{
 					for (size_t i = _size - 1; i > 0; i--) {
 						if (Compare(_array[i - 1], _array[i]) > 0)
-							Swap(_array, i - 1, i);
+							Sorter<T>::Swap(_array, i - 1, i);
 					}
 					InternalSort(_array, 1, _size - 1);
 					return 0;
