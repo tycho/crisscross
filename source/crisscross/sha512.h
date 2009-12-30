@@ -107,7 +107,7 @@ namespace CrissCross
 				inline bool operator!=(const SHA512Hash &_other) const
 				{
 					return !(*this == _other);
-				};
+				}
 		};
 	}
 }

@@ -29,12 +29,12 @@ namespace CrissCross
 				/*! \brief The constructor. */
 				Sorter()
 				{
-				};
+				}
 
 				/*! \brief The destructor. */
 				virtual ~Sorter()
 				{
-				};
+				}
 
 				/*! \brief The abstract sort function. */
 				/*!
@@ -56,7 +56,7 @@ namespace CrissCross
 					T old = _array[_first];
 					_array[_first] = _array[_second];
 					_array[_second] = old;
-				};
+				}
 		};
 	}
 }

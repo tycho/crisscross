@@ -108,8 +108,8 @@ namespace CrissCross
 			void StartProfile(char const *_name);
 			void EndProfile(char const *_name);
 
-			__forceinline void RenderStarted() { m_inRenderSection = true; };
-			__forceinline void RenderEnded() { m_inRenderSection = false; };
+			__forceinline void RenderStarted() { m_inRenderSection = true; }
+			__forceinline void RenderEnded() { m_inRenderSection = false; }
 
 			void ResetHistory();
 		};

@@ -74,7 +74,7 @@ namespace CrissCross
 					}
 
 					return 0;
-				};
+				}
 		};
 	}
 }

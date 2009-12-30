@@ -31,7 +31,7 @@ namespace CrissCross
 			vec2 pos;
 
 			QtNode(T const &_data, vec2 const &_pos, float _collisionRadius) : collisionRadius(_collisionRadius), data(_data), pos(_pos)
-			{ };
+			{ }
 		};
 
 		template <class T>

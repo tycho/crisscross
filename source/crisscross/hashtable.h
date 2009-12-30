@@ -88,7 +88,7 @@ namespace CrissCross
 			inline size_t size() const
 			{
 				return m_size;
-			};
+			}
 
 			/*! \brief Indicates the number of items in the table. */
 			/*!
@@ -97,26 +97,26 @@ namespace CrissCross
 			inline size_t used() const
 			{
 				return m_size - m_slotsFree;
-			};
+			}
 
 			bool valid(size_t _index) const
 			{
 				CoreAssert(_index < m_size);
 				return m_keys[_index] != NULL &&
 				       m_keys[_index] != (char*)-1;
-			};
+			}
 
 			Data const &operator [](size_t _index) const
 			{
 				CoreAssert(_index < m_size);
 				return m_data[_index];
-			};
+			}
 
 			Data &operator [](size_t _index)
 			{
 				CoreAssert(_index < m_size);
 				return m_data[_index];
-			};
+			}
 
 #if !defined (DISABLE_DEPRECATED_CODE)
 			/*
@@ -127,19 +127,19 @@ namespace CrissCross
 			int GetIndex(const char *_key) const
 			{
 				return (int)findIndex(_key);
-			};
+			}
 			int PutData(const char *_key, Data const &_data)
 			{
 				return (int)insert(_key, _data);
-			};
+			}
 			Data GetData(const char *_key, Data const &_default = NULL) const
 			{
 				return find(_key, _default);
-			};
+			}
 			Data GetData(unsigned int _index) const
 			{
 				return m_data[_index];
-			};
+			}
 			Data *GetPointer(const char *_key) const
 			{
 				int index = GetIndex(_key);
@@ -147,23 +147,23 @@ namespace CrissCross
 					return &m_data[index];
 				}
 				return NULL;
-			};
+			}
 			Data *GetPointer(unsigned int _index) const
 			{
 				return &m_data[_index];
-			};
+			}
 			void RemoveData(const char *_key)
 			{
 				erase(_key);
-			};
+			}
 			void RemoveData(unsigned int _index)
 			{
-			};
-			unsigned int Size() const { return (int)size(); };
-			unsigned int NumUsed() const { return (int)used(); };
-			bool ValidIndex(unsigned int _x) const { return valid(_x); };
-			char const *GetName(unsigned int _index) const { return m_keys[_index]; };
-			void Empty() { empty(); };
+			}
+			unsigned int Size() const { return (int)size(); }
+			unsigned int NumUsed() const { return (int)used(); }
+			bool ValidIndex(unsigned int _x) const { return valid(_x); }
+			char const *GetName(unsigned int _index) const { return m_keys[_index]; }
+			void Empty() { empty(); }
 			void EmptyAndDelete()
 			{
 				for (size_t i = 0; i < m_size; ++i) {
@@ -172,7 +172,7 @@ namespace CrissCross
 					}
 				}
 				empty();
-			};
+			}
 			/*! @endcond */
 #endif
 		};
@@ -204,8 +204,8 @@ namespace CrissCross
 			 *      Provided for compatibility with Tosser I
 			 */
 			/*! @cond */
-			size_t	StartOrderedWalk() { return beginOrderedWalk(); };
-			size_t	GetNextOrderedIndex() { return nextOrderedIndex(); };
+			size_t	StartOrderedWalk() { return beginOrderedWalk(); }
+			size_t	GetNextOrderedIndex() { return nextOrderedIndex(); }
 			/*! @endcond */
 #endif
 		};

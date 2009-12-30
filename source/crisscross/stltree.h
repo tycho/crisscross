@@ -43,10 +43,10 @@ namespace CrissCross
 			public:
 
 				/*! \brief The default constructor. */
-				STLTree() {};
+				STLTree() {}
 
 				/*! \brief The destructor. */
-				~STLTree() { empty(); };
+				~STLTree() { empty(); }
 
 				/*! \brief Empties the entire tree. */
 				/*!
@@ -62,7 +62,7 @@ namespace CrissCross
 						Dealloc(iter->first);
 					}
 					m_map.clear();
-				};
+				}
 
 				/*! \brief Inserts data into the tree. */
 				/*!
@@ -76,7 +76,7 @@ namespace CrissCross
 						return false;
 					m_map[Duplicate(_key)] = _rec;
 					return true;
-				};
+				}
 
 				/*! \brief Tests whether a key is in the tree or not. */
 				/*!
@@ -84,7 +84,7 @@ namespace CrissCross
 				 * \return True if the key is in the tree, false if not.
 				 */
 				__forceinline bool exists(Key const &_key) const
-				{ return m_map.count(_key) != 0; };
+				{ return m_map.count(_key) != 0; }
 
 				/*! \brief Change the data at the given node. */
 				/*!
@@ -98,7 +98,7 @@ namespace CrissCross
 						return false;
 					m_map[_key] = _rec;
 					return true;
-				};
+				}
 
 				/*! \brief Finds a node in the tree and returns the data at that node. */
 				/*!
@@ -113,7 +113,7 @@ namespace CrissCross
 					typename std::map<Key,Data,CrissCross::Data::LessThanComparator<Key> >::const_iterator iter;
 					iter = m_map.find(_key);
 					return iter->second;
-				};
+				}
 
 				/*! \brief Deletes a node from the tree, specified by the node's key. */
 				/*!
@@ -131,14 +131,14 @@ namespace CrissCross
 					m_map.erase(iter);
 					Dealloc(key);
 					return true;
-				};
+				}
 
 				/*! \brief Indicates the size of the tree. */
 				/*!
 				 * \return Size of the tree.
 				 */
 				__forceinline size_t size() const
-				{ return m_map.size(); };
+				{ return m_map.size(); }
 
 				/*! \brief Converts the tree data into a linearized DArray. */
 				/*!
@@ -153,7 +153,7 @@ namespace CrissCross
 						darray->insert(iter->second);
 					}
 					return darray;
-				};
+				}
 
 				/*! \brief Converts the tree keys into a linearized DArray. */
 				/*!
@@ -168,7 +168,7 @@ namespace CrissCross
 						darray->insert(iter->first);
 					}
 					return darray;
-				};
+				}
 
 #if !defined (DISABLE_DEPRECATED_CODE)
 				/*
@@ -179,27 +179,27 @@ namespace CrissCross
 				_CC_DEPRECATE_FUNCTION(insert) __forceinline void PutData(Key const &_key, Data const & _rec)
 				{
 					insert(_key, _rec);
-				};
+				}
 				_CC_DEPRECATE_FUNCTION(find)   __forceinline Data GetData(Key const &_key, Data const &_default = NULL)
 				{
 					return find(_key, _default);
-				};
+				}
 				_CC_DEPRECATE_FUNCTION(erase)  __forceinline void RemoveData(Key const &_key)
 				{
 					erase(_key);
-				};
+				}
 				_CC_DEPRECATE_FUNCTION(erase)  __forceinline void RemoveData(Key const &_key, Data const & _rec)
 				{
 					erase(_key, _rec);
-				};
+				}
 				_CC_DEPRECATE_FUNCTION(size)   __forceinline int  Size() const
 				{
 					return (int)size();
-				};
+				}
 				_CC_DEPRECATE_FUNCTION(empty)  __forceinline void Empty()
 				{
 					empty();
-				};
+				}
 				/*! @endcond */
 #endif
 		};

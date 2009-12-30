@@ -42,7 +42,7 @@ namespace CrissCross
 						gap = 1;
 
 					return gap;
-				};
+				}
 
 			public:
 				/*! \brief Sorts an array using the CombSort method. */
@@ -70,7 +70,7 @@ namespace CrissCross
 					}
 
 					return 0;
-				};
+				}
 		};
 	}
 }

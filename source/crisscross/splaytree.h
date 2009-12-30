@@ -129,7 +129,7 @@ namespace CrissCross
 				inline size_t size() const
 				{
 					return m_size;
-				};
+				}
 
 				/*! \brief Converts the tree data into a linearized DArray. */
 				/*!
@@ -160,27 +160,27 @@ namespace CrissCross
 				_CC_DEPRECATE_FUNCTION(insert)  inline void     PutData(Key const &_key, Data const & _rec)
 				{
 					insert(_key, _rec);
-				};
+				}
 				_CC_DEPRECATE_FUNCTION(find)    inline Data GetData(Key const &_key, Data const &_default = NULL)
 				{
 					return find(_key, _default);
-				};
+				}
 				_CC_DEPRECATE_FUNCTION(erase)   inline void     RemoveData(Key const &_key)
 				{
 					erase(_key);
-				};
+				}
 				_CC_DEPRECATE_FUNCTION(erase)   inline void     RemoveData(Key const &_key, Data const & _rec)
 				{
 					erase(_key, _rec);
-				};
+				}
 				_CC_DEPRECATE_FUNCTION(size)    inline int      Size() const
 				{
 					return (int)size();
-				};
+				}
 				_CC_DEPRECATE_FUNCTION(empty)   inline void     Empty()
 				{
 					empty();
-				};
+				}
 				/*! @endcond */
 #endif
 		};

@@ -100,7 +100,7 @@ namespace CrissCross
 				inline bool operator!=(const SHA1Hash &_other) const
 				{
 					return !(*this == _other);
-				};
+				}
 		};
 	}
 }

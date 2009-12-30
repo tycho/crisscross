@@ -108,7 +108,7 @@ namespace CrissCross
 				inline bool operator!=(const TigerHash &_other) const
 				{
 					return !(*this == _other);
-				};
+				}
 		};
 	}
 }

@@ -111,7 +111,7 @@ namespace CrissCross
 				inline bool operator!=(const MD4Hash &_other) const
 				{
 					return !(*this == _other);
-				};
+				}
 		};
 	}
 }

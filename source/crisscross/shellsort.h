@@ -52,7 +52,7 @@ namespace CrissCross
 						h = h / 3;
 					}
 					return 0;
-				};
+				}
 		};
 	}
 }

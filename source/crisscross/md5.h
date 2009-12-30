@@ -110,7 +110,7 @@ namespace CrissCross
 				inline bool operator!=(const MD5Hash &_other) const
 				{
 					return !(*this == _other);
-				};
+				}
 		};
 	}
 }

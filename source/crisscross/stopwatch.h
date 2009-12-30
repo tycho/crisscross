@@ -76,7 +76,7 @@ namespace CrissCross
 					TIMER1_CR = TIMER_ENABLE | TIMER_CASCADE;
 					TIMER0_CR = TIMER_ENABLE | TIMER_DIV_1;
 #endif
-				};
+				}
 
 				/*! \brief Stops the timer counter. */
 				inline void Stop()
@@ -91,7 +91,7 @@ namespace CrissCross
 #elif defined (TARGET_OS_NDSFIRMWARE)
 					TIMER0_CR = 0;
 #endif
-				};
+				}
 
 				/*! \brief Indicates the number of seconds elapsed. */
 				/*!
