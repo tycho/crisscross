@@ -786,7 +786,7 @@ namespace CrissCross
 				memset(entries, 0, sizeof(entries));
 
 			/* Is it a sectored cache? */
-			sprintf(sectored, _sectored ? ", sectored cache" : "");
+			sprintf(sectored, "%s", _sectored ? ", sectored cache" : "");
 
 			/* If there's a line size, we append it. */
 			if (_linesize)
