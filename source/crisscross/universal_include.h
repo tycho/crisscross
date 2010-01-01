@@ -4,7 +4,7 @@
  *
  *   A product of Uplink Laboratories.
  *
- *   (c) 2006-2009 Steven Noonan.
+ *   (c) 2006-2010 Steven Noonan.
  *   Licensed under the New BSD License.
  *
  */
@@ -30,7 +30,7 @@
 /* #  define CC_LIB_CODENAME            "Valhalla"      // v1.0.0 codename */
 
 #define CC_LIB_URL                 "http://www.uplinklabs.net/crisscross/"
-#define CC_LIB_COPYRIGHT           "(c) 2006-2009 by Uplink Laboratories. Licensed under the New BSD License."
+#define CC_LIB_COPYRIGHT           "(c) 2006-2010 by Uplink Laboratories. Licensed under the New BSD License."
 #define CC_LIB_NDS_COPYRIGHT       "(c) by Uplink Laboratories.\nLicensed under the BSD License."
 
 /* Disabling these will save space but limit functionality. */

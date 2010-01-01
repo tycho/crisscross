@@ -4,7 +4,7 @@
  *
  *   A product of Uplink Laboratories.
  *
- *   (c) 2006-2009 Steven Noonan.
+ *   (c) 2006-2010 Steven Noonan.
  *   Licensed under the New BSD License.
  *
  */
