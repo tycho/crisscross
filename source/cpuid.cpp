@@ -1214,7 +1214,7 @@ namespace CrissCross
 					DetectFeature(&Ext[1].edx, _3DNOW_FLAG, processor, "3DNOW");
 
 					/* AMD-only flags, ECX 8000_0001 */
-					DetectFeature(&Ext[1].ecx, LS_FLAG, processor, "LS");
+					DetectFeature(&Ext[1].ecx, LS_FLAG, processor, "LAHF_SAHF");
 					DetectFeature(&Ext[1].ecx, CL_FLAG, processor, "CL");
 					DetectFeature(&Ext[1].ecx, SVM_FLAG, processor, "SVM");
 					DetectFeature(&Ext[1].ecx, EAS_FLAG, processor, "EAS");
