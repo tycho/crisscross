@@ -127,6 +127,7 @@ namespace CrissCross
 #define WDT_FLAG 0x2000
 #define SKINIT_FLAG 0x1000
 #define SSE5_FLAG 0x800
+#define IBS_FLAG 0x400
 #define OSVW_FLAG 0x200
 #define _3DNP_FLAG 0x100
 #define MAS_FLAG 0x80
@@ -1224,6 +1225,7 @@ namespace CrissCross
 					DetectFeature(&Ext[1].ecx, _3DNP_FLAG, processor, "3DNP");
 					DetectFeature(&Ext[1].ecx, OSVW_FLAG, processor, "OSVW");
 					DetectFeature(&Ext[1].ecx, SSE5_FLAG, processor, "SSE5");
+					DetectFeature(&Ext[1].ecx, IBS_FLAG, processor, "IBS");
 					DetectFeature(&Ext[1].ecx, SKINIT_FLAG, processor, "SKINIT");
 					DetectFeature(&Ext[1].ecx, WDT_FLAG, processor, "WDT");
 				}
