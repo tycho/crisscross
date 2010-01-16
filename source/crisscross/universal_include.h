@@ -77,14 +77,10 @@
 
 #if defined (TARGET_OS_WINDOWS)
 #ifndef _WIN32_WINNT
-#if defined (TARGET_CPU_X64)
-#define _WIN32_WINNT 0x0501   /* Windows Server 2003 */
-#else
-#define _WIN32_WINNT 0x0500   /* Windows 2000 */
-#endif
+#define _WIN32_WINNT _WIN32_WINNT_WINXP
 #endif
 #ifndef _WIN32_IE_
-#define _WIN32_IE_   0x0550   /* IE 5.5 */
+#define _WIN32_IE_   _WIN32_IE_IE70
 #endif
 #endif
 
