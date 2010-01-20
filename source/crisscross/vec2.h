@@ -53,7 +53,7 @@ class vec2
 		__forceinline float & Y(){ return y; }
 
 		/* ! Fetches the modulus of the vector (distance from the origin) */
-#ifdef TARGET_OS_WINDOWS
+#ifdef TARGET_COMPILER_VC
 		/* Thank you, Microsoft. >:( */
 		__forceinline float Modulus() const { return _hypotf(y, x); }
 #else
