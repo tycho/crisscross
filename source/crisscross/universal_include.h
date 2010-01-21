@@ -251,7 +251,7 @@ typedef long intptr_t;
 #include <sstream>
 #endif
 
-#if __GNUC__ >= 3
+#if __GNUC__ > 3
 #ifndef __pure
 #define __pure         __attribute__ ((pure))
 #endif
