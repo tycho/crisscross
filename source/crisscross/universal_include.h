@@ -153,14 +153,6 @@
 #undef ENABLE_SYMBOL_ENGINE
 #endif
 
-#if defined (TARGET_OS_NDSFIRMWARE)
-#define ANSI_COLOUR
-#endif
-
-#if defined (TARGET_OS_LINUX) || defined (TARGET_OS_MACOSX) || defined (TARGET_OS_FREEBSD) || defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD)
-#define ANSI_COLOUR
-#endif
-
 #if defined (TARGET_COMPILER_CYGWIN)
 #undef ENABLE_BACKTRACE
 #undef HAS_FPOS64

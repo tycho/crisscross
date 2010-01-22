@@ -238,7 +238,7 @@ namespace CrissCross
 		{
 			CoreAssert(this != NULL);
 
-#if !defined (ANSI_COLOUR) && defined (TARGET_OS_WINDOWS)
+#if defined (TARGET_OS_WINDOWS)
 			HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 			if (_flags == 0)
@@ -246,7 +246,7 @@ namespace CrissCross
 			else
 				SetConsoleTextAttribute(hConsole, _flags);
 
-#elif defined (ANSI_COLOUR)
+#else
 			/* Reset colours to defaults. */
 			Write("\033[0m");
 
