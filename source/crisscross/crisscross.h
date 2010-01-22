@@ -12,8 +12,6 @@
 #ifndef __included_cc_crisscross_h
 #define __included_cc_crisscross_h
 
-#include <crisscross/universal_include.h>
-
 #include <crisscross/version.h>
 
 #include <crisscross/deprecate.h>
