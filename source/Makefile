@@ -22,6 +22,7 @@ includedir := $(prefix)/include/crisscross
 HEADERS = \
 	crisscross/avltree.cpp \
 	crisscross/avltree.h \
+	crisscross/cc_attr.h \
 	crisscross/combsort.h \
 	crisscross/compare.h \
 	crisscross/console.h \

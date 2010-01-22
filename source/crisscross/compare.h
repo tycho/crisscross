@@ -12,6 +12,7 @@
 #ifndef __included_cc_compare_h
 #define __included_cc_compare_h
 
+#include <crisscross/cc_attr.h>
 #include <crisscross/debug.h>
 
 namespace CrissCross

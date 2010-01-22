@@ -12,6 +12,8 @@
 #ifndef __included_cc_hash_h
 #define __included_cc_hash_h
 
+#include <crisscross/cc_attr.h>
+
 namespace CrissCross
 {
 	namespace Data

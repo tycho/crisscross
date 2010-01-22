@@ -14,6 +14,7 @@
 
 #include <cstring>
 
+#include <crisscross/cc_attr.h>
 #include <crisscross/deprecate.h>
 #include <crisscross/debug.h>
 #include <crisscross/dstack.h>

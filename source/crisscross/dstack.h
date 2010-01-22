@@ -12,6 +12,7 @@
 #ifndef __included_cc_dstack_h
 #define __included_cc_dstack_h
 
+#include <crisscross/cc_attr.h>
 #include <crisscross/mutex.h>
 
 namespace CrissCross

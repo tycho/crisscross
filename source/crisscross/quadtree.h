@@ -12,6 +12,7 @@
 #ifndef __included_cc_quadtree_h
 #define __included_cc_quadtree_h
 
+#include <crisscross/cc_attr.h>
 #include <crisscross/compare.h>
 #include <crisscross/mutex.h>
 #include <crisscross/vec2.h>

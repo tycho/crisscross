@@ -12,6 +12,7 @@
 #ifndef __included_cc_avltree_h
 #define __included_cc_avltree_h
 
+#include <crisscross/cc_attr.h>
 #include <crisscross/deprecate.h>
 #include <crisscross/node.h>
 #include <crisscross/internal_mem.h>

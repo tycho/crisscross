@@ -12,6 +12,8 @@
 #ifndef __included_cc_datatypes_h
 #define __included_cc_datatypes_h
 
+#include <cstdio>
+
 typedef char cc_int8_t;
 typedef unsigned char cc_uint8_t;
 
