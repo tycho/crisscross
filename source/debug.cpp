@@ -12,6 +12,7 @@
 #include <crisscross/universal_include.h>
 #include <crisscross/debug.h>
 #include <crisscross/filewriter.h>
+#include <crisscross/nasty_cast.h>
 
 #include <cstdio>
 #include <cstring>

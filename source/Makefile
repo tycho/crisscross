@@ -55,6 +55,7 @@ HEADERS = \
 	crisscross/md4.h \
 	crisscross/md5.h \
 	crisscross/mutex.h \
+	crisscross/nasty_cast.h \
 	crisscross/node.h \
 	crisscross/platform_detect.h \
 	crisscross/profiler.h \

@@ -165,14 +165,6 @@
 
 #include <stddef.h>
 
-#ifndef TARGET_COMPILER_BORLAND
-template <typename TO, typename FROM> TO nasty_cast(FROM f) {
-	union {
-		FROM f; TO t;
-	} u; u.f = f; return u.t;
-}
-#endif
-
 #include <crisscross/compare.h>
 
 #define cc_min(x, y) (CrissCross::Data::Compare(x, y) < 0 ? x : y)
