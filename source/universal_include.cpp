@@ -10,6 +10,9 @@
  */
 
 #include <crisscross/universal_include.h>
+
+#include <cstdio>
+
 #include <crisscross/rbtree.h>
 #include <crisscross/llist.h>
 #include <crisscross/debug.h>

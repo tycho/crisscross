@@ -12,6 +12,8 @@
 #include "header.h"
 #include "hashtable.h"
 
+#include <cstdio>
+
 #include <crisscross/hashtable.h>
 
 using namespace CrissCross::Data;

@@ -12,6 +12,8 @@
 #ifndef __included_cc_darray_h
 #define __included_cc_darray_h
 
+#include <cstring>
+
 #include <crisscross/deprecate.h>
 #include <crisscross/debug.h>
 #include <crisscross/dstack.h>

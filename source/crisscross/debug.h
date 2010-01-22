@@ -14,6 +14,8 @@
 
 #include <crisscross/console.h>
 
+#include <stdlib.h>
+
 #define USE_FAST_ASSERT
 
 /*! @cond */

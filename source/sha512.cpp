@@ -11,6 +11,9 @@
 
 #include <crisscross/universal_include.h>
 
+#include <cstring>
+#include <cstdio>
+
 #ifdef ENABLE_HASHES
 #ifdef ENABLE_SHA512
 

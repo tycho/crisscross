@@ -16,6 +16,10 @@
 
 #include <crisscross/universal_include.h>
 
+#include <cmath>
+#include <cstdio>
+#include <cstring>
+
 #ifdef ENABLE_CPUID
 
 //#define USE_CHUD_FOR_CPUID

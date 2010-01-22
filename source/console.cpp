@@ -10,6 +10,11 @@
  */
 
 #include <crisscross/universal_include.h>
+
+#include <pthread.h>
+#include <cstdio>
+#include <cstring>
+
 #include <crisscross/debug.h>
 #include <crisscross/console.h>
 #include <crisscross/version.h>

@@ -11,6 +11,10 @@
 
 #include <crisscross/universal_include.h>
 
+#if !defined(TARGET_OS_WINDOWS)
+#include <sys/time.h>
+#endif
+
 #include <crisscross/system.h>
 
 namespace CrissCross
@@ -20,28 +24,23 @@ namespace CrissCross
 		namespace
 		{
 			long holdrand = 1L;
-	
+
 			double pausedAt = 0.0;
 			double timeShift = 0.0;
 		    bool timerPaused = false;
 	#if defined (TARGET_OS_WINDOWS)
 
-			/* ! The result of QueryPerformanceFrequency(). (Windows only) */
 			double __m_tickInterval;
 
 	#elif defined (TARGET_OS_MACOSX)
 
-			/* ! The time index at which the timer started. ( Mac OS X only) */
 			uint64_t __m_start;
-	
-			/* ! The time base information. (Mac OS X only) */
 			mach_timebase_info_data_t __m_timebase;
 
 	#elif defined (TARGET_OS_LINUX) || defined (TARGET_OS_FREEBSD) || \
 		defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD) || \
 		defined (TARGET_OS_NDSFIRMWARE)
 
-			/* ! The time index at which the timer started. (Linux only) */
 			timeval __m_start;
 
 	#endif

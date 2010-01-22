@@ -133,8 +133,6 @@
 #undef ENABLE_CPUID
 #endif
 
-#include <sys/stat.h>
-
 #if defined (TARGET_OS_WINDOWS) && (defined (TARGET_COMPILER_VC) || defined (TARGET_COMPILER_ICC))
 #define ENABLE_SYMBOL_ENGINE
 #ifdef _MSC_VER
@@ -148,51 +146,20 @@
 #if defined (DETECT_MEMORY_LEAKS)
 #define _CRTDBG_MAP_ALLOC
 #endif
-#include <io.h>
-#include <fcntl.h>
-#include <winsock2.h>
-#include <mstcpip.h>
-#include <windows.h>
-#include <crtdbg.h>
 #if defined (ENABLE_SYMBOL_ENGINE)
 #include <dbghelp.h>
 #pragma comment (lib, "dbghelp.lib")
 #endif
-#include <process.h>
-#include <shlobj.h>
-#define stat _stat
-#define strcasecmp stricmp
 #else
 #undef ENABLE_SYMBOL_ENGINE
 #endif
 
 #if defined (TARGET_OS_NDSFIRMWARE)
 #define ANSI_COLOUR
-#ifdef __cplusplus
-#include <cxxabi.h>
-#endif
-#include <nds.h>
-#include <fat.h>
-#include <sys/types.h>
-#include <sys/time.h>
-#include <unistd.h>
-#include <errno.h>
-#include <ctype.h>
 #endif
 
 #if defined (TARGET_OS_LINUX) || defined (TARGET_OS_MACOSX) || defined (TARGET_OS_FREEBSD) || defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD)
 #define ANSI_COLOUR
-#ifdef __cplusplus
-#include <cxxabi.h>
-#endif
-#include <pthread.h>
-#include <sys/fcntl.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <errno.h>
-#include <sched.h>
-#include <ctype.h>
 #endif
 
 #if defined (TARGET_COMPILER_CYGWIN)
@@ -205,47 +172,9 @@
 #undef ENABLE_STLTREE
 #endif
 
-#if defined (TARGET_OS_LINUX) && defined (ENABLE_BACKTRACE)
-#include <execinfo.h>
-#endif
-
-#include <string.h>
-#include <assert.h>
-#include <math.h>
-#if !defined (TARGET_OS_NDSFIRMWARE)
-#include <memory.h>
-#else
-#include <malloc.h>
-#endif
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
-#ifdef _MSC_VER
-#if _MSC_VER < 1300 && defined (TARGET_COMPILER_VC)
-#include <xstring>
-typedef long intptr_t;
-#endif
-#endif
-#ifdef __cplusplus
-#include <exception>
-#include <functional>
-#include <queue>
-#include <vector>
-#include <iostream>
-#include <iomanip>
-#include <istream>
-#include <fstream>
-#include <list>
-#include <map>
-#include <sstream>
-#endif
-
 #if __GNUC__ > 3
 #ifndef __pure
 #define __pure         __attribute__ ((pure))
-#endif
-#ifndef __const
-#define __const        __attribute__ ((const))
 #endif
 #ifndef __forceinline
 #define __forceinline  __attribute__ ((always_inline))
@@ -346,11 +275,6 @@ static char THIS_FILE [] = __FILE__;
 
 #endif
 #endif
-
-/*! \brief The application entry point. */
-extern int main(int argc, char * *argv);
-/*! \brief An internal initialization function for the program. */
-int CrissCrossInitialize(int argc, char * *argv);
 
 /* Namespace Definitions */
 /* Primarily here for centralised documentation */

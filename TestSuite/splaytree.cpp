@@ -13,6 +13,8 @@
 #include "splaytree.h"
 #include "testutils.h"
 
+#include <cstdio>
+
 #include <crisscross/splaytree.h>
 
 using namespace CrissCross::Data;

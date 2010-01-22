@@ -9,6 +9,8 @@
  *
  */
 
+#include <cstring>
+
 char *cc_strdup(const char *x)
 {
 	if (!x) return NULL;

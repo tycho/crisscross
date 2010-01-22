@@ -12,6 +12,7 @@
 #ifndef __included_cc_console_h
 #define __included_cc_console_h
 
+#include <string>
 #include <crisscross/core_io.h>
 
 namespace CrissCross

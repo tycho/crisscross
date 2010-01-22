@@ -10,6 +10,10 @@
  */
 
 #include <crisscross/universal_include.h>
+
+#include <cstdio>
+#include <cstring>
+
 #include <crisscross/core_socket.h>
 #include <crisscross/tcpsocket.h>
 

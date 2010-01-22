@@ -11,6 +11,8 @@
 
 #include <crisscross/compare.h>
 
+#include <cstring>
+
 #ifdef TARGET_OS_WINDOWS
 #define strcasecmp stricmp
 #endif
