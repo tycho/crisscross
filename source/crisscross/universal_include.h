@@ -128,10 +128,6 @@
 #undef ENABLE_CPUID
 #endif
 
-#if !(defined (TARGET_CPU_X86) && defined (TARGET_OS_WINDOWS))
-#undef ENABLE_CRASHREPORTS
-#endif
-
 /* FIXME: This is disabled due to inline asm complications. */
 #if defined (TARGET_OS_WINDOWS) && !defined (TARGET_CPU_X86)
 #undef ENABLE_CPUID
@@ -149,14 +145,8 @@
 #undef DETECT_MEMORY_LEAKS
 #endif
 #endif
-#if defined (_DEBUG)
-#undef ENABLE_CRASHREPORTS
-#endif
 #if defined (DETECT_MEMORY_LEAKS)
 #define _CRTDBG_MAP_ALLOC
-#endif
-#if defined (ENABLE_CRASHREPORTS)
-#include "exception_handler.h"
 #endif
 #include <io.h>
 #include <fcntl.h>
@@ -174,7 +164,6 @@
 #define strcasecmp stricmp
 #else
 #undef ENABLE_SYMBOL_ENGINE
-#undef ENABLE_CRASHREPORTS
 #endif
 
 #if defined (TARGET_OS_NDSFIRMWARE)
