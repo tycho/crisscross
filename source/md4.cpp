@@ -11,6 +11,9 @@
 
 #include <crisscross/universal_include.h>
 
+#include <cstdio>
+#include <cstring>
+
 #ifdef ENABLE_HASHES
 #ifdef ENABLE_MD4
 

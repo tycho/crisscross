@@ -12,8 +12,8 @@
 #ifndef __included_cc_vec2_h
 #define __included_cc_vec2_h
 
+#include <crisscross/cc_attr.h>
 #include <math.h>
-
 
 /* ! A 2-dimensional vector */
 class vec2

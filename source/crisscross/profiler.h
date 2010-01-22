@@ -12,6 +12,7 @@
 #ifndef __included_cc_profiler_h
 #define __included_cc_profiler_h
 
+#include <crisscross/cc_attr.h>
 #include <crisscross/hashtable.h>
 #include <crisscross/llist.h>
 

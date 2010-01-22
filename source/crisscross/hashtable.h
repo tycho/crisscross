@@ -12,6 +12,8 @@
 #ifndef __included_cc_hashtable_h
 #define __included_cc_hashtable_h
 
+#include <cstring>
+
 namespace CrissCross
 {
 	namespace Data

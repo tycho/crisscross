@@ -12,6 +12,9 @@
 #include <crisscross/universal_include.h>
 #include <crisscross/error.h>
 
+#include <cstring>
+#include <errno.h>
+
 #ifndef TARGET_OS_WINDOWS
 #include <netdb.h>
 #endif

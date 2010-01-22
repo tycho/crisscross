@@ -13,6 +13,8 @@
 #include "rbtree.h"
 #include "testutils.h"
 
+#include <cstdio>
+
 #include <crisscross/rbtree.h>
 
 using namespace CrissCross::Data;

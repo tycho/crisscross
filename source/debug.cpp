@@ -12,6 +12,17 @@
 #include <crisscross/universal_include.h>
 #include <crisscross/debug.h>
 #include <crisscross/filewriter.h>
+#include <crisscross/nasty_cast.h>
+
+#include <cstdio>
+#include <cstring>
+
+#if defined (TARGET_OS_LINUX) || defined (TARGET_OS_MACOSX) || defined (TARGET_OS_FREEBSD) || defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD)
+#include <cxxabi.h>
+#if !defined(TARGET_OS_MACOSX)
+#include <execinfo.h>
+#endif
+#endif
 
 using namespace CrissCross::IO;
 

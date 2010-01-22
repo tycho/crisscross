@@ -13,6 +13,7 @@
 #define __included_cc_endian_h
 
 #include <crisscross/platform_detect.h>
+#include <crisscross/cc_attr.h>
 
 namespace CrissCross
 {

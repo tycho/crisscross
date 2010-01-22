@@ -12,6 +12,9 @@
 #ifndef __included_cc_darray_h
 #define __included_cc_darray_h
 
+#include <cstring>
+
+#include <crisscross/cc_attr.h>
 #include <crisscross/deprecate.h>
 #include <crisscross/debug.h>
 #include <crisscross/dstack.h>
@@ -190,7 +193,6 @@ namespace CrissCross
 				 */
 				void empty();
 
-#ifdef ENABLE_SORTS
 				/*! \brief Sorts the array using the provided method. */
 				/*!
 				 * \param _sortMethod The method to sort with.
@@ -204,7 +206,6 @@ namespace CrissCross
 				 * \return The number of assignments and comparisons to finish the sort.
 				 */
 				int sort(CrissCross::Data::Sorter<T> &_sortMethod);
-#endif
 
 				/*! \brief Gets the data at the given index. */
 				/*!

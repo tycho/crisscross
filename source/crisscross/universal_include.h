@@ -43,7 +43,6 @@
 #define ENABLE_SHA512
 #define ENABLE_TIGER
 #define ENABLE_STLTREE
-#define ENABLE_SORTS
 
 /* #define DISABLE_DEPRECATED_CODE */ /* This will be enabled by default in a future release */
 
@@ -133,8 +132,6 @@
 #undef ENABLE_CPUID
 #endif
 
-#include <sys/stat.h>
-
 #if defined (TARGET_OS_WINDOWS) && (defined (TARGET_COMPILER_VC) || defined (TARGET_COMPILER_ICC))
 #define ENABLE_SYMBOL_ENGINE
 #ifdef _MSC_VER
@@ -148,51 +145,12 @@
 #if defined (DETECT_MEMORY_LEAKS)
 #define _CRTDBG_MAP_ALLOC
 #endif
-#include <io.h>
-#include <fcntl.h>
-#include <winsock2.h>
-#include <mstcpip.h>
-#include <windows.h>
-#include <crtdbg.h>
 #if defined (ENABLE_SYMBOL_ENGINE)
 #include <dbghelp.h>
 #pragma comment (lib, "dbghelp.lib")
 #endif
-#include <process.h>
-#include <shlobj.h>
-#define stat _stat
-#define strcasecmp stricmp
 #else
 #undef ENABLE_SYMBOL_ENGINE
-#endif
-
-#if defined (TARGET_OS_NDSFIRMWARE)
-#define ANSI_COLOUR
-#ifdef __cplusplus
-#include <cxxabi.h>
-#endif
-#include <nds.h>
-#include <fat.h>
-#include <sys/types.h>
-#include <sys/time.h>
-#include <unistd.h>
-#include <errno.h>
-#include <ctype.h>
-#endif
-
-#if defined (TARGET_OS_LINUX) || defined (TARGET_OS_MACOSX) || defined (TARGET_OS_FREEBSD) || defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD)
-#define ANSI_COLOUR
-#ifdef __cplusplus
-#include <cxxabi.h>
-#endif
-#include <pthread.h>
-#include <sys/fcntl.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <errno.h>
-#include <sched.h>
-#include <ctype.h>
 #endif
 
 #if defined (TARGET_COMPILER_CYGWIN)
@@ -205,120 +163,7 @@
 #undef ENABLE_STLTREE
 #endif
 
-#if defined (TARGET_OS_LINUX) && defined (ENABLE_BACKTRACE)
-#include <execinfo.h>
-#endif
-
-#include <string.h>
-#include <assert.h>
-#include <math.h>
-#if !defined (TARGET_OS_NDSFIRMWARE)
-#include <memory.h>
-#else
-#include <malloc.h>
-#endif
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
-#ifdef _MSC_VER
-#if _MSC_VER < 1300 && defined (TARGET_COMPILER_VC)
-#include <xstring>
-typedef long intptr_t;
-#endif
-#endif
-#ifdef __cplusplus
-#include <exception>
-#include <functional>
-#include <queue>
-#include <vector>
-#include <iostream>
-#include <iomanip>
-#include <istream>
-#include <fstream>
-#include <list>
-#include <map>
-#include <sstream>
-#endif
-
-#if __GNUC__ > 3
-#ifndef __pure
-#define __pure         __attribute__ ((pure))
-#endif
-#ifndef __const
-#define __const        __attribute__ ((const))
-#endif
-#ifndef __forceinline
-#define __forceinline  __attribute__ ((always_inline))
-#endif
-#ifndef __noreturn
-#define __noreturn     __attribute__ ((noreturn))
-#endif
-#ifndef __malloc
-#define __malloc       __attribute__ ((malloc))
-#endif
-#ifndef __must_check
-#define __must_check   __attribute__ ((warn_unused_result))
-#endif
-#ifndef __deprecated
-#define __deprecated   __attribute__ ((deprecated))
-#endif
-#ifndef __used
-#define __used         __attribute__ ((used))
-#endif
-#ifndef __unused_param
-#define __unused_param __attribute__ ((unused))
-#endif
-#ifndef __packed
-#define __packed       __attribute__ ((packed))
-#endif
-#ifndef likely
-#define likely(x)      __builtin_expect(!!(x), 1)
-#endif
-#ifndef unlikely
-#define unlikely(x)    __builtin_expect(!!(x), 0)
-#endif
-#else
-#define __pure
-#define __const
-#define __forceinline  inline
-#define __noreturn
-#define __malloc
-#define __must_check
-#define __deprecated
-#define __used
-#define __unused_param
-#define __packed
-#define likely(x)      (x)
-#define unlikely(x)    (x)
-#endif
-
-#ifndef TARGET_COMPILER_BORLAND
-template <typename TO, typename FROM> TO nasty_cast(FROM f) {
-	union {
-		FROM f; TO t;
-	} u; u.f = f; return u.t;
-}
-#endif
-
-inline char *cc_strdup(const char *x)
-{
-	if (!x) return NULL;
-
-	char *dup = (char *)malloc(strlen(x) + 1);
-	if (!dup) return NULL;
-
-	return strcpy(dup, x);
-}
-
-inline char *cc_newstr(const char *x)
-{
-	if (!x) return NULL;
-
-	char *dup = new char[strlen(x) + 1];
-	if (!dup) return NULL;
-
-	return strcpy(dup, x);
-}
+#include <stddef.h>
 
 #include <crisscross/compare.h>
 
@@ -361,11 +206,6 @@ static char THIS_FILE [] = __FILE__;
 
 #endif
 #endif
-
-/*! \brief The application entry point. */
-extern int main(int argc, char * *argv);
-/*! \brief An internal initialization function for the program. */
-int CrissCrossInitialize(int argc, char * *argv);
 
 /* Namespace Definitions */
 /* Primarily here for centralised documentation */

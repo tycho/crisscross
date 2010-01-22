@@ -301,7 +301,6 @@ namespace CrissCross
 			return ret;
 		}
 
-#ifdef ENABLE_SORTS
 		template <class T> void LList <T>::sort(CrissCross::Data::Sorter<T> &_sortMethod)
 		{
 			sort(&_sortMethod);
@@ -333,7 +332,6 @@ namespace CrissCross
 				insert(sortArray.get(i));
 			}
 		}
-#endif
 
 		template <class T> T const & LList <T>::operator [](size_t index) const
 		{

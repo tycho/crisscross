@@ -12,12 +12,11 @@
 #ifndef __included_cc_core_socket_h
 #define __included_cc_core_socket_h
 
-#ifndef __GNUC__
-#include <crisscross/universal_include.h>
-#endif
+#include <sys/types.h>
+#include <string>
 
+#include <crisscross/platform_detect.h>
 #include <crisscross/core_network.h>
-#include <crisscross/rbtree.h>
 
 #ifdef TARGET_OS_WINDOWS
 #include <windows.h>

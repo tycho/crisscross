@@ -12,11 +12,8 @@
 #ifndef __included_cc_compare_h
 #define __included_cc_compare_h
 
+#include <crisscross/cc_attr.h>
 #include <crisscross/debug.h>
-
-#ifdef TARGET_OS_WINDOWS
-#define strcasecmp stricmp
-#endif
 
 namespace CrissCross
 {
@@ -41,34 +38,10 @@ namespace CrissCross
 		}
 
 		/*! \brief C-style string CrissCross::Data::Compare function. */
-		template <>
-		__inline int Compare<char *> (char * const &_first, char * const &_second)
-		{
-			CoreAssert(_first); CoreAssert(_second);
-#ifdef CASE_SENSITIVE_COMPARE
-			int ret = ::strcmp(_first, _second);
-#else
-			int ret = ::strcasecmp(_first, _second);
-#endif
-			if (ret < 0) return -1;
-			else if (ret > 0) return 1;
-			else return 0;
-		}
+		template <> int Compare<char *> (char * const &_first, char * const &_second);
 
 		/*! \brief C-style string CrissCross::Data::Compare function. */
-		template <>
-		__inline int Compare<const char *> (const char * const &_first, const char * const &_second)
-		{
-			CoreAssert(_first); CoreAssert(_second);
-#ifdef CASE_SENSITIVE_COMPARE
-			int ret = ::strcmp(_first, _second);
-#else
-			int ret = ::strcasecmp(_first, _second);
-#endif
-			if (ret < 0) return -1;
-			else if (ret > 0) return 1;
-			else return 0;
-		}
+		template <>	int Compare<const char *> (const char * const &_first, const char * const &_second);
 
 		/*! \brief An STL-compatible comparator class which makes use of Compare */
 		template <class T>

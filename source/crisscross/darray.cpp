@@ -336,7 +336,6 @@ namespace CrissCross
 			return -1;
 		}
 
-#ifdef ENABLE_SORTS
 		template <class T>
 		int DArray <T>::sort(Sorter<T> *_sortMethod)
 		{
@@ -376,7 +375,6 @@ namespace CrissCross
 		{
 			return sort(&_sortMethod);
 		}
-#endif
 
 		template <class T>
 		void DArray<T>::flush()

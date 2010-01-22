@@ -12,6 +12,7 @@
 #ifndef __included_cc_console_h
 #define __included_cc_console_h
 
+#include <string>
 #include <crisscross/core_io.h>
 
 namespace CrissCross
@@ -44,7 +45,7 @@ namespace CrissCross
 					BG_GREEN = 0x0020,          /*! \brief< Green Background */
 					BG_RED = 0x0040,            /*! \brief< Red Background */
 					BG_INTENSITY = 0x0080,      /*! \brief< Background intensity (makes the foreground colour a shade brighter) */
-		#if !defined (ANSI_COLOUR) && defined (TARGET_OS_WINDOWS)
+		#if defined (TARGET_OS_WINDOWS)
 					FG_BROWN = 0x0000,                                  /*! \brief< Brown Foreground (POSIX only) */
 					FG_MAGENTA = FG_BLUE | FG_RED,                      /*! \brief< Magenta Foreground */
 					FG_CYAN = FG_BLUE | FG_GREEN,                       /*! \brief< Cyan Foreground */
@@ -57,7 +58,7 @@ namespace CrissCross
 					BG_GRAY = BG_BLUE | BG_GREEN | BG_RED,              /*! \brief< Gray Background */
 					BG_WHITE = BG_BLUE | BG_GREEN | BG_RED | BG_INTENSITY, /*! \brief< White Background */
 					BG_YELLOW = BG_GREEN | BG_RED                       /*! \brief< Yellow Background */
-		#elif defined (ANSI_COLOUR)
+		#else
 					FG_BROWN = 0x0100,      /*! \brief< Brown Foreground (POSIX only) */
 					FG_MAGENTA = 0x0200,    /*! \brief< Magenta Foreground */
 					FG_CYAN = 0x0400,       /*! \brief< Cyan Foreground */

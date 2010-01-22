@@ -12,6 +12,8 @@
 #include "header.h"
 #include "testutils.h"
 
+#include <cstdio>
+
 using namespace CrissCross;
 
 #ifndef TARGET_OS_NDSFIRMWARE

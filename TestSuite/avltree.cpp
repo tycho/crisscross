@@ -13,6 +13,8 @@
 #include "avltree.h"
 #include "testutils.h"
 
+#include <cstdio>
+
 #include <crisscross/avltree.h>
 
 using namespace CrissCross::Data;

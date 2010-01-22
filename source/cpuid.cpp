@@ -15,6 +15,11 @@
  */
 
 #include <crisscross/universal_include.h>
+#include <crisscross/string_utils.h>
+
+#include <cmath>
+#include <cstdio>
+#include <cstring>
 
 #ifdef ENABLE_CPUID
 
@@ -688,10 +693,8 @@ namespace CrissCross
 				}
 			}
 
-#ifdef ENABLE_SORTS
 			CrissCross::Data::QuickSort<char *> sorter;
 			proc[processor]->m_caches.sort(sorter);
-#endif
 		}
 
 		const char *CPUID::CreateCacheDescription(cacheType _type, const char *_pages, unsigned int _size, unsigned int _assoc, unsigned int _entries, unsigned int _linesize, bool _sectored)

@@ -9,15 +9,11 @@
  *
  */
 
-#ifndef __included_quicksort_test_h
-#define __included_quicksort_test_h
-
-#ifdef ENABLE_SORTS
+#ifndef __included_sort_h
+#define __included_sort_h
 
 int TestSort_IntArray(CrissCross::Data::Sorter<int> *_sorter);
 int TestSort_DArray(CrissCross::Data::Sorter<int> *_sorter);
 int TestSort_LList(CrissCross::Data::Sorter<int> *_sorter);
-
-#endif
 
 #endif

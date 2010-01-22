@@ -13,6 +13,8 @@
 #include "stltree.h"
 #include "testutils.h"
 
+#include <cstdio>
+
 #ifdef ENABLE_STLTREE
 
 #include <crisscross/stltree.h>

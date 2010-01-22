@@ -11,6 +11,10 @@
 
 #include <crisscross/universal_include.h>
 
+#include <cstdarg>
+#include <cstdio>
+#include <cstring>
+
 #include <crisscross/debug.h>
 #include <crisscross/endian.h>
 #include <crisscross/core_io.h>

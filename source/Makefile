@@ -22,6 +22,7 @@ includedir := $(prefix)/include/crisscross
 HEADERS = \
 	crisscross/avltree.cpp \
 	crisscross/avltree.h \
+	crisscross/cc_attr.h \
 	crisscross/combsort.h \
 	crisscross/compare.h \
 	crisscross/console.h \
@@ -54,6 +55,7 @@ HEADERS = \
 	crisscross/md4.h \
 	crisscross/md5.h \
 	crisscross/mutex.h \
+	crisscross/nasty_cast.h \
 	crisscross/node.h \
 	crisscross/platform_detect.h \
 	crisscross/profiler.h \
@@ -70,6 +72,7 @@ HEADERS = \
 	crisscross/splaytree.h \
 	crisscross/stltree.h \
 	crisscross/stopwatch.h \
+	crisscross/string_utils.h \
 	crisscross/system.h \
 	crisscross/tcpsocket.h \
 	crisscross/tiger.h \
@@ -81,6 +84,7 @@ HEADERS = \
 
 SOURCES = \
 	console.cpp \
+	compare.cpp \
 	core_io_reader.cpp \
 	core_io_writer.cpp \
 	core_network.cpp \
@@ -99,6 +103,7 @@ SOURCES = \
 	sha256.cpp \
 	sha512.cpp \
 	stopwatch.cpp \
+	string_utils.cpp \
 	system.cpp \
 	tcpsocket.cpp \
 	tiger.cpp \

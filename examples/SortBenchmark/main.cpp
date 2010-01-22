@@ -11,6 +11,8 @@
 
 #include "header.h"
 
+#include <cstdio>
+
 using namespace CrissCross::Data;
 using namespace CrissCross::IO;
 using namespace CrissCross::System;
@@ -18,7 +20,6 @@ using namespace std;
 
 Console *console = NULL;
 
-#ifdef ENABLE_SORTS
 void BenchmarkDArray(Sorter<char *> &sorter)
 {
 	DArray<char *> data, rdata;
@@ -88,13 +89,10 @@ void BenchmarkDArray(Sorter<char *> &sorter)
 		console->WriteLine("Dataset not found.");
 	}
 }
-#endif
 
 int main(int argc, char * *argv)
 {
 	console = new Console();
-
-#ifdef ENABLE_SORTS
 
 	QuickSort<char *>     qs;
 	HeapSort<char *>      hs;
@@ -124,9 +122,6 @@ int main(int argc, char * *argv)
 	console->SetColour();
 	BenchmarkDArray(qs);
 	console->WriteLine();
-#else
-	console->WriteLine("Sorting algorithms are disabled in this build of CrissCross.\nDefine ENABLE_SORTS in universal_include.h if you want them.");
-#endif
 
 	console->WriteLine();
 

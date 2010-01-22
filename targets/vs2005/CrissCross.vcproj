@@ -296,6 +296,10 @@
 			Name="Source"
 			>
 			<File
+				RelativePath="..\..\source\compare.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\source\console.cpp"
 				>
 			</File>
@@ -369,6 +373,10 @@
 			</File>
 			<File
 				RelativePath="..\..\source\stopwatch.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\source\string_utils.cpp"
 				>
 			</File>
 			<File

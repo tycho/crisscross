@@ -3,6 +3,8 @@
 #include "rijndael.h"
 #include "rijndael-alg-fst.h"
 
+#include <cstdio>
+
 using namespace CrissCross::System;
 
 #define ITERATIONS 10000000
