@@ -16,6 +16,7 @@
 
 #include <crisscross/deprecate.h>
 #include <crisscross/datatypes.h>
+#include <crisscross/string_utils.h>
 #include <crisscross/sort.h>
 #include <crisscross/filesystem.h>
 #include <crisscross/dstack.h>

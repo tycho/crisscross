@@ -182,9 +182,6 @@ template <typename TO, typename FROM> TO nasty_cast(FROM f) {
 }
 #endif
 
-char *cc_strdup(const char *x);
-char *cc_newstr(const char *x);
-
 #include <crisscross/compare.h>
 
 #define cc_min(x, y) (CrissCross::Data::Compare(x, y) < 0 ? x : y)

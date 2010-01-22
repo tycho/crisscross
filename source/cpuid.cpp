@@ -15,6 +15,7 @@
  */
 
 #include <crisscross/universal_include.h>
+#include <crisscross/string_utils.h>
 
 #include <cmath>
 #include <cstdio>

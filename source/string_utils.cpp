@@ -9,7 +9,10 @@
  *
  */
 
+#include <crisscross/string_utils.h>
+
 #include <cstring>
+#include <cstdlib>
 
 char *cc_strdup(const char *x)
 {

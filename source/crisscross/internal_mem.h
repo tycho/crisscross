@@ -14,6 +14,7 @@
 
 #include <crisscross/cc_attr.h>
 #include <crisscross/debug.h>
+#include <crisscross/string_utils.h>
 
 namespace CrissCross
 {
