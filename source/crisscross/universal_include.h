@@ -292,6 +292,8 @@ typedef long intptr_t;
 #define unlikely(x)    (x)
 #endif
 
+#include <stddef.h>
+
 #ifndef TARGET_COMPILER_BORLAND
 template <typename TO, typename FROM> TO nasty_cast(FROM f) {
 	union {
@@ -300,25 +302,8 @@ template <typename TO, typename FROM> TO nasty_cast(FROM f) {
 }
 #endif
 
-inline char *cc_strdup(const char *x)
-{
-	if (!x) return NULL;
-
-	char *dup = (char *)malloc(strlen(x) + 1);
-	if (!dup) return NULL;
-
-	return strcpy(dup, x);
-}
-
-inline char *cc_newstr(const char *x)
-{
-	if (!x) return NULL;
-
-	char *dup = new char[strlen(x) + 1];
-	if (!dup) return NULL;
-
-	return strcpy(dup, x);
-}
+char *cc_strdup(const char *x);
+char *cc_newstr(const char *x);
 
 #include <crisscross/compare.h>
 
