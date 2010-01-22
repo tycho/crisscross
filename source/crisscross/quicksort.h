@@ -12,8 +12,6 @@
 #ifndef __included_cc_quicksort_h
 #define __included_cc_quicksort_h
 
-#ifdef ENABLE_SORTS
-
 #include <crisscross/deprecate.h>
 #include <crisscross/sort.h>
 #include <crisscross/system.h>
@@ -115,7 +113,5 @@ namespace CrissCross
 		};
 	}
 }
-
-#endif
 
 #endif

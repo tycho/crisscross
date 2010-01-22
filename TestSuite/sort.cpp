@@ -13,8 +13,6 @@
 #include "testutils.h"
 #include "sort.h"
 
-#ifdef ENABLE_SORTS
-
 using namespace CrissCross::Data;
 
 int TestSort_IntArray(Sorter<int> *_sorter)
@@ -68,5 +66,3 @@ int TestSort_LList(Sorter<int> *_sorter)
 	delete llist;
 	return 0;
 }
-
-#endif

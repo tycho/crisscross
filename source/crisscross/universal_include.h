@@ -43,7 +43,6 @@
 #define ENABLE_SHA512
 #define ENABLE_TIGER
 #define ENABLE_STLTREE
-#define ENABLE_SORTS
 
 /* #define DISABLE_DEPRECATED_CODE */ /* This will be enabled by default in a future release */
 

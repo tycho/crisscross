@@ -183,7 +183,6 @@ namespace CrissCross
 				 */
 				T const & operator [](size_t _index) const;
 
-#ifdef ENABLE_SORTS
 				/*! \brief Sorts the array using the provided method. */
 				/*!
 				 * \param _sortMethod The method to sort with.
@@ -195,7 +194,7 @@ namespace CrissCross
 				 * \param _sortMethod The method to sort with.
 				 */
 				void sort(CrissCross::Data::Sorter<T> &_sortMethod);
-#endif
+
 				/*! \brief Returns the overhead caused by the data structure. */
 				/*!
 				 * \return Memory usage in bytes.

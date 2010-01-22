@@ -223,7 +223,6 @@ PREDEFINED             = _CC_NO_DEPRECATE= \
                          _CC_DEPRECATE_SLOW(x)= \
                          _CC_DEPRECATE_FUNCTION(x)= \
                          _CC_DEPRECATE_FUNCTION_N= \
-                         ENABLE_SORTS \
                          ENABLE_CPUID \
                          ENABLE_HASHES \
                          ENABLE_MD4 \

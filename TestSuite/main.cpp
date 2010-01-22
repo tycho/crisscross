@@ -115,7 +115,6 @@ int main(int argc, char * *argv)
 
 	WritePrefix("HashTable<const char *, const char *>"); retval |= WriteResult(TestHashTable_CString());
 
-#ifdef ENABLE_SORTS
 	CrissCross::Data::CombSort<int> cs;
 	WritePrefix("CombSort (integer array)"); retval |= WriteResult(TestSort_IntArray(&cs));
 	WritePrefix("CombSort (integer DArray)"); retval |= WriteResult(TestSort_DArray(&cs));
@@ -135,7 +134,6 @@ int main(int argc, char * *argv)
 	WritePrefix("QuickSort (integer array)"); retval |= WriteResult(TestSort_IntArray(&qs));
 	WritePrefix("QuickSort (integer DArray)"); retval |= WriteResult(TestSort_DArray(&qs));
 	WritePrefix("QuickSort (integer LList)"); retval |= WriteResult(TestSort_LList(&qs));
-#endif
 
 	if (retval == 0) {
 		g_console->WriteLine();
