@@ -12,10 +12,6 @@
 #ifndef __included_md4_test_h
 #define __included_md4_test_h
 
-#ifdef ENABLE_MD4
-
 int TestMD4();
-
-#endif
 
 #endif

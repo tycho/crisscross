@@ -12,10 +12,6 @@
 #ifndef __included_sha1_test_h
 #define __included_sha1_test_h
 
-#ifdef ENABLE_SHA1
-
 int TestSHA1();
-
-#endif
 
 #endif

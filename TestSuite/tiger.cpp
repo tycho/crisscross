@@ -12,8 +12,6 @@
 #include "header.h"
 #include "tiger.h"
 
-#ifdef ENABLE_TIGER
-
 using namespace CrissCross::Crypto;
 
 int TestTiger()
@@ -62,5 +60,3 @@ int TestTiger()
 
 	return 0;
 }
-
-#endif

@@ -35,13 +35,6 @@
 
 /* Disabling these will save space but limit functionality. */
 #define ENABLE_CPUID
-#define ENABLE_HASHES
-#define ENABLE_MD4
-#define ENABLE_MD5
-#define ENABLE_SHA1
-#define ENABLE_SHA256
-#define ENABLE_SHA512
-#define ENABLE_TIGER
 #define ENABLE_STLTREE
 
 /* #define DISABLE_DEPRECATED_CODE */ /* This will be enabled by default in a future release */

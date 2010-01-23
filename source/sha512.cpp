@@ -14,9 +14,6 @@
 #include <cstring>
 #include <cstdio>
 
-#ifdef ENABLE_HASHES
-#ifdef ENABLE_SHA512
-
 #include <crisscross/core_io_reader.h>
 #include <crisscross/sha512.h>
 
@@ -423,6 +420,3 @@ namespace CrissCross
 		}
 	}
 }
-
-#endif
-#endif

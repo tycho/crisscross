@@ -12,9 +12,6 @@
 #ifndef __included_cc_md4_h
 #define __included_cc_md4_h
 
-#ifdef ENABLE_HASHES
-#ifdef ENABLE_MD4
-
 #include <crisscross/deprecate.h>
 
 #define MD4_DIGEST_LENGTH       16
@@ -115,8 +112,5 @@ namespace CrissCross
 		};
 	}
 }
-
-#endif
-#endif
 
 #endif

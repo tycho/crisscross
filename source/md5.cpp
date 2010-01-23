@@ -14,9 +14,6 @@
 #include <cstdio>
 #include <cstring>
 
-#ifdef ENABLE_HASHES
-#ifdef ENABLE_MD5
-
 #include <crisscross/core_io_reader.h>
 #include <crisscross/md5.h>
 
@@ -1022,6 +1019,3 @@ namespace CrissCross
 		}
 	}
 }
-
-#endif
-#endif

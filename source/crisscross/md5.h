@@ -12,9 +12,6 @@
 #ifndef __included_cc_md5_h
 #define __included_cc_md5_h
 
-#ifdef ENABLE_HASHES
-#ifdef ENABLE_MD5
-
 #define MD5_DIGEST_LENGTH       16
 
 /* MD5 context. */
@@ -114,8 +111,5 @@ namespace CrissCross
 		};
 	}
 }
-
-#endif
-#endif
 
 #endif

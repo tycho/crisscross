@@ -14,9 +14,6 @@
 #include <cstdio>
 #include <cstring>
 
-#ifdef ENABLE_HASHES
-#ifdef ENABLE_MD4
-
 #include <crisscross/core_io_reader.h>
 #include <crisscross/md4.h>
 
@@ -392,6 +389,3 @@ namespace CrissCross
 		}
 	}
 }
-
-#endif
-#endif

@@ -12,8 +12,6 @@
 #include "header.h"
 #include "sha1.h"
 
-#ifdef ENABLE_SHA1
-
 using namespace CrissCross::Crypto;
 using namespace CrissCross::IO;
 
@@ -61,5 +59,3 @@ int TestSHA1()
 
 	return 0;
 }
-
-#endif

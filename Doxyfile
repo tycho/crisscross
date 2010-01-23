@@ -223,13 +223,7 @@ PREDEFINED             = _CC_NO_DEPRECATE= \
                          _CC_DEPRECATE_SLOW(x)= \
                          _CC_DEPRECATE_FUNCTION(x)= \
                          _CC_DEPRECATE_FUNCTION_N= \
-                         ENABLE_CPUID \
-                         ENABLE_HASHES \
-                         ENABLE_MD4 \
-                         ENABLE_MD5 \
-                         ENABLE_SHA1 \
-                         ENABLE_SHA256 \
-                         ENABLE_SHA512
+                         ENABLE_CPUID
 
 EXPAND_AS_DEFINED      = 
 SKIP_FUNCTION_MACROS   = YES

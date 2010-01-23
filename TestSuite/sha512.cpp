@@ -12,8 +12,6 @@
 #include "header.h"
 #include "sha512.h"
 
-#ifdef ENABLE_SHA512
-
 using namespace CrissCross::Crypto;
 using namespace CrissCross::IO;
 
@@ -62,5 +60,3 @@ int TestSHA512()
 
 	return 0;
 }
-
-#endif

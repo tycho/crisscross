@@ -66,24 +66,12 @@ int main(int argc, char * *argv)
 	WritePrefix("Type-based aliasing sanity"); retval |= WriteResult(TestSanity_TypeBasedAliasing());
 #endif
 
-#ifdef ENABLE_MD4
 	WritePrefix("MD4"); retval |= WriteResult(TestMD4());
-#endif
-#ifdef ENABLE_MD5
 	WritePrefix("MD5"); retval |= WriteResult(TestMD5());
-#endif
-#ifdef ENABLE_SHA1
 	WritePrefix("SHA-1"); retval |= WriteResult(TestSHA1());
-#endif
-#ifdef ENABLE_SHA256
 	WritePrefix("SHA-256"); retval |= WriteResult(TestSHA256());
-#endif
-#ifdef ENABLE_SHA512
 	WritePrefix("SHA-512"); retval |= WriteResult(TestSHA512());
-#endif
-#ifdef ENABLE_TIGER
 	WritePrefix("Tiger"); retval |= WriteResult(TestTiger());
-#endif
 
 	WritePrefix("Stopwatch"); retval |= WriteResult(TestStopwatch());
 

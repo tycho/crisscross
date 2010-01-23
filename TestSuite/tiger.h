@@ -12,10 +12,6 @@
 #ifndef __included_tiger_test_h
 #define __included_tiger_test_h
 
-#ifdef ENABLE_TIGER
-
 int TestTiger();
-
-#endif
 
 #endif

@@ -14,9 +14,6 @@
 #include <cstdio>
 #include <cstring>
 
-#ifdef ENABLE_HASHES
-#ifdef ENABLE_TIGER
-
 #include <crisscross/core_io_reader.h>
 #include <crisscross/tiger.h>
 
@@ -972,5 +969,3 @@ namespace CrissCross
 	}
 }
 
-#endif
-#endif
