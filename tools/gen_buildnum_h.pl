@@ -24,21 +24,13 @@ $releasever = <RELEASEVER>;
 close RELEASEVER;
 mkdir dirname($outfile);
 
-print "Is this project under Git? ";
 if (-d "$scriptpath/../.git" ) {
-	print "Yes\n";
-	print "Is Git installed? ";
 	if ( !$Win32 && `which git` ) {
-		print "Yes\n";
 		$in_git = 1;
 	} else {
-		print "No";
-		print " - can't check on Win32." if ($Win32);
-		print "\n";
 		$in_git = 0;
 	}
 } else {
-	print "No\n";
 	$in_git = 0;
 }
 
@@ -56,7 +48,7 @@ if ($in_git == 0) {
 }
 
 if (!$verstring) {
-	die "couldn't get the version information\n";
+	die "error: couldn't get the version information.\n";
 }
 
 chomp($verstring);
@@ -67,7 +59,7 @@ my $component_pattern = "[v]?([0-9]+)[.]([0-9]+)[.]([0-9]+)(?:[.]([0-9]+))?(?:(?
 
 if ($verstring =~ $component_pattern) {
 } else {
-	die "Version string '$verstring' is malformed...\n";
+	die "error: version string '$verstring' is malformed...\n";
 }
 
 my $major  = $1;
@@ -159,8 +151,6 @@ if ($md5old ne $md5new) {
 		unlink($outfile) or die $!;
 	}
 	move "$outfile.tmp", $outfile or die $!;
-	print "$outfile updated.\n";
 } else {
 	unlink ("$outfile.tmp");
-	print "$outfile is already up to date.\n";
 }
