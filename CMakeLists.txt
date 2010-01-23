@@ -11,7 +11,7 @@ set(CMAKE_BUILD_TYPE CrissCrossDefaultBuildType)
 IF(CMAKE_COMPILER_IS_GNUCXX)
     EXEC_PROGRAM(
     	${CMAKE_CXX_COMPILER} 
-        ARGS 			--version 
+        ARGS 			-dumpversion
         OUTPUT_VARIABLE _compiler_output)
     STRING(REGEX REPLACE ".*([0-9]+\\.[0-9]+\\.[0-9]+).*" "\\1"
            gcc_compiler_version ${_compiler_output})
