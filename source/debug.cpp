@@ -243,17 +243,26 @@ void CrissCross::Debug::PrintStackTrace(CrissCross::IO::CoreIOWriter * _outputBu
 
 	for (i = 0; i < size; i++) {
 #if defined (TARGET_OS_LINUX)
-		bt += strings[i];
 		int status;
 		/* extract the identifier from strings[i].  It's inside of parens. */
-		char * firstparen = ::strchr(strings[i], '(');
-		char * lastparen = ::strchr(strings[i], '+');
-		if (firstparen != 0 && lastparen != 0 && firstparen < lastparen) {
-			bt += ": ";
-			*lastparen = '\0';
-			char * realname = abi::__cxa_demangle(firstparen + 1, 0, 0, &status);
+		char *identifier = ::strchr(strings[i], '(');
+		char *identifier_end = ::strchr(strings[i], '+');
+		char *address = ::strchr(strings[i], '[');
+		if (identifier != 0 && identifier_end != 0 && identifier < identifier_end) {
+			bt += address;
+			bt += " ";
+			*identifier_end = '\0';
+			char * realname = abi::__cxa_demangle(identifier + 1, 0, 0, &status);
 			if (realname != NULL) {
 				bt += realname;
+			} else {
+				bt += (identifier + 1);
+			}
+			char *off_end = ::strchr(identifier_end + 1, ')');
+			if (off_end) {
+				*off_end = 0;
+				bt += " + ";
+				bt += (identifier_end + 1);
 			}
 			free(realname);
 		}
