@@ -125,12 +125,6 @@
 #pragma warning ( disable : 4345 4100 4800 )
 #endif
 #endif
-#if 0 && defined (ENABLE_SYMBOL_ENGINE)
-#include <winsock2.h>
-#include <windows.h>
-#include <dbghelp.h>
-#pragma comment (lib, "dbghelp.lib")
-#endif
 #else
 #undef ENABLE_SYMBOL_ENGINE
 #endif
