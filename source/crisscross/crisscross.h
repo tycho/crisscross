@@ -13,9 +13,8 @@
 #define __included_cc_crisscross_h
 
 #include <crisscross/version.h>
-
+#include <crisscross/platform_detect.h>
 #include <crisscross/cc_attr.h>
-
 #include <crisscross/deprecate.h>
 #include <crisscross/datatypes.h>
 #include <crisscross/string_utils.h>
