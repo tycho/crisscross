@@ -63,26 +63,6 @@ namespace CrissCross
 		class CPUID
 		{
 			protected:
-
-#ifdef TARGET_OS_WINDOWS
-
-				struct GoThreadProc_Params
-				{
-					CPUID *cpuid_class;
-					int processor;
-				};
-
-				static DWORD CALLBACK s_GoThreadProc(LPVOID lpParameter)
-				{
-					return (( GoThreadProc_Params * )lpParameter)->cpuid_class->
-					       GoThread(( LPVOID * )&
-					                (( GoThreadProc_Params * )lpParameter)->processor);
-				};
-				DWORD WINAPI GoThread(LPVOID * params);
-#else
-				long int GoThread(int processor);
-#endif
-
 				typedef enum
 				{
 					CACHE_TYPE_TRACE,
@@ -141,6 +121,11 @@ namespace CrissCross
 				int VirtualCount();
 
 				CrissCross::Data::DArray<X86Processor *> proc;
+
+				/*!
+				 * Not to be directly called. For internal use only.
+				 */
+				long GoThread(int processor);
 		};
 	}
 }

@@ -21,6 +21,8 @@
 #include <cstdio>
 #include <cstring>
 
+#define ENABLE_CPUID
+
 /* Doesn't work on non-x86, and Cygwin doesn't have the functionality for cpu_set_t. */
 #if !(defined (TARGET_CPU_X86) || defined (TARGET_CPU_X64)) || defined (TARGET_COMPILER_CYGWIN) || defined (TARGET_OS_FREEBSD) || defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD)
 #undef ENABLE_CPUID
@@ -32,6 +34,10 @@
 #endif
 
 #ifdef ENABLE_CPUID
+
+#ifdef TARGET_OS_WINDOWS
+#include <windows.h>
+#endif
 
 //#define USE_CHUD_FOR_CPUID
 
@@ -173,6 +179,18 @@ namespace CrissCross
 		 * the current processor supports CPUID, false otherwise.  */
 		namespace
 		{
+			struct GoThreadProc_Params
+			{
+				CPUID *cpuid_class;
+				int processor;
+			};
+
+			static DWORD CALLBACK s_GoThreadProc(LPVOID lpParameter)
+			{
+				GoThreadProc_Params *params = (GoThreadProc_Params *)lpParameter;
+				return params->cpuid_class->GoThread(params->processor);
+			};
+
 			bool call_cpuid(unsigned int request, unsigned int *_eax, unsigned int *_ebx, unsigned int *_ecx, unsigned int *_edx)
 			{
 #ifndef TARGET_CPU_X64
@@ -466,9 +484,9 @@ namespace CrissCross
 		{
 			CoreAssert(this != NULL);
 
-			int count = 0, i;
+			int count = 0;
 
-			for (i = 0; i < proc.size(); i++) {
+			for (size_t i = 0; i < proc.size(); i++) {
 				if (proc.valid(i))
 					count++;
 			}
@@ -488,17 +506,10 @@ namespace CrissCross
 			return proc[0]->m_logical;
 		}
 
-#ifdef TARGET_OS_WINDOWS
-		DWORD WINAPI CPUID::GoThread(LPVOID * params)
-#else
 		long int CPUID::GoThread(int processor)
-#endif
 		{
 			CoreAssert(this != NULL);
-#ifdef TARGET_OS_WINDOWS
-			int processor;
-			memcpy(&processor, params, sizeof(int));
-#endif
+
 			if (processor < 0) {
 				return 1;
 			}
