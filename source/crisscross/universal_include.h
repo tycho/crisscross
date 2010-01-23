@@ -63,6 +63,8 @@
 
 #include <crisscross/platform_detect.h>
 
+#include <crisscross/cc_attr.h>
+
 /* ----------------------- */
 /* RESULTANT CONFIGURATION */
 /* ----------------------- */

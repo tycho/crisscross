@@ -14,6 +14,8 @@
 
 #include <crisscross/version.h>
 
+#include <crisscross/cc_attr.h>
+
 #include <crisscross/deprecate.h>
 #include <crisscross/datatypes.h>
 #include <crisscross/string_utils.h>
