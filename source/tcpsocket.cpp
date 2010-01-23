@@ -34,7 +34,9 @@
 #define SOCKET_ERROR -1
 #else
 #include <winsock2.h>
+#ifdef TARGET_COMPILER_VC
 #include <mstcpip.h>
+#endif
 typedef int socklen_t;
 #endif
 
