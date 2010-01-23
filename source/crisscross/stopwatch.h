@@ -12,9 +12,7 @@
 #ifndef __included_cc_stopwatch_h
 #define __included_cc_stopwatch_h
 
-#ifndef __GNUC__
-#include <crisscross/universal_include.h>
-#endif
+#include <crisscross/platform_detect.h>
 
 #if defined (TARGET_OS_MACOSX)
 #include <mach/mach.h>

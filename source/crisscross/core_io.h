@@ -12,9 +12,7 @@
 #ifndef __included_cc_core_io_h
 #define __included_cc_core_io_h
 
-#ifndef __GNUC__
-#include <crisscross/universal_include.h>
-#endif
+#include <crisscross/platform_detect.h>
 
 namespace CrissCross
 {

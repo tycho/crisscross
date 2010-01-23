@@ -12,9 +12,7 @@
 #ifndef __included_cc_mutex_h
 #define __included_cc_mutex_h
 
-#ifndef __GNUC__
-#include <crisscross/universal_include.h>
-#endif
+#include <crisscross/platform_detect.h>
 
 #ifndef TARGET_OS_NDSFIRMWARE
 

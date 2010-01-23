@@ -12,11 +12,7 @@
 #ifndef __included_cc_cpuid_h
 #define __included_cc_cpuid_h
 
-#ifndef __GNUC__
-#include <crisscross/universal_include.h>
-#endif
-
-#ifdef ENABLE_CPUID
+#include <crisscross/platform_detect.h>
 
 #ifdef TARGET_OS_WINDOWS
 #include <windows.h>
@@ -152,7 +148,5 @@ namespace CrissCross
 		};
 	}
 }
-
-#endif
 
 #endif
