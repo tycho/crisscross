@@ -21,6 +21,16 @@
 #include <cstdio>
 #include <cstring>
 
+/* Doesn't work on non-x86, and Cygwin doesn't have the functionality for cpu_set_t. */
+#if !(defined (TARGET_CPU_X86) || defined (TARGET_CPU_X64)) || defined (TARGET_COMPILER_CYGWIN) || defined (TARGET_OS_FREEBSD) || defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD)
+#undef ENABLE_CPUID
+#endif
+
+/* FIXME: This is disabled due to inline asm complications. */
+#if defined (TARGET_OS_WINDOWS) && !defined (TARGET_CPU_X86)
+#undef ENABLE_CPUID
+#endif
+
 #ifdef ENABLE_CPUID
 
 //#define USE_CHUD_FOR_CPUID

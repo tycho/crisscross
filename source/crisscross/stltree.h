@@ -14,6 +14,8 @@
 
 #include <crisscross/platform_detect.h>
 
+#define ENABLE_STLTREE
+
 #if defined (TARGET_COMPILER_BORLAND) || defined (TARGET_COMPILER_VC)
 #undef ENABLE_STLTREE
 #endif

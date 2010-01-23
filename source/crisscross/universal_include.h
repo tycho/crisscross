@@ -33,10 +33,6 @@
 #define CC_LIB_COPYRIGHT           "(c) 2006-2010 by Uplink Laboratories. Licensed under the New BSD License."
 #define CC_LIB_NDS_COPYRIGHT       "(c) by Uplink Laboratories.\nLicensed under the BSD License."
 
-/* Disabling these will save space but limit functionality. */
-#define ENABLE_CPUID
-#define ENABLE_STLTREE
-
 /* #define DISABLE_DEPRECATED_CODE */ /* This will be enabled by default in a future release */
 
 /* NOTE: By disabling this line, you will not be in compliance with the New BSD License. */
@@ -106,16 +102,6 @@
 
 #if (defined (__STRICT_ANSI__))
 /* #  define CASE_SENSITIVE_COMPARE */
-#endif
-
-/* Doesn't work on non-x86, and Cygwin doesn't have the functionality for cpu_set_t. */
-#if !(defined (TARGET_CPU_X86) || defined (TARGET_CPU_X64)) || defined (TARGET_COMPILER_CYGWIN) || defined (TARGET_OS_FREEBSD) || defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD)
-#undef ENABLE_CPUID
-#endif
-
-/* FIXME: This is disabled due to inline asm complications. */
-#if defined (TARGET_OS_WINDOWS) && !defined (TARGET_CPU_X86)
-#undef ENABLE_CPUID
 #endif
 
 #if defined (TARGET_OS_WINDOWS) && (defined (TARGET_COMPILER_VC) || defined (TARGET_COMPILER_ICC))
