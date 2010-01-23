@@ -21,20 +21,7 @@
  * need to familiarize ourselves with the devkitARM API for sockets first */
 #if !defined (TARGET_OS_NDSFIRMWARE)
 
-#if !defined (TARGET_OS_WINDOWS)
-#include <arpa/inet.h>
-#include <errno.h>
-#include <netdb.h>
-#include <netinet/in.h>
-#include <netinet/tcp.h>
-#include <sys/ioctl.h>
-#include <sys/socket.h>
-#include <signal.h>
-#define INVALID_SOCKET -1
-#define SOCKET_ERROR -1
-#else
-typedef int socklen_t;
-#endif
+#include "core_socket_impl.h"
 
 namespace CrissCross
 {
@@ -56,13 +43,13 @@ namespace CrissCross
 			struct sockaddr_in sin;
 			struct hostent *host;
 
-			if (m_sock != INVALID_SOCKET) return CC_ERR_NOT_SOCKET;
+			if (m_impl->m_sock != INVALID_SOCKET) return CC_ERR_NOT_SOCKET;
 
-			m_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_IP);
-			if (m_sock == INVALID_SOCKET)
+			m_impl->m_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_IP);
+			if (m_impl->m_sock == INVALID_SOCKET)
 				return GetError();
 
-			SetAttributes(m_sock);
+			SetSocketAttributes(m_impl->m_sock);
 
 			host = gethostbyname((char *)_address);
 			if (!host) return GetError();
@@ -72,26 +59,20 @@ namespace CrissCross
 			sin.sin_addr.s_addr = (( struct in_addr * )(host->h_addr))->s_addr;
 			sin.sin_port = htons(_port);
 
-			if (connect(m_sock, (( struct sockaddr * )&sin), sizeof(sin)) != 0) {
+			if (connect(m_impl->m_sock, (( struct sockaddr * )&sin), sizeof(sin)) != 0) {
 				int err = GetError();
 
 				/* Close the connection, it failed. */
 #ifdef TARGET_OS_WINDOWS
-				closesocket(m_sock);
+				closesocket(m_impl->m_sock);
 #else
-				close(m_sock);
+				close(m_impl->m_sock);
 #endif
 
 				return err;
 			}
 
 			return CC_ERR_NONE;
-		}
-
-		int UDPSocket::SetAttributes(socket_t _socket)
-		{
-			CoreAssert(this != NULL);
-			return 0;
 		}
 
 		int UDPSocket::Listen(unsigned short _port)
@@ -100,43 +81,48 @@ namespace CrissCross
 
 			struct sockaddr_in sin;
 
-			if (m_sock != INVALID_SOCKET) return CC_ERR_NOT_SOCKET;
+			if (m_impl->m_sock != INVALID_SOCKET) return CC_ERR_NOT_SOCKET;
 
 			memset(&sin, 0, sizeof(sin));
 
 			sin.sin_family = PF_INET;
 			sin.sin_addr.s_addr = INADDR_ANY;
 			sin.sin_port = htons(_port);
-			m_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_IP);
+			m_impl->m_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_IP);
 
-			if (m_sock == INVALID_SOCKET)
+			if (m_impl->m_sock == INVALID_SOCKET)
 				return GetError();
 
-			SetAttributes(m_sock);
+			SetSocketAttributes(m_impl->m_sock);
 
 #if 0
 			unsigned long arg = 1;
 #if defined (TARGET_OS_WINDOWS)
-			ioctlsocket(m_sock, FIONBIO, &arg);
+			ioctlsocket(m_impl->m_sock, FIONBIO, &arg);
 #else
-			ioctl(m_sock, FIONBIO, &arg);
+			ioctl(m_impl->m_sock, FIONBIO, &arg);
 #endif
 #endif
 
-			if (bind(m_sock, (sockaddr *)&sin, sizeof(sin)) != 0) {
+			if (bind(m_impl->m_sock, (sockaddr *)&sin, sizeof(sin)) != 0) {
 				int err = GetError();
 
 				/* Close the connection, it failed. */
 #ifdef TARGET_OS_WINDOWS
-				closesocket(m_sock);
+				closesocket(m_impl->m_sock);
 #else
-				close(m_sock);
+				close(m_impl->m_sock);
 #endif
 
 				return err;
 			}
 
 			return CC_ERR_NONE;
+		}
+
+		static int SetSocketAttributes(socket_t _socket)
+		{
+			return 0;
 		}
 	}
 }

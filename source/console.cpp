@@ -13,7 +13,10 @@
 
 #ifndef TARGET_OS_WINDOWS
 #include <pthread.h>
+#else
+#include <windows.h>
 #endif
+
 #include <cstdio>
 #include <cstring>
 

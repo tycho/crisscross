@@ -31,10 +31,6 @@ namespace CrissCross
 		 */
 		class UDPSocket : public CoreSocket
 		{
-			private:
-
-				int SetAttributes(socket_t _socket);
-
 			public:
 				/*! \brief The constructor. */
 				UDPSocket();

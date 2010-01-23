@@ -12,14 +12,45 @@
 #include <crisscross/universal_include.h>
 #include <crisscross/stopwatch.h>
 
+#if defined (TARGET_OS_MACOSX)
+#include <mach/mach.h>
+#include <mach/mach_time.h>
+#elif defined (TARGET_OS_LINUX) || defined (TARGET_OS_NDSFIRMWARE)
+#include <sys/time.h>
+#include <time.h>
+#elif defined (TARGET_OS_WINDOWS)
+#include <windows.h>
+#endif
+
 namespace CrissCross
 {
 	namespace System
 	{
+		struct StopwatchImpl {
+#if defined (TARGET_OS_WINDOWS)
+			LARGE_INTEGER m_start, m_finish;
+			double m_tickInterval;
+
+			void RecalculateFrequency();
+#elif defined (TARGET_OS_MACOSX)
+			uint64_t m_start;
+			uint64_t m_finish;
+			mach_timebase_info_data_t m_timebase;
+#elif defined (TARGET_OS_LINUX) || defined (TARGET_OS_FREEBSD) || \
+			defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD)
+			struct timeval m_start;
+			struct timeval m_finish;
+#elif defined (TARGET_OS_NDSFIRMWARE)
+			/* Nothing here :) */
+#else
+#error No target OS defined (did you forget to include crisscross/universal_include.h?)
+#endif
+		};
 		Stopwatch::Stopwatch()
 		{
+			m_impl = new StopwatchImpl;
 #if defined (TARGET_OS_WINDOWS)
-			RecalculateFrequency();
+			m_impl->RecalculateFrequency();
 #elif defined (TARGET_OS_MACOSX)
 			mach_timebase_info(&m_timebase);
 #endif
@@ -31,10 +62,45 @@ namespace CrissCross
 
 		Stopwatch::~Stopwatch()
 		{
+			delete m_impl;
+		}
+
+		void Stopwatch::Start()
+		{
+#if defined (TARGET_OS_WINDOWS)
+			m_impl->RecalculateFrequency();
+			QueryPerformanceCounter(&m_impl->m_start);
+#elif defined (TARGET_OS_MACOSX)
+			m_impl->m_start = mach_absolute_time();
+#elif defined (TARGET_OS_LINUX) || defined (TARGET_OS_FREEBSD) || \
+			defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD)
+			gettimeofday(&m_impl->m_start, NULL);
+#elif defined (TARGET_OS_NDSFIRMWARE)
+			TIMER0_CR = 0;
+			TIMER1_CR = 0;
+			TIMER0_DATA = 0;
+			TIMER1_DATA = 0;
+			TIMER1_CR = TIMER_ENABLE | TIMER_CASCADE;
+			TIMER0_CR = TIMER_ENABLE | TIMER_DIV_1;
+#endif
+		}
+
+		void Stopwatch::Stop()
+		{
+#if defined (TARGET_OS_WINDOWS)
+			QueryPerformanceCounter(&m_impl->m_finish);
+#elif defined (TARGET_OS_MACOSX)
+			m_impl->m_finish = mach_absolute_time();
+#elif defined (TARGET_OS_LINUX) || defined (TARGET_OS_FREEBSD) || \
+			defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD)
+			gettimeofday(&m_impl->m_finish, NULL);
+#elif defined (TARGET_OS_NDSFIRMWARE)
+			TIMER0_CR = 0;
+#endif
 		}
 
 #if defined (TARGET_OS_WINDOWS)
-		void Stopwatch::RecalculateFrequency()
+		void StopwatchImpl::RecalculateFrequency()
 		{
 			CoreAssert(this != NULL);
 
@@ -49,14 +115,14 @@ namespace CrissCross
 			CoreAssert(this != NULL);
 
 #if defined (TARGET_OS_WINDOWS)
-			return ((double)m_finish.QuadPart - (double)m_start.QuadPart) * m_tickInterval;
+			return ((double)m_impl->m_finish.QuadPart - (double)m_impl->m_start.QuadPart) * m_impl->m_tickInterval;
 #elif defined (TARGET_OS_MACOSX)
-			uint64_t elapsed = m_finish - m_start;
-			return double (elapsed) * (m_timebase.numer / m_timebase.denom) / 1000000000.0;
+			uint64_t elapsed = m_impl->m_finish - m_impl->m_start;
+			return double (elapsed) * (m_impl->m_timebase.numer / m_impl->m_timebase.denom) / 1000000000.0;
 #elif defined (TARGET_OS_LINUX) || defined (TARGET_OS_FREEBSD) || \
 			defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD)
-			return (double)(m_finish.tv_sec - m_start.tv_sec) +
-			       ((double)(m_finish.tv_usec) - (double)(m_start.tv_usec)) / 1000000.0;
+			return (double)(m_impl->m_finish.tv_sec - m_impl->m_start.tv_sec) +
+			       ((double)(m_impl->m_finish.tv_usec) - (double)(m_impl->m_start.tv_usec)) / 1000000.0;
 #elif defined (TARGET_OS_NDSFIRMWARE)
 			return (TIMER0_DATA | (TIMER1_DATA << 16)) / 33513982.0;
 #endif
@@ -67,14 +133,14 @@ namespace CrissCross
 			CoreAssert(this != NULL);
 
 #if defined (TARGET_OS_WINDOWS)
-			return (unsigned long)(((double)m_finish.QuadPart - (double)m_start.QuadPart) * m_tickInterval * 1000.0);
+			return (unsigned long)(((double)m_impl->m_finish.QuadPart - (double)m_impl->m_start.QuadPart) * m_impl->m_tickInterval * 1000.0);
 #elif defined (TARGET_OS_MACOSX)
-			uint64_t elapsed = m_finish - m_start;
-			return double (elapsed) * (m_timebase.numer / m_timebase.denom) / 1000000.0;
+			uint64_t elapsed = m_impl->m_finish - m_impl->m_start;
+			return double (elapsed) * (m_impl->m_timebase.numer / m_impl->m_timebase.denom) / 1000000.0;
 #elif defined (TARGET_OS_LINUX) || defined (TARGET_OS_FREEBSD) || \
 			defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD)
-			return (unsigned long)((m_finish.tv_sec - m_start.tv_sec) * 1000 +
-			                       (m_finish.tv_usec - m_start.tv_usec) / 1000);
+			return (unsigned long)((m_impl->m_finish.tv_sec - m_impl->m_start.tv_sec) * 1000 +
+			                       (m_impl->m_finish.tv_usec - m_impl->m_start.tv_usec) / 1000);
 #elif defined (TARGET_OS_NDSFIRMWARE)
 			return (TIMER0_DATA | (TIMER1_DATA << 16)) / 33514;
 #endif

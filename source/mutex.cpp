@@ -15,19 +15,35 @@
 
 #ifndef TARGET_OS_NDSFIRMWARE
 
+#if defined (TARGET_OS_WINDOWS)
+#include <windows.h>
+#else
+#include <pthread.h>
+#endif
+
 namespace CrissCross
 {
 	namespace System
 	{
+		struct MutexImpl {
+		#ifdef TARGET_OS_WINDOWS
+			CRITICAL_SECTION m_mutex;
+		#else
+			pthread_mutexattr_t m_mutexAttr;
+			pthread_mutex_t m_mutex;
+		#endif
+		};
+
 		Mutex::Mutex(MutexType _type)
 			: m_type(_type)
 		{
+			m_impl = new MutexImpl;
 			m_lockCount = 0;
 #ifdef TARGET_OS_WINDOWS
-			InitializeCriticalSection(&m_mutex);
+			InitializeCriticalSection(&m_impl->m_mutex);
 #else
 			int error;
-			error = pthread_mutexattr_init(&m_mutexAttr);
+			error = pthread_mutexattr_init(&m_impl->m_mutexAttr);
 			CoreAssert(error == 0);
 			int ptype = 0;
 			switch (m_type)
@@ -43,9 +59,9 @@ namespace CrissCross
 				ptype = PTHREAD_MUTEX_RECURSIVE;
 				break;
 			}
-			error = pthread_mutexattr_settype(&m_mutexAttr, ptype);
+			error = pthread_mutexattr_settype(&m_impl->m_mutexAttr, ptype);
 			CoreAssert(error == 0);
-			error = pthread_mutex_init(&m_mutex, &m_mutexAttr);
+			error = pthread_mutex_init(&m_impl->m_mutex, &m_impl->m_mutexAttr);
 			CoreAssert(error == 0);
 #endif
 		}
@@ -56,10 +72,10 @@ namespace CrissCross
 
 			CoreAssert(m_lockCount == 0);
 #ifdef TARGET_OS_WINDOWS
-			DeleteCriticalSection(&m_mutex);
+			DeleteCriticalSection(&m_impl->m_mutex);
 #else
-			pthread_mutex_destroy(&m_mutex);
-			pthread_mutexattr_destroy(&m_mutexAttr);
+			pthread_mutex_destroy(&m_impl->m_mutex);
+			pthread_mutexattr_destroy(&m_impl->m_mutexAttr);
 #endif
 		}
 
@@ -67,9 +83,9 @@ namespace CrissCross
 		{
 			CoreAssert(this != NULL);
 #ifdef TARGET_OS_WINDOWS
-			EnterCriticalSection(&m_mutex);
+			EnterCriticalSection(&m_impl->m_mutex);
 #else
-			int error = pthread_mutex_lock(&m_mutex);
+			int error = pthread_mutex_lock(&m_impl->m_mutex);
 			CoreAssert(error == 0);
 #endif
 			m_lockCount++;
@@ -81,9 +97,9 @@ namespace CrissCross
 			CoreAssert(m_lockCount > 0);
 			m_lockCount--;
 #ifdef TARGET_OS_WINDOWS
-			LeaveCriticalSection(&m_mutex);
+			LeaveCriticalSection(&m_impl->m_mutex);
 #else
-			int error = pthread_mutex_unlock(&m_mutex);
+			int error = pthread_mutex_unlock(&m_impl->m_mutex);
 			CoreAssert(error == 0);
 #endif
 		}
@@ -101,24 +117,44 @@ namespace CrissCross
 			m_mutex->Unlock();
 		}
 
+		struct RWLockImpl {
+#ifdef TARGET_OS_WINDOWS
+			bool wrpriority;
+
+			DWORD rdcount;
+			DWORD rdwaiting;
+
+			DWORD wrcount;
+			DWORD wrwaiting;
+
+			HANDLE rdgreen, wrgreen;
+			CRITICAL_SECTION rwcs;
+#else
+			pthread_rwlock_t m_rwlock;
+			pthread_rwlockattr_t m_rwlockAttr;
+#endif
+		};
+
 		ReadWriteLock::ReadWriteLock(bool _writePriority)
 		{
+			m_impl = new RWLockImpl;
 #ifdef TARGET_OS_WINDOWS
-			wrpriority = _writePriority;
+			m_impl->wrpriority = _writePriority;
 
-			rdcount = rdwaiting = wrcount = wrwaiting = 0;
+			m_impl->rdcount = m_impl->rdwaiting =
+				m_impl->wrcount = m_impl->wrwaiting = 0;
 
-			InitializeCriticalSection(&rwcs);
+			InitializeCriticalSection(&m_impl->rwcs);
 
-			rdgreen = CreateEvent(NULL, FALSE, TRUE, NULL);
-			wrgreen = CreateEvent(NULL, FALSE, TRUE, NULL);
+			m_impl->rdgreen = CreateEvent(NULL, FALSE, TRUE, NULL);
+			m_impl->wrgreen = CreateEvent(NULL, FALSE, TRUE, NULL);
 #else
 			int ret;
-			ret = pthread_rwlockattr_init(&m_rwlockAttr);
+			ret = pthread_rwlockattr_init(&m_impl->m_rwlockAttr);
 			CoreAssert(ret == 0);
-			ret = pthread_rwlockattr_setpshared(&m_rwlockAttr, PTHREAD_PROCESS_PRIVATE);
+			ret = pthread_rwlockattr_setpshared(&m_impl->m_rwlockAttr, PTHREAD_PROCESS_PRIVATE);
 			CoreAssert(ret == 0);
-			ret = pthread_rwlock_init(&m_rwlock, &m_rwlockAttr);
+			ret = pthread_rwlock_init(&m_impl->m_rwlock, &m_impl->m_rwlockAttr);
 			CoreAssert(ret == 0);
 #endif
 		}
@@ -126,12 +162,12 @@ namespace CrissCross
 		ReadWriteLock::~ReadWriteLock()
 		{
 #ifdef TARGET_OS_WINDOWS
-			CloseHandle(rdgreen);
-			CloseHandle(wrgreen);
-			DeleteCriticalSection(&rwcs);
+			CloseHandle(m_impl->rdgreen);
+			CloseHandle(m_impl->wrgreen);
+			DeleteCriticalSection(&m_impl->rwcs);
 #else
-			pthread_rwlock_destroy(&m_rwlock);
-			pthread_rwlockattr_destroy(&m_rwlockAttr);
+			pthread_rwlock_destroy(&m_impl->m_rwlock);
+			pthread_rwlockattr_destroy(&m_impl->m_rwlockAttr);
 #endif
 		}
 
@@ -143,7 +179,7 @@ namespace CrissCross
 			DWORD timeout = INFINITE;
 
 			do {
-				EnterCriticalSection(&rwcs);
+				EnterCriticalSection(&m_impl->rwcs);
 
 				//
 				// acquire lock if 
@@ -151,30 +187,31 @@ namespace CrissCross
 				//     - readers have priority or
 				//     - writers have priority and there are no waiting writers
 				//
-				if(!wrcount && (!wrpriority || !wrwaiting)) {
+				if(!m_impl->wrcount &&
+					(!m_impl->wrpriority || !m_impl->wrwaiting)) {
 					if(wait) {
-						rdwaiting--;
+						m_impl->rdwaiting--;
 						wait = false;
 					}
-					rdcount++;
+					m_impl->rdcount++;
 				}
 				else {
 					if(!wait) {
-						rdwaiting++;
+						m_impl->rdwaiting++;
 						wait = true;
 					}
 					// always reset the event to avoid 100% CPU usage
-					ResetEvent(rdgreen);
+					ResetEvent(m_impl->rdgreen);
 				}
 
-				LeaveCriticalSection(&rwcs);
+				LeaveCriticalSection(&m_impl->rwcs);
 
 				if (wait) {
-					if (WaitForSingleObject(rdgreen, timeout) != WAIT_OBJECT_0) {
-						EnterCriticalSection(&rwcs);
-						rdwaiting--;
-						SetEvent(rdgreen); SetEvent(wrgreen);
-						LeaveCriticalSection(&rwcs);
+					if (WaitForSingleObject(m_impl->rdgreen, timeout) != WAIT_OBJECT_0) {
+						EnterCriticalSection(&m_impl->rwcs);
+						m_impl->rdwaiting--;
+						SetEvent(m_impl->rdgreen); SetEvent(m_impl->wrgreen);
+						LeaveCriticalSection(&m_impl->rwcs);
 						return false;
 					}
 				}
@@ -183,7 +220,7 @@ namespace CrissCross
 
 			return true;
 #else
-			int ret = pthread_rwlock_rdlock(&m_rwlock);
+			int ret = pthread_rwlock_rdlock(&m_impl->m_rwlock);
 			return (ret == 0);
 #endif
 		}
@@ -196,7 +233,7 @@ namespace CrissCross
 			DWORD timeout = INFINITE;
 
 			do {
-				EnterCriticalSection(&rwcs);
+				EnterCriticalSection(&m_impl->rwcs);
 
 				//
 				// acquire lock if 
@@ -204,30 +241,31 @@ namespace CrissCross
 				//     - writers have priority or
 				//     - readers have priority and there are no waiting readers
 				//
-				if (!rdcount && !wrcount && (wrpriority || !rdwaiting)) {
+				if (!m_impl->rdcount && !m_impl->wrcount &&
+					(m_impl->wrpriority || !m_impl->rdwaiting)) {
 					if(wait) {
-						wrwaiting--;
+						m_impl->wrwaiting--;
 						wait = false;
 					}
-					wrcount++;
+					m_impl->wrcount++;
 				}
 				else {
 					if(!wait) {
-						wrwaiting++;
+						m_impl->wrwaiting++;
 						wait = true;
 					}
 					// always reset the event to avoid 100% CPU usage
-					ResetEvent(wrgreen);
+					ResetEvent(m_impl->wrgreen);
 				}
 
-				LeaveCriticalSection(&rwcs);
+				LeaveCriticalSection(&m_impl->rwcs);
 
 				if (wait) {
-					if (WaitForSingleObject(wrgreen, timeout) != WAIT_OBJECT_0) {
-						EnterCriticalSection(&rwcs);
-						wrwaiting--;
-						SetEvent(rdgreen); SetEvent(wrgreen);
-						LeaveCriticalSection(&rwcs);
+					if (WaitForSingleObject(m_impl->wrgreen, timeout) != WAIT_OBJECT_0) {
+						EnterCriticalSection(&m_impl->rwcs);
+						m_impl->wrwaiting--;
+						SetEvent(m_impl->rdgreen); SetEvent(m_impl->wrgreen);
+						LeaveCriticalSection(&m_impl->rwcs);
 						return false;
 					}
 				}
@@ -236,7 +274,7 @@ namespace CrissCross
 
 			return true;
 #else
-			int ret = pthread_rwlock_wrlock(&m_rwlock);
+			int ret = pthread_rwlock_wrlock(&m_impl->m_rwlock);
 			return (ret == 0);
 #endif
 		}
@@ -245,54 +283,54 @@ namespace CrissCross
 		void ReadWriteLock::UnlockRead()
 		{
 			CoreAssert(this != NULL);
-			EnterCriticalSection(&rwcs);
+			EnterCriticalSection(&m_impl->rwcs);
 
-			rdcount--;
+			m_impl->rdcount--;
 
 			// always release waiting threads (do not check for rdcount == 0)
-			if (wrpriority) {
-				if (wrwaiting)
-					SetEvent(wrgreen);
-				else if (rdwaiting)
-					SetEvent(rdgreen);
+			if (m_impl->wrpriority) {
+				if (m_impl->wrwaiting)
+					SetEvent(m_impl->wrgreen);
+				else if (m_impl->rdwaiting)
+					SetEvent(m_impl->rdgreen);
 			}
 			else {
-				if (rdwaiting)
-					SetEvent(rdgreen);
-				else if (wrwaiting)
-					SetEvent(wrgreen);
+				if (m_impl->rdwaiting)
+					SetEvent(m_impl->rdgreen);
+				else if (m_impl->wrwaiting)
+					SetEvent(m_impl->wrgreen);
 			}
 
-			LeaveCriticalSection(&rwcs);
+			LeaveCriticalSection(&m_impl->rwcs);
 		}
 
 		void ReadWriteLock::UnlockWrite()
 		{
 			CoreAssert(this != NULL);
-			EnterCriticalSection(&rwcs);
+			EnterCriticalSection(&m_impl->rwcs);
 
-			wrcount--;
+			m_impl->wrcount--;
 
-			if (wrpriority) {
-				if (wrwaiting)
-					SetEvent(wrgreen);
-				else if (rdwaiting)
-					SetEvent(rdgreen);
+			if (m_impl->wrpriority) {
+				if (m_impl->wrwaiting)
+					SetEvent(m_impl->wrgreen);
+				else if (m_impl->rdwaiting)
+					SetEvent(m_impl->rdgreen);
 			}
 			else {
-				if (rdwaiting)
-					SetEvent(rdgreen);
-				else if (wrwaiting)
-					SetEvent(wrgreen);
+				if (m_impl->rdwaiting)
+					SetEvent(m_impl->rdgreen);
+				else if (m_impl->wrwaiting)
+					SetEvent(m_impl->wrgreen);
 			}
 
-			LeaveCriticalSection(&rwcs);
+			LeaveCriticalSection(&m_impl->rwcs);
 		}
 #else
 		void ReadWriteLock::Unlock()
 		{
 			CoreAssert(this != NULL);
-			pthread_rwlock_unlock(&m_rwlock);
+			pthread_rwlock_unlock(&m_impl->m_rwlock);
 		}
 #endif
 

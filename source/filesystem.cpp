@@ -14,6 +14,32 @@
 #include <crisscross/filesystem.h>
 
 #ifdef TARGET_OS_WINDOWS
+
+#include <windows.h>
+
+typedef struct dirent {
+	/* name of current directory entry (a multi-byte character string) */
+	char d_name[MAX_PATH + 1];
+
+	/* file attributes */
+	WIN32_FIND_DATAA data;
+} dirent;
+
+
+typedef struct DIR {
+	/* current directory entry */
+	dirent current;
+
+	/* is there an un-processed entry in current? */
+	int cached;
+
+	/* file search handle */
+	HANDLE search_handle;
+
+	/* search pattern (3 = zero terminator + pattern "\\*") */
+	char patt[MAX_PATH + 3];
+} DIR;
+
 /*
  * Open directory stream DIRNAME for read and return a pointer to the
  * internal working area that is used to retrieve individual directory

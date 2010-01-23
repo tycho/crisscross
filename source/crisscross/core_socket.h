@@ -12,18 +12,10 @@
 #ifndef __included_cc_core_socket_h
 #define __included_cc_core_socket_h
 
-#include <sys/types.h>
 #include <string>
 
 #include <crisscross/platform_detect.h>
 #include <crisscross/core_network.h>
-
-#ifdef TARGET_OS_WINDOWS
-#include <windows.h>
-#define socket_t SOCKET
-#else
-#define socket_t int
-#endif
 
 /* We're leaving sockets unimplemented on the Nintendo DS for the moment. We
  * need to familiarize ourselves with the devkitARM API for sockets first */
@@ -53,6 +45,8 @@ namespace CrissCross
 			PROTOCOL_UDP                            /*!< \brief User Datagram Protocol. */
 		} socketProtocol;
 
+		struct CoreSocketImpl;
+
 		/*! \brief The abstract core socket class. */
 		/*!
 		 *  Abstract class only. Must be inherited.
@@ -63,11 +57,8 @@ namespace CrissCross
 				/*! \brief The maximum number of bytes to read per CoreSocket::Read or CoreSocket::ReadLine call. */
 				int m_bufferSize;
 
-				/*! \brief Indicates whether __socket_initialise() was called when the class was initialized. */
-				char m_calledInitialise;
-
 				/*! \brief Stores the socket data. */
-				socket_t m_sock;
+				CoreSocketImpl *m_impl;
 
 				/*! \brief Indicates the protocol used by this socket instance. */
 				socketProtocol m_proto;
@@ -75,20 +66,10 @@ namespace CrissCross
 				/*! \brief Indicates the current state of m_sock. */
 				mutable socketState m_state;
 
-				/*! \brief Sets some important attributes on the socket. */
-				/*!
-				 *  Will set SO_LINGER and TCP_NODELAY on TCP sockets.
-				 * \param _socket The socket to modify.
-				 * \return CC_ERR_NONE if no error is encountered, otherwise returns 'errno'.
-				 */
-				virtual int SetAttributes(socket_t _socket) = 0;
 			public:
 
 				/*! \brief The default constructor. */
 				CoreSocket();
-
-				/*! \brief The constructor for an existing socket. */
-				CoreSocket(socket_t socket);
 
 				/*! \brief The destructor. */
 				virtual ~CoreSocket();
@@ -111,7 +92,7 @@ namespace CrissCross
 				/*!
 				 * \return The host represented in old-style sockaddr_in format.
 				 */
-				u_long GetRemoteHost();
+				unsigned long GetRemoteHost();
 
 				/*! \brief Fetches the IP address of the remote host. */
 				/*!
@@ -125,7 +106,7 @@ namespace CrissCross
 				/*!
 				 * \return The host represented in old-style sockaddr_in format.
 				 */
-				u_long GetLocalHost();
+				unsigned long GetLocalHost();
 
 				/*! \brief Fetches the IP address of the remote host. */
 				/*!
@@ -134,12 +115,6 @@ namespace CrissCross
 				 *  data pointed at by the return value should be copied into another buffer.
 				 */
 				const char *GetLocalIP();
-
-				/*! \brief Gives access to the socket itself (for extensibility only). */
-				/*!
-				 * \return CoreSocket::m_sock
-				 */
-				socket_t GetSocket();
 
 				/*! \brief Determines whether the socket is ready for a Read operation. */
 				/*!

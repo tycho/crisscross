@@ -14,12 +14,8 @@
 
 #include <crisscross/platform_detect.h>
 
-#ifdef TARGET_OS_WINDOWS
-#include <windows.h>
-#endif
-
-#include "darray.h"
-#include "rbtree.h"
+#include <crisscross/darray.h>
+#include <crisscross/rbtree.h>
 
 namespace CrissCross
 {

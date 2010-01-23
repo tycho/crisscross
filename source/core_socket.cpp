@@ -14,10 +14,6 @@
 #include <cstdio>
 #include <cstring>
 
-#include <crisscross/debug.h>
-#include <crisscross/core_network.h>
-#include <crisscross/core_socket.h>
-
 /* We're leaving sockets unimplemented on the Nintendo DS for the moment. We
  * need to familiarize ourselves with the devkitARM API for sockets first */
 #if !defined (TARGET_OS_NDSFIRMWARE)
@@ -25,28 +21,12 @@
 #if defined (TARGET_COMPILER_VC)
 #pragma comment (lib,"ws2_32.lib")
 #endif
-#if defined (TARGET_OS_WINDOWS)
-typedef int socklen_t;
-#endif
 
-#if !defined (TARGET_OS_WINDOWS) && !defined (TARGET_OS_NDSFIRMWARE)
-#include <arpa/inet.h>
-#include <errno.h>
-#include <netdb.h>
-#include <netinet/in.h>
-#include <netinet/tcp.h>
-#include <sys/ioctl.h>
-#include <sys/socket.h>
-#include <signal.h>
-#define INVALID_SOCKET -1
-#define SOCKET_ERROR -1
-#endif
+#include "core_socket_impl.h"
 
-#if defined (TARGET_OS_NDSFIRMWARE)
-#include <sys/socket.h>
-#define INVALID_SOCKET -1
-#define SOCKET_ERROR -1
-#endif
+#include <crisscross/debug.h>
+#include <crisscross/core_network.h>
+#include <crisscross/core_socket.h>
 
 /* #define PACKET_DEBUG */
 
@@ -56,22 +36,11 @@ namespace CrissCross
 	{
 		CoreSocket::CoreSocket()
 		{
+			m_impl = new CoreSocketImpl;
 			int retval = __initialise_network();
-			m_calledInitialise = 1;
 			CoreAssert(retval == CC_ERR_NONE);
-			memset(&m_sock, 0, sizeof(socket_t));
-			m_sock = INVALID_SOCKET;
+			m_impl->m_sock = INVALID_SOCKET;
 			m_state = SOCKET_STATE_NOT_CREATED;
-			m_bufferSize = 8192;
-		}
-
-		CoreSocket::CoreSocket(socket_t socket) : m_calledInitialise(0)
-		{
-			/* Calling __initialise_network() is NOT
-			 * necessary if we have a socket to copy. */
-			CoreAssert(socket != INVALID_SOCKET);
-			m_sock = socket;
-			m_state = SOCKET_STATE_UNKNOWN;
 			m_bufferSize = 8192;
 		}
 
@@ -79,23 +48,24 @@ namespace CrissCross
 		{
 			CoreAssert(this != NULL);
 			Close();
-			if (m_calledInitialise == 1)
-				__cleanup_network();
+			delete m_impl;
+			m_impl = NULL;
+			__cleanup_network();
 		}
 
 		int CoreSocket::Close()
 		{
 			CoreAssert(this != NULL);
 
-			if (m_sock == INVALID_SOCKET) return CC_ERR_NOT_SOCKET;
+			if (m_impl->m_sock == INVALID_SOCKET) return CC_ERR_NOT_SOCKET;
 
 			/* Close the socket. */
 #ifdef TARGET_OS_WINDOWS
-			closesocket(m_sock);
+			closesocket(m_impl->m_sock);
 #else
-			close(m_sock);
+			close(m_impl->m_sock);
 #endif
-			m_sock = INVALID_SOCKET;
+			m_impl->m_sock = INVALID_SOCKET;
 			m_state = SOCKET_STATE_NOT_CREATED;
 			return CC_ERR_NONE;
 		}
@@ -105,14 +75,14 @@ namespace CrissCross
 			CoreAssert(this != NULL);
 
 			/* Verify the socket. */
-			if (m_sock == INVALID_SOCKET) return NULL;
+			if (m_impl->m_sock == INVALID_SOCKET) return NULL;
 
 			static char buffer[16];
 			struct sockaddr_in sock; int sock_size = sizeof(sock);
 			memset(&sock, 0, sizeof(sock));
 
 			/* Resolve the remote IP. */
-			getpeername(m_sock, (sockaddr *)&sock, (socklen_t *)&sock_size);
+			getpeername(m_impl->m_sock, (sockaddr *)&sock, (socklen_t *)&sock_size);
 
 			/* Print it to a buffer. */
 			sprintf(buffer, "%s", inet_ntoa(sock.sin_addr));
@@ -148,29 +118,21 @@ namespace CrissCross
 		{
 			CoreAssert(this != NULL);
 
-			if (m_sock == INVALID_SOCKET) return 0;
+			if (m_impl->m_sock == INVALID_SOCKET) return 0;
 
 			struct sockaddr_in addr; int sock_size = sizeof(addr);
 			memset(&addr, 0, sizeof(addr));
-			getpeername(m_sock, (sockaddr *)&addr, (socklen_t *)&sock_size);
+			getpeername(m_impl->m_sock, (sockaddr *)&addr, (socklen_t *)&sock_size);
 
 			/* Return the remote host (not the IP, but the bare host). */
 			return addr.sin_addr.s_addr;
-		}
-
-		socket_t CoreSocket::GetSocket()
-		{
-			CoreAssert(this != NULL);
-
-			/* ugh. Allow the user to do whatever they want with the socket. */
-			return m_sock;
 		}
 
 		int CoreSocket::Read(std::string &_output)
 		{
 			CoreAssert(this != NULL);
 
-			if (m_sock == INVALID_SOCKET) return CC_ERR_NOT_SOCKET;
+			if (m_impl->m_sock == INVALID_SOCKET) return CC_ERR_NOT_SOCKET;
 			if (!IsReadable()) return CC_ERR_WOULD_BLOCK;
 
 			_output = "";
@@ -182,9 +144,9 @@ namespace CrissCross
 			bool receivedData = false;
 			do {
 				memset(buf, 0, m_bufferSize);
-				recvlen = recv(m_sock, buf, 1, MSG_PEEK);
+				recvlen = recv(m_impl->m_sock, buf, 1, MSG_PEEK);
 				if (recvlen > 0) {
-					recvlen = recv(m_sock, buf, m_bufferSize - 1, 0);
+					recvlen = recv(m_impl->m_sock, buf, m_bufferSize - 1, 0);
 					_output += std::string(buf);
 					receivedData = true;
 				}
@@ -206,7 +168,7 @@ namespace CrissCross
 			CoreAssert(this != NULL);
 
 			/* Sanity checks. */
-			if (m_sock == INVALID_SOCKET) return CC_ERR_NOT_SOCKET;
+			if (m_impl->m_sock == INVALID_SOCKET) return CC_ERR_NOT_SOCKET;
 			if (_len == NULL || *_len < 1) return CC_ERR_BADPARAMETER;
 			if (_output == NULL) return CC_ERR_BADPARAMETER;
 
@@ -215,7 +177,7 @@ namespace CrissCross
 			memset(_output, 0, *_len);
 
 			/* Receive some data. */
-			recvlen = recv(m_sock, _output, *_len, 0);
+			recvlen = recv(m_impl->m_sock, _output, *_len, 0);
 			if (recvlen < 0) {
 				/* Something's wrong here... */
 				return GetError();
@@ -230,7 +192,7 @@ namespace CrissCross
 		{
 			CoreAssert(this != NULL);
 
-			CoreAssert(m_sock != 0);
+			CoreAssert(m_impl->m_sock != 0);
 			int retval = 0;
 
 #if !defined (TARGET_OS_WINDOWS)
@@ -241,7 +203,7 @@ namespace CrissCross
 			retval = WSAGetLastError();
 
 			if (retval == WSAEWOULDBLOCK || retval == 0) {
-				getsockopt(m_sock, SOL_SOCKET, SO_ERROR, (char *)&ret, (socklen_t *)&retsize);
+				getsockopt(m_impl->m_sock, SOL_SOCKET, SO_ERROR, (char *)&ret, (socklen_t *)&retsize);
 				if (ret != 0)
 					return TranslateError(ret);
 			}
@@ -254,7 +216,7 @@ namespace CrissCross
 		{
 			CoreAssert(this != NULL);
 
-			if (m_sock == INVALID_SOCKET) return CC_ERR_NOT_SOCKET;
+			if (m_impl->m_sock == INVALID_SOCKET) return CC_ERR_NOT_SOCKET;
 			if (!IsWritable()) return CC_ERR_WOULD_BLOCK;
 
 			int sent = 0;
@@ -271,7 +233,7 @@ namespace CrissCross
 			fprintf(stdout, "<<< '%s'\n", temp_buf);
 			delete [] temp_buf;
 #endif
-			sent = send(m_sock, (char *)_data, (int)_length, 0);
+			sent = send(m_impl->m_sock, (char *)_data, (int)_length, 0);
 
 			return sent;
 		}
@@ -296,12 +258,12 @@ namespace CrissCross
 			timeout.tv_usec = 1000;
 
 			FD_ZERO(&read);
-			FD_SET(m_sock, &read);
+			FD_SET(m_impl->m_sock, &read);
 
 			int errbefore = GetError(), errafter;
 
 			/* Select to check if it's readable. */
-			ret = select((int)m_sock + 1, &read, NULL, NULL, &timeout);
+			ret = select((int)m_impl->m_sock + 1, &read, NULL, NULL, &timeout);
 
 			errafter = GetError();
 
@@ -333,12 +295,12 @@ namespace CrissCross
 			timeout.tv_usec = 1000;
 
 			FD_ZERO(&write);
-			FD_SET(m_sock, &write);
+			FD_SET(m_impl->m_sock, &write);
 
 			int errbefore = GetError(), errafter;
 
 			/* Select to check if it's readable. */
-			ret = select((int)m_sock + 1, NULL, &write, NULL, &timeout);
+			ret = select((int)m_impl->m_sock + 1, NULL, &write, NULL, &timeout);
 
 			errafter = GetError();
 

@@ -21,70 +21,49 @@
  * need to familiarize ourselves with the devkitARM API for sockets first */
 #if !defined (TARGET_OS_NDSFIRMWARE)
 
-#if !defined (TARGET_OS_WINDOWS)
-#include <arpa/inet.h>
-#include <errno.h>
-#include <netdb.h>
-#include <netinet/in.h>
-#include <netinet/tcp.h>
-#include <sys/ioctl.h>
-#include <sys/socket.h>
-#include <signal.h>
-#define INVALID_SOCKET -1
-#define SOCKET_ERROR -1
-#else
-#include <winsock2.h>
-#ifdef TARGET_COMPILER_VC
-#include <mstcpip.h>
-#endif
-typedef int socklen_t;
-#endif
+#include "core_socket_impl.h"
 
 namespace CrissCross
 {
 	namespace Network
 	{
-		TCPSocket::TCPSocket() : CoreSocket()
+		TCPSocket::TCPSocket()
+			: CoreSocket()
 		{
 			m_proto = PROTOCOL_TCP;
-		}
-
-		TCPSocket::TCPSocket(socket_t _socket) : CoreSocket(_socket)
-		{
-			m_proto = PROTOCOL_TCP;
-			m_state = SOCKET_STATE_CONNECTED;             /* Assumed. */
 		}
 
 		TCPSocket::~TCPSocket()
 		{
 		}
 
-		int TCPSocket::Accept(TCPSocket * *_socket)
+		int TCPSocket::Accept(TCPSocket **_socket)
 		{
 			CoreAssert(this != NULL);
 
 			/* We're forced to accept any incoming connection, unfortunately. */
-			socket_t sock = accept(m_sock, 0, 0);
+			socket_t sock = accept(m_impl->m_sock, 0, 0);
 
 			/* Did we truly accept a connection? */
 			if (sock != INVALID_SOCKET) {
 				/* Set up the typical transmission attributes. */
-				SetAttributes(sock);
+				SetSocketAttributes(sock);
 
 #if 0
 				unsigned long arg = 1;
 
 				/* Non-blocking I/O, if possible. Ignore any errors. */
 #if defined (TARGET_OS_WINDOWS)
-				ioctlsocket(m_sock, FIONBIO, &arg);
+				ioctlsocket(m_impl->m_sock, FIONBIO, &arg);
 #else
-				ioctl(m_sock, FIONBIO, &arg);
+				ioctl(m_impl->m_sock, FIONBIO, &arg);
 #endif
 #endif
 
 				/* Create a new wrapper for our socket. */
-				TCPSocket *csock = new TCPSocket(sock);
+				TCPSocket *csock = new TCPSocket();
 
+				csock->m_impl->m_sock = sock;
 				m_state = SOCKET_STATE_CONNECTED;
 
 				/* We're done. */
@@ -108,10 +87,10 @@ namespace CrissCross
 			Close();
 
 			/* Open a new TCP/IP socket. */
-			m_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_IP);
+			m_impl->m_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_IP);
 
 			/* Verify the socket. */
-			if (m_sock == INVALID_SOCKET)
+			if (m_impl->m_sock == INVALID_SOCKET)
 				return GetError();
 
 			/* Set up the typical transmission attributes. */
@@ -139,7 +118,7 @@ namespace CrissCross
 			sin.sin_port = htons(_port);
 
 			/* Attempt a connection. */
-			if (connect(m_sock, (( struct sockaddr * )&sin), sizeof(sin)) != 0) {
+			if (connect(m_impl->m_sock, (( struct sockaddr * )&sin), sizeof(sin)) != 0) {
 				int err = GetError();
 
 				/* If this is a non-blocking socket, we need to handle appropriately. */
@@ -150,9 +129,9 @@ namespace CrissCross
 					m_state = SOCKET_STATE_ERROR;
 					/* Close the connection, it failed. */
 #ifdef TARGET_OS_WINDOWS
-					closesocket(m_sock);
+					closesocket(m_impl->m_sock);
 #else
-					close(m_sock);
+					close(m_impl->m_sock);
 #endif
 					return err;
 				}
@@ -169,7 +148,7 @@ namespace CrissCross
 			struct sockaddr_in sin;
 
 			/* Verify our socket isn't in use. */
-			if (m_sock != INVALID_SOCKET) return CC_ERR_INVALID_CALL;
+			if (m_impl->m_sock != INVALID_SOCKET) return CC_ERR_INVALID_CALL;
 
 			/* Set up our sockaddr_in */
 			memset(&sin, 0, sizeof(sin));
@@ -178,47 +157,47 @@ namespace CrissCross
 			sin.sin_port = htons(_port);
 
 			/* Open a new TCP/IP socket. */
-			m_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_IP);
+			m_impl->m_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_IP);
 
 			/* Verify the socket. */
-			if (m_sock == INVALID_SOCKET)
+			if (m_impl->m_sock == INVALID_SOCKET)
 				return GetError();
 
 			/* Set up the typical transmission attributes. */
-			SetAttributes(m_sock);
+			SetSocketAttributes(m_impl->m_sock);
 
 #if 0
 			unsigned long arg = 1;
 
 			/* Non-blocking I/O, if possible. Ignore any errors. */
 #if defined (TARGET_OS_WINDOWS)
-			ioctlsocket(m_sock, FIONBIO, &arg);
+			ioctlsocket(m_impl->m_sock, FIONBIO, &arg);
 #else
-			ioctl(m_sock, FIONBIO, &arg);
+			ioctl(m_impl->m_sock, FIONBIO, &arg);
 #endif
 #endif
 
 			/* Bind our socket to our given port number. */
-			if (bind(m_sock, (sockaddr *)&sin, sizeof(sin)) != 0) {
+			if (bind(m_impl->m_sock, (sockaddr *)&sin, sizeof(sin)) != 0) {
 				/* Bind failure, for some reason. */
 				int err = GetError();
 
 #ifdef TARGET_OS_WINDOWS
-				closesocket(m_sock);
+				closesocket(m_impl->m_sock);
 #else
-				close(m_sock);
+				close(m_impl->m_sock);
 #endif
 
 				return err;
 			}
 
 			/* Listen on the given port, with a maximum of 10 half-open connections. */
-			if (listen(m_sock, 10) == SOCKET_ERROR) {
+			if (listen(m_impl->m_sock, 10) == SOCKET_ERROR) {
 				/* Listen failure, for some reason. */
 #ifdef TARGET_OS_WINDOWS
-				closesocket(m_sock);
+				closesocket(m_impl->m_sock);
 #else
-				close(m_sock);
+				close(m_impl->m_sock);
 #endif
 				return GetError();
 			}
@@ -227,10 +206,26 @@ namespace CrissCross
 			return CC_ERR_NONE;
 		}
 
-		int TCPSocket::SetAttributes(socket_t _socket)
+		socketState TCPSocket::State() const
 		{
 			CoreAssert(this != NULL);
 
+			/* Make sure there have been no spontaneous state changes. */
+			switch (m_state)
+			{
+			case SOCKET_STATE_CONNECTING:
+			{
+				if (IsReadable() || IsWritable())
+					m_state = SOCKET_STATE_CONNECTED;
+			}
+			default:
+				break;
+			}
+			return m_state;
+		}
+
+		static int SetSocketAttributes(socket_t _socket)
+		{
 			/* TCP_NODELAY */
 			int err, optval = 1, optlen = sizeof optval;
 			err = setsockopt(_socket, IPPROTO_TCP, TCP_NODELAY,
@@ -287,24 +282,6 @@ namespace CrissCross
 			if (err == -1) return errno;
 
 			return CC_ERR_NONE;
-		}
-
-		socketState TCPSocket::State() const
-		{
-			CoreAssert(this != NULL);
-
-			/* Make sure there have been no spontaneous state changes. */
-			switch (m_state)
-			{
-			case SOCKET_STATE_CONNECTING:
-			{
-				if (IsReadable() || IsWritable())
-					m_state = SOCKET_STATE_CONNECTED;
-			}
-			default:
-				break;
-			}
-			return m_state;
 		}
 	}
 }

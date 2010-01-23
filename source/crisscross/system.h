@@ -14,17 +14,6 @@
 
 #include <crisscross/platform_detect.h>
 
-#if defined (TARGET_OS_WINDOWS)
-#include <windows.h>
-#elif defined (TARGET_OS_MACOSX)
-#include <mach/mach.h>
-#include <mach/mach_time.h>
-#elif defined (TARGET_OS_LINUX)
-#include <sys/time.h>
-#include <sched.h>
-#include <time.h>
-#endif
-
 namespace CrissCross
 {
 	namespace System
@@ -70,24 +59,6 @@ namespace CrissCross
 		 * Seeds the random number generator with the current time.
 		 */
 		void SeedRandom();
-
-#if defined (TARGET_OS_WINDOWS)
-		/*! \brief Waits for the specified thread to finish executing. */
-		/*!
-		 * \param _thread Thread to wait for.
-		 * \param _timeout The maximum wait time. (currently ignored)
-		 * \return Always zero, until _timeout is implemented.
-		 */
-		int WaitForThread(HANDLE _thread, DWORD _timeout);
-#elif defined (TARGET_OS_LINUX) || defined (TARGET_OS_FREEBSD) || defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD)
-		/*! \brief Waits for the specified thread to finish executing. */
-		/*!
-		 * \param _thread Thread to wait for.
-		 * \param _timeout The maximum wait time. (currently ignored)
-		 * \return Always zero, until _timeout is implemented.
-		 */
-		int WaitForThread(pthread_t _thread, int _timeout);
-#endif
 	}
 }
 #endif

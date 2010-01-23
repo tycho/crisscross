@@ -16,12 +16,6 @@
 
 #ifndef TARGET_OS_NDSFIRMWARE
 
-#if defined (TARGET_OS_WINDOWS)
-#include <windows.h>
-#else
-#include <pthread.h>
-#endif
-
 namespace CrissCross
 {
 	namespace System
@@ -35,6 +29,7 @@ namespace CrissCross
 		};
 
 		class MutexHolder;
+		struct MutexImpl;
 
 		/*! \brief A mutex class for safe multithreading. */
 		/*!
@@ -48,18 +43,8 @@ namespace CrissCross
 		protected:
 			unsigned m_lockCount;
 			MutexType m_type;
+			MutexImpl *m_impl;
 
-		#ifdef TARGET_OS_WINDOWS
-			/*! \brief The critical section for the mutex. */
-			/*!
-			 *  Windows uses "critical sections" for safe threading.
-			 */
-			CRITICAL_SECTION m_mutex;
-		#else
-			/*! \brief POSIX threading mutex. */
-			pthread_mutexattr_t m_mutexAttr;
-			pthread_mutex_t m_mutex;
-		#endif
 			void Lock();
 			void Unlock();
 
@@ -79,6 +64,7 @@ namespace CrissCross
 		};
 
 		class RWLockHolder;
+		struct RWLockImpl;
 
 		/*! \brief A read-write lock. */
 		/*!
@@ -87,21 +73,7 @@ namespace CrissCross
 		class ReadWriteLock
 		{
 		protected:
-#ifdef TARGET_OS_WINDOWS
-			bool wrpriority;
-
-			DWORD rdcount;
-			DWORD rdwaiting;
-
-			DWORD wrcount;
-			DWORD wrwaiting;
-
-			HANDLE rdgreen, wrgreen;
-			CRITICAL_SECTION rwcs;
-#else
-			pthread_rwlock_t m_rwlock;
-			pthread_rwlockattr_t m_rwlockAttr;
-#endif
+			RWLockImpl *m_impl;
 
 			bool LockRead();
 			bool LockWrite();

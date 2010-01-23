@@ -17,6 +17,9 @@
 
 #ifndef TARGET_OS_WINDOWS
 #include <netdb.h>
+#else
+#include <winsock2.h>
+#include <windows.h>
 #endif
 
 namespace CrissCross
@@ -28,7 +31,7 @@ namespace CrissCross
 		int e;
 	};
 
-	        #if defined (TARGET_OS_WINDOWS)
+#if defined (TARGET_OS_WINDOWS)
 	const struct tl errmap [] =
 	{
 		/*{WSANO_DATA, "WSANO_DATA", CC_ERR_NO_DATA},
@@ -77,7 +80,7 @@ namespace CrissCross
 		{0, "NOERROR", CC_ERR_NONE},
 		{0, "UNKNOWN_ERROR", CC_ERR_INTERNAL}
 	};
-	        #else
+#else
 	const struct tl errmap [] =
 	{
 #if !defined (TARGET_OS_NDSFIRMWARE)
@@ -120,7 +123,7 @@ namespace CrissCross
 		{0, "NO_ERROR", CC_ERR_NONE},
 		{0, "UNKNOWN_ERROR", CC_ERR_INTERNAL}
 	};
-	        #endif
+#endif
 
 	int TranslateError(int why)
 	{

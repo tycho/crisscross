@@ -38,6 +38,7 @@ typedef char **(*backtrace_symbols_t)(void * const *, int);
 #endif
 #else
 
+#include <windows.h>
 #include <dbghelp.h>
 
 #pragma warning (disable: 4312)

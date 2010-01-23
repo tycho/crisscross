@@ -15,6 +15,9 @@
 #if !defined (TARGET_OS_WINDOWS)
 #include <sys/socket.h>
 #include <signal.h>
+#else
+#include <winsock2.h>
+#include <windows.h>
 #endif
 
 namespace

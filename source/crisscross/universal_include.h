@@ -56,8 +56,6 @@
 /* Dont edit anything below this line */
 /* ============================================================================ */
 
-#define MAX_PROCESSORS 8
-
 #include <crisscross/platform_detect.h>
 
 #include <crisscross/cc_attr.h>
@@ -127,7 +125,7 @@
 #pragma warning ( disable : 4345 4100 4800 )
 #endif
 #endif
-#if defined (ENABLE_SYMBOL_ENGINE)
+#if 0 && defined (ENABLE_SYMBOL_ENGINE)
 #include <winsock2.h>
 #include <windows.h>
 #include <dbghelp.h>

@@ -28,15 +28,9 @@ namespace CrissCross
 		 */
 		class TCPSocket : public CoreSocket
 		{
-			private:
-
-				int SetAttributes(socket_t _socket);
-
 			public:
 				/*! \brief The default constructor. */
 				TCPSocket();
-				/*! \brief The constructor for existing sockets. */
-				TCPSocket(socket_t _socket);
 				/*! \brief The destructor. */
 				~TCPSocket();
 
@@ -46,7 +40,7 @@ namespace CrissCross
 				 * \return A pointer to a newly created TCPSocket instance for the new
 				 *  connection. If no incoming connections are pending, this returns NULL.
 				 */
-				int Accept(TCPSocket * *_socket);
+				int Accept(TCPSocket **_socket);
 
 				/*! \brief Establishes an outbound connection to the specified address and port. */
 				/*!

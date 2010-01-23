@@ -11,8 +11,10 @@
 
 #include <crisscross/universal_include.h>
 
-
 #ifdef _CC_ENABLE_OPENGL
+#ifdef TARGET_OS_WINDOWS
+#include <windows.h>
+#endif
 #ifdef TARGET_OS_MACOSX
 #include <OpenGL/gl.h>
 #else

@@ -11,8 +11,18 @@
 
 #include <crisscross/universal_include.h>
 
-#if !defined(TARGET_OS_WINDOWS)
+#if defined (TARGET_OS_WINDOWS)
+#include <windows.h>
+#else
 #include <sys/time.h>
+#endif
+
+#if defined (TARGET_OS_MACOSX)
+#include <mach/mach.h>
+#include <mach/mach_time.h>
+#elif defined (TARGET_OS_LINUX)
+#include <sched.h>
+#include <time.h>
 #endif
 
 #include <crisscross/system.h>
@@ -125,19 +135,6 @@ namespace CrissCross
 	#endif
 		}
 
-	#if defined (TARGET_OS_WINDOWS)
-		int WaitForThread(HANDLE _thread, DWORD _timeout)
-		{
-			WaitForSingleObject(_thread, INFINITE);
-			return 0;
-		}
-	#elif defined (TARGET_OS_LINUX)
-		int WaitForThread(pthread_t _thread, int _timeout)
-		{
-			pthread_join(_thread, NULL);
-			return 0;
-		}
-	#endif
 		long RandomNumber()
 		{
 #ifdef TARGET_OS_WINDOWS
