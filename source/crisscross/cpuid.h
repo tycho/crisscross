@@ -140,7 +140,7 @@ namespace CrissCross
 				 */
 				int VirtualCount();
 
-				X86Processor *proc[MAX_PROCESSORS];            /* Support up to MAX_PROCESSORS */
+				CrissCross::Data::DArray<X86Processor *> proc;
 		};
 	}
 }

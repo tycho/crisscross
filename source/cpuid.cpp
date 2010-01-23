@@ -383,8 +383,6 @@ namespace CrissCross
 		{
 			unsigned int i = 0;
 
-			memset(proc, 0, sizeof(X86Processor *) * MAX_PROCESSORS);
-
 			Std = new Registers[32];
 			CoreAssert(Std);
 			Ext = new Registers[32];
@@ -438,8 +436,8 @@ namespace CrissCross
 
 			delete [] Std;
 			delete [] Ext;
-			for (i = 0; i < MAX_PROCESSORS; i++) {
-				if (!proc[i]) continue;
+			for (i = 0; i < proc.size(); i++) {
+				if (!proc.valid(i)) continue;
 
 				for (j = 0; j < proc[i]->m_caches.size(); j++) {
 					if (proc[i]->m_caches.valid(j))
@@ -450,6 +448,7 @@ namespace CrissCross
 				delete [] (char *)proc[i]->m_name;
 
 				delete proc[i];
+				proc.remove(i);
 			}
 		}
 
@@ -459,8 +458,8 @@ namespace CrissCross
 
 			int count = 0, i;
 
-			for (i = 0; i < MAX_PROCESSORS; i++) {
-				if (proc[i])
+			for (i = 0; i < proc.size(); i++) {
+				if (proc.valid(i))
 					count++;
 			}
 
@@ -490,7 +489,7 @@ namespace CrissCross
 			int processor;
 			memcpy(&processor, params, sizeof(int));
 #endif
-			if (processor < 0 || processor > MAX_PROCESSORS) {
+			if (processor < 0) {
 				return 1;
 			}
 
@@ -519,13 +518,9 @@ namespace CrissCross
 
 			iCount = siSystem.dwNumberOfProcessors;
 
-			if (iCount > MAX_PROCESSORS) {
-				iCount = MAX_PROCESSORS;
-			}
-
 			for (params.processor = 0; params.processor < iCount;
 			     params.processor++) {
-				proc[params.processor] = new X86Processor();
+				proc.insert(new X86Processor(), params.processor);
 				HANDLE hThread =
 				        CreateThread(NULL, 0, ( LPTHREAD_START_ROUTINE )s_GoThreadProc,
 				                     &params, CREATE_SUSPENDED, &dThread);
@@ -547,7 +542,7 @@ namespace CrissCross
 
 			sched_getaffinity(0, sizeof(originalmask), &originalmask);
 			for (i = 0; i < NUM_PROCS; i++) {
-				proc[i] = new X86Processor();
+				proc.insert(new X86Processor(), i);
 				CPU_ZERO(&mask);
 				CPU_SET(( int )pow(2, i), &mask);
 				sched_setaffinity(0, sizeof(mask), &mask);
@@ -560,7 +555,7 @@ namespace CrissCross
 #if defined(USE_CHUD_FOR_CPUID)
 			int NUM_PROCS = chudProcessorCount();
 			for (int i = 0; i < NUM_PROCS; i++) {
-				proc[i] = new X86Processor();
+				proc.insert(new X86Processor(), i);
 				utilUnbindThreadFromCPU();
 				utilBindThreadToCPU(i);
 				GoThread(i);
@@ -569,11 +564,11 @@ namespace CrissCross
 			utilUnbindThreadFromCPU();
 #else
 			int NUM_PROCS = getProcessorCount();
-			proc[0] = new X86Processor();
+			proc.insert(new X86Processor(), 0);
 			GoThread(0);
 			proc[0]->m_index = 0;
 			for (int i = 1; i < NUM_PROCS; i++) {
-				proc[i] = new X86Processor(*proc[0]);
+				proc.insert(new X86Processor(*proc[0]), i);
 				proc[i]->m_index = i;
 			}
 #endif

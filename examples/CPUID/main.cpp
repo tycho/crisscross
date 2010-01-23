@@ -21,8 +21,6 @@ int main(int argc, char * *argv)
 
 	/* Begin your application here. */
 
-#ifdef ENABLE_CPUID
-
 	CPUID *cpuid = new CPUID();
 
 	console->SetColour(console->FG_RED | console->FG_INTENSITY);
@@ -84,19 +82,13 @@ int main(int argc, char * *argv)
 
 	console->WriteLine();
 
-	for (int i = 0; i < MAX_PROCESSORS; i++) {
+	for (size_t i = 0; i < cpuid->proc.size(); i++) {
 		/* Go through each Virtual processor. */
-		if (cpuid->proc[i])
+		if (cpuid->proc.valid(i))
 			cpuid->proc[i]->Print(console);
 	}
 
 	delete cpuid;
-
-#else
-
-	console->WriteLine("CPUID isn't supported on your platform or compiler.");
-
-#endif
 
 	/* End your application here. */
 
