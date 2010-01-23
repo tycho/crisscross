@@ -146,6 +146,8 @@
 #define _CRTDBG_MAP_ALLOC
 #endif
 #if defined (ENABLE_SYMBOL_ENGINE)
+#include <winsock2.h>
+#include <windows.h>
 #include <dbghelp.h>
 #pragma comment (lib, "dbghelp.lib")
 #endif

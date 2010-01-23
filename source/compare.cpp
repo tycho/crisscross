@@ -9,6 +9,7 @@
  *
  */
 
+#include <crisscross/universal_include.h>
 #include <crisscross/compare.h>
 
 #include <cstring>

@@ -11,7 +11,9 @@
 
 #include <crisscross/universal_include.h>
 
+#ifndef TARGET_OS_WINDOWS
 #include <pthread.h>
+#endif
 #include <cstdio>
 #include <cstring>
 
@@ -24,9 +26,11 @@
 #include <sys/ioctl.h>
 #endif
 #include <sys/wait.h>
-#include <fcntl.h>
 #include <signal.h>
+#else
+#include <io.h>
 #endif
+#include <fcntl.h>
 
 #if defined(TARGET_COMPILER_BORLAND)
 typedef long intptr_t;

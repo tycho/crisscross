@@ -33,6 +33,8 @@
 #define INVALID_SOCKET -1
 #define SOCKET_ERROR -1
 #else
+#include <winsock2.h>
+#include <mstcpip.h>
 typedef int socklen_t;
 #endif
 
