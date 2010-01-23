@@ -44,9 +44,6 @@
 /*      elsewhere. */
 #define ENABLE_CREDITS
 
-/* Sorry, this is Windows-only... (Use Valgrind on Linux) */
-#define DETECT_MEMORY_LEAKS
-
 /* Linux backtrace() */
 #define ENABLE_BACKTRACE
 
@@ -100,10 +97,6 @@
 #endif
 #endif
 
-#if (!defined (TARGET_COMPILER_VC) && !defined (TARGET_COMPILER_ICC)) || defined (NO_DETECT_MEMORY_LEAKS) || defined (NDEBUG)
-#undef DETECT_MEMORY_LEAKS
-#endif
-
 #if (!defined (TARGET_OS_NDSFIRMWARE))
 #define HAS_FPOS64
 #endif
@@ -133,12 +126,6 @@
 #if _MSC_VER > 1200 && _MSC_VER < 1400
 #pragma warning ( disable : 4345 4100 4800 )
 #endif
-#if _MSC_VER <= 1200
-#undef DETECT_MEMORY_LEAKS
-#endif
-#endif
-#if defined (DETECT_MEMORY_LEAKS)
-#define _CRTDBG_MAP_ALLOC
 #endif
 #if defined (ENABLE_SYMBOL_ENGINE)
 #include <winsock2.h>
@@ -174,35 +161,6 @@ extern "C" __int64 __cdecl _ftelli64(FILE *);
 #endif
 #endif
 
-#if defined (TARGET_OS_WINDOWS)
-#if defined (DETECT_MEMORY_LEAKS)
-#ifndef _DBG_NEW
-inline void *__operator_new(size_t __n)
-{
-	return ::operator  new(__n, _NORMAL_BLOCK, __FILE__, __LINE__);
-}
-
-inline void *_cdecl operator
-new(size_t __n, const char *__fname, int __line)
-{
-	return ::operator  new(__n, _NORMAL_BLOCK, __fname, __line);
-}
-
-inline void _cdecl operator
-delete(void *__p, const char *, int)
-{
-	::operator  delete(__p);
-}
-
-#define _DBG_NEW new (__FILE__, __LINE__)
-#define new _DBG_NEW
-#endif
-#undef THIS_FILE
-static char THIS_FILE [] = __FILE__;
-
-
-#endif
-#endif
 
 /* Namespace Definitions */
 /* Primarily here for centralised documentation */
