@@ -142,7 +142,6 @@
 
 #if defined (TARGET_COMPILER_BORLAND)
 #undef ENABLE_BACKTRACE
-#undef ENABLE_STLTREE
 #endif
 
 #include <stddef.h>

@@ -12,6 +12,11 @@
 #ifndef __included_cc_stltree_h
 #define __included_cc_stltree_h
 
+#include <crisscross/platform_detect.h>
+
+#if defined (TARGET_COMPILER_BORLAND) || defined (TARGET_COMPILER_VC)
+#undef ENABLE_STLTREE
+#endif
 
 /*
  * Something is wrong with Microsoft's and
