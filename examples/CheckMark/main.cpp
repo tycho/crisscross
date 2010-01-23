@@ -75,7 +75,6 @@ int main(int argc, char * *argv)
 	                   (unsigned long)((double)(DATASET_SIZE * MAX_RUNS) / sw.Elapsed()),
 	                   killOptimization);
 
-#ifdef ENABLE_MD4
 	CrissCross::Crypto::MD4Hash md4;
 	sw.Start();
 	for (int r = 0; r < MAX_RUNS; r++)
@@ -85,9 +84,7 @@ int main(int argc, char * *argv)
 	sw.Stop();
 	console->WriteLine("%8lu MD4Marks",
 	                   (unsigned long)((double)(DATASET_SIZE * MAX_RUNS) / sw.Elapsed()));
-#endif
 
-#ifdef ENABLE_MD5
 	CrissCross::Crypto::MD5Hash md5;
 	sw.Start();
 	for (int r = 0; r < MAX_RUNS; r++)
@@ -97,9 +94,7 @@ int main(int argc, char * *argv)
 	sw.Stop();
 	console->WriteLine("%8lu MD5Marks",
 	                   (unsigned long)((double)(DATASET_SIZE * MAX_RUNS) / sw.Elapsed()));
-#endif
 
-#ifdef ENABLE_SHA1
 	CrissCross::Crypto::SHA1Hash sha1;
 	sw.Start();
 	for (int r = 0; r < MAX_RUNS; r++)
@@ -109,9 +104,7 @@ int main(int argc, char * *argv)
 	sw.Stop();
 	console->WriteLine("%8lu SHA1Marks",
 	                   (unsigned long)((double)(DATASET_SIZE * MAX_RUNS) / sw.Elapsed()));
-#endif
 
-#ifdef ENABLE_SHA256
 	CrissCross::Crypto::SHA256Hash sha256;
 	sw.Start();
 	for (int r = 0; r < MAX_RUNS; r++)
@@ -121,9 +114,7 @@ int main(int argc, char * *argv)
 	sw.Stop();
 	console->WriteLine("%8lu SHA256Marks",
 	                   (unsigned long)((double)(DATASET_SIZE * MAX_RUNS) / sw.Elapsed()));
-#endif
 
-#ifdef ENABLE_SHA512
 	CrissCross::Crypto::SHA512Hash sha512;
 	sw.Start();
 	for (int r = 0; r < MAX_RUNS; r++)
@@ -133,9 +124,7 @@ int main(int argc, char * *argv)
 	sw.Stop();
 	console->WriteLine("%8lu SHA512Marks",
 	                   (unsigned long)((double)(DATASET_SIZE * MAX_RUNS) / sw.Elapsed()));
-#endif
 
-#ifdef ENABLE_TIGER
 	CrissCross::Crypto::TigerHash tiger;
 	sw.Start();
 	for (int r = 0; r < MAX_RUNS; r++)
@@ -145,7 +134,6 @@ int main(int argc, char * *argv)
 	sw.Stop();
 	console->WriteLine("%8lu TigerMarks",
 	                   (unsigned long)((double)(DATASET_SIZE * MAX_RUNS) / sw.Elapsed()));
-#endif
 
 	randomStrings.flushArray();
 	console->WriteLine();
