@@ -185,11 +185,13 @@ namespace CrissCross
 				int processor;
 			};
 
+#ifdef TARGET_OS_WINDOWS
 			static DWORD CALLBACK s_GoThreadProc(LPVOID lpParameter)
 			{
 				GoThreadProc_Params *params = (GoThreadProc_Params *)lpParameter;
 				return params->cpuid_class->GoThread(params->processor);
-			};
+			}
+#endif
 
 			bool call_cpuid(unsigned int request, unsigned int *_eax, unsigned int *_ebx, unsigned int *_ecx, unsigned int *_edx)
 			{
@@ -197,7 +199,7 @@ namespace CrissCross
 				unsigned int pre_change, post_change;
 				const unsigned int id_flag = 0x200000;
 #endif
-	
+
 				/* This is pretty much the standard way to detect whether the CPUID
 				 *     instruction is supported: try to change the ID bit in the EFLAGS
 				 *     register.  If we can change it, then the CPUID instruction is
