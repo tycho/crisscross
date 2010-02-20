@@ -15,7 +15,9 @@
 #if defined (TARGET_OS_MACOSX)
 #include <mach/mach.h>
 #include <mach/mach_time.h>
-#elif defined (TARGET_OS_LINUX) || defined (TARGET_OS_NDSFIRMWARE)
+#elif defined (TARGET_OS_LINUX) || defined (TARGET_OS_NDSFIRMWARE) || \
+	defined(TARGET_OS_FREEBSD) || defined (TARGET_OS_NETBSD) || \
+	defined(TARGET_OS_OPENBSD)
 #include <sys/time.h>
 #include <time.h>
 #elif defined (TARGET_OS_WINDOWS)
