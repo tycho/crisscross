@@ -52,7 +52,7 @@ namespace CrissCross
 #if defined (TARGET_OS_WINDOWS)
 			m_impl->RecalculateFrequency();
 #elif defined (TARGET_OS_MACOSX)
-			mach_timebase_info(&m_timebase);
+			mach_timebase_info(&m_impl->m_timebase);
 #endif
 
 			/* We start it here for static Stopwatch instances */
