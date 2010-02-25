@@ -102,23 +102,23 @@ namespace CrissCross
 				 */
 				const char *GetRemoteIP();
 
-				/*! \brief Fetches the IP address of the remote host. */
+				/*! \brief Fetches the IP address of the local host. */
 				/*!
 				 * \return The host represented in old-style sockaddr_in format.
 				 */
 				unsigned long GetLocalHost();
 
-				/*! \brief Fetches the IP address of the remote host. */
+				/*! \brief Fetches the IP address of the local host. */
 				/*!
 				 * \return A pointer to the IP address string in dot notation. Note that the
-				 *  pointer this returns will be reused on the next GetRemoteIP call, so the
+				 *  pointer this returns will be reused on the next GetLocalIP call, so the
 				 *  data pointed at by the return value should be copied into another buffer.
 				 */
 				const char *GetLocalIP();
 
 				/*! \brief Determines whether the socket is ready for a Read operation. */
 				/*!
-				 * \return True if the socket is writable, false otherwise.
+				 * \return True if the socket is readable, false otherwise.
 				 * \warning If the return value is false, check the return value of State()
 				 * to make sure that the socket hasn't entered an error state.
 				 * \sa State
@@ -126,7 +126,7 @@ namespace CrissCross
 				 */
 				virtual bool IsReadable() const;
 
-				/*! \brief Determines whether the socket is ready for a Read operation. */
+				/*! \brief Determines whether the socket is ready for a Send operation. */
 				/*!
 				 * \return True if the socket is writable, false otherwise.
 				 * \warning If the return value is false, check the return value of State()
