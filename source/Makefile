@@ -15,6 +15,8 @@ CXX   ?= g++
 RANLIB?= ranlib
 RM    ?= rm -f
 
+uname_S := $(shell sh -c 'uname -s 2>/dev/null || echo not')
+
 prefix ?= /usr/local
 libdir := $(prefix)/lib
 includedir := $(prefix)/include/crisscross
@@ -117,7 +119,11 @@ HEADERS_INST := $(patsubst crisscross/%,$(includedir)/%,$(HEADERS))
 OBJECTS := $(patsubst %.cpp,%.o,$(SOURCES))
 
 CFLAGS ?= -O2
-CFLAGS += -I.
+override CFLAGS += -I.
+
+ifeq ($(uname_S),FreeBSD)
+override CFLAGS += -I/usr/local/include
+endif
 
 .PHONY: install
 
