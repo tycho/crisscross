@@ -42,6 +42,9 @@ namespace CrissCross
 			m_impl->m_sock = INVALID_SOCKET;
 			m_state = SOCKET_STATE_NOT_CREATED;
 			m_bufferSize = 8192;
+
+			/* Just to shut GCC up about the SetSocketAttributes being unused. */
+			SetSocketAttributes(m_impl->m_sock);
 		}
 
 		CoreSocket::~CoreSocket()
@@ -329,6 +332,12 @@ namespace CrissCross
 			/* SO_ERROR (DWORD, get): per-socket error code. */
 			/* */
 			return m_state;
+		}
+
+		static int SetSocketAttributes(CrissCross::Network::socket_t)
+		{
+			/* Unused. */
+			return 0;
 		}
 	}
 }
