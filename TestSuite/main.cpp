@@ -18,6 +18,7 @@
 #include "darray.h"
 #include "dstack.h"
 #include "llist.h"
+#include "ltree.h"
 #include "splaytree.h"
 #include "stltree.h"
 #include "avltree.h"
@@ -105,6 +106,10 @@ int main(int argc, char * *argv)
 	WritePrefix("STree<const char *, const char *>"); retval |= WriteResult(TestSTree_CString());
 	WritePrefix("STree<std::string, std::string>"); retval |= WriteResult(TestSTree_String());
 	WritePrefix("STree<int, int>"); retval |= WriteResult(TestSTree_Int());
+
+	WritePrefix("LTree<const char *, const char *>"); retval |= WriteResult(TestLTree_CString());
+	WritePrefix("LTree<std::string, std::string>"); retval |= WriteResult(TestLTree_String());
+	WritePrefix("LTree<int, int>"); retval |= WriteResult(TestLTree_Int());
 
 	WritePrefix("HashTable<const char *, const char *>"); retval |= WriteResult(TestHashTable_CString());
 

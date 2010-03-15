@@ -184,6 +184,38 @@ namespace CrissCross
 				}
 		};
 
+		/*! \brief A binary tree node used for LTree. */
+		template <class Key, class Data>
+		class LNode
+		{
+			public:
+
+				/*! \brief The key for this node. */
+				Key id;
+
+				/*! \brief The data held at this node. */
+				Data data;
+
+				/*! \brief The default constructor. */
+				LNode()
+				{
+					id = NullKey<Key>();
+				}
+
+				/*! \brief The destructor. */
+				~LNode()
+				{
+					Dealloc(id);
+				}
+
+				LNode<Key, Data> &operator =(const LNode<Key, Data> &rhs)
+				{
+					id = rhs.id;
+					data = rhs.data;
+					return *this;
+				}
+		};
+
 		/*! \brief A binary tree node used for RedBlackTree. */
 		template <class Key, class Data>
 		class RedBlackNode
