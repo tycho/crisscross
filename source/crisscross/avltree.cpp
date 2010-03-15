@@ -37,7 +37,7 @@ namespace CrissCross
 		template <class Key, class Data>
 		bool AVLTree<Key, Data>::erase(Key const &_key)
 		{
-			Result ret = erase(&m_root, _key);
+			int ret = erase(&m_root, _key);
 			return (ret == OK || ret == BALANCE);
 		}
 
@@ -53,17 +53,12 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		#ifndef TARGET_COMPILER_BORLAND
-		typename AVLTree<Key, Data>::Result
-		#else
-		int
-		#endif
-		AVLTree<Key, Data>::erase(AVLNode<Key, Data> * *_node, Key const &_key)
+		int	AVLTree<Key, Data>::erase(AVLNode<Key, Data> **_node, Key const &_key)
 		{
 			if (!*_node)
 				return INVALID;
 
-			Result result = OK;
+			int result = OK;
 
 			if (Compare(_key, (*_node)->id) != 0) {
 				if (Compare(_key, (*_node)->id) < 0) {
@@ -162,7 +157,7 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		void AVLTree<Key, Data>::rotateLeft(AVLNode<Key, Data> * *_node)
+		void AVLTree<Key, Data>::rotateLeft(AVLNode<Key, Data> **_node)
 		{
 			AVLNode<Key, Data> *p_tmp = *_node;
 			*_node = p_tmp->right;
@@ -175,7 +170,7 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		void AVLTree<Key, Data>::rotateRight(AVLNode<Key, Data> * *_node)
+		void AVLTree<Key, Data>::rotateRight(AVLNode<Key, Data> **_node)
 		{
 			AVLNode<Key, Data> *p_tmp = *_node;
 			*_node = p_tmp->left;
@@ -189,12 +184,7 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		#ifndef TARGET_COMPILER_BORLAND
-		typename AVLTree<Key, Data>::Result
-		#else
-		int
-		#endif
-		AVLTree<Key, Data>::balanceLeftGrown(AVLNode<Key, Data> * *_node)
+		int AVLTree<Key, Data>::balanceLeftGrown(AVLNode<Key, Data> **_node)
 		{
 			switch ((*_node)->balance)
 			{
@@ -254,12 +244,7 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		#ifndef TARGET_COMPILER_BORLAND
-		typename AVLTree<Key, Data>::Result
-		#else
-		int
-		#endif
-		AVLTree<Key, Data>::balanceRightGrown(AVLNode<Key, Data> * *_node)
+		int AVLTree<Key, Data>::balanceRightGrown(AVLNode<Key, Data> **_node)
 		{
 			switch ((*_node)->balance)
 			{
@@ -319,12 +304,7 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		#ifndef TARGET_COMPILER_BORLAND
-		typename AVLTree<Key, Data>::Result
-		#else
-		int
-		#endif
-		AVLTree<Key, Data>::balanceLeftShrunk(AVLNode<Key, Data> * *_node)
+		int AVLTree<Key, Data>::balanceLeftShrunk(AVLNode<Key, Data> **_node)
 		{
 			switch ((*_node)->balance)
 			{
@@ -402,12 +382,7 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		#ifndef TARGET_COMPILER_BORLAND
-		typename AVLTree<Key, Data>::Result
-		#else
-		int
-		#endif
-		AVLTree<Key, Data>::balanceRightShrunk(AVLNode<Key, Data> * * _node)
+		int AVLTree<Key, Data>::balanceRightShrunk(AVLNode<Key, Data> **_node)
 		{
 			switch ((*_node)->balance)
 			{
@@ -485,7 +460,7 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		bool AVLTree<Key, Data>::replaceWithHighest(AVLNode<Key, Data> * _target, AVLNode<Key, Data> * * _subtree, Result * _result)
+		bool AVLTree<Key, Data>::replaceWithHighest(AVLNode<Key, Data> * _target, AVLNode<Key, Data> **_subtree, int * _result)
 		{
 			AVLNode<Key, Data> *p_tmp;
 
@@ -523,7 +498,7 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		bool AVLTree<Key, Data>::replaceWithLowest(AVLNode<Key, Data> * _target, AVLNode<Key, Data> * * _subtree, Result * _result)
+		bool AVLTree<Key, Data>::replaceWithLowest(AVLNode<Key, Data> * _target, AVLNode<Key, Data> **_subtree, int * _result)
 		{
 			AVLNode<Key, Data> *p_tmp;
 
@@ -561,14 +536,9 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		#ifndef TARGET_COMPILER_BORLAND
-		typename AVLTree<Key, Data>::Result
-		#else
-		int
-		#endif
-		AVLTree<Key, Data>::insert(AVLNode<Key, Data> * * pp_parent, AVLNode<Key, Data> * * _node, Key const &_key, Data const &_data)
+		int AVLTree<Key, Data>::insert(AVLNode<Key, Data> **pp_parent, AVLNode<Key, Data> **_node, Key const &_key, Data const &_data)
 		{
-			Result result = OK;
+			int result = OK;
 
 			CoreAssert(_node);
 

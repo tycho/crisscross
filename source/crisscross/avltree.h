@@ -54,7 +54,7 @@ namespace CrissCross
 				size_t m_size;
 
 				/*! \brief Result of tree operation */
-				typedef enum
+				enum
 				{
 					/*! \brief None of the subtrees has grown in height, entire tree is still balanced */
 					OK,
@@ -64,21 +64,21 @@ namespace CrissCross
 
 					/*! \brief Error */
 					INVALID
-				} Result;
+				};
 
 				/*! \brief Rotate tree left */
 				/*!
 				 * Rotate tree left around the given node
 				 * \param _node Pointer to current node pointer to rotate
 				 */
-				inline void rotateLeft(AVLNode<Key, Data> * *_node);
+				inline void rotateLeft(AVLNode<Key, Data> **_node);
 
 				/*! \brief Rotate tree right */
 				/*!
 				 * Rotate tree right around the given node
 				 * \param _node Pointer to current node pointer to rotate
 				 */
-				inline void rotateRight(AVLNode<Key, Data> * *_node);
+				inline void rotateRight(AVLNode<Key, Data> **_node);
 
 				/*! \brief Rebalance tree */
 				/*!
@@ -86,13 +86,7 @@ namespace CrissCross
 				 * \param _node Pointer to current node pointer to balance
 				 * \return OK if tree is balanced (entire tree is valid), BALANCE if local tree is balanced but has grown in height (entire tree not guaranteed to be valid)
 				 */
-				inline
-				#ifndef TARGET_COMPILER_BORLAND
-				Result
-				#else
-				int
-				#endif
-				balanceLeftGrown(AVLNode<Key, Data> * *_node);
+				inline int balanceLeftGrown(AVLNode<Key, Data> **_node);
 
 				/*! \brief Rebalance tree */
 				/*!
@@ -100,13 +94,7 @@ namespace CrissCross
 				 * \param _node Pointer to current node pointer to balance
 				 * \return OK if tree is balanced (entire tree is valid), BALANCE if local tree is balanced but has grown in height (entire tree not guaranteed to be valid)
 				 */
-				inline
-				#ifndef TARGET_COMPILER_BORLAND
-				Result
-				#else
-				int
-				#endif
-				balanceRightGrown(AVLNode<Key, Data> * *_node);
+				inline int balanceRightGrown(AVLNode<Key, Data> **_node);
 
 				/*! \brief Rebalance tree */
 				/*!
@@ -114,13 +102,7 @@ namespace CrissCross
 				 * \param _node Pointer to current node pointer to balance
 				 * \return OK if tree is balanced (entire tree is valid), BALANCE if local tree is balanced but has shrunk in height (entire tree not guaranteed to be valid)
 				 */
-				inline
-				#ifndef TARGET_COMPILER_BORLAND
-				Result
-				#else
-				int
-				#endif
-				balanceLeftShrunk(AVLNode<Key, Data> * *_node);
+				inline int balanceLeftShrunk(AVLNode<Key, Data> **_node);
 
 				/*! \brief Rebalance tree */
 				/*!
@@ -128,13 +110,7 @@ namespace CrissCross
 				 * \param _node Pointer to current node pointer to balance
 				 * \return OK if tree is balanced (entire tree is valid), BALANCE if local tree is balanced but has shrunk in height (entire tree not guaranteed to be valid)
 				 */
-				inline
-				#ifndef TARGET_COMPILER_BORLAND
-				Result
-				#else
-				int
-				#endif
-				balanceRightShrunk(AVLNode<Key, Data> * *_node);
+				inline int balanceRightShrunk(AVLNode<Key, Data> **_node);
 
 				/*! \brief Replace node */
 				/*!
@@ -144,7 +120,7 @@ namespace CrissCross
 				 * \param _result Pointer to result variable to tell caller if further checks are needed
 				 * \return true if node found, false if not
 				 */
-				inline bool replaceWithHighest(AVLNode<Key, Data> *_target, AVLNode<Key, Data> * *_subtree, Result *_result);
+				inline bool replaceWithHighest(AVLNode<Key, Data> *_target, AVLNode<Key, Data> **_subtree, int *_result);
 
 				/*! \brief Replace node */
 				/*!
@@ -154,7 +130,7 @@ namespace CrissCross
 				 * \param _result Pointer to result variable to tell caller if further checks are needed
 				 * \return true if node found, false if not
 				 */
-				inline bool replaceWithLowest(AVLNode<Key, Data> *_target, AVLNode<Key, Data> * *_subtree, Result *_result);
+				inline bool replaceWithLowest(AVLNode<Key, Data> *_target, AVLNode<Key, Data> **_subtree, int *_result);
 
 				/*! \brief Add object */
 				/*!
@@ -163,28 +139,18 @@ namespace CrissCross
 				 * \param _node Pointer to current node pointer
 				 * \param _key Key to insert
 				 * \param _data Data to insert
-				 * \return Result of addition (OK if subtree is balanced, BALANCE if tree is heavy on either side)
+				 * \return int of addition (OK if subtree is balanced, BALANCE if tree is heavy on either side)
 				 */
-				#ifndef TARGET_COMPILER_BORLAND
-				Result
-				#else
-				int
-				#endif
-				insert(AVLNode<Key, Data> * *_parent, AVLNode<Key, Data> * *_node, Key const &_key, Data const &_data);
+				int insert(AVLNode<Key, Data> **_parent, AVLNode<Key, Data> **_node, Key const &_key, Data const &_data);
 
 				/*! \brief Remove object */
 				/*!
 				 * Remove object from tree and rebalance
 				 * \param _node Pointer to current node pointer
 				 * \param _key Identifier of node to remove
-				 * \return Result of removal (OK if subtree is balanced, BALANCE if tree is heavy on either side)
+				 * \return int of removal (OK if subtree is balanced, BALANCE if tree is heavy on either side)
 				 */
-				#ifndef TARGET_COMPILER_BORLAND
-				Result
-				#else
-				int
-				#endif
-				erase(AVLNode<Key, Data> * *_node, Key const &_key);
+				int erase(AVLNode<Key, Data> **_node, Key const &_key);
 
 				/*! \brief Find a node in the tree */
 				/*!
