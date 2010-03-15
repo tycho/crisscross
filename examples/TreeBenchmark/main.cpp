@@ -179,6 +179,17 @@ int main(int argc, char * *argv)
 	delete splaytree;
 	splaytree = NULL;
 
+	console->WriteLine();
+	console->WriteLine("Testing STree...");
+	console->WriteLine("%10s %10s %10s %10s %10s %10s", "size", "add", "srch+", "srch", "srch-", "empty");
+	STree<ktype_t, char> *stree = new STree<ktype_t, char>();
+	for (size_t *p = sizes; *p != 0; p++) {
+		TestTree<STree<ktype_t, char> *> (stree, dataset, *p);
+	}
+	console->WriteLine("STree tests complete.");
+	delete stree;
+	stree = NULL;
+
 #ifdef ENABLE_STLTREE
 	console->WriteLine();
 	console->WriteLine("Testing STLTree...");

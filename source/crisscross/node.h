@@ -137,8 +137,52 @@ namespace CrissCross
 				}
 		};
 
+		/*! \brief A binary tree node used for STree. */
 		template <class Key, class Data>
-		class RedBlackTree;
+		class SNode
+		{
+			public:
+
+				/*! \brief The left branch of the tree from this node. */
+				SNode *left;
+
+				/*! \brief The right branch of the tree from this node. */
+				SNode *right;
+
+				/*! \brief The parent node. */
+				SNode *parent;
+
+				/*! \brief The key for this node. */
+				Key id;
+
+				/*! \brief The data held at this node. */
+				Data data;
+
+				/*! \brief The default constructor. */
+				SNode() : left(NULL), right(NULL), parent(NULL)
+				{
+				}
+
+				/*! \brief The destructor. */
+				~SNode()
+				{
+					Dealloc(id);
+					delete left; left = NULL;
+					delete right; right = NULL;
+				}
+
+				/*! \brief Returns the overhead caused by the node. */
+				/*!
+				 * \return Memory usage in bytes.
+				 */
+				size_t mem_usage() const
+				{
+					size_t ret = sizeof(*this);
+					if (left) ret += left->mem_usage();
+					if (right) ret += right->mem_usage();
+					return ret;
+				}
+		};
 
 		/*! \brief A binary tree node used for RedBlackTree. */
 		template <class Key, class Data>

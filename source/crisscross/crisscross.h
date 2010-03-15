@@ -30,6 +30,7 @@
 #include <crisscross/splaytree.h>
 #include <crisscross/avltree.h>
 #include <crisscross/rbtree.h>
+#include <crisscross/stree.h>
 #include <crisscross/error.h>
 #include <crisscross/core_io.h>
 #include <crisscross/console.h>

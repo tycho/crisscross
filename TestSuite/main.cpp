@@ -25,6 +25,7 @@
 #include "hashtable.h"
 #include "sanity.h"
 #include "stopwatch.h"
+#include "stree.h"
 #include "sort.h"
 #include "md4.h"
 #include "md5.h"
@@ -100,6 +101,10 @@ int main(int argc, char * *argv)
 	WritePrefix("RedBlackTree<const char *, const char *>"); retval |= WriteResult(TestRedBlackTree_CString());
 	WritePrefix("RedBlackTree<std::string, std::string>"); retval |= WriteResult(TestRedBlackTree_String());
 	WritePrefix("RedBlackTree<int, int>"); retval |= WriteResult(TestRedBlackTree_Int());
+
+	WritePrefix("STree<const char *, const char *>"); retval |= WriteResult(TestSTree_CString());
+	WritePrefix("STree<std::string, std::string>"); retval |= WriteResult(TestSTree_String());
+	WritePrefix("STree<int, int>"); retval |= WriteResult(TestSTree_Int());
 
 	WritePrefix("HashTable<const char *, const char *>"); retval |= WriteResult(TestHashTable_CString());
 
