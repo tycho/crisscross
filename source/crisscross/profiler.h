@@ -84,7 +84,7 @@ namespace CrissCross
 			double           m_lengthOfLastSecond;
 			bool             m_doGlFinish;
 			#ifdef TARGET_OS_WINDOWS
-			DWORD            m_masterThread;
+			unsigned int     m_masterThread;
 			#else
 			pthread_t        m_masterThread;
 			#endif
