@@ -11,6 +11,10 @@
 
 #include "header.h"
 
+#ifdef TARGET_OS_WINDOWS
+#include <windows.h>
+#endif
+
 using namespace CrissCross::IO;
 using namespace CrissCross::System;
 
