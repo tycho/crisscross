@@ -33,6 +33,7 @@
 #include "sha256.h"
 #include "sha512.h"
 #include "tiger.h"
+#include "vtree.h"
 
 using namespace CrissCross;
 
@@ -105,6 +106,10 @@ int main(int argc, char * *argv)
 	WritePrefix("STree<const char *, const char *>"); retval |= WriteResult(TestSTree_CString());
 	WritePrefix("STree<std::string, std::string>"); retval |= WriteResult(TestSTree_String());
 	WritePrefix("STree<int, int>"); retval |= WriteResult(TestSTree_Int());
+
+	WritePrefix("VTree<const char *, const char *>"); retval |= WriteResult(TestVTree_CString());
+	WritePrefix("VTree<std::string, std::string>"); retval |= WriteResult(TestVTree_String());
+	WritePrefix("VTree<int, int>"); retval |= WriteResult(TestVTree_Int());
 
 	WritePrefix("HashTable<const char *, const char *>"); retval |= WriteResult(TestHashTable_CString());
 

@@ -66,8 +66,8 @@
 #undef OS_DETECTED
 
 /* ------------------- *
-* PROCESSOR DETECTION *
-* ------------------- */
+ * PROCESSOR DETECTION *
+ * ------------------- */
 
 /* Carbon defines this for us on Mac, apparently... */
 #if defined (TARGET_CPU_PPC)
@@ -143,13 +143,16 @@
 #endif
 
 /* ------------------- *
-* COMPILER DETECTION  *
-* ------------------- */
+ * COMPILER DETECTION  *
+ * ------------------- */
 
 #if !defined (COMPILER_DETECTED)
 #if defined (__GNUC__)
 #define COMPILER_DETECTED
 #define TARGET_COMPILER_GCC
+#if __GNUC__ > 4 || (__GNUC__ == 4 && ____GNUC_MINOR__ >= 1)
+#define TARGET_SUPPORTS_TR1
+#endif
 #endif
 #if defined (__CYGWIN__) || defined (__CYGWIN32__)
 #define TARGET_COMPILER_CYGWIN
@@ -170,6 +173,9 @@
 #if defined (_MSC_VER)
 #define COMPILER_DETECTED
 #define TARGET_COMPILER_VC
+#if _MSC_VER >= 1500
+#define TARGET_SUPPORTS_TR1
+#endif
 #endif
 #endif
 
@@ -184,8 +190,8 @@
 #endif
 
 /* ------------ *
-* OS DETECTION *
-* ------------ */
+ * OS DETECTION *
+ * ------------ */
 
 #if !defined (OS_DETECTED)
 #if defined (TARGET_COMPILER_VC) || defined (_WIN32) || defined (_WIN64)

@@ -51,4 +51,7 @@
 #define _CC_DEPRECATE_FUNCTION(_Replacement)
 #define _CC_DEPRECATE_FUNCTION_N
 #endif
+
+#define _CC_WOULD_COPY							_CC_DEPRECATE_TEXT("This will cause an implicit copy-on-write.")
+
 #endif

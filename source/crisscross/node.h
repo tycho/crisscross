@@ -12,6 +12,8 @@
 #ifndef __included_cc_node_h
 #define __included_cc_node_h
 
+#include <crisscross/platform_detect.h>
+#include <crisscross/cow_ptr.h>
 #include <crisscross/internal_mem.h>
 
 namespace CrissCross
@@ -183,6 +185,72 @@ namespace CrissCross
 					return ret;
 				}
 		};
+
+#ifdef TARGET_SUPPORTS_TR1
+		/*! \brief A binary tree node used for VTree. */
+		template <class Key, class Data>
+		class VNode
+		{
+			public:
+
+				/*! \brief The left branch of the tree from this node. */
+				cow_ptr<VNode<Key, Data>> left;
+
+				/*! \brief The right branch of the tree from this node. */
+				cow_ptr<VNode<Key, Data>> right;
+
+				/*! \brief The parent node. */
+				cow_ptr<VNode<Key, Data>> parent;
+
+				/*! \brief The key for this node. */
+				Key id;
+
+				/*! \brief The data held at this node. */
+				Data data;
+
+				/*! \brief The default constructor. */
+				VNode()
+				{
+				}
+
+				/*! \brief The default constructor. */
+				VNode(Key const &_key, Data const &_data)
+				{
+					id = Duplicate(_key);
+					data = _data;
+				}
+
+				/*! \brief The copy constructor. */
+				VNode(VNode const &orig)
+				{
+					id = Duplicate<Key>(orig.id);
+					data = orig.data;
+					left = orig.left;
+					right = orig.right;
+					parent = orig.parent;
+				}
+
+				/*! \brief The destructor. */
+				~VNode()
+				{
+					Dealloc(id);
+					left.reset();
+					right.reset();
+				}
+
+				/*! \brief Returns the overhead caused by the node. */
+				/*!
+				 * \return Memory usage in bytes.
+				 */
+				size_t mem_usage() const
+				{
+					size_t ret = sizeof(*this);
+					if (left) ret += left->mem_usage();
+					if (right) ret += right->mem_usage();
+					return ret;
+				}
+		};
+#endif
 
 		/*! \brief A binary tree node used for RedBlackTree. */
 		template <class Key, class Data>
