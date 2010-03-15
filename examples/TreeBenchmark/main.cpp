@@ -120,9 +120,14 @@ int main(int argc, char * *argv)
 
 	SeedRandom();
 	Stopwatch sw;
-	size_t sizes [] = { 100000,  1000000, 2000000,
-			    3000000, 4000000, 5000000,
-			    0 };
+	size_t sizes [] = {
+		50000,
+		100000,
+		500000,
+		1000000,
+		5000000,
+		10000000,
+		0 };
 	size_t biggest = 0;
 	
 	// Locate the last element in the sizes list.
