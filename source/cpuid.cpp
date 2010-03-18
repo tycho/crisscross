@@ -63,7 +63,9 @@ namespace {
 #include <sys/cpuset.h>
 #define CPUSET_T cpuset_t
 #elif defined(TARGET_OS_LINUX)
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
 #include <pthread.h>
 #define CPUSET_T cpu_set_t
 #endif
