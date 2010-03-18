@@ -96,7 +96,7 @@ namespace CrissCross
 		bool STree<Key, Data>::insert(Key const &_key, Data const &_data)
 		{
 			SNode<Key, Data> *parent = m_root;
-			int cmp;
+			int cmp = 0;
 			while (valid(parent)) {
 				cmp = Compare(_key, parent->id);
 				if (cmp < 0) {
