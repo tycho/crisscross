@@ -337,11 +337,12 @@ namespace CrissCross
 				_writer->WriteLine("CPU[%u] Manufacturer: %s", m_index, Manufacturer());
 
 			/* Print the Name tag if it was read properly. */
-			if (Name())
+			if (Name() && strlen(Name()) > 1)
 				_writer->WriteLine("CPU[%u] Name: %s", m_index, Name());
 
-			_writer->WriteLine("CPU[%u] Family %2d Model %2d Stepping %2d", m_index,
-				Family(), Model(), Stepping());
+			if (Family() > 0 && Model() > 0 && Stepping() > 0)
+				_writer->WriteLine("CPU[%u] Family %2d Model %2d Stepping %2d", m_index,
+					Family(), Model(), Stepping());
 
 			/* Print out the CPU cache info. */
 			const CrissCross::System::caches_t *caches = Caches();
