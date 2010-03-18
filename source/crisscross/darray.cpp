@@ -341,6 +341,9 @@ namespace CrissCross
 		{
 			int ret;
 
+			if (m_numUsed < 2)
+				return 0;
+
 			T *temp_array = new T[m_numUsed];
 			T *temp_ptr = temp_array;
 
