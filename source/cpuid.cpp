@@ -24,7 +24,7 @@
 #define ENABLE_CPUID
 
 /* Doesn't work on non-x86, and Cygwin doesn't have the functionality for cpu_set_t. */
-#if !(defined (TARGET_CPU_X86) || defined (TARGET_CPU_X64)) || defined (TARGET_COMPILER_CYGWIN) || defined (TARGET_OS_FREEBSD) || defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD)
+#if !(defined (TARGET_CPU_X86) || defined (TARGET_CPU_X64)) || defined (TARGET_COMPILER_CYGWIN) || defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD)
 #undef ENABLE_CPUID
 #endif
 
@@ -55,6 +55,17 @@ namespace {
 	int getProcessorCount();
 }
 #endif
+#endif
+
+#ifdef TARGET_OS_FREEBSD
+#include <pthread_np.h>
+#include <sys/param.h>
+#include <sys/cpuset.h>
+#define CPUSET_T cpuset_t
+#elif defined(TARGET_OS_LINUX)
+#define _GNU_SOURCE
+#include <pthread.h>
+#define CPUSET_T cpu_set_t
 #endif
 
 /* The following definition enables some rather suspicious cache descriptors */
@@ -558,22 +569,23 @@ namespace CrissCross
 				proc[params.processor]->m_index = params.processor;
 			}
 
-#elif defined (TARGET_OS_LINUX)
+#elif defined (TARGET_OS_LINUX) || defined(TARGET_OS_FREEBSD)
 			int NUM_PROCS = sysconf(_SC_NPROCESSORS_CONF), i;
-			cpu_set_t mask;
-			cpu_set_t originalmask;
+			CPUSET_T mask, originalmask;
+			pthread_t pth = pthread_self();
 
-			sched_getaffinity(0, sizeof(originalmask), &originalmask);
+			CPU_ZERO(&originalmask);
+			pthread_getaffinity_np(pth, sizeof(originalmask), &originalmask);
 			for (i = 0; i < NUM_PROCS; i++) {
 				proc.insert(new X86Processor(), i);
 				CPU_ZERO(&mask);
 				CPU_SET(( int )pow(2, i), &mask);
-				sched_setaffinity(0, sizeof(mask), &mask);
+				pthread_setaffinity_np(pth, sizeof(mask), &mask);
 				GoThread(i);
 				proc[i]->m_index = i;
 			}
 
-			sched_setaffinity(0, sizeof(originalmask), &originalmask);
+			pthread_setaffinity_np(pth, sizeof(originalmask), &originalmask);
 #elif defined (TARGET_OS_MACOSX)
 #if defined(USE_CHUD_FOR_CPUID)
 			int NUM_PROCS = chudProcessorCount();
