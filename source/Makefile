@@ -74,6 +74,8 @@ HEADERS = \
 	crisscross/splaytree.h \
 	crisscross/stltree.h \
 	crisscross/stopwatch.h \
+	crisscross/stree.cpp \
+	crisscross/stree.h \
 	crisscross/string_utils.h \
 	crisscross/system.h \
 	crisscross/tcpsocket.h \
