@@ -81,7 +81,6 @@ HEADERS = \
 	crisscross/tcpsocket.h \
 	crisscross/tiger.h \
 	crisscross/udpsocket.h \
-	crisscross/universal_include.h \
 	crisscross/vec2.h \
 	crisscross/version.h \
 	crisscross/zombiehunter.h
