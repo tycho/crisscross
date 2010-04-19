@@ -46,7 +46,7 @@ namespace CrissCross
 			m_numItems(0)
 		{
 			for (size_t i = 0; i < source.size(); i++) {
-				insert_back(source.GetData(i));
+				insert_back(source.get(i));
 			}
 		}
 
@@ -55,7 +55,7 @@ namespace CrissCross
 		{
 			empty();
 			for (size_t i = 0; i < source.size(); i++) {
-				insert_back(source.getData(i));
+				insert_back(source.get(i));
 			}
 
 			return *this;
