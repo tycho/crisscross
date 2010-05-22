@@ -22,6 +22,10 @@
 #pragma comment (lib,"ws2_32.lib")
 #endif
 
+#ifndef TARGET_OS_WINDOWS
+#include <sys/types.h>
+#endif
+
 #include "core_socket_impl.h"
 
 #include <crisscross/debug.h>
