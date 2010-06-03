@@ -29,7 +29,7 @@ namespace CrissCross
 				m_stepSize = N;
 
 			m_top = m_bottom = NULL;
-			m_size = m_origSize = 0;
+			m_size = 0;
 		}
 
 		template <class T>
@@ -120,7 +120,7 @@ namespace CrissCross
 
 			delete [] m_bottom;
 			m_top = m_bottom = NULL;
-			m_size = m_origSize = 0;
+			m_size = 0;
 		}
 	}
 }

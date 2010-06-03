@@ -41,9 +41,6 @@ namespace CrissCross
 				/*! \brief The size of the stack. */
 				size_t m_size;
 
-				/*! \brief The original size of the stack (used on an empty() call to reset things to defaults). */
-				size_t m_origSize;
-
 				/*! \brief Sets the stack size to the given size. */
 				/*!
 				 * \param _size The size to resize to.
