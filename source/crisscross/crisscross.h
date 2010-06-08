@@ -61,7 +61,6 @@
 #include <crisscross/debug.h>
 #include <crisscross/mutex.h>
 #include <crisscross/stopwatch.h>
-#include <crisscross/profiler.h>
 #include <crisscross/system.h>
 #include <crisscross/md4.h>
 #include <crisscross/md5.h>

@@ -78,7 +78,6 @@
 		<Unit filename="../../source/crisscross/mutex.h" />
 		<Unit filename="../../source/crisscross/node.h" />
 		<Unit filename="../../source/crisscross/platform_detect.h" />
-		<Unit filename="../../source/crisscross/profiler.h" />
 		<Unit filename="../../source/crisscross/quadtree.h" />
 		<Unit filename="../../source/crisscross/quicksort.h" />
 		<Unit filename="../../source/crisscross/rbtree.h" />
@@ -106,7 +105,6 @@
 		<Unit filename="../../source/md4.cpp" />
 		<Unit filename="../../source/md5.cpp" />
 		<Unit filename="../../source/mutex.cpp" />
-		<Unit filename="../../source/profiler.cpp" />
 		<Unit filename="../../source/sha1.cpp" />
 		<Unit filename="../../source/sha256.cpp" />
 		<Unit filename="../../source/sha512.cpp" />

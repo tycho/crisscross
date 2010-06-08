@@ -73,7 +73,6 @@
 #undef  _WINDOWS
 #define _CONSOLE
 #endif
-#define _CC_ENABLE_OPENGL
 
 #if defined (_OPENMP)
 #include <omp.h>

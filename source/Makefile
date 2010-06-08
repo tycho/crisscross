@@ -60,7 +60,6 @@ HEADERS = \
 	crisscross/nasty_cast.h \
 	crisscross/node.h \
 	crisscross/platform_detect.h \
-	crisscross/profiler.h \
 	crisscross/quadtree.h \
 	crisscross/quicksort.h \
 	crisscross/rbtree.cpp \
@@ -101,7 +100,6 @@ SOURCES = \
 	md4.cpp \
 	md5.cpp \
 	mutex.cpp \
-	profiler.cpp \
 	sha1.cpp \
 	sha256.cpp \
 	sha512.cpp \

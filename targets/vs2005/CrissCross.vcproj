@@ -357,10 +357,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\source\profiler.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\source\sha1.cpp"
 				>
 			</File>
@@ -742,10 +738,6 @@
 			</File>
 			<File
 				RelativePath="..\..\source\crisscross\platform_detect.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\source\crisscross\profiler.h"
 				>
 			</File>
 			<File
