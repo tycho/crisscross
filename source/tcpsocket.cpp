@@ -17,6 +17,10 @@
 #include <crisscross/core_socket.h>
 #include <crisscross/tcpsocket.h>
 
+#ifdef TARGET_OS_HAIKU
+#include <sys/time.h>
+#endif
+
 /* We're leaving sockets unimplemented on the Nintendo DS for the moment. We
  * need to familiarize ourselves with the devkitARM API for sockets first */
 #if !defined (TARGET_OS_NDSFIRMWARE)
@@ -130,6 +134,8 @@ namespace CrissCross
 					/* Close the connection, it failed. */
 #ifdef TARGET_OS_WINDOWS
 					closesocket(m_impl->m_sock);
+#elif defined(TARGET_OS_HAIKU)
+					::shutdown(m_impl->m_sock, SHUT_RDWR);
 #else
 					close(m_impl->m_sock);
 #endif
@@ -184,6 +190,8 @@ namespace CrissCross
 
 #ifdef TARGET_OS_WINDOWS
 				closesocket(m_impl->m_sock);
+#elif defined(TARGET_OS_HAIKU)
+				::shutdown(m_impl->m_sock, SHUT_RDWR);
 #else
 				close(m_impl->m_sock);
 #endif
@@ -196,6 +204,8 @@ namespace CrissCross
 				/* Listen failure, for some reason. */
 #ifdef TARGET_OS_WINDOWS
 				closesocket(m_impl->m_sock);
+#elif defined(TARGET_OS_HAIKU)
+				::shutdown(m_impl->m_sock, SHUT_RDWR);
 #else
 				close(m_impl->m_sock);
 #endif

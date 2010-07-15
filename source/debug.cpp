@@ -201,7 +201,7 @@ void SymbolEngine::StackTrace(PCONTEXT _pContext, CoreIOWriter * _outputBuffer)
 void CrissCross::Debug::PrintStackTrace(CrissCross::IO::CoreIOWriter * _outputBuffer)
 {
 #if !defined (TARGET_OS_NETBSD) && !defined (TARGET_OS_FREEBSD) && !defined (TARGET_OS_OPENBSD) \
- && !defined(TARGET_COMPILER_MINGW) && !defined(TARGET_COMPILER_CYGWIN)
+ && !defined(TARGET_COMPILER_MINGW) && !defined(TARGET_COMPILER_CYGWIN) && !defined(TARGET_OS_HAIKU)
 #ifdef ENABLE_SYMBOL_ENGINE
 
 	CONTEXT context = { CONTEXT_ALL };

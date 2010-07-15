@@ -209,6 +209,13 @@
 #endif
 
 #if !defined (OS_DETECTED)
+#if defined (__HAIKU__)
+#define OS_DETECTED
+#define TARGET_OS_HAIKU
+#endif
+#endif
+
+#if !defined (OS_DETECTED)
 #if defined (__FreeBSD__)
 #define OS_DETECTED
 #define TARGET_OS_FREEBSD

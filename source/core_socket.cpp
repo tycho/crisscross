@@ -26,6 +26,12 @@
 #include <sys/types.h>
 #endif
 
+#ifdef TARGET_OS_HAIKU
+#include <sys/select.h>
+#include <sys/socket.h>
+#include <unistd.h>
+#endif
+
 #include "core_socket_impl.h"
 
 #include <crisscross/debug.h>
@@ -68,9 +74,11 @@ namespace CrissCross
 
 			/* Close the socket. */
 #ifdef TARGET_OS_WINDOWS
-			closesocket(m_impl->m_sock);
+			::closesocket(m_impl->m_sock);
+#elif defined(TARGET_OS_HAIKU)
+			::shutdown(m_impl->m_sock, SHUT_RDWR);
 #else
-			close(m_impl->m_sock);
+			::close(m_impl->m_sock);
 #endif
 			m_impl->m_sock = INVALID_SOCKET;
 			m_state = SOCKET_STATE_NOT_CREATED;

@@ -90,7 +90,7 @@
 #endif
 #endif
 
-#if (!defined (TARGET_OS_NDSFIRMWARE))
+#if (!defined (TARGET_OS_NDSFIRMWARE) && !defined(TARGET_OS_HAIKU))
 #define HAS_FPOS64
 #endif
 

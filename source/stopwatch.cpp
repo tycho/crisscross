@@ -17,7 +17,7 @@
 #include <mach/mach_time.h>
 #elif defined (TARGET_OS_LINUX) || defined (TARGET_OS_NDSFIRMWARE) || \
 	defined(TARGET_OS_FREEBSD) || defined (TARGET_OS_NETBSD) || \
-	defined(TARGET_OS_OPENBSD)
+	defined(TARGET_OS_OPENBSD) || defined (TARGET_OS_HAIKU)
 #include <sys/time.h>
 #include <time.h>
 #elif defined (TARGET_OS_WINDOWS)
@@ -39,7 +39,8 @@ namespace CrissCross
 			uint64_t m_finish;
 			mach_timebase_info_data_t m_timebase;
 #elif defined (TARGET_OS_LINUX) || defined (TARGET_OS_FREEBSD) || \
-			defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD)
+			defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD) || \
+			defined (TARGET_OS_HAIKU)
 			struct timeval m_start;
 			struct timeval m_finish;
 #elif defined (TARGET_OS_NDSFIRMWARE)
@@ -75,7 +76,8 @@ namespace CrissCross
 #elif defined (TARGET_OS_MACOSX)
 			m_impl->m_start = mach_absolute_time();
 #elif defined (TARGET_OS_LINUX) || defined (TARGET_OS_FREEBSD) || \
-			defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD)
+			defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD) || \
+			defined (TARGET_OS_HAIKU)
 			gettimeofday(&m_impl->m_start, NULL);
 #elif defined (TARGET_OS_NDSFIRMWARE)
 			TIMER0_CR = 0;
@@ -122,7 +124,8 @@ namespace CrissCross
 			uint64_t elapsed = m_impl->m_finish - m_impl->m_start;
 			return double (elapsed) * (m_impl->m_timebase.numer / m_impl->m_timebase.denom) / 1000000000.0;
 #elif defined (TARGET_OS_LINUX) || defined (TARGET_OS_FREEBSD) || \
-			defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD)
+			defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD) || \
+			defined (TARGET_OS_HAIKU)
 			return (double)(m_impl->m_finish.tv_sec - m_impl->m_start.tv_sec) +
 			       ((double)(m_impl->m_finish.tv_usec) - (double)(m_impl->m_start.tv_usec)) / 1000000.0;
 #elif defined (TARGET_OS_NDSFIRMWARE)
@@ -140,7 +143,8 @@ namespace CrissCross
 			uint64_t elapsed = m_impl->m_finish - m_impl->m_start;
 			return double (elapsed) * (m_impl->m_timebase.numer / m_impl->m_timebase.denom) / 1000000.0;
 #elif defined (TARGET_OS_LINUX) || defined (TARGET_OS_FREEBSD) || \
-			defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD)
+			defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD) || \
+			defined (TARGET_OS_HAIKU)
 			return (unsigned long)((m_impl->m_finish.tv_sec - m_impl->m_start.tv_sec) * 1000 +
 			                       (m_impl->m_finish.tv_usec - m_impl->m_start.tv_usec) / 1000);
 #elif defined (TARGET_OS_NDSFIRMWARE)

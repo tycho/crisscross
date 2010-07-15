@@ -65,6 +65,8 @@ namespace CrissCross
 				/* Close the connection, it failed. */
 #ifdef TARGET_OS_WINDOWS
 				closesocket(m_impl->m_sock);
+#elif defined(TARGET_OS_HAIKU)
+				shutdown(m_impl->m_sock, SHUT_RDWR);
 #else
 				close(m_impl->m_sock);
 #endif
@@ -110,10 +112,11 @@ namespace CrissCross
 				/* Close the connection, it failed. */
 #ifdef TARGET_OS_WINDOWS
 				closesocket(m_impl->m_sock);
+#elif defined(TARGET_OS_HAIKU)
+				shutdown(m_impl->m_sock, SHUT_RDWR);
 #else
 				close(m_impl->m_sock);
 #endif
-
 				return err;
 			}
 

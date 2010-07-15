@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 $|=1;	# Flush writes as soon as print finishes.
 
 use strict;
