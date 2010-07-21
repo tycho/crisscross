@@ -24,10 +24,17 @@ namespace CrissCross
 		typedef CrissCross::Data::RedBlackTree<const char *, void *> features_t;
 		typedef CrissCross::Data::DArray<char *> caches_t;
 
+		typedef enum
+		{
+			VENDOR_UNKNOWN   = 0x0,
+			VENDOR_INTEL     = 0x1,
+			VENDOR_AMD       = 0x2
+		} CPUVendor;
+
 		class X86Processor
 		{
 			protected:
-				const char *m_manufacturer;
+				CPUVendor m_vendor;
 				const char *m_name;
 				unsigned int m_logical;
 				unsigned int m_cores;
@@ -44,7 +51,7 @@ namespace CrissCross
 				X86Processor();
 				X86Processor(X86Processor const &_copy);
 				~X86Processor();
-				const char *Manufacturer() const;
+				CPUVendor Manufacturer() const;
 				const char *Name() const;
 				char Family() const;
 				char Model() const;

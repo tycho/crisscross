@@ -77,6 +77,8 @@ namespace {
 #include <crisscross/cpuid.h>
 #include <crisscross/core_io.h>
 
+using namespace CrissCross::System;
+
 #if defined(TARGET_OS_MACOSX) && !defined(USE_CHUD_FOR_CPUID)
 namespace {
 	int getProcessorCount()
@@ -92,87 +94,168 @@ namespace {
 }
 #endif
 
+typedef enum
+{
+	REG_NONE,
+	REG_EAX,
+	REG_EBX,
+	REG_ECX,
+	REG_EDX
+} Register;
+
+typedef struct
+{
+	cc_uint32_t m_level;
+	cc_uint8_t  m_register;
+	cc_uint32_t m_bitmask;
+	cc_uint32_t m_vendor;
+	const char *m_name;
+} CPUFeature;
+
+static CPUFeature features [] = {
+//  Standard (0000_0001h)
+	{ 0x00000001, REG_EDX, 0x00000001, VENDOR_INTEL | VENDOR_AMD, "FPU"},
+	{ 0x00000001, REG_EDX, 0x00000002, VENDOR_INTEL | VENDOR_AMD, "VME"},
+	{ 0x00000001, REG_EDX, 0x00000004, VENDOR_INTEL | VENDOR_AMD, "DE"},
+	{ 0x00000001, REG_EDX, 0x00000008, VENDOR_INTEL | VENDOR_AMD, "PSE"},
+	{ 0x00000001, REG_EDX, 0x00000010, VENDOR_INTEL | VENDOR_AMD, "TSC"},
+	{ 0x00000001, REG_EDX, 0x00000020, VENDOR_INTEL | VENDOR_AMD, "MSR"},
+	{ 0x00000001, REG_EDX, 0x00000040, VENDOR_INTEL | VENDOR_AMD, "PAE"},
+	{ 0x00000001, REG_EDX, 0x00000080, VENDOR_INTEL | VENDOR_AMD, "MCE"},
+	{ 0x00000001, REG_EDX, 0x00000100, VENDOR_INTEL | VENDOR_AMD, "CX8"},
+	{ 0x00000001, REG_EDX, 0x00000200, VENDOR_INTEL | VENDOR_AMD, "APIC"},
+//	{ 0x00000001, REG_EDX, 0x00000400, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+	{ 0x00000001, REG_EDX, 0x00000800, VENDOR_INTEL | VENDOR_AMD, "SEP"},
+	{ 0x00000001, REG_EDX, 0x00001000, VENDOR_INTEL | VENDOR_AMD, "MTRR"},
+	{ 0x00000001, REG_EDX, 0x00002000, VENDOR_INTEL | VENDOR_AMD, "PGE"},
+	{ 0x00000001, REG_EDX, 0x00004000, VENDOR_INTEL | VENDOR_AMD, "MCA"},
+	{ 0x00000001, REG_EDX, 0x00008000, VENDOR_INTEL | VENDOR_AMD, "CMOV"},
+	{ 0x00000001, REG_EDX, 0x00010000, VENDOR_INTEL | VENDOR_AMD, "PAT"},
+	{ 0x00000001, REG_EDX, 0x00020000, VENDOR_INTEL | VENDOR_AMD, "PSE-36"},
+	{ 0x00000001, REG_EDX, 0x00040000, VENDOR_INTEL             , "PSN"},
+	{ 0x00000001, REG_EDX, 0x00080000, VENDOR_INTEL | VENDOR_AMD, "CLFSH"},
+//	{ 0x00000001, REG_EDX, 0x00100000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+	{ 0x00000001, REG_EDX, 0x00200000, VENDOR_INTEL             , "DS"},
+	{ 0x00000001, REG_EDX, 0x00400000, VENDOR_INTEL             , "ACPI"},
+	{ 0x00000001, REG_EDX, 0x00800000, VENDOR_INTEL | VENDOR_AMD, "MMX"},
+	{ 0x00000001, REG_EDX, 0x01000000, VENDOR_INTEL | VENDOR_AMD, "FXSR"},
+	{ 0x00000001, REG_EDX, 0x02000000, VENDOR_INTEL | VENDOR_AMD, "SSE"},
+	{ 0x00000001, REG_EDX, 0x04000000, VENDOR_INTEL | VENDOR_AMD, "SSE2"},
+	{ 0x00000001, REG_EDX, 0x08000000, VENDOR_INTEL             , "SS"},
+	{ 0x00000001, REG_EDX, 0x10000000, VENDOR_INTEL | VENDOR_AMD, "HTT"},
+	{ 0x00000001, REG_EDX, 0x20000000, VENDOR_INTEL             , "TM"},
+//	{ 0x00000001, REG_EDX, 0x40000000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+	{ 0x00000001, REG_EDX, 0x80000000, VENDOR_INTEL             , "PBE"},
+
+	{ 0x00000001, REG_ECX, 0x00000001, VENDOR_INTEL | VENDOR_AMD, "SSE3"},
+	{ 0x00000001, REG_ECX, 0x00000002, VENDOR_INTEL             , "PCLMULDQ"},
+	{ 0x00000001, REG_ECX, 0x00000004, VENDOR_INTEL             , "DTES64"},
+	{ 0x00000001, REG_ECX, 0x00000008, VENDOR_INTEL | VENDOR_AMD, "MONITOR"},
+	{ 0x00000001, REG_ECX, 0x00000010, VENDOR_INTEL             , "DS-CPL"},
+	{ 0x00000001, REG_ECX, 0x00000020, VENDOR_INTEL             , "VMX"},
+	{ 0x00000001, REG_ECX, 0x00000040, VENDOR_INTEL             , "SMX"},
+	{ 0x00000001, REG_ECX, 0x00000080, VENDOR_INTEL             , "EST"},
+	{ 0x00000001, REG_ECX, 0x00000100, VENDOR_INTEL             , "TM2"},
+	{ 0x00000001, REG_ECX, 0x00000200, VENDOR_INTEL | VENDOR_AMD, "SSSE3"},
+	{ 0x00000001, REG_ECX, 0x00000400, VENDOR_INTEL             , "CNXT-ID"},
+//	{ 0x00000001, REG_ECX, 0x00000800, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x00000001, REG_ECX, 0x00001000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+	{ 0x00000001, REG_ECX, 0x00002000, VENDOR_INTEL | VENDOR_AMD, "CX16"},
+	{ 0x00000001, REG_ECX, 0x00004000, VENDOR_INTEL             , "xTPR"},
+	{ 0x00000001, REG_ECX, 0x00008000, VENDOR_INTEL             , "PDCM"},
+//	{ 0x00000001, REG_ECX, 0x00010000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x00000001, REG_ECX, 0x00020000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+	{ 0x00000001, REG_ECX, 0x00040000, VENDOR_INTEL             , "DCA"},
+	{ 0x00000001, REG_ECX, 0x00080000, VENDOR_INTEL | VENDOR_AMD, "SSE4.1"},
+	{ 0x00000001, REG_ECX, 0x00100000, VENDOR_INTEL             , "SSE4.2"},
+	{ 0x00000001, REG_ECX, 0x00200000, VENDOR_INTEL             , "x2APIC"},
+	{ 0x00000001, REG_ECX, 0x00400000, VENDOR_INTEL             , "MOVBE"},
+	{ 0x00000001, REG_ECX, 0x00800000, VENDOR_INTEL | VENDOR_AMD, "POPCNT"},
+//	{ 0x00000001, REG_ECX, 0x01000000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+	{ 0x00000001, REG_ECX, 0x02000000, VENDOR_INTEL             , "AES"},
+	{ 0x00000001, REG_ECX, 0x04000000, VENDOR_INTEL             , "XSAVE"},
+	{ 0x00000001, REG_ECX, 0x08000000, VENDOR_INTEL             , "OSXSAVE"},
+//	{ 0x00000001, REG_ECX, 0x10000000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x00000001, REG_ECX, 0x20000000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x00000001, REG_ECX, 0x40000000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x00000001, REG_ECX, 0x80000000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+
+//  Extended (8000_0001h)
+//	{ 0x80000001, REG_EDX, 0x00000001, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_EDX, 0x00000002, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_EDX, 0x00000004, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_EDX, 0x00000008, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_EDX, 0x00000010, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_EDX, 0x00000020, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_EDX, 0x00000040, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_EDX, 0x00000080, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_EDX, 0x00000100, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_EDX, 0x00000200, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_EDX, 0x00000400, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+	{ 0x80000001, REG_EDX, 0x00000800, VENDOR_INTEL | VENDOR_AMD, "SYSCALL"},
+//	{ 0x80000001, REG_EDX, 0x00001000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_EDX, 0x00002000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_EDX, 0x00004000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_EDX, 0x00008000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_EDX, 0x00010000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_EDX, 0x00020000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_EDX, 0x00040000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_EDX, 0x00080000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+	{ 0x80000001, REG_EDX, 0x00100000, VENDOR_INTEL             , "XD"},
+	{ 0x80000001, REG_EDX, 0x00100000,                VENDOR_AMD, "NX"},
+//	{ 0x80000001, REG_EDX, 0x00200000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+	{ 0x80000001, REG_EDX, 0x00400000,                VENDOR_AMD, "MMXEXT"},
+//	{ 0x80000001, REG_EDX, 0x00800000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_EDX, 0x01000000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+	{ 0x80000001, REG_EDX, 0x02000000,                VENDOR_AMD, "FFXSR"},
+//	{ 0x80000001, REG_EDX, 0x04000000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+	{ 0x80000001, REG_EDX, 0x08000000,                VENDOR_AMD, "RDTSCP"},
+//	{ 0x80000001, REG_EDX, 0x10000000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+	{ 0x80000001, REG_EDX, 0x20000000, VENDOR_INTEL             , "EM64T"},
+	{ 0x80000001, REG_EDX, 0x20000000,                VENDOR_AMD, "LM"},
+	{ 0x80000001, REG_EDX, 0x40000000,                VENDOR_AMD, "3DNOWEXT"},
+	{ 0x80000001, REG_EDX, 0x80000000,                VENDOR_AMD, "3DNOW"},
+
+	{ 0x80000001, REG_ECX, 0x00000001, VENDOR_INTEL | VENDOR_AMD, "LAHF"},
+	{ 0x80000001, REG_ECX, 0x00000002,                VENDOR_AMD, "CL"},
+	{ 0x80000001, REG_ECX, 0x00000004,                VENDOR_AMD, "SVM"},
+	{ 0x80000001, REG_ECX, 0x00000008,                VENDOR_AMD, "EAS"},
+	{ 0x80000001, REG_ECX, 0x00000010,                VENDOR_AMD, "AMC8"},
+	{ 0x80000001, REG_ECX, 0x00000020,                VENDOR_AMD, "ABM"},
+	{ 0x80000001, REG_ECX, 0x00000040,                VENDOR_AMD, "SSE4A"},
+	{ 0x80000001, REG_ECX, 0x00000080,                VENDOR_AMD, "MAS"},
+	{ 0x80000001, REG_ECX, 0x00000100,                VENDOR_AMD, "3DNP"},
+	{ 0x80000001, REG_ECX, 0x00000200,                VENDOR_AMD, "OSVW"},
+	{ 0x80000001, REG_ECX, 0x00000400,                VENDOR_AMD, "IBS"},
+	{ 0x80000001, REG_ECX, 0x00000800,                VENDOR_AMD, "SSE5"},
+	{ 0x80000001, REG_ECX, 0x00001000,                VENDOR_AMD, "SKINIT"},
+	{ 0x80000001, REG_ECX, 0x00002000,                VENDOR_AMD, "WDT"},
+//	{ 0x80000001, REG_ECX, 0x00004000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_ECX, 0x00008000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_ECX, 0x00010000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_ECX, 0x00020000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_ECX, 0x00040000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_ECX, 0x00080000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_ECX, 0x00100000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_ECX, 0x00200000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_ECX, 0x00400000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_ECX, 0x00800000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_ECX, 0x01000000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_ECX, 0x02000000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_ECX, 0x04000000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_ECX, 0x08000000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_ECX, 0x10000000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_ECX, 0x20000000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_ECX, 0x40000000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+//	{ 0x80000001, REG_ECX, 0x80000000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
+
+	{ 0, REG_NONE, 0, 0, NULL},
+};
+
 namespace CrissCross
 {
 	namespace System
 	{
-#define FPU_FLAG 0x0001
-#define LAHF_FLAG 0x0001
-#define SSE3_FLAG 0x0001
-#define VME_FLAG 0x0002
-#define DE_FLAG 0x0004
-#define DTES64_FLAG 0x0004
-#define MONITOR_FLAG 0x0008
-#define PSE_FLAG 0x0008
-#define DS_CPL_FLAG 0x0010
-#define TSC_FLAG 0x0010
-#define MSR_FLAG 0x0020
-#define VMX_FLAG 0x0020
-#define PAE_FLAG 0x0040
-#define SMX_FLAG 0x0040
-#define EIST_FLAG 0x0080
-#define MCE_FLAG 0x0080
-#define CX8_FLAG 0x0100
-#define TM2_FLAG 0x0100
-#define APIC_FLAG 0x0200
-#define SSSE3_FLAG 0x0200
-#define CNXTID_FLAG 0x0400
-#define SEP_FLAG 0x0800
-#define SYSCALL_FLAG 0x0800
-#define MTRR_FLAG 0x1000
-#define CX16_FLAG 0x2000
-#define PGE_FLAG 0x2000
-#define MCA_FLAG 0x4000
-#define XTPR_FLAG 0x4000
-#define PDCM_FLAG 0x8000
-#define CMOV_FLAG 0x8000
-#define PAT_FLAG 0x10000
-#define PSE36_FLAG 0x20000
-#define DCA_FLAG 0x40000
-#define PSNUM_FLAG 0x40000
-#define CLFLUSH_FLAG 0x80000
-#define SSE4_1_FLAG 0x80000
-#define SSE4_2_FLAG 0x100000
-#define XD_FLAG 0x100000
-#define DTS_FLAG 0x200000
-#define ACPI_FLAG 0x400000
-#define MMX_FLAG 0x800000
-#define FXSR_FLAG 0x1000000
-#define SSE_FLAG 0x2000000
-#define SSE2_FLAG 0x4000000
-#define SS_FLAG 0x8000000
-#define HTT_FLAG 0x10000000
-#define EM64T_FLAG 0x20000000
-#define TM1_FLAG 0x20000000
-#define IA64_FLAG 0x40000000
-#define PBE_FLAG 0x80000000
-
-		/* AMD 8000_0001 EDX flags */
-#define _3DNOW_FLAG 0x80000000
-#define _3DNOWEXT_FLAG 0x40000000
-#define LM_FLAG 0x20000000
-#define RDTSCP_FLAG 0x8000000
-#define FFXSR_FLAG 0x2000000
-#define FXSR_FLAG 0x1000000
-#define MMXEXT_FLAG 0x800000
-#define NX_FLAG 0x100000
-
-		/* AMD 8000_0001 ECX flags */
-#define WDT_FLAG 0x2000
-#define SKINIT_FLAG 0x1000
-#define SSE5_FLAG 0x800
-#define IBS_FLAG 0x400
-#define OSVW_FLAG 0x200
-#define _3DNP_FLAG 0x100
-#define MAS_FLAG 0x80
-#define SSE4A_FLAG 0x40
-#define ABM_FLAG 0x20
-#define AMC8_FLAG 0x10
-#define EAS_FLAG 0x8
-#define SVM_FLAG 0x4
-#define CL_FLAG 0x2
-#define LS_FLAG 0x1
-
 		struct Registers
 		{
 			unsigned int eax;
@@ -290,7 +373,7 @@ namespace CrissCross
 		}
 
 		X86Processor::X86Processor()
-		: m_manufacturer(NULL),
+		: m_vendor(VENDOR_UNKNOWN),
 		  m_name(NULL),
 		  m_logical(0),
 		  m_cores(0),
@@ -303,7 +386,7 @@ namespace CrissCross
 		}
 
 		X86Processor::X86Processor(X86Processor const &_copy)
-		: m_manufacturer(cc_newstr(_copy.m_manufacturer)),
+		: m_vendor(_copy.m_vendor),
 		  m_name(cc_newstr(_copy.m_name)),
 		  m_logical(_copy.m_logical),
 		  m_cores(_copy.m_cores),
@@ -335,8 +418,17 @@ namespace CrissCross
 		void X86Processor::Print(CrissCross::IO::CoreIOWriter *_writer) const
 		{
 			/* Print the Manufacturer tag if it was read properly. */
-			if (Manufacturer())
-				_writer->WriteLine("CPU[%u] Manufacturer: %s", m_index, Manufacturer());
+			switch(Manufacturer()) {
+			case VENDOR_INTEL:
+				_writer->WriteLine("CPU[%u] Manufacturer: %s", m_index, "GenuineIntel");
+				break;
+			case VENDOR_AMD:
+				_writer->WriteLine("CPU[%u] Manufacturer: %s", m_index, "AuthenticAMD");
+				break;
+			default:
+				/* Don't print anything. */
+				break;
+			}
 
 			/* Print the Name tag if it was read properly. */
 			if (Name() && strlen(Name()) > 1)
@@ -378,9 +470,9 @@ namespace CrissCross
 			_writer->WriteLine();
 		}
 
-		const char *X86Processor::Manufacturer() const
+		CPUVendor X86Processor::Manufacturer() const
 		{
-			return m_manufacturer;
+			return m_vendor;
 		}
 
 		const char *X86Processor::Name() const
@@ -488,7 +580,6 @@ namespace CrissCross
 						delete [] proc[i]->m_caches.get(j);
 				}
 
-				delete [] (char *)proc[i]->m_manufacturer;
 				delete [] (char *)proc[i]->m_name;
 
 				delete proc[i];
@@ -616,8 +707,8 @@ namespace CrissCross
 		void CPUID::DetectManufacturer(int processor)
 		{
 			CoreAssert(this != NULL);
-			char *manufacturer = new char[(4 * 3) + 1];
-			char *_man = &manufacturer[0];
+			char manufacturer[13];
+			char *_man = manufacturer;
 
 			memcpy(_man, &Std[0].ebx, 4);
 			_man += 4;
@@ -626,7 +717,12 @@ namespace CrissCross
 			memcpy(_man, &Std[0].ecx, 4);
 			_man += 4;
 			*_man = '\x0';
-			proc[processor]->m_manufacturer = manufacturer;
+			
+			proc[processor]->m_vendor = VENDOR_UNKNOWN;
+			if (strcmp(manufacturer, "GenuineIntel") == 0)
+				proc[processor]->m_vendor = VENDOR_INTEL;
+			else if (strcmp(manufacturer, "AuthenticAMD") == 0)
+				proc[processor]->m_vendor = VENDOR_AMD;
 		}
 
 		char *squeeze(char *str)
@@ -689,8 +785,8 @@ namespace CrissCross
 		{
 			CoreAssert(this != NULL);
 
-			if (proc[processor]->m_manufacturer) {
-				if (strcmp(proc[processor]->m_manufacturer, "GenuineIntel") == 0)	{
+			if (proc[processor]->m_vendor != VENDOR_UNKNOWN) {
+				if (proc[processor]->m_vendor == VENDOR_INTEL ) {
 					int ntlb = 255, i;
 
 					for (i = 0; i < ntlb; i++) {
@@ -721,7 +817,7 @@ namespace CrissCross
 							AddIntelCacheData(processor, Std[2].edx >> 24);
 						}
 					}
-				} else if (strcmp(proc[processor]->m_manufacturer, "AuthenticAMD") == 0) {
+				} else if (proc[processor]->m_vendor == VENDOR_AMD) {
 					DecodeAMDCacheIdentifiers(processor);
 				}
 			}
@@ -1165,105 +1261,29 @@ namespace CrissCross
 			proc[processor]->m_apicID = (char)((Std[1].ebx & 0xFF000000) >> 24);
 		}
 
-		void CPUID::DetectFeature(const unsigned int *_register, long _flag, int _processor, const char *_name)
-		{
-			CoreAssert(this != NULL);
-
-			/* Compliant with Intel document #241618. */
-
-			bool supported = (*_register & _flag) > 0;
-			if (supported)
-				proc[_processor]->m_features.insert(_name, NULL);
-		}
-
 		void CPUID::DetectFeatures(int processor)
 		{
 			CoreAssert(this != NULL);
-
-			/* Compliant with Intel document #241618. */
-
-			DetectFeature(&Std[1].edx, FPU_FLAG, processor, "FPU");
-			DetectFeature(&Std[1].edx, VME_FLAG, processor, "VME");
-			DetectFeature(&Std[1].edx, DE_FLAG, processor, "DE");
-			DetectFeature(&Std[1].edx, PSE_FLAG, processor, "PSE");
-			DetectFeature(&Std[1].edx, TSC_FLAG, processor, "TSC");
-			DetectFeature(&Std[1].edx, MSR_FLAG, processor, "MSR");
-			DetectFeature(&Std[1].edx, PAE_FLAG, processor, "PAE");
-			DetectFeature(&Std[1].edx, MCE_FLAG, processor, "MCE");
-			DetectFeature(&Std[1].edx, CX8_FLAG, processor, "CX8");
-			DetectFeature(&Std[1].edx, APIC_FLAG, processor, "APIC");
-			DetectFeature(&Std[1].edx, SEP_FLAG, processor, "SEP");
-			DetectFeature(&Std[1].edx, MTRR_FLAG, processor, "MTRR");
-			DetectFeature(&Std[1].edx, PGE_FLAG, processor, "PGE");
-			DetectFeature(&Std[1].edx, MCA_FLAG, processor, "MCA");
-			DetectFeature(&Std[1].edx, CMOV_FLAG, processor, "CMOV");
-			DetectFeature(&Std[1].edx, PAT_FLAG, processor, "PAT");
-			DetectFeature(&Std[1].edx, PSE36_FLAG, processor, "PSE36");
-			DetectFeature(&Std[1].edx, PSNUM_FLAG, processor, "PSNUM");
-			DetectFeature(&Std[1].edx, CLFLUSH_FLAG, processor, "CLFLUSH");
-			DetectFeature(&Std[1].edx, DTS_FLAG, processor, "DTS");
-			DetectFeature(&Std[1].edx, ACPI_FLAG, processor, "ACPI");
-			DetectFeature(&Std[1].edx, MMX_FLAG, processor, "MMX");
-			DetectFeature(&Std[1].edx, FXSR_FLAG, processor, "FXSR");
-			DetectFeature(&Std[1].edx, SSE_FLAG, processor, "SSE");
-			DetectFeature(&Std[1].edx, SSE2_FLAG, processor, "SSE2");
-			DetectFeature(&Std[1].edx, SS_FLAG, processor, "SS");
-			DetectFeature(&Std[1].edx, HTT_FLAG, processor, "HTT");
-			DetectFeature(&Std[1].edx, TM1_FLAG, processor, "TM1");
-
-			DetectFeature(&Std[1].ecx, SSE3_FLAG, processor, "SSE3");
-			DetectFeature(&Std[1].ecx, CX16_FLAG, processor, "CX16");
-
-			if (proc[processor]->m_manufacturer) {
-				if (strcmp(proc[processor]->m_manufacturer, "GenuineIntel") == 0)	{
-					/* IA64 and PBE are on Intel where the 3DNow! flags are on AMD */
-					DetectFeature(&Std[1].edx, IA64_FLAG, processor, "IA64");
-					DetectFeature(&Std[1].edx, PBE_FLAG, processor, "PBE");
-
-					/* Intel-only flags */
-					DetectFeature(&Ext[1].ecx, LAHF_FLAG, processor, "LAHF");
-					DetectFeature(&Std[1].ecx, DS_CPL_FLAG, processor, "DS_CPL");
-					DetectFeature(&Std[1].ecx, MONITOR_FLAG, processor, "MONITOR");
-					DetectFeature(&Std[1].ecx, DTES64_FLAG, processor, "DTES64");
-					DetectFeature(&Std[1].ecx, EIST_FLAG, processor, "EIST");
-					DetectFeature(&Std[1].ecx, TM2_FLAG, processor, "TM2");
-					DetectFeature(&Std[1].ecx, SSSE3_FLAG, processor, "SSSE3");
-					DetectFeature(&Std[1].ecx, CNXTID_FLAG, processor, "CNXTID");
-					DetectFeature(&Ext[1].edx, SYSCALL_FLAG, processor, "SYSCALL");
-					DetectFeature(&Std[1].ecx, XTPR_FLAG, processor, "XTPR");
-					DetectFeature(&Ext[1].edx, XD_FLAG, processor, "XD");
-					DetectFeature(&Std[1].ecx, DCA_FLAG, processor, "DCA");
-					DetectFeature(&Ext[1].edx, EM64T_FLAG, processor, "EM64T");
-					DetectFeature(&Std[1].ecx, SSE4_1_FLAG, processor, "SSE4.1");
-					DetectFeature(&Std[1].ecx, SSE4_2_FLAG, processor, "SSE4.2");
-					DetectFeature(&Std[1].ecx, VMX_FLAG, processor, "VMX");
-					DetectFeature(&Std[1].ecx, SMX_FLAG, processor, "SMX");
-					DetectFeature(&Std[1].ecx, PDCM_FLAG, processor, "PDCM");
-				} else if (strcmp(proc[processor]->m_manufacturer, "AuthenticAMD") == 0) {
-					/* AMD-only flags, EDX 8000_0001 */
-					DetectFeature(&Ext[1].edx, NX_FLAG, processor, "NX");
-					DetectFeature(&Ext[1].edx, MMXEXT_FLAG, processor, "MMXEXT");
-					DetectFeature(&Ext[1].edx, FFXSR_FLAG, processor, "FFXSR");
-					DetectFeature(&Ext[1].edx, RDTSCP_FLAG, processor, "RDTSCP");
-					DetectFeature(&Ext[1].edx, LM_FLAG, processor, "LM");
-					DetectFeature(&Ext[1].edx, _3DNOWEXT_FLAG, processor, "3DNOWEXT");
-					DetectFeature(&Ext[1].edx, _3DNOW_FLAG, processor, "3DNOW");
-
-					/* AMD-only flags, ECX 8000_0001 */
-					DetectFeature(&Ext[1].ecx, LS_FLAG, processor, "LAHF_SAHF");
-					DetectFeature(&Ext[1].ecx, CL_FLAG, processor, "CL");
-					DetectFeature(&Ext[1].ecx, SVM_FLAG, processor, "SVM");
-					DetectFeature(&Ext[1].ecx, EAS_FLAG, processor, "EAS");
-					DetectFeature(&Ext[1].ecx, AMC8_FLAG, processor, "AMC8");
-					DetectFeature(&Ext[1].ecx, ABM_FLAG, processor, "ABM");
-					DetectFeature(&Ext[1].ecx, SSE4A_FLAG, processor, "SSE4A");
-					DetectFeature(&Ext[1].ecx, MAS_FLAG, processor, "MAS");
-					DetectFeature(&Ext[1].ecx, _3DNP_FLAG, processor, "3DNP");
-					DetectFeature(&Ext[1].ecx, OSVW_FLAG, processor, "OSVW");
-					DetectFeature(&Ext[1].ecx, SSE5_FLAG, processor, "SSE5");
-					DetectFeature(&Ext[1].ecx, IBS_FLAG, processor, "IBS");
-					DetectFeature(&Ext[1].ecx, SKINIT_FLAG, processor, "SKINIT");
-					DetectFeature(&Ext[1].ecx, WDT_FLAG, processor, "WDT");
+			for (CPUFeature *p = features; p->m_name; p++) {
+				if ((cc_uint32_t)proc[processor]->m_vendor & p->m_vendor) {
+					cc_uint32_t regval = 0;
+					switch (p->m_register) {
+					case REG_EAX:
+						regval = p->m_level & 0x80000000 ? Ext[p->m_level & 0x7FFFFFFF].eax : Std[p->m_level].eax;
+						break;
+					case REG_EBX:
+						regval = p->m_level & 0x80000000 ? Ext[p->m_level & 0x7FFFFFFF].ebx : Std[p->m_level].ebx;
+						break;
+					case REG_ECX:
+						regval = p->m_level & 0x80000000 ? Ext[p->m_level & 0x7FFFFFFF].ecx : Std[p->m_level].ecx;
+						break;
+					case REG_EDX:
+						regval = p->m_level & 0x80000000 ? Ext[p->m_level & 0x7FFFFFFF].edx : Std[p->m_level].edx;
+						break;
+					}
+					if (regval & p->m_bitmask) {
+						proc[processor]->m_features.insert(p->m_name, NULL);
+					}
 				}
 			}
 		}
