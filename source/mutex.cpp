@@ -69,7 +69,6 @@ namespace CrissCross
 		Mutex::~Mutex()
 		{
 			CoreAssert(this != NULL);
-
 			CoreAssert(m_lockCount == 0);
 #ifdef TARGET_OS_WINDOWS
 			DeleteCriticalSection(&m_impl->m_mutex);
@@ -77,6 +76,8 @@ namespace CrissCross
 			pthread_mutex_destroy(&m_impl->m_mutex);
 			pthread_mutexattr_destroy(&m_impl->m_mutexAttr);
 #endif
+			delete m_impl;
+			m_impl = NULL;
 		}
 
 		void Mutex::Lock()
