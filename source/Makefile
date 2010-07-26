@@ -146,7 +146,7 @@ $(libdir)/%.a: %.a
 install: $(HEADERS_INST) $(libdir)/$(LIB)
 
 clean:
-	$(RM) $(OBJECTS) $(LIB) .cflags
+	$(RM) $(OBJECTS) crisscross/build_number.h $(LIB) .cflags
 
 distclean: clean
 
