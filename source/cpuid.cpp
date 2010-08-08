@@ -96,7 +96,7 @@ namespace {
 
 typedef enum
 {
-	REG_NONE,
+	REG_NULL,
 	REG_EAX,
 	REG_EBX,
 	REG_ECX,
