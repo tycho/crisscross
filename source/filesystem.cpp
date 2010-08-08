@@ -13,7 +13,7 @@
 #include <crisscross/debug.h>
 #include <crisscross/filesystem.h>
 
-#ifdef TARGET_OS_WINDOWS
+#ifdef TARGET_COMPILER_VC
 
 #include <windows.h>
 

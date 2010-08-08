@@ -12,7 +12,7 @@
 #ifndef __included_cc_filesystem_h
 #define __included_cc_filesystem_h
 
-#ifdef TARGET_OS_WINDOWS
+#ifdef TARGET_COMPILER_VC
 
 struct dirent;
 struct DIR;
