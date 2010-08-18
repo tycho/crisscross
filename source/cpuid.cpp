@@ -249,7 +249,7 @@ static CPUFeature features [] = {
 //	{ 0x80000001, REG_ECX, 0x40000000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
 //	{ 0x80000001, REG_ECX, 0x80000000, VENDOR_INTEL | VENDOR_AMD, ""},    // Reserved
 
-	{ 0, REG_NONE, 0, 0, NULL},
+	{ 0, REG_NULL, 0, 0, NULL},
 };
 
 namespace CrissCross
