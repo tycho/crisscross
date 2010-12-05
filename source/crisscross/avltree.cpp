@@ -115,9 +115,11 @@ namespace CrissCross
 		template <class Key, class Data>
 		bool AVLTree<Key, Data>::insert(Key const &_key, Data const &_data)
 		{
-			insert(NULL, &m_root, _key, _data);
-			++m_size;
-			return true;
+			if (insert(NULL, &m_root, _key, _data) != INVALID) {
+				++m_size;
+				return true;
+			} else
+				return false;
 		}
 
 		template <class Key, class Data>
