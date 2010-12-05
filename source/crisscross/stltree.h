@@ -29,8 +29,9 @@
 #include <crisscross/cc_attr.h>
 #include <crisscross/deprecate.h>
 #include <crisscross/compare.h>
-#include <crisscross/node.h>
 #include <crisscross/internal_mem.h>
+#include <crisscross/darray.h>
+#include <crisscross/node.h>
 
 #include <map>
 

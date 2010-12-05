@@ -14,6 +14,8 @@
 
 #include <crisscross/cc_attr.h>
 #include <crisscross/deprecate.h>
+#include <crisscross/internal_mem.h>
+#include <crisscross/darray.h>
 #include <crisscross/node.h>
 
 namespace CrissCross
