@@ -24,8 +24,6 @@ namespace CrissCross
 {
 	namespace Data
 	{
-		template <class Key, class Data> class RedBlackTree;
-
 		/*! \brief A dynamic array implementation. */
 		template <class T> class DArray
 		{
