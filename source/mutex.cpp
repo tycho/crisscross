@@ -376,7 +376,6 @@ namespace CrissCross
 
 		RWLockHolder::RWLockHolder(RWLockHolder const &_lock)
 		{
-			CoreAssert(this != &_lock);
 			_lock.m_copied = true;
 			m_lock = _lock.m_lock;
 			m_type = _lock.m_type;
