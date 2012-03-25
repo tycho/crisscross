@@ -45,17 +45,21 @@ namespace CrissCross
 			m_previousIndex(-1),
 			m_numItems(0)
 		{
+			LListNode <T> *li;
 			for (size_t i = 0; i < source.size(); i++) {
-				insert_back(source.get(i));
+				li = source.getItem(i);
+				insert_back(li->m_data);
 			}
 		}
 
 		template <class T>
 		LList <T> &LList <T>::operator =(const LList <T> &source)
 		{
+			LListNode <T> *li;
 			empty();
 			for (size_t i = 0; i < source.size(); i++) {
-				insert_back(source.get(i));
+				li = source.getItem(i);
+				insert_back(li->m_data);
 			}
 
 			return *this;
