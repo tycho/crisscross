@@ -159,7 +159,7 @@ namespace CrissCross
 				/*!
 				 * \return The number of used nodes.
 				 */
-				__forceinline size_t used() const
+				size_t used() const
 				{
 					return m_numUsed;
 				}
@@ -168,7 +168,7 @@ namespace CrissCross
 				/*!
 				 * \return The size of the array.
 				 */
-				__forceinline size_t size() const
+				size_t size() const
 				{
 					return m_arraySize;
 				}
@@ -180,7 +180,7 @@ namespace CrissCross
 				 * \param _index The index to test.
 				 * \return Boolean value. True if valid, false if not.
 				 */
-				__forceinline bool valid(size_t _index) const
+				bool valid(size_t _index) const
 				{
 					return (_index < m_arraySize && m_shadow[_index]);
 				}
