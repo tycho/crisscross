@@ -14,4 +14,11 @@
 
 #include <stdint.h>
 
+#ifdef TARGET_OS_WINDOWS
+typedef int64_t fpos64_t;
+#elif defined (TARGET_OS_MACOSX) || defined (TARGET_OS_FREEBSD) || \
+        defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD)
+typedef fpos_t fpos64_t;
+#endif
+
 #endif
