@@ -19,8 +19,8 @@
 /* MD4 context. */
 /*! @cond */
 typedef struct  {
-	cc_uint32_t state[4];                                 /* state (ABCD) */
-	cc_uint32_t count[2];      /* number of bits, modulo 2^64 (lsb first) */
+	uint32_t state[4];                                 /* state (ABCD) */
+	uint32_t count[2];      /* number of bits, modulo 2^64 (lsb first) */
 	unsigned char buffer[64];                       /* input buffer */
 } cc_md4_ctx;
 /*! @endcond */

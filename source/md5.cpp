@@ -50,77 +50,77 @@ namespace
 {
 	/* constants, as provided in RFC 1321 */
 	
-#define MD5_CONST_0             (cc_uint32_t)0xd76aa478
-#define MD5_CONST_1             (cc_uint32_t)0xe8c7b756
-#define MD5_CONST_2             (cc_uint32_t)0x242070db
-#define MD5_CONST_3             (cc_uint32_t)0xc1bdceee
-#define MD5_CONST_4             (cc_uint32_t)0xf57c0faf
-#define MD5_CONST_5             (cc_uint32_t)0x4787c62a
-#define MD5_CONST_6             (cc_uint32_t)0xa8304613
-#define MD5_CONST_7             (cc_uint32_t)0xfd469501
-#define MD5_CONST_8             (cc_uint32_t)0x698098d8
-#define MD5_CONST_9             (cc_uint32_t)0x8b44f7af
-#define MD5_CONST_10            (cc_uint32_t)0xffff5bb1
-#define MD5_CONST_11            (cc_uint32_t)0x895cd7be
-#define MD5_CONST_12            (cc_uint32_t)0x6b901122
-#define MD5_CONST_13            (cc_uint32_t)0xfd987193
-#define MD5_CONST_14            (cc_uint32_t)0xa679438e
-#define MD5_CONST_15            (cc_uint32_t)0x49b40821
-#define MD5_CONST_16            (cc_uint32_t)0xf61e2562
-#define MD5_CONST_17            (cc_uint32_t)0xc040b340
-#define MD5_CONST_18            (cc_uint32_t)0x265e5a51
-#define MD5_CONST_19            (cc_uint32_t)0xe9b6c7aa
-#define MD5_CONST_20            (cc_uint32_t)0xd62f105d
-#define MD5_CONST_21            (cc_uint32_t)0x2441453
-#define MD5_CONST_22            (cc_uint32_t)0xd8a1e681
-#define MD5_CONST_23            (cc_uint32_t)0xe7d3fbc8
-#define MD5_CONST_24            (cc_uint32_t)0x21e1cde6
-#define MD5_CONST_25            (cc_uint32_t)0xc33707d6
-#define MD5_CONST_26            (cc_uint32_t)0xf4d50d87
-#define MD5_CONST_27            (cc_uint32_t)0x455a14ed
-#define MD5_CONST_28            (cc_uint32_t)0xa9e3e905
-#define MD5_CONST_29            (cc_uint32_t)0xfcefa3f8
-#define MD5_CONST_30            (cc_uint32_t)0x676f02d9
-#define MD5_CONST_31            (cc_uint32_t)0x8d2a4c8a
-#define MD5_CONST_32            (cc_uint32_t)0xfffa3942
-#define MD5_CONST_33            (cc_uint32_t)0x8771f681
-#define MD5_CONST_34            (cc_uint32_t)0x6d9d6122
-#define MD5_CONST_35            (cc_uint32_t)0xfde5380c
-#define MD5_CONST_36            (cc_uint32_t)0xa4beea44
-#define MD5_CONST_37            (cc_uint32_t)0x4bdecfa9
-#define MD5_CONST_38            (cc_uint32_t)0xf6bb4b60
-#define MD5_CONST_39            (cc_uint32_t)0xbebfbc70
-#define MD5_CONST_40            (cc_uint32_t)0x289b7ec6
-#define MD5_CONST_41            (cc_uint32_t)0xeaa127fa
-#define MD5_CONST_42            (cc_uint32_t)0xd4ef3085
-#define MD5_CONST_43            (cc_uint32_t)0x4881d05
-#define MD5_CONST_44            (cc_uint32_t)0xd9d4d039
-#define MD5_CONST_45            (cc_uint32_t)0xe6db99e5
-#define MD5_CONST_46            (cc_uint32_t)0x1fa27cf8
-#define MD5_CONST_47            (cc_uint32_t)0xc4ac5665
-#define MD5_CONST_48            (cc_uint32_t)0xf4292244
-#define MD5_CONST_49            (cc_uint32_t)0x432aff97
-#define MD5_CONST_50            (cc_uint32_t)0xab9423a7
-#define MD5_CONST_51            (cc_uint32_t)0xfc93a039
-#define MD5_CONST_52            (cc_uint32_t)0x655b59c3
-#define MD5_CONST_53            (cc_uint32_t)0x8f0ccc92
-#define MD5_CONST_54            (cc_uint32_t)0xffeff47d
-#define MD5_CONST_55            (cc_uint32_t)0x85845dd1
-#define MD5_CONST_56            (cc_uint32_t)0x6fa87e4f
-#define MD5_CONST_57            (cc_uint32_t)0xfe2ce6e0
-#define MD5_CONST_58            (cc_uint32_t)0xa3014314
-#define MD5_CONST_59            (cc_uint32_t)0x4e0811a1
-#define MD5_CONST_60            (cc_uint32_t)0xf7537e82
-#define MD5_CONST_61            (cc_uint32_t)0xbd3af235
-#define MD5_CONST_62            (cc_uint32_t)0x2ad7d2bb
-#define MD5_CONST_63            (cc_uint32_t)0xeb86d391
+#define MD5_CONST_0             (uint32_t)0xd76aa478
+#define MD5_CONST_1             (uint32_t)0xe8c7b756
+#define MD5_CONST_2             (uint32_t)0x242070db
+#define MD5_CONST_3             (uint32_t)0xc1bdceee
+#define MD5_CONST_4             (uint32_t)0xf57c0faf
+#define MD5_CONST_5             (uint32_t)0x4787c62a
+#define MD5_CONST_6             (uint32_t)0xa8304613
+#define MD5_CONST_7             (uint32_t)0xfd469501
+#define MD5_CONST_8             (uint32_t)0x698098d8
+#define MD5_CONST_9             (uint32_t)0x8b44f7af
+#define MD5_CONST_10            (uint32_t)0xffff5bb1
+#define MD5_CONST_11            (uint32_t)0x895cd7be
+#define MD5_CONST_12            (uint32_t)0x6b901122
+#define MD5_CONST_13            (uint32_t)0xfd987193
+#define MD5_CONST_14            (uint32_t)0xa679438e
+#define MD5_CONST_15            (uint32_t)0x49b40821
+#define MD5_CONST_16            (uint32_t)0xf61e2562
+#define MD5_CONST_17            (uint32_t)0xc040b340
+#define MD5_CONST_18            (uint32_t)0x265e5a51
+#define MD5_CONST_19            (uint32_t)0xe9b6c7aa
+#define MD5_CONST_20            (uint32_t)0xd62f105d
+#define MD5_CONST_21            (uint32_t)0x2441453
+#define MD5_CONST_22            (uint32_t)0xd8a1e681
+#define MD5_CONST_23            (uint32_t)0xe7d3fbc8
+#define MD5_CONST_24            (uint32_t)0x21e1cde6
+#define MD5_CONST_25            (uint32_t)0xc33707d6
+#define MD5_CONST_26            (uint32_t)0xf4d50d87
+#define MD5_CONST_27            (uint32_t)0x455a14ed
+#define MD5_CONST_28            (uint32_t)0xa9e3e905
+#define MD5_CONST_29            (uint32_t)0xfcefa3f8
+#define MD5_CONST_30            (uint32_t)0x676f02d9
+#define MD5_CONST_31            (uint32_t)0x8d2a4c8a
+#define MD5_CONST_32            (uint32_t)0xfffa3942
+#define MD5_CONST_33            (uint32_t)0x8771f681
+#define MD5_CONST_34            (uint32_t)0x6d9d6122
+#define MD5_CONST_35            (uint32_t)0xfde5380c
+#define MD5_CONST_36            (uint32_t)0xa4beea44
+#define MD5_CONST_37            (uint32_t)0x4bdecfa9
+#define MD5_CONST_38            (uint32_t)0xf6bb4b60
+#define MD5_CONST_39            (uint32_t)0xbebfbc70
+#define MD5_CONST_40            (uint32_t)0x289b7ec6
+#define MD5_CONST_41            (uint32_t)0xeaa127fa
+#define MD5_CONST_42            (uint32_t)0xd4ef3085
+#define MD5_CONST_43            (uint32_t)0x4881d05
+#define MD5_CONST_44            (uint32_t)0xd9d4d039
+#define MD5_CONST_45            (uint32_t)0xe6db99e5
+#define MD5_CONST_46            (uint32_t)0x1fa27cf8
+#define MD5_CONST_47            (uint32_t)0xc4ac5665
+#define MD5_CONST_48            (uint32_t)0xf4292244
+#define MD5_CONST_49            (uint32_t)0x432aff97
+#define MD5_CONST_50            (uint32_t)0xab9423a7
+#define MD5_CONST_51            (uint32_t)0xfc93a039
+#define MD5_CONST_52            (uint32_t)0x655b59c3
+#define MD5_CONST_53            (uint32_t)0x8f0ccc92
+#define MD5_CONST_54            (uint32_t)0xffeff47d
+#define MD5_CONST_55            (uint32_t)0x85845dd1
+#define MD5_CONST_56            (uint32_t)0x6fa87e4f
+#define MD5_CONST_57            (uint32_t)0xfe2ce6e0
+#define MD5_CONST_58            (uint32_t)0xa3014314
+#define MD5_CONST_59            (uint32_t)0x4e0811a1
+#define MD5_CONST_60            (uint32_t)0xf7537e82
+#define MD5_CONST_61            (uint32_t)0xbd3af235
+#define MD5_CONST_62            (uint32_t)0x2ad7d2bb
+#define MD5_CONST_63            (uint32_t)0xeb86d391
 	
 	/* initialization constants, as given in RFC 1321. used in MD5Init */
 	
-#define MD5_INIT_CONST_1        (cc_uint32_t)0x67452301
-#define MD5_INIT_CONST_2        (cc_uint32_t)0xefcdab89
-#define MD5_INIT_CONST_3        (cc_uint32_t)0x98badcfe
-#define MD5_INIT_CONST_4        (cc_uint32_t)0x10325476
+#define MD5_INIT_CONST_1        (uint32_t)0x67452301
+#define MD5_INIT_CONST_2        (uint32_t)0xefcdab89
+#define MD5_INIT_CONST_3        (uint32_t)0x98badcfe
+#define MD5_INIT_CONST_4        (uint32_t)0x10325476
 	
 	/* shift constants, as given in RFC 1321.  used in MD5Transform */
 	
@@ -141,7 +141,7 @@ namespace
 #define MD5_SHIFT_43            15
 #define MD5_SHIFT_44            21
 	
-	cc_uint8_t PADDING[64] = { 0x80, /* all zeros */ };
+	uint8_t PADDING[64] = { 0x80, /* all zeros */ };
 	
 	/*
 	 * F, G, H and I are the basic MD5 functions.
@@ -163,25 +163,25 @@ namespace
 	 */
 	
 #define FF(a, b, c, d, x, s, ac) { \
-			(a) += F((b), (c), (d)) + (x) + ((cc_uint64_t)(ac)); \
+			(a) += F((b), (c), (d)) + (x) + ((uint64_t)(ac)); \
 			(a) = ROTATE_LEFT((a), (s)); \
 			(a) += (b); \
 	}
 	
 #define GG(a, b, c, d, x, s, ac) { \
-			(a) += G((b), (c), (d)) + (x) + ((cc_uint64_t)(ac)); \
+			(a) += G((b), (c), (d)) + (x) + ((uint64_t)(ac)); \
 			(a) = ROTATE_LEFT((a), (s)); \
 			(a) += (b); \
 	}
 	
 #define HH(a, b, c, d, x, s, ac) { \
-			(a) += H((b), (c), (d)) + (x) + ((cc_uint64_t)(ac)); \
+			(a) += H((b), (c), (d)) + (x) + ((uint64_t)(ac)); \
 			(a) = ROTATE_LEFT((a), (s)); \
 			(a) += (b); \
 	}
 	
 #define II(a, b, c, d, x, s, ac) { \
-			(a) += I((b), (c), (d)) + (x) + ((cc_uint64_t)(ac)); \
+			(a) += I((b), (c), (d)) + (x) + ((uint64_t)(ac)); \
 			(a) = ROTATE_LEFT((a), (s)); \
 			(a) += (b); \
 	}
@@ -248,7 +248,7 @@ namespace
 	
 #endif     /* sun4v */
 	
-	const cc_uint32_t md5_consts [] = {
+	const uint32_t md5_consts [] = {
 		MD5_CONST_0, MD5_CONST_1, MD5_CONST_2, MD5_CONST_3,
 		MD5_CONST_4, MD5_CONST_5, MD5_CONST_6, MD5_CONST_7,
 		MD5_CONST_8, MD5_CONST_9, MD5_CONST_10, MD5_CONST_11,
@@ -306,7 +306,7 @@ namespace
 #define _MD5_CHECK_ALIGNMENT
 #endif     /* !__i386 && !__amd64 */
 	
-#define LOAD_LITTLE_32(addr)    (*(cc_uint32_t *)(addr))
+#define LOAD_LITTLE_32(addr)    (*(uint32_t *)(addr))
 	
 #else   /* !TARGET_LITTLE_ENDIAN */
 	
@@ -325,13 +325,13 @@ namespace
 	
 	/* Define alignment check because we can 4-byte load as little endian. */
 #define _MD5_CHECK_ALIGNMENT
-#define LOAD_LITTLE_32(addr)    load_little_32((cc_uint32_t *)(addr))
+#define LOAD_LITTLE_32(addr)    load_little_32((uint32_t *)(addr))
 	
 #if !defined (__lint) && defined (__GNUC__)
 	
-	inline cc_uint32_t load_little_32(cc_uint32_t *addr)
+	inline uint32_t load_little_32(uint32_t *addr)
 	{
-		cc_uint32_t value;
+		uint32_t value;
 	
 		__asm__(
 				"lduwa    [%1] %2, %0\n\t"
@@ -356,12 +356,12 @@ namespace
 #endif       /* !__lint && __GNUC__ */
 	
 #if !defined (__GNUC__)
-	extern cc_uint32_t load_little_32(cc_uint32_t *);
+	extern uint32_t load_little_32(uint32_t *);
 #endif       /* !__GNUC__ */
 	
 	/* Placate lint */
 #if defined (__lint)
-	cc_uint32_t load_little_32(cc_uint32_t *addr)
+	uint32_t load_little_32(uint32_t *addr)
 	{
 		return (*addr);
 	}
@@ -387,22 +387,22 @@ namespace
 	 *
 	 * Moving to 64-bit loads might also be beneficial.
 	 */
-#define LOAD_LITTLE_32_0(addr)  load_little_32_0((cc_uint32_t *)(addr))
-#define LOAD_LITTLE_32_1(addr)  load_little_32_1((cc_uint32_t *)(addr))
-#define LOAD_LITTLE_32_2(addr)  load_little_32_2((cc_uint32_t *)(addr))
-#define LOAD_LITTLE_32_3(addr)  load_little_32_3((cc_uint32_t *)(addr))
-#define LOAD_LITTLE_32_4(addr)  load_little_32_4((cc_uint32_t *)(addr))
-#define LOAD_LITTLE_32_5(addr)  load_little_32_5((cc_uint32_t *)(addr))
-#define LOAD_LITTLE_32_6(addr)  load_little_32_6((cc_uint32_t *)(addr))
-#define LOAD_LITTLE_32_7(addr)  load_little_32_7((cc_uint32_t *)(addr))
-#define LOAD_LITTLE_32_8(addr)  load_little_32_8((cc_uint32_t *)(addr))
-#define LOAD_LITTLE_32_9(addr)  load_little_32_9((cc_uint32_t *)(addr))
-#define LOAD_LITTLE_32_a(addr)  load_little_32_a((cc_uint32_t *)(addr))
-#define LOAD_LITTLE_32_b(addr)  load_little_32_b((cc_uint32_t *)(addr))
-#define LOAD_LITTLE_32_c(addr)  load_little_32_c((cc_uint32_t *)(addr))
-#define LOAD_LITTLE_32_d(addr)  load_little_32_d((cc_uint32_t *)(addr))
-#define LOAD_LITTLE_32_e(addr)  load_little_32_e((cc_uint32_t *)(addr))
-#define LOAD_LITTLE_32_f(addr)  load_little_32_f((cc_uint32_t *)(addr))
+#define LOAD_LITTLE_32_0(addr)  load_little_32_0((uint32_t *)(addr))
+#define LOAD_LITTLE_32_1(addr)  load_little_32_1((uint32_t *)(addr))
+#define LOAD_LITTLE_32_2(addr)  load_little_32_2((uint32_t *)(addr))
+#define LOAD_LITTLE_32_3(addr)  load_little_32_3((uint32_t *)(addr))
+#define LOAD_LITTLE_32_4(addr)  load_little_32_4((uint32_t *)(addr))
+#define LOAD_LITTLE_32_5(addr)  load_little_32_5((uint32_t *)(addr))
+#define LOAD_LITTLE_32_6(addr)  load_little_32_6((uint32_t *)(addr))
+#define LOAD_LITTLE_32_7(addr)  load_little_32_7((uint32_t *)(addr))
+#define LOAD_LITTLE_32_8(addr)  load_little_32_8((uint32_t *)(addr))
+#define LOAD_LITTLE_32_9(addr)  load_little_32_9((uint32_t *)(addr))
+#define LOAD_LITTLE_32_a(addr)  load_little_32_a((uint32_t *)(addr))
+#define LOAD_LITTLE_32_b(addr)  load_little_32_b((uint32_t *)(addr))
+#define LOAD_LITTLE_32_c(addr)  load_little_32_c((uint32_t *)(addr))
+#define LOAD_LITTLE_32_d(addr)  load_little_32_d((uint32_t *)(addr))
+#define LOAD_LITTLE_32_e(addr)  load_little_32_e((uint32_t *)(addr))
+#define LOAD_LITTLE_32_f(addr)  load_little_32_f((uint32_t *)(addr))
 	
 #if !defined (__lint) && defined (__GNUC__)
 	
@@ -434,10 +434,10 @@ namespace
 	 * argument is the offset in hex, without the 0x.
 	 */
 #define LL_TEMPLATE(__off)                      \
-			inlinr cc_uint32_t \
-			load_little_32_ ## __off(cc_uint32_t * addr)               \
+			inlinr uint32_t \
+			load_little_32_ ## __off(uint32_t * addr)               \
 		{                                               \
-			cc_uint32_t value;                              \
+			uint32_t value;                              \
 			__asm__(\
 					"lduwa    [%1 + %2]%%asi, %0\n\t" \
 				: "=r" (value)                            \
@@ -473,32 +473,32 @@ namespace
 	 * Saves a few arithmetic ops as can now use an immediate offset with the
 	 * lduwa instructions.
 	 */
-	extern void set_little(cc_uint32_t);
-	extern cc_uint32_t get_little(void);
+	extern void set_little(uint32_t);
+	extern uint32_t get_little(void);
 	
-	extern cc_uint32_t load_little_32_0(cc_uint32_t *);
-	extern cc_uint32_t load_little_32_1(cc_uint32_t *);
-	extern cc_uint32_t load_little_32_2(cc_uint32_t *);
-	extern cc_uint32_t load_little_32_3(cc_uint32_t *);
-	extern cc_uint32_t load_little_32_4(cc_uint32_t *);
-	extern cc_uint32_t load_little_32_5(cc_uint32_t *);
-	extern cc_uint32_t load_little_32_6(cc_uint32_t *);
-	extern cc_uint32_t load_little_32_7(cc_uint32_t *);
-	extern cc_uint32_t load_little_32_8(cc_uint32_t *);
-	extern cc_uint32_t load_little_32_9(cc_uint32_t *);
-	extern cc_uint32_t load_little_32_a(cc_uint32_t *);
-	extern cc_uint32_t load_little_32_b(cc_uint32_t *);
-	extern cc_uint32_t load_little_32_c(cc_uint32_t *);
-	extern cc_uint32_t load_little_32_d(cc_uint32_t *);
-	extern cc_uint32_t load_little_32_e(cc_uint32_t *);
-	extern cc_uint32_t load_little_32_f(cc_uint32_t *);
+	extern uint32_t load_little_32_0(uint32_t *);
+	extern uint32_t load_little_32_1(uint32_t *);
+	extern uint32_t load_little_32_2(uint32_t *);
+	extern uint32_t load_little_32_3(uint32_t *);
+	extern uint32_t load_little_32_4(uint32_t *);
+	extern uint32_t load_little_32_5(uint32_t *);
+	extern uint32_t load_little_32_6(uint32_t *);
+	extern uint32_t load_little_32_7(uint32_t *);
+	extern uint32_t load_little_32_8(uint32_t *);
+	extern uint32_t load_little_32_9(uint32_t *);
+	extern uint32_t load_little_32_a(uint32_t *);
+	extern uint32_t load_little_32_b(uint32_t *);
+	extern uint32_t load_little_32_c(uint32_t *);
+	extern uint32_t load_little_32_d(uint32_t *);
+	extern uint32_t load_little_32_e(uint32_t *);
+	extern uint32_t load_little_32_f(uint32_t *);
 #endif       /* !__GNUC__ */
 #endif     /* sun4v */
 	
 #endif   /* TARGET_LITTLE_ENDIAN */
 	
-	void MD5Transform(cc_uint32_t a, cc_uint32_t b, cc_uint32_t c, cc_uint32_t d, MD5_CTX *ctx, const cc_uint8_t block[64]);
-	void Encode(cc_uint8_t * output, const cc_uint32_t * input, size_t input_len);
+	void MD5Transform(uint32_t a, uint32_t b, uint32_t c, uint32_t d, MD5_CTX *ctx, const uint8_t block[64]);
+	void Encode(uint8_t * output, const uint32_t * input, size_t input_len);
 	
 	/*
 	 * MD5Init()
@@ -525,8 +525,8 @@ namespace
 	 * purpose: continues an md5 digest operation, using the message block
 	 *          to update the context.
 	 *   input: MD5_CTX *    : the context to update
-	 *          cc_uint8_t *    : the message block
-	 *          cc_uint32_t    : the length of the message block in bytes
+	 *          uint8_t *    : the message block
+	 *          uint32_t    : the length of the message block in bytes
 	 *  output: void
 	 *
 	 * MD5 crunches in 64-byte blocks.  All numeric constants here are related to
@@ -535,7 +535,7 @@ namespace
 	
 	void MD5Update(MD5_CTX *ctx, const void *inpp, unsigned int input_len)
 	{
-		cc_uint32_t i, buf_index, buf_len;
+		uint32_t i, buf_index, buf_len;
 		const unsigned char *input = (const unsigned char *)inpp;
 	
 		/* compute (number of bytes computed so far) mod 64 */
@@ -599,15 +599,15 @@ namespace
 	 *
 	 * purpose: ends an md5 digest operation, finalizing the message digest and
 	 *          zeroing the context.
-	 *   input: cc_uint8_t *    : a buffer to store the digest in
+	 *   input: uint8_t *    : a buffer to store the digest in
 	 *          MD5_CTX *   : the context to finalize, save, and zero
 	 *  output: void
 	 */
 	
 	void MD5Final(unsigned char *digest, MD5_CTX *ctx)
 	{
-		cc_uint8_t bitcount_le[sizeof(ctx->count)];
-		cc_uint32_t index = (ctx->count[0] >> 3) & 0x3f;
+		uint8_t bitcount_le[sizeof(ctx->count)];
+		uint32_t index = (ctx->count[0] >> 3) & 0x3f;
 	
 		/* store bit count, little endian */
 		Encode(bitcount_le, ctx->count, sizeof(bitcount_le));
@@ -629,16 +629,16 @@ namespace
 	 * MD5Transform()
 	 *
 	 * purpose: md5 transformation -- updates the digest based on `block'
-	 *   input: cc_uint32_t    : bytes  1 -  4 of the digest
-	 *          cc_uint32_t    : bytes  5 -  8 of the digest
-	 *          cc_uint32_t    : bytes  9 - 12 of the digest
-	 *          cc_uint32_t    : bytes 12 - 16 of the digest
+	 *   input: uint32_t    : bytes  1 -  4 of the digest
+	 *          uint32_t    : bytes  5 -  8 of the digest
+	 *          uint32_t    : bytes  9 - 12 of the digest
+	 *          uint32_t    : bytes 12 - 16 of the digest
 	 *          MD5_CTX *   : the context to update
-	 *          cc_uint8_t [64]: the block to use to update the digest
+	 *          uint8_t [64]: the block to use to update the digest
 	 *  output: void
 	 */
 	
-	void MD5Transform(cc_uint32_t a, cc_uint32_t b, cc_uint32_t c, cc_uint32_t d, MD5_CTX *ctx, const cc_uint8_t block[64])
+	void MD5Transform(uint32_t a, uint32_t b, uint32_t c, uint32_t d, MD5_CTX *ctx, const uint8_t block[64])
 	{
 		/*
 		 * general optimization:
@@ -647,13 +647,13 @@ namespace
 		 * win, although the amount it wins by seems to vary quite a bit.
 		 */
 	
-		register cc_uint32_t x_0, x_1, x_2, x_3, x_4, x_5, x_6, x_7;
-		register cc_uint32_t x_8, x_9, x_10, x_11, x_12, x_13, x_14, x_15;
+		register uint32_t x_0, x_1, x_2, x_3, x_4, x_5, x_6, x_7;
+		register uint32_t x_8, x_9, x_10, x_11, x_12, x_13, x_14, x_15;
 #ifdef sun4v
-		cc_uint64_t *md5_consts64;
+		uint64_t *md5_consts64;
 	
 		/* LINTED E_BAD_PTR_CAST_ALIGN */
-		md5_consts64 = (cc_uint64_t *)md5_consts;
+		md5_consts64 = (uint64_t *)md5_consts;
 #endif   /* sun4v */
 	
 		/*
@@ -886,27 +886,27 @@ namespace
 	 * Encode()
 	 *
 	 * purpose: to convert a list of numbers from big endian to little endian
-	 *   input: cc_uint8_t *    : place to store the converted little endian numbers
-	 *        cc_uint32_t *    : place to get numbers to convert from
+	 *   input: uint8_t *    : place to store the converted little endian numbers
+	 *        uint32_t *    : place to get numbers to convert from
 	 *          size_t    : the length of the input in bytes
 	 *  output: void
 	 */
 	
-	void Encode(cc_uint8_t * output, const cc_uint32_t * input, size_t input_len)
+	void Encode(uint8_t * output, const uint32_t * input, size_t input_len)
 	{
 		size_t i, j;
 	
-		for (i = 0, j = 0; j < input_len; i++, j += sizeof(cc_uint32_t)) {
+		for (i = 0, j = 0; j < input_len; i++, j += sizeof(uint32_t)) {
 #ifdef TARGET_LITTLE_ENDIAN
 	
 #ifdef _MD5_CHECK_ALIGNMENT
 			if ((uintptr_t)output & 0x3)  /* Not 4-byte aligned */
 				bcopy(input + i, output + j, 4);
-			else *(cc_uint32_t *)(output + j) = input[i];
+			else *(uint32_t *)(output + j) = input[i];
 	
 #else
 			/*LINTED E_BAD_PTR_CAST_ALIGN*/
-			*(cc_uint32_t *)(output + j) = input[i];
+			*(uint32_t *)(output + j) = input[i];
 #endif     /* _MD5_CHECK_ALIGNMENT */
 	
 #else   /* big endian -- will work on little endian, but slowly */
@@ -954,7 +954,7 @@ namespace CrissCross
 			Reset();
 			if (!_reader) return -1;
 
-			cc_int64_t pos = _reader->Position();
+			int64_t pos = _reader->Position();
 			_reader->Seek(0);
 			char buffer[8192]; int bytesRead = 0;
 			do

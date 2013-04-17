@@ -394,15 +394,15 @@ namespace CrissCross
 #endif
 		}
 
-		int Console::Seek(cc_int64_t _position)
+		int Console::Seek(int64_t _position)
 		{
 			return 0;
 		}
-		int Console::Forward(cc_int64_t _position)
+		int Console::Forward(int64_t _position)
 		{
 			return 0;
 		}
-		cc_int64_t Console::Length()
+		int64_t Console::Length()
 		{
 			return 0;
 		}

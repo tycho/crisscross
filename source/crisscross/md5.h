@@ -17,11 +17,11 @@
 /* MD5 context. */
 /*! @cond */
 typedef struct  {
-	cc_uint32_t state[4];       /* state (ABCD) */
-	cc_uint32_t count[2];       /* number of bits, modulo 2^64 (lsb first) */
+	uint32_t state[4];       /* state (ABCD) */
+	uint32_t count[2];       /* number of bits, modulo 2^64 (lsb first) */
 	union   {
-		cc_uint8_t buf8[64];           /* undigested input */
-		cc_uint32_t buf32[16];                  /* realigned input */
+		uint8_t buf8[64];           /* undigested input */
+		uint32_t buf32[16];                  /* realigned input */
 	} buf_un;
 } cc_md5_ctx;
 /*! @endcond */

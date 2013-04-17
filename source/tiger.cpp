@@ -34,7 +34,7 @@
 
 namespace
 {
-	cc_uint64_t sbox1[256] = {
+	uint64_t sbox1[256] = {
 		0x02aab17cf7e90c5eLL /*    0 */, 0xac424b03e243a8ecLL /*    1 */,
 		0x72cd5be30dd5fcd3LL /*    2 */, 0x6d019b93f6f97f3aLL /*    3 */,
 		0xcd9978ffd21f9193LL /*    4 */, 0x7573a1c9708029e2LL /*    5 */,
@@ -165,7 +165,7 @@ namespace
 		0xa6300f170bdc4820LL /*  254 */, 0xebc18760ed78a77aLL    /*  255 */
 	};
 	
-	cc_uint64_t sbox2[256] = {
+	uint64_t sbox2[256] = {
 		0xe6a6be5a05a12138LL /*  256 */, 0xb5a122a5b4f87c98LL /*  257 */,
 		0x563c6089140b6990LL /*  258 */, 0x4c46cb2e391f5dd5LL /*  259 */,
 		0xd932addbc9b79434LL /*  260 */, 0x08ea70e42015aff5LL /*  261 */,
@@ -296,7 +296,7 @@ namespace
 		0xd62a2eabc0977179LL /*  510 */, 0x22fac097aa8d5c0eLL    /*  511 */
 	};
 	
-	cc_uint64_t sbox3[256] = {
+	uint64_t sbox3[256] = {
 		0xf49fcc2ff1daf39bLL /*  512 */, 0x487fd5c66ff29281LL /*  513 */,
 		0xe8a30667fcdca83fLL /*  514 */, 0x2c9b4be3d2fcce63LL /*  515 */,
 		0xda3ff74b93fbbbc2LL /*  516 */, 0x2fa165d2fe70ba66LL /*  517 */,
@@ -427,7 +427,7 @@ namespace
 		0xd3dc3bef265b0f70LL /*  766 */, 0x6d0e60f5c3578a9eLL    /*  767 */
 	};
 	
-	cc_uint64_t sbox4[256] = {
+	uint64_t sbox4[256] = {
 		0x5b0e608526323c55LL /*  768 */, 0x1a46c1a9fa1b59f5LL /*  769 */,
 		0xa9e245a17c4c8ffaLL /*  770 */, 0x65ca5159db2955d7LL /*  771 */,
 		0x05db0a76ce35afc2LL /*  772 */, 0x81eac77ea9113d45LL /*  773 */,
@@ -573,14 +573,14 @@ namespace
 	/* (but works slower on Alpha) */
 #define tiger_round(a, b, c, x, mul) \
 			c ^= x; \
-			a -= sbox1[(cc_uint8_t)(c)] ^ \
-				 sbox2[(cc_uint8_t)(((cc_uint32_t)(c)) >> (2 * 8))] ^ \
-				 sbox3[(cc_uint8_t)((c) >> (4 * 8))] ^ \
-				 sbox4[(cc_uint8_t)(((cc_uint32_t)((c) >> (4 * 8))) >> (2 * 8))] ; \
-			b += sbox4[(cc_uint8_t)(((cc_uint32_t)(c)) >> (1 * 8))] ^ \
-				 sbox3[(cc_uint8_t)(((cc_uint32_t)(c)) >> (3 * 8))] ^ \
-				 sbox2[(cc_uint8_t)(((cc_uint32_t)((c) >> (4 * 8))) >> (1 * 8))] ^ \
-				 sbox1[(cc_uint8_t)(((cc_uint32_t)((c) >> (4 * 8))) >> (3 * 8))]; \
+			a -= sbox1[(uint8_t)(c)] ^ \
+				 sbox2[(uint8_t)(((uint32_t)(c)) >> (2 * 8))] ^ \
+				 sbox3[(uint8_t)((c) >> (4 * 8))] ^ \
+				 sbox4[(uint8_t)(((uint32_t)((c) >> (4 * 8))) >> (2 * 8))] ; \
+			b += sbox4[(uint8_t)(((uint32_t)(c)) >> (1 * 8))] ^ \
+				 sbox3[(uint8_t)(((uint32_t)(c)) >> (3 * 8))] ^ \
+				 sbox2[(uint8_t)(((uint32_t)((c) >> (4 * 8))) >> (1 * 8))] ^ \
+				 sbox1[(uint8_t)(((uint32_t)((c) >> (4 * 8))) >> (3 * 8))]; \
 			b *= mul;
 #endif
 	
@@ -677,14 +677,14 @@ namespace
 	 */
 	void transform(cc_tiger_ctx *hd, unsigned char *data)
 	{
-		cc_uint64_t a, b, c, aa, bb, cc;
-		cc_uint64_t x[8];
+		uint64_t a, b, c, aa, bb, cc;
+		uint64_t x[8];
 	  #ifdef TARGET_BIG_ENDIAN
 	#define MKWORD(d, n) \
-		(((cc_uint64_t)(d)[8 * (n) + 7]) << 56 | ((cc_uint64_t)(d)[8 * (n) + 6]) << 48  \
-		 | ((cc_uint64_t)(d)[8 * (n) + 5]) << 40 | ((cc_uint64_t)(d)[8 * (n) + 4]) << 32  \
-		 | ((cc_uint64_t)(d)[8 * (n) + 3]) << 24 | ((cc_uint64_t)(d)[8 * (n) + 2]) << 16  \
-		 | ((cc_uint64_t)(d)[8 * (n) + 1]) << 8 | ((cc_uint64_t)(d)[8 * (n)        ]))
+		(((uint64_t)(d)[8 * (n) + 7]) << 56 | ((uint64_t)(d)[8 * (n) + 6]) << 48  \
+		 | ((uint64_t)(d)[8 * (n) + 5]) << 40 | ((uint64_t)(d)[8 * (n) + 4]) << 32  \
+		 | ((uint64_t)(d)[8 * (n) + 3]) << 24 | ((uint64_t)(d)[8 * (n) + 2]) << 16  \
+		 | ((uint64_t)(d)[8 * (n) + 1]) << 8 | ((uint64_t)(d)[8 * (n)        ]))
 		x[0] = MKWORD(data, 0);
 		x[1] = MKWORD(data, 1);
 		x[2] = MKWORD(data, 2);
@@ -771,7 +771,7 @@ namespace
 	/* The routine terminates the computation */
 	void tiger_final(unsigned char *hash, cc_tiger_ctx *hd)
 	{
-		cc_uint32_t t, msb, lsb;
+		uint32_t t, msb, lsb;
 		unsigned char *p;
 		int i, j;
 	
@@ -818,7 +818,7 @@ namespace
 	
 		p = hd->buf;
 	  #ifdef TARGET_BIG_ENDIAN
-	#define X(a) do { *(cc_uint64_t *)p = hd->a ; p += 8; } while (0)
+	#define X(a) do { *(uint64_t *)p = hd->a ; p += 8; } while (0)
 		/* Original code - modified by jk to deal with gcc changes */
 		/*    #define X(a) do { *(u64*)p = hd->##a ; p += 8; } while(0) */
 	  #else   /* little endian */
@@ -903,7 +903,7 @@ namespace CrissCross
 			Reset();
 			if (!_reader) return -1;
 
-			cc_int64_t pos = _reader->Position();
+			int64_t pos = _reader->Position();
 			_reader->Seek(0);
 			char buffer[8192]; int bytesRead = 0;
 			do

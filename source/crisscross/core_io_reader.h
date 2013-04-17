@@ -79,7 +79,7 @@ namespace CrissCross
 				/*!
 				 * \return Indicates the length of the buffer in bytes.
 				 */
-				virtual cc_int64_t Length();
+				virtual int64_t Length();
 
 				/*! \brief Validates that the file buffer isn't NULL. */
 				/*!
@@ -96,16 +96,16 @@ namespace CrissCross
 				virtual int ReadBlock(void *_buffer, size_t _count);
 
 				/*! \brief Read an unsigned 8-bit integer. */
-				virtual int ReadU8(cc_uint8_t *_buffer);
+				virtual int ReadU8(uint8_t *_buffer);
 
 				/*! \brief Read an unsigned 16-bit integer. */
-				virtual int ReadU16(cc_uint16_t *_buffer);
+				virtual int ReadU16(uint16_t *_buffer);
 
 				/*! \brief Read an unsigned 32-bit integer. */
-				virtual int ReadU32(cc_uint32_t *_buffer);
+				virtual int ReadU32(uint32_t *_buffer);
 
 				/*! \brief Read an unsigned 64-bit integer. */
-				virtual int ReadU64(cc_uint64_t *_buffer);
+				virtual int ReadU64(uint64_t *_buffer);
 
 				/*! \brief Reads a line of data. */
 				/*!
@@ -133,7 +133,7 @@ namespace CrissCross
 				/*!
 				 * \return The current position in the buffer.
 				 */
-				virtual cc_int64_t Position();
+				virtual int64_t Position();
 
 				/*! \brief Seeks to a location in the buffer. */
 				/*!
@@ -141,7 +141,7 @@ namespace CrissCross
 				 * \return An integer indicating the result of the operation. 0 indicates
 				 * success. Any non-zero number indicates failure.
 				 */
-				virtual int Seek(cc_int64_t _position);
+				virtual int Seek(int64_t _position);
 
 				/*! \brief Moves forward to a location in the buffer. */
 				/*!
@@ -149,7 +149,7 @@ namespace CrissCross
 				 * \return An integer indicating the result of the operation. 0 indicates
 				 * success. Any non-zero number indicates failure.
 				 */
-				virtual int Forward(cc_int64_t _position);
+				virtual int Forward(int64_t _position);
 
 				/*! \brief Sets which endianness to convert from when reading. */
 				/*!
@@ -169,7 +169,7 @@ namespace CrissCross
 				 * \return An integer indicating the result of the operation. 0 indicates
 				 * success. Any non-zero number indicates failure.
 				 */
-				int Seek(cc_int64_t _position, int _origin);
+				int Seek(int64_t _position, int _origin);
 		};
 	}
 }

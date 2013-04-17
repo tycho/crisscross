@@ -217,7 +217,7 @@ namespace CrissCross
 			if (!_reader)
 				return -1;
 
-			cc_int64_t pos = _reader->Position();
+			int64_t pos = _reader->Position();
 			_reader->Seek(0);
 			char buffer[8192];
 			int bytesRead = 0;

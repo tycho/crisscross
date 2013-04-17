@@ -40,9 +40,9 @@ typedef const unsigned char *CONST_POINTER;
 #define S33 11
 #define S34 15
 
-void MD4Transform(cc_uint32_t [4], unsigned char [64]);
-void Encode(unsigned char *, cc_uint32_t *, unsigned int);
-void Decode(cc_uint32_t *, unsigned char *, unsigned int);
+void MD4Transform(uint32_t [4], unsigned char [64]);
+void Encode(unsigned char *, uint32_t *, unsigned int);
+void Decode(uint32_t *, unsigned char *, unsigned int);
 
 unsigned char PADDING[64] = {
 	0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -69,11 +69,11 @@ unsigned char PADDING[64] = {
 		(a) = ROTATE_LEFT((a), (s)); \
 }
 #define GG(a, b, c, d, x, s) { \
-		(a) += G((b), (c), (d)) + (x) + (cc_uint32_t)0x5a827999; \
+		(a) += G((b), (c), (d)) + (x) + (uint32_t)0x5a827999; \
 		(a) = ROTATE_LEFT((a), (s)); \
 }
 #define HH(a, b, c, d, x, s) { \
-		(a) += H((b), (c), (d)) + (x) + (cc_uint32_t)0x6ed9eba1; \
+		(a) += H((b), (c), (d)) + (x) + (uint32_t)0x6ed9eba1; \
 		(a) = ROTATE_LEFT((a), (s)); \
 }
 
@@ -112,11 +112,11 @@ void MD4Update(MD4_CTX *context, unsigned char *input, unsigned int inputLen)
 	/* Compute number of bytes mod 64 */
 	index = (unsigned int)((context->count[0] >> 3) & 0x3F);
 	/* Update number of bits */
-	if ((context->count[0] += ((cc_uint32_t)inputLen << 3))
-	    < ((cc_uint32_t)inputLen << 3))
+	if ((context->count[0] += ((uint32_t)inputLen << 3))
+	    < ((uint32_t)inputLen << 3))
 		context->count[1]++;
 
-	context->count[1] += ((cc_uint32_t)inputLen >> 29);
+	context->count[1] += ((uint32_t)inputLen >> 29);
 
 	partLen = 64 - index;
 
@@ -180,10 +180,10 @@ void MD4Final(unsigned char digest[16], MD4_CTX *context)
 * Procedure MD4Transform
 *
 ***************************************************************/
-void MD4Transform(cc_uint32_t state[4], unsigned char block[64])
+void MD4Transform(uint32_t state[4], unsigned char block[64])
 
 {
-	cc_uint32_t a = state[0], b = state[1], c = state[2], d = state[3], x[16];
+	uint32_t a = state[0], b = state[1], c = state[2], d = state[3], x[16];
 
 	Decode(x, block, 64);
 
@@ -251,7 +251,7 @@ void MD4Transform(cc_uint32_t state[4], unsigned char block[64])
 	memset((POINTER)x, 0, sizeof(x));
 }
 
-/* Encodes input (cc_uint32_t) into output (unsigned char). Assumes len is
+/* Encodes input (uint32_t) into output (unsigned char). Assumes len is
  *   a multiple of 4.
  */
 /***************************************************************
@@ -259,7 +259,7 @@ void MD4Transform(cc_uint32_t state[4], unsigned char block[64])
 * Procedure Encode
 *
 ***************************************************************/
-void Encode(unsigned char *output, cc_uint32_t *input, unsigned int len)
+void Encode(unsigned char *output, uint32_t *input, unsigned int len)
 {
 	unsigned int i, j;
 
@@ -271,7 +271,7 @@ void Encode(unsigned char *output, cc_uint32_t *input, unsigned int len)
 	}
 }
 
-/* Decodes input (unsigned char) into output (cc_uint32_t). Assumes len is
+/* Decodes input (unsigned char) into output (uint32_t). Assumes len is
  *   a multiple of 4.
  */
 /***************************************************************
@@ -279,13 +279,13 @@ void Encode(unsigned char *output, cc_uint32_t *input, unsigned int len)
 * Procedure Decode
 *
 ***************************************************************/
-void Decode(cc_uint32_t *output, unsigned char *input, unsigned int len)
+void Decode(uint32_t *output, unsigned char *input, unsigned int len)
 {
 	unsigned int i, j;
 
 	for (i = 0, j = 0; j < len; i++, j += 4)
-		output[i] = ((cc_uint32_t)input[j]) | (((cc_uint32_t)input[j + 1]) << 8) |
-		            (((cc_uint32_t)input[j + 2]) << 16) | (((cc_uint32_t)input[j + 3]) << 24);
+		output[i] = ((uint32_t)input[j]) | (((uint32_t)input[j + 1]) << 8) |
+		            (((uint32_t)input[j + 2]) << 16) | (((uint32_t)input[j + 3]) << 24);
 }
 
 }
@@ -324,7 +324,7 @@ namespace CrissCross
 			Reset();
 			if (!_reader) return -1;
 
-			cc_int64_t pos = _reader->Position();
+			int64_t pos = _reader->Position();
 			_reader->Seek(0);
 			char buffer[8192]; int bytesRead = 0;
 			do

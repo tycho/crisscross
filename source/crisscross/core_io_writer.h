@@ -14,6 +14,7 @@
 
 #include <string>
 
+#include <crisscross/datatypes.h>
 #include <crisscross/error.h>
 #include <crisscross/mutex.h>
 #include <crisscross/core_io.h>
@@ -97,16 +98,16 @@ namespace CrissCross
 				virtual int WriteBlock(const void *_buffer, size_t _count);
 
 				/*! \brief Write an unsigned 8-bit integer. */
-				virtual int WriteU8(cc_uint8_t _data);
+				virtual int WriteU8(uint8_t _data);
 
 				/*! \brief Write an unsigned 16-bit integer. */
-				virtual int WriteU16(cc_uint16_t _data);
+				virtual int WriteU16(uint16_t _data);
 
 				/*! \brief Write an unsigned 32-bit integer. */
-				virtual int WriteU32(cc_uint32_t _data);
+				virtual int WriteU32(uint32_t _data);
 
 				/*! \brief Write an unsigned 64-bit integer. */
-				virtual int WriteU64(cc_uint64_t _data);
+				virtual int WriteU64(uint64_t _data);
 
 				/*! \brief Writes a string to the buffer. */
 				/*!

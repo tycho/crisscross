@@ -227,7 +227,7 @@ namespace CrissCross
 			return ret;
 		}
 
-		int CoreIOWriter::WriteU8(cc_uint8_t _data)
+		int CoreIOWriter::WriteU8(uint8_t _data)
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return 0;
@@ -235,12 +235,12 @@ namespace CrissCross
 #ifndef __GNUC__
 			MutexHolder mh(&m_ioMutex);
 #endif
-			size_t ret = fwrite(&_data, sizeof(cc_uint8_t), 1, m_fileOutputPointer);
+			size_t ret = fwrite(&_data, sizeof(uint8_t), 1, m_fileOutputPointer);
 
 			return ret;
 		}
 
-		int CoreIOWriter::WriteU16(cc_uint16_t _data)
+		int CoreIOWriter::WriteU16(uint16_t _data)
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return 0;
@@ -260,12 +260,12 @@ namespace CrissCross
 				/* Do nothing */
 				break;
 			}
-			size_t ret = fwrite(&_data, sizeof(cc_uint16_t), 1, m_fileOutputPointer);
+			size_t ret = fwrite(&_data, sizeof(uint16_t), 1, m_fileOutputPointer);
 
 			return ret;
 		}
 
-		int CoreIOWriter::WriteU32(cc_uint32_t _data)
+		int CoreIOWriter::WriteU32(uint32_t _data)
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return 0;
@@ -285,12 +285,12 @@ namespace CrissCross
 				/* Do nothing */
 				break;
 			}
-			size_t ret = fwrite(&_data, sizeof(cc_uint32_t), 1, m_fileOutputPointer);
+			size_t ret = fwrite(&_data, sizeof(uint32_t), 1, m_fileOutputPointer);
 
 			return ret;
 		}
 
-		int CoreIOWriter::WriteU64(cc_uint64_t _data)
+		int CoreIOWriter::WriteU64(uint64_t _data)
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return 0;
@@ -310,7 +310,7 @@ namespace CrissCross
 				/* Do nothing */
 				break;
 			}
-			size_t ret = fwrite(&_data, sizeof(cc_uint64_t), 1, m_fileOutputPointer);
+			size_t ret = fwrite(&_data, sizeof(uint64_t), 1, m_fileOutputPointer);
 
 			return ret;
 		}

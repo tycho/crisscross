@@ -19,11 +19,11 @@
 
 namespace
 {
-	cc_int32_t sha256_h0[8] =
+	int32_t sha256_h0[8] =
 	{0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a,
 	 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19};
 	
-	cc_int32_t sha256_k[64] =
+	int32_t sha256_k[64] =
 	{0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5,
 	 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
 	 0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3,
@@ -54,18 +54,18 @@ namespace
 	
 #define UNPACK32(x, str)                      \
 		{                                             \
-			*((str) + 3) = (cc_uint8_t)((x));       \
-			*((str) + 2) = (cc_uint8_t)((x) >> 8);       \
-			*((str) + 1) = (cc_uint8_t)((x) >> 16);       \
-			*((str) + 0) = (cc_uint8_t)((x) >> 24);       \
+			*((str) + 3) = (uint8_t)((x));       \
+			*((str) + 2) = (uint8_t)((x) >> 8);       \
+			*((str) + 1) = (uint8_t)((x) >> 16);       \
+			*((str) + 0) = (uint8_t)((x) >> 24);       \
 		}
 	
 #define PACK32(str, x)                        \
 		{                                             \
-			*(x) = ((cc_uint32_t)*((str) + 3))    \
-				   | ((cc_uint32_t)*((str) + 2) << 8)    \
-				   | ((cc_uint32_t)*((str) + 1) << 16)    \
-				   | ((cc_uint32_t)*((str) + 0) << 24);   \
+			*(x) = ((uint32_t)*((str) + 3))    \
+				   | ((uint32_t)*((str) + 2) << 8)    \
+				   | ((uint32_t)*((str) + 1) << 16)    \
+				   | ((uint32_t)*((str) + 0) << 24);   \
 		}
 	
 #define SHA256_SCR(i)                         \
@@ -85,9 +85,9 @@ namespace
 	
 	void sha256_transf(cc_sha256_ctx *ctx, const unsigned char *message, unsigned int block_nb)
 	{
-		cc_uint32_t w[64];
-		cc_uint32_t wv[8];
-		cc_uint32_t t1, t2;
+		uint32_t w[64];
+		uint32_t wv[8];
+		uint32_t t1, t2;
 		const unsigned char *sub_block;
 		int i;
 	
@@ -324,7 +324,7 @@ namespace CrissCross
 			Reset();
 			if (!_reader) return -1;
 
-			cc_int64_t pos = _reader->Position();
+			int64_t pos = _reader->Position();
 			_reader->Seek(0);
 			char buffer[8192]; int bytesRead = 0;
 			do
