@@ -222,8 +222,7 @@ INCLUDE_FILE_PATTERNS  =
 PREDEFINED             = _CC_NO_DEPRECATE= \
                          _CC_DEPRECATE_SLOW(x)= \
                          _CC_DEPRECATE_FUNCTION(x)= \
-                         _CC_DEPRECATE_FUNCTION_N= \
-                         ENABLE_CPUID
+                         _CC_DEPRECATE_FUNCTION_N=
 
 EXPAND_AS_DEFINED      = 
 SKIP_FUNCTION_MACROS   = YES
