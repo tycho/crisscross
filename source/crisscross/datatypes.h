@@ -12,7 +12,7 @@
 #ifndef __included_cc_datatypes_h
 #define __included_cc_datatypes_h
 
-#include <stdint.h>
+#include <crisscross/pstdint.h>
 
 #ifdef TARGET_OS_WINDOWS
 typedef int64_t fpos64_t;
