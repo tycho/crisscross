@@ -47,7 +47,6 @@ namespace CrissCross
 		template <class Data>
 		HashTable<Data>::~HashTable()
 		{
-			empty();
 			munmap(m_data, m_size * sizeof(kvpair_t));
 		}
 
@@ -64,7 +63,8 @@ namespace CrissCross
 		{
 			uint64_t index = Hash<const char *>(_key) % m_size;
 
-			while (m_data[index].key != NULL)
+			while (m_data[index].key != NULL
+				   && m_data[index].key != (const char *)-1)
 			{
 				CoreAssert(Compare<const char *>((const char *)m_data[index].key, _key) != 0);
 				index++;
@@ -117,9 +117,7 @@ namespace CrissCross
 		{
 			uint64_t index = findIndex(_key);
 			if (index != (uint64_t)-1) {
-				Dealloc(m_data[index].key);
 				m_data[index].key = (char *)-1;
-				m_usedIndices.erase(index);
 				return true;
 			}
 			return false;
@@ -128,17 +126,8 @@ namespace CrissCross
 		template <class Data>
 		void HashTable<Data>::empty()
 		{
-			std::set<uint64_t>::iterator it;
-			for (it = m_usedIndices.begin();
-			     it != m_usedIndices.end();
-				 it++)
-			{
-				kvpair_t *kvpair = &m_data[*it];
-				if (kvpair->key != NULL &&
-				    kvpair->key != (char *)-1)
-					Dealloc(kvpair->key);
-				kvpair->key = NULL;
-			}
+			munmap(m_data, m_size * sizeof(kvpair_t));
+			m_data = (kvpair_t *)mmap(NULL, m_size * sizeof(kvpair_t), PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS , -1, 0);
 		}
 
 		template <class Data>
@@ -150,11 +139,9 @@ namespace CrissCross
 
 			uint64_t index = findInsertIndex(_key);
 			CoreAssert(m_data[index].key == NULL || m_data[index].key == (char*)-1);
-			m_data[index].key = cc_strdup(_key);
+			m_data[index].key = _key;
 			m_data[index].data = _data;
 			m_slotsFree--;
-
-			m_usedIndices.insert(index);
 
 			return index;
 		}

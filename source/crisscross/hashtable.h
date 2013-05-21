@@ -27,13 +27,12 @@ namespace CrissCross
 		protected:
 			struct kvpair_t
 			{
-				char *key;
+				const char *key;
 				Data data;
 			};
 			kvpair_t *m_data;
 			uint64_t  m_size;
 			uint64_t  m_slotsFree;
-			std::set<uint64_t> m_usedIndices;
 
 			uint64_t findInsertIndex(const char *_key) const;
 			uint64_t findIndex(const char *_key) const;
