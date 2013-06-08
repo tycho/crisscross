@@ -123,6 +123,10 @@
 #undef ENABLE_BACKTRACE
 #endif
 
+#ifdef TARGET_OS_LINUX
+#include <unistd.h>
+#endif
+
 #include <stddef.h>
 
 #include <crisscross/compare.h>

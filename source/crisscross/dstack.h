@@ -64,25 +64,25 @@ namespace CrissCross
 				/*!
 				 * \param _val The value to put on the stack.
 				 */
-				__forceinline void push(T const &_val);
+				void push(T const &_val);
 
 				/*! \brief Pops a value off the stack. */
 				/*!
 				 * \return The topmost value on the stack.
 				 */
-				__forceinline T pop();
+				T pop();
 
 				/*! \brief Returns whatever value is on the top of the stack without removing it from the stack. */
 				/*!
 				 * \return The topmost value on the stack.
 				 */
-				__forceinline T peek() const;
+				T peek() const;
 
 				/*! \brief Indicates the number of items on the stack. */
 				/*!
 				 * \return Number of items on the stack.
 				 */
-				__forceinline size_t count() const;
+				size_t count() const;
 
 				/*! \brief Empties the stack. */
 				/*!
