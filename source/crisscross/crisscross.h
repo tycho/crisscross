@@ -57,7 +57,6 @@
 #include <crisscross/core_socket.h>
 #include <crisscross/tcpsocket.h>
 #include <crisscross/udpsocket.h>
-#include <crisscross/cpuid.h>
 #include <crisscross/debug.h>
 #include <crisscross/mutex.h>
 #include <crisscross/stopwatch.h>

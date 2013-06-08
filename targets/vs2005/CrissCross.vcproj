@@ -321,10 +321,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\source\cpuid.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\source\debug.cpp"
 				>
 			</File>
@@ -510,10 +506,6 @@
 			</File>
 			<File
 				RelativePath="..\..\source\crisscross\core_socket.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\source\crisscross\cpuid.h"
 				>
 			</File>
 			<File

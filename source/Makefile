@@ -33,7 +33,6 @@ HEADERS = \
 	crisscross/core_io_writer.h \
 	crisscross/core_network.h \
 	crisscross/core_socket.h \
-	crisscross/cpuid.h \
 	crisscross/crisscross.h \
 	crisscross/darray.cpp \
 	crisscross/darray.h \
@@ -91,7 +90,6 @@ SOURCES = \
 	core_io_writer.cpp \
 	core_network.cpp \
 	core_socket.cpp \
-	cpuid.cpp \
 	debug.cpp \
 	error.cpp \
 	filereader.cpp \

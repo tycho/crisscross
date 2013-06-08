@@ -41,7 +41,6 @@
 		B0A6252F0BFA8FB5006F2B68 /* sort.h in Headers */ = {isa = PBXBuildFile; fileRef = B0A625250BFA8FB5006F2B68 /* sort.h */; };
 		B0A625300BFA8FB5006F2B68 /* version.h in Headers */ = {isa = PBXBuildFile; fileRef = B0A625260BFA8FB5006F2B68 /* version.h */; };
 		B0B10AA10C513C6F00A2D43D /* crisscross.h in Headers */ = {isa = PBXBuildFile; fileRef = B0B10A9F0C513C6F00A2D43D /* crisscross.h */; };
-		B0BD2C4C0BE26BF600F71A26 /* cpuid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0BD2B8B0BE2540900F71A26 /* cpuid.cpp */; };
 		B0BD2C4E0BE26BF700F71A26 /* debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0BD2B8D0BE2540900F71A26 /* debug.cpp */; };
 		B0BD2C4F0BE26BF700F71A26 /* error.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0BD2B8E0BE2540900F71A26 /* error.cpp */; };
 		B0BD2C510BE26BF800F71A26 /* core_io_reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0BD2B900BE2540900F71A26 /* core_io_reader.cpp */; };
@@ -49,7 +48,6 @@
 		B0BD2C540BE26BFE00F71A26 /* console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0BD2B8A0BE2540900F71A26 /* console.cpp */; };
 		B0BD2C550BE26C0400F71A26 /* compare.h in Headers */ = {isa = PBXBuildFile; fileRef = B0BD2BAE0BE2542600F71A26 /* compare.h */; };
 		B0BD2C560BE26C0500F71A26 /* console.h in Headers */ = {isa = PBXBuildFile; fileRef = B0BD2BAF0BE2542600F71A26 /* console.h */; };
-		B0BD2C570BE26C0500F71A26 /* cpuid.h in Headers */ = {isa = PBXBuildFile; fileRef = B0BD2BB00BE2542600F71A26 /* cpuid.h */; };
 		B0BD2C590BE26C0600F71A26 /* debug.h in Headers */ = {isa = PBXBuildFile; fileRef = B0BD2BB20BE2542600F71A26 /* debug.h */; };
 		B0BD2C5A0BE26C0600F71A26 /* deprecate.h in Headers */ = {isa = PBXBuildFile; fileRef = B0BD2BB30BE2542600F71A26 /* deprecate.h */; };
 		B0BD2C5B0BE26C0700F71A26 /* error.h in Headers */ = {isa = PBXBuildFile; fileRef = B0BD2BB40BE2542600F71A26 /* error.h */; };
@@ -127,7 +125,6 @@
 		B0A625260BFA8FB5006F2B68 /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../../source/crisscross/version.h; sourceTree = SOURCE_ROOT; };
 		B0B10A9F0C513C6F00A2D43D /* crisscross.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = crisscross.h; path = ../../source/crisscross/crisscross.h; sourceTree = SOURCE_ROOT; };
 		B0BD2B8A0BE2540900F71A26 /* console.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = console.cpp; path = ../../source/console.cpp; sourceTree = SOURCE_ROOT; };
-		B0BD2B8B0BE2540900F71A26 /* cpuid.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = cpuid.cpp; path = ../../source/cpuid.cpp; sourceTree = SOURCE_ROOT; };
 		B0BD2B8D0BE2540900F71A26 /* debug.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = debug.cpp; path = ../../source/debug.cpp; sourceTree = SOURCE_ROOT; };
 		B0BD2B8E0BE2540900F71A26 /* error.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = error.cpp; path = ../../source/error.cpp; sourceTree = SOURCE_ROOT; };
 		B0BD2B900BE2540900F71A26 /* core_io_reader.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = core_io_reader.cpp; path = ../../source/core_io_reader.cpp; sourceTree = SOURCE_ROOT; };
@@ -142,7 +139,6 @@
 		B0BD2BA70BE2541300F71A26 /* universal_include.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = universal_include.cpp; path = ../../source/universal_include.cpp; sourceTree = SOURCE_ROOT; };
 		B0BD2BAE0BE2542600F71A26 /* compare.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = compare.h; path = ../../source/crisscross/compare.h; sourceTree = SOURCE_ROOT; };
 		B0BD2BAF0BE2542600F71A26 /* console.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = console.h; path = ../../source/crisscross/console.h; sourceTree = SOURCE_ROOT; };
-		B0BD2BB00BE2542600F71A26 /* cpuid.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = cpuid.h; path = ../../source/crisscross/cpuid.h; sourceTree = SOURCE_ROOT; };
 		B0BD2BB20BE2542600F71A26 /* debug.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = debug.h; path = ../../source/crisscross/debug.h; sourceTree = SOURCE_ROOT; };
 		B0BD2BB30BE2542600F71A26 /* deprecate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = deprecate.h; path = ../../source/crisscross/deprecate.h; sourceTree = SOURCE_ROOT; };
 		B0BD2BB40BE2542600F71A26 /* error.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = error.h; path = ../../source/crisscross/error.h; sourceTree = SOURCE_ROOT; };
@@ -244,7 +240,6 @@
 				B0ED57BD0BEAF76A00F6033B /* platform_detect.h */,
 				B0BD2BAE0BE2542600F71A26 /* compare.h */,
 				B0BD2BAF0BE2542600F71A26 /* console.h */,
-				B0BD2BB00BE2542600F71A26 /* cpuid.h */,
 				B0BD2BB20BE2542600F71A26 /* debug.h */,
 				B0BD2BB30BE2542600F71A26 /* deprecate.h */,
 				B0BD2BB40BE2542600F71A26 /* error.h */,
@@ -272,7 +267,6 @@
 				B0BD2BA60BE2541300F71A26 /* udpsocket.cpp */,
 				B0BD2BA70BE2541300F71A26 /* universal_include.cpp */,
 				B0BD2B8A0BE2540900F71A26 /* console.cpp */,
-				B0BD2B8B0BE2540900F71A26 /* cpuid.cpp */,
 				B0BD2B8D0BE2540900F71A26 /* debug.cpp */,
 				B0BD2B8E0BE2540900F71A26 /* error.cpp */,
 				B0BD2B900BE2540900F71A26 /* core_io_reader.cpp */,
@@ -304,7 +298,6 @@
 				B0BD2C880BE26C3500F71A26 /* rbtree.h in Headers */,
 				B0BD2C550BE26C0400F71A26 /* compare.h in Headers */,
 				B0BD2C560BE26C0500F71A26 /* console.h in Headers */,
-				B0BD2C570BE26C0500F71A26 /* cpuid.h in Headers */,
 				B0BD2C590BE26C0600F71A26 /* debug.h in Headers */,
 				B0BD2C5A0BE26C0600F71A26 /* deprecate.h in Headers */,
 				B0BD2C5B0BE26C0700F71A26 /* error.h in Headers */,
@@ -410,7 +403,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B0BD2C4C0BE26BF600F71A26 /* cpuid.cpp in Sources */,
 				B0BD2C4E0BE26BF700F71A26 /* debug.cpp in Sources */,
 				B0BD2C4F0BE26BF700F71A26 /* error.cpp in Sources */,
 				B0BD2C510BE26BF800F71A26 /* core_io_reader.cpp in Sources */,

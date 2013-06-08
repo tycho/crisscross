@@ -45,7 +45,6 @@
 		<Unit filename="../../source/core_io_writer.cpp" />
 		<Unit filename="../../source/core_network.cpp" />
 		<Unit filename="../../source/core_socket.cpp" />
-		<Unit filename="../../source/cpuid.cpp" />
 		<Unit filename="../../source/crisscross/avltree.h" />
 		<Unit filename="../../source/crisscross/build_number.h" />
 		<Unit filename="../../source/crisscross/combsort.h" />
@@ -56,7 +55,6 @@
 		<Unit filename="../../source/crisscross/core_io_writer.h" />
 		<Unit filename="../../source/crisscross/core_network.h" />
 		<Unit filename="../../source/crisscross/core_socket.h" />
-		<Unit filename="../../source/crisscross/cpuid.h" />
 		<Unit filename="../../source/crisscross/crisscross.h" />
 		<Unit filename="../../source/crisscross/darray.h" />
 		<Unit filename="../../source/crisscross/datatypes.h" />
