@@ -26,54 +26,54 @@ namespace CrissCross
 		*/
 		#if defined(__GNUC__) && defined(__i386__) && \
 		   !(__GNUC__ == 2 && __GNUC_MINOR__ <= 95 /* broken gcc version */)
-		static __forceinline cc_uint16_t Swap16(cc_uint16_t x)
+		static uint16_t Swap16(uint16_t x)
 		{
 			__asm__("xchgb %b0,%h0" : "=q" (x) :  "0" (x));
 			return x;
 		}
 		#elif defined(__GNUC__) && defined(__x86_64__)
-		static __forceinline cc_uint16_t Swap16(cc_uint16_t x)
+		static uint16_t Swap16(uint16_t x)
 		{
 			__asm__("xchgb %b0,%h0" : "=Q" (x) :  "0" (x));
 			return x;
 		}
 		#elif defined(__GNUC__) && (defined(__powerpc__) || defined(__ppc__))
-		static __forceinline cc_uint16_t Swap16(cc_uint16_t x)
+		static uint16_t Swap16(uint16_t x)
 		{
-			cc_uint16_t result;
+			uint16_t result;
 
 			__asm__("rlwimi %0,%2,8,16,23" : "=&r" (result) : "0" (x >> 8), "r" (x));
 			return result;
 		}
 		#elif defined(__GNUC__) && (defined(__M68000__) || defined(__M68020__))
-		static __forceinline cc_uint16_t Swap16(cc_uint16_t x)
+		static uint16_t Swap16(uint16_t x)
 		{
 			__asm__("rorw #8,%0" : "=d" (x) :  "0" (x) : "cc");
 			return x;
 		}
 		#else
-		static __forceinline cc_uint16_t Swap16(cc_uint16_t x) {
+		static uint16_t Swap16(uint16_t x) {
 			return((x<<8)|(x>>8));
 		}
 		#endif
 
 		#if defined(__GNUC__) && defined(__i386__) && \
 		   !(__GNUC__ == 2 && __GNUC_MINOR__ <= 95 /* broken gcc version */)
-		static __forceinline cc_uint32_t Swap32(cc_uint32_t x)
+		static uint32_t Swap32(uint32_t x)
 		{
 			__asm__("bswap %0" : "=r" (x) : "0" (x));
 			return x;
 		}
 		#elif defined(__GNUC__) && defined(__x86_64__)
-		static __forceinline cc_uint32_t Swap32(cc_uint32_t x)
+		static uint32_t Swap32(uint32_t x)
 		{
 			__asm__("bswapl %0" : "=r" (x) : "0" (x));
 			return x;
 		}
 		#elif defined(__GNUC__) && (defined(__powerpc__) || defined(__ppc__))
-		static __forceinline cc_uint32_t Swap32(cc_uint32_t x)
+		static uint32_t Swap32(uint32_t x)
 		{
-			cc_uint32_t result;
+			uint32_t result;
 
 			__asm__("rlwimi %0,%2,24,16,23" : "=&r" (result) : "0" (x>>24), "r" (x));
 			__asm__("rlwimi %0,%2,8,8,15"   : "=&r" (result) : "0" (result),    "r" (x));
@@ -81,24 +81,24 @@ namespace CrissCross
 			return result;
 		}
 		#elif defined(__GNUC__) && (defined(__M68000__) || defined(__M68020__))
-		static __forceinline cc_uint32_t Swap32(cc_uint32_t x)
+		static uint32_t Swap32(uint32_t x)
 		{
 			__asm__("rorw #8,%0\n\tswap %0\n\trorw #8,%0" : "=d" (x) :  "0" (x) : "cc");
 			return x;
 		}
 		#else
-		static __forceinline cc_uint32_t Swap32(cc_uint32_t x) {
+		static uint32_t Swap32(uint32_t x) {
 			return((x<<24)|((x<<8)&0x00FF0000)|((x>>8)&0x0000FF00)|(x>>24));
 		}
 		#endif
 
 		#if defined(__GNUC__) && defined(__i386__) && \
 		   !(__GNUC__ == 2 && __GNUC_MINOR__ <= 95 /* broken gcc version */)
-		static __forceinline cc_uint64_t Swap64(cc_uint64_t x)
+		static uint64_t Swap64(uint64_t x)
 		{
 			union {
-				struct { cc_uint32_t a,b; } s;
-				cc_uint64_t u;
+				struct { uint32_t a,b; } s;
+				uint64_t u;
 			} v;
 			v.u = x;
 			__asm__("bswapl %0 ; bswapl %1 ; xchgl %0,%1"
@@ -107,20 +107,20 @@ namespace CrissCross
 			return v.u;
 		}
 		#elif defined(__GNUC__) && defined(__x86_64__)
-		static __forceinline cc_uint64_t Swap64(cc_uint64_t x)
+		static uint64_t Swap64(uint64_t x)
 		{
 			__asm__("bswapq %0" : "=r" (x) : "0" (x));
 			return x;
 		}
 		#else
-		static __forceinline cc_uint64_t Swap64(cc_uint64_t x)
+		static uint64_t Swap64(uint64_t x)
 		{
-			cc_uint32_t hi, lo;
+			uint32_t hi, lo;
 
 			/* Separate into high and low 32-bit values and swap them */
-			lo = (cc_uint32_t)(x&0xFFFFFFFF);
+			lo = (uint32_t)(x&0xFFFFFFFF);
 			x >>= 32;
-			hi = (cc_uint32_t)(x&0xFFFFFFFF);
+			hi = (uint32_t)(x&0xFFFFFFFF);
 			x = Swap32(lo);
 			x <<= 32;
 			x |= Swap32(hi);

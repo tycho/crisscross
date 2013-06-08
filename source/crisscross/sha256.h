@@ -20,7 +20,7 @@ typedef struct {
 	unsigned int tot_len;
 	unsigned int len;
 	unsigned char block[2 * SHA256_BLOCK_SIZE];
-	cc_uint32_t h[8];
+	uint32_t h[8];
 } cc_sha256_ctx;
 /*! @endcond */
 

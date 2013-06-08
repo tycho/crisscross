@@ -68,7 +68,7 @@ namespace CrissCross
 				return true;
 		}
 
-		int CoreIOReader::Forward(cc_int64_t _position)
+		int CoreIOReader::Forward(int64_t _position)
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
@@ -77,7 +77,7 @@ namespace CrissCross
 			return (res == 0);
 		}
 
-		cc_int64_t CoreIOReader::Position()
+		int64_t CoreIOReader::Position()
 		{
 			CoreAssert(this != NULL);
 			CoreAssert(IsOpen());
@@ -103,7 +103,7 @@ namespace CrissCross
 #endif
 		}
 
-		cc_int64_t CoreIOReader::Length()
+		int64_t CoreIOReader::Length()
 		{
 			CoreAssert(this != NULL);
 			CoreAssert(IsOpen());
@@ -168,7 +168,7 @@ namespace CrissCross
 			return (int)retval;
 		}
 
-		int CoreIOReader::ReadU8(cc_uint8_t *_buffer)
+		int CoreIOReader::ReadU8(uint8_t *_buffer)
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
@@ -179,11 +179,11 @@ namespace CrissCross
 #endif
 
 			size_t retval;
-			retval = fread(_buffer, sizeof(cc_uint8_t), 1, m_fileInputPointer);
+			retval = fread(_buffer, sizeof(uint8_t), 1, m_fileInputPointer);
 			return retval;
 		}
 
-		int CoreIOReader::ReadU16(cc_uint16_t *_buffer)
+		int CoreIOReader::ReadU16(uint16_t *_buffer)
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
@@ -193,7 +193,7 @@ namespace CrissCross
 			MutexHolder mh(&m_ioMutex);
 #endif
 			size_t retval;
-			retval = fread(_buffer, sizeof(cc_uint16_t), 1, m_fileInputPointer);
+			retval = fread(_buffer, sizeof(uint16_t), 1, m_fileInputPointer);
 
 			switch (m_endianness)
 			{
@@ -211,7 +211,7 @@ namespace CrissCross
 			return retval;
 		}
 
-		int CoreIOReader::ReadU32(cc_uint32_t *_buffer)
+		int CoreIOReader::ReadU32(uint32_t *_buffer)
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
@@ -222,7 +222,7 @@ namespace CrissCross
 #endif
 
 			size_t retval;
-			retval = fread(_buffer, sizeof(cc_uint32_t), 1, m_fileInputPointer);
+			retval = fread(_buffer, sizeof(uint32_t), 1, m_fileInputPointer);
 
 			switch (m_endianness)
 			{
@@ -240,7 +240,7 @@ namespace CrissCross
 			return retval;
 		}
 
-		int CoreIOReader::ReadU64(cc_uint64_t *_buffer)
+		int CoreIOReader::ReadU64(uint64_t *_buffer)
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
@@ -251,7 +251,7 @@ namespace CrissCross
 #endif
 
 			size_t retval;
-			retval = fread(_buffer, sizeof(cc_uint64_t), 1, m_fileInputPointer);
+			retval = fread(_buffer, sizeof(uint64_t), 1, m_fileInputPointer);
 
 			switch (m_endianness)
 			{
@@ -336,7 +336,7 @@ namespace CrissCross
 			return (int)_string.length() * sizeof(char);
 		}
 
-		int CoreIOReader::Seek(cc_int64_t _position, int _origin)
+		int CoreIOReader::Seek(int64_t _position, int _origin)
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
@@ -360,7 +360,7 @@ namespace CrissCross
 			return res;
 		}
 
-		int CoreIOReader::Seek(cc_int64_t _position)
+		int CoreIOReader::Seek(int64_t _position)
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;

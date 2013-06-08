@@ -53,15 +53,15 @@ int main(int argc, char * *argv)
 	g_console->WriteLine("Testing PrintStackTrace()");
 	TestBacktrace();
 
-	WritePrefix("Size of cc_uint8_t"); retval |= WriteResult(TestDatatypes_Uint8());
-	WritePrefix("Size of cc_uint16_t"); retval |= WriteResult(TestDatatypes_Uint16());
-	WritePrefix("Size of cc_uint32_t"); retval |= WriteResult(TestDatatypes_Uint32());
-	WritePrefix("Size of cc_uint64_t"); retval |= WriteResult(TestDatatypes_Uint64());
-	WritePrefix("Size of cc_ulong_t"); retval |= WriteResult(TestDatatypes_Ulong());
-	WritePrefix("Size of cc_bool_t"); retval |= WriteResult(TestDatatypes_Bool());
-	WritePrefix("Size of cc_float_t"); retval |= WriteResult(TestDatatypes_Float());
-	WritePrefix("Size of cc_double_t"); retval |= WriteResult(TestDatatypes_Double());
-	WritePrefix("Size of cc_ptr_t"); retval |= WriteResult(TestDatatypes_Pointer());
+	WritePrefix("Size of uint8_t"); retval |= WriteResult(TestDatatypes_Uint8());
+	WritePrefix("Size of uint16_t"); retval |= WriteResult(TestDatatypes_Uint16());
+	WritePrefix("Size of uint32_t"); retval |= WriteResult(TestDatatypes_Uint32());
+	WritePrefix("Size of uint64_t"); retval |= WriteResult(TestDatatypes_Uint64());
+	WritePrefix("Size of ulong_t"); retval |= WriteResult(TestDatatypes_Ulong());
+	WritePrefix("Size of bool"); retval |= WriteResult(TestDatatypes_Bool());
+	WritePrefix("Size of float"); retval |= WriteResult(TestDatatypes_Float());
+	WritePrefix("Size of double"); retval |= WriteResult(TestDatatypes_Double());
+	WritePrefix("Size of uintptr_t"); retval |= WriteResult(TestDatatypes_Pointer());
 
 #ifdef TARGET_LITTLE_ENDIAN
 	WritePrefix("Type-based aliasing sanity"); retval |= WriteResult(TestSanity_TypeBasedAliasing());

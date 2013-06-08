@@ -143,9 +143,9 @@ namespace CrissCross
 
 			private:
 				bool EndOfFile();
-				int Forward(cc_int64_t _position);
-				int Seek(cc_int64_t _position);
-				cc_int64_t Length();
+				int Forward(int64_t _position);
+				int Seek(int64_t _position);
+				int64_t Length();
 				int Read(void *_buffer, size_t _count);
 		};
 	}

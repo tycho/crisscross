@@ -25,42 +25,42 @@
 
 #define PACK32(str, x)                        \
 	{                                             \
-		*(x) = ((cc_uint32_t)*((str) + 3))    \
-		       | ((cc_uint32_t)*((str) + 2) << 8)    \
-		       | ((cc_uint32_t)*((str) + 1) << 16)    \
-		       | ((cc_uint32_t)*((str) + 0) << 24);   \
+		*(x) = ((uint32_t)*((str) + 3))    \
+		       | ((uint32_t)*((str) + 2) << 8)    \
+		       | ((uint32_t)*((str) + 1) << 16)    \
+		       | ((uint32_t)*((str) + 0) << 24);   \
 	}
 
 #define UNPACK32(x, str)                      \
 	{                                             \
-		*((str) + 3) = (cc_uint8_t)((x));       \
-		*((str) + 2) = (cc_uint8_t)((x) >> 8);       \
-		*((str) + 1) = (cc_uint8_t)((x) >> 16);       \
-		*((str) + 0) = (cc_uint8_t)((x) >> 24);       \
+		*((str) + 3) = (uint8_t)((x));       \
+		*((str) + 2) = (uint8_t)((x) >> 8);       \
+		*((str) + 1) = (uint8_t)((x) >> 16);       \
+		*((str) + 0) = (uint8_t)((x) >> 24);       \
 	}
 
 #define PACK64(str, x)                        \
 	{                                             \
-		*(x) = ((cc_uint64_t)*((str) + 7))    \
-		       | ((cc_uint64_t)*((str) + 6) << 8)    \
-		       | ((cc_uint64_t)*((str) + 5) << 16)    \
-		       | ((cc_uint64_t)*((str) + 4) << 24)    \
-		       | ((cc_uint64_t)*((str) + 3) << 32)    \
-		       | ((cc_uint64_t)*((str) + 2) << 40)    \
-		       | ((cc_uint64_t)*((str) + 1) << 48)    \
-		       | ((cc_uint64_t)*((str) + 0) << 56);   \
+		*(x) = ((uint64_t)*((str) + 7))    \
+		       | ((uint64_t)*((str) + 6) << 8)    \
+		       | ((uint64_t)*((str) + 5) << 16)    \
+		       | ((uint64_t)*((str) + 4) << 24)    \
+		       | ((uint64_t)*((str) + 3) << 32)    \
+		       | ((uint64_t)*((str) + 2) << 40)    \
+		       | ((uint64_t)*((str) + 1) << 48)    \
+		       | ((uint64_t)*((str) + 0) << 56);   \
 	}
 
 #define UNPACK64(x, str)                      \
 	{                                             \
-		*((str) + 7) = (cc_uint8_t)((x));       \
-		*((str) + 6) = (cc_uint8_t)((x) >> 8);       \
-		*((str) + 5) = (cc_uint8_t)((x) >> 16);       \
-		*((str) + 4) = (cc_uint8_t)((x) >> 24);       \
-		*((str) + 3) = (cc_uint8_t)((x) >> 32);       \
-		*((str) + 2) = (cc_uint8_t)((x) >> 40);       \
-		*((str) + 1) = (cc_uint8_t)((x) >> 48);       \
-		*((str) + 0) = (cc_uint8_t)((x) >> 56);       \
+		*((str) + 7) = (uint8_t)((x));       \
+		*((str) + 6) = (uint8_t)((x) >> 8);       \
+		*((str) + 5) = (uint8_t)((x) >> 16);       \
+		*((str) + 4) = (uint8_t)((x) >> 24);       \
+		*((str) + 3) = (uint8_t)((x) >> 32);       \
+		*((str) + 2) = (uint8_t)((x) >> 40);       \
+		*((str) + 1) = (uint8_t)((x) >> 48);       \
+		*((str) + 0) = (uint8_t)((x) >> 56);       \
 	}
 
 #define SHA512_F1(x) (ROTR(x, 28) ^ ROTR(x, 34) ^ ROTR(x, 39))
@@ -85,13 +85,13 @@
 
 namespace
 {
-	cc_uint64_t sha512_h0[8] =
+	uint64_t sha512_h0[8] =
 	{0x6a09e667f3bcc908ULL, 0xbb67ae8584caa73bULL,
 	 0x3c6ef372fe94f82bULL, 0xa54ff53a5f1d36f1ULL,
 	 0x510e527fade682d1ULL, 0x9b05688c2b3e6c1fULL,
 	 0x1f83d9abfb41bd6bULL, 0x5be0cd19137e2179ULL};
 	
-	cc_uint64_t sha512_k[80] =
+	uint64_t sha512_k[80] =
 	{0x428a2f98d728ae22ULL, 0x7137449123ef65cdULL,
 	 0xb5c0fbcfec4d3b2fULL, 0xe9b5dba58189dbbcULL,
 	 0x3956c25bf348b538ULL, 0x59f111f1b605d019ULL,
@@ -135,9 +135,9 @@ namespace
 	
 	void sha512_transf(cc_sha512_ctx *ctx, const unsigned char *message, unsigned int block_nb)
 	{
-		cc_uint64_t w[80];
-		cc_uint64_t wv[8];
-		cc_uint64_t t1, t2;
+		uint64_t w[80];
+		uint64_t wv[8];
+		uint64_t t1, t2;
 		const unsigned char *sub_block;
 		int i, j;
 	
@@ -355,7 +355,7 @@ namespace CrissCross
 			Reset();
 			if (!_reader) return -1;
 
-			cc_int64_t pos = _reader->Position();
+			int64_t pos = _reader->Position();
 			_reader->Seek(0);
 			char buffer[8192]; int bytesRead = 0;
 			do

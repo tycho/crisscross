@@ -22,7 +22,7 @@ typedef struct {
 	unsigned int tot_len;
 	unsigned int len;
 	unsigned char block[2 * SHA512_BLOCK_SIZE];
-	cc_uint64_t h[8];
+	uint64_t h[8];
 } cc_sha512_ctx;
 /*! @endcond */
 
