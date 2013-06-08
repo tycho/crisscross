@@ -11,6 +11,10 @@
 
 #include <crisscross/universal_include.h>
 
+#ifndef TARGET_OS_WINDOWS
+#include <unistd.h>
+#endif
+
 #include <cstdio>
 #include <cstring>
 

@@ -24,12 +24,12 @@
 
 #ifndef TARGET_OS_WINDOWS
 #include <sys/types.h>
+#include <unistd.h>
 #endif
 
 #ifdef TARGET_OS_HAIKU
 #include <sys/select.h>
 #include <sys/socket.h>
-#include <unistd.h>
 #endif
 
 #include "core_socket_impl.h"

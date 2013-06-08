@@ -15,6 +15,7 @@
 #include <windows.h>
 #else
 #include <sys/time.h>
+#include <unistd.h>
 #endif
 
 #if defined (TARGET_OS_MACOSX)
