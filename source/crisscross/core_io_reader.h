@@ -12,6 +12,7 @@
 #ifndef __included_cc_core_io_reader_h
 #define __included_cc_core_io_reader_h
 
+#include <cstdio>
 #include <string>
 
 #include <crisscross/datatypes.h>

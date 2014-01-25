@@ -19,7 +19,7 @@
 
 #if defined (TARGET_OS_LINUX) || defined (TARGET_OS_MACOSX) || defined (TARGET_OS_FREEBSD) || defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD)
 #include <cxxabi.h>
-#if defined(TARGET_OS_LINUX)
+#if defined(TARGET_OS_LINUX) && !defined(TARGET_COMPILER_CYGWIN)
 #include <execinfo.h>
 #endif
 #endif
