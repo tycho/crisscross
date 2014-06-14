@@ -66,13 +66,13 @@ namespace CrissCross
 		};
 
 		template <class T>
-		__forceinline bool Quadtree<T>::InRange(float lower_bound, float upper_bound, float point)
+		bool Quadtree<T>::InRange(float lower_bound, float upper_bound, float point)
 		{
 			return point > lower_bound && point <= upper_bound;
 		}
 
 		template <class T>
-		__forceinline bool Quadtree<T>::CircleCollision(vec2 circle1, float radius1, vec2 circle2, float radius2)
+		bool Quadtree<T>::CircleCollision(vec2 circle1, float radius1, vec2 circle2, float radius2)
 		{
 			float maximumDistanceSquared = (radius1 + radius2) * (radius1 + radius2);
 			float actualDistanceSquared = vec2::DistanceSquared(circle1, circle2);
