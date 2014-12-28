@@ -13,6 +13,9 @@
 #define __included_cc_datatypes_h
 
 #include <crisscross/pstdint.h>
+#ifdef TARGET_OS_MACOSX
+#include <stdio.h>
+#endif
 
 #ifdef TARGET_OS_WINDOWS
 typedef int64_t fpos64_t;
