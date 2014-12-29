@@ -209,7 +209,7 @@ namespace CrissCross
 			if (index <= (m_previousIndex >> 1)) {
 				m_previous = m_first;
 				m_previousIndex = 0;
-			} else if ((size_t)abs((long)index - (long)m_previousIndex) > (m_numItems - index)) {
+			} else if ((size_t)labs((long)index - (long)m_previousIndex) > (m_numItems - index)) {
 				m_previous = m_last;
 				m_previousIndex = m_numItems - 1;
 			}
