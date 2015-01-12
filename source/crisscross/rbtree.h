@@ -208,7 +208,9 @@ namespace CrissCross
 				/*! @endcond */
 #endif
 
+#if !defined(_MSC_VER) || _MSC_VER >= 1400
 				template <class K, class D>
+#endif
 				friend class RedBlackNode;
 		};
 	}

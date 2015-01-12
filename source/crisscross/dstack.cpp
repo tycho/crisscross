@@ -107,7 +107,7 @@ namespace CrissCross
 		{
 			CrissCross::System::MutexHolder lock(&m_lock);
 
-			if (!m_top) return NullKey<T>();
+			CoreAssert(m_top);
 
 			const T &ret = *(m_top - 1);
 			return ret;

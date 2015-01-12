@@ -53,9 +53,11 @@ class vec2
 		__forceinline float & Y(){ return y; }
 
 		/* ! Fetches the modulus of the vector (distance from the origin) */
-#ifdef TARGET_COMPILER_VC
+#if defined(_MSC_VER) && _MSC_VER >= 1400
 		/* Thank you, Microsoft. >:( */
 		__forceinline float Modulus() const { return _hypotf(y, x); }
+#elif defined(_MSC_VER)
+		__forceinline float Modulus() const { return sqrtf(ModulusSquared()); }
 #else
 		__forceinline float Modulus() const { return hypotf(y, x); }
 #endif

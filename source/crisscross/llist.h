@@ -113,7 +113,7 @@ namespace CrissCross
 				 * \param _default The default value to return if the index couldn't be retrieved.
 				 * \return The data contained in the node at the index or _default if not found.
 				 */
-				inline T const &get(size_t _index, T const &_default = NULL) const;
+				inline T const &get(size_t _index, T const &_default = (T)NULL) const;
 
 				/*! \brief Gets the address of where the data at the specified index is stored. */
 				/*!
