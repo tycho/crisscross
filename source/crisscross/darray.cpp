@@ -340,7 +340,6 @@ namespace CrissCross
 				return 0;
 
 			T *temp_array = new T[m_numUsed];
-			T *temp_ptr = temp_array;
 
 			memset(temp_array, 0, m_numUsed * sizeof(T));
 
