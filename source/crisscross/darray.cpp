@@ -128,9 +128,6 @@ namespace CrissCross
 		void DArray <T>::setSize(size_t newsize)
 		{
 			m_shadow.resize(newsize, false);
-			if (m_arraySize)
-				CoreAssert(!m_shadow[m_arraySize]);
-
 			if (newsize > m_arraySize) {
 				size_t oldarraysize = m_arraySize;
 
