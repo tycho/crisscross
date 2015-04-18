@@ -67,6 +67,14 @@
 #ifndef _WIN32_IE
 #define _WIN32_IE   _WIN32_IE_IE70
 #endif
+#ifdef _SCL_SECURE
+#undef _SCL_SECURE
+#endif
+#define _SCL_SECURE 0
+#ifdef _HAS_ITERATOR_DEBUGGING
+#undef _HAS_ITERATOR_DEBUGGING
+#endif
+#define _HAS_ITERATOR_DEBUGGING 0
 #endif
 
 #if !defined (_CONSOLE)
