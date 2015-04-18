@@ -13,6 +13,7 @@
 #define __included_cc_darray_h
 
 #include <cstring>
+#include <vector>
 
 #include <crisscross/cc_attr.h>
 #include <crisscross/deprecate.h>
@@ -56,7 +57,7 @@ namespace CrissCross
 				T *m_array;
 
 				/*! \brief An array to indicate which nodes in m_array are in use. */
-				char *m_shadow;
+				std::vector<bool> m_shadow;
 
 				/*! \brief Increases the size of the array. */
 				void grow();

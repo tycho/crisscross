@@ -27,7 +27,6 @@ namespace CrissCross
 		{
 			m_stepSize = -1;
 			m_numUsed = m_arraySize = 0;
-			m_shadow = NULL;
 			m_array = NULL;
 			m_emptyNodes = new DStack<size_t>;
 			m_emptyNodes->push((size_t)-1);
@@ -39,12 +38,11 @@ namespace CrissCross
 			m_array = new T[_indices];
 			memcpy(m_array, _array, _indices * sizeof(T));
 
-			m_shadow = new char[_indices];
-			memset(m_shadow, 0, _indices * sizeof(char));
+			m_shadow.resize(_indices, false);
 
 			m_numUsed = 0;
 			for (size_t i = 0; i < _indices; i++) {
-				m_shadow[i] = m_array[i] != NULL ? 1 : 0;
+				m_shadow[i] = (m_array[i] != NULL) ? true : false;
 				if (m_shadow[i]) {
 					m_numUsed++;
 				}
@@ -63,12 +61,11 @@ namespace CrissCross
 			m_array = new T[_array.m_arraySize];
 			memcpy(m_array, _array.m_array, _array.m_arraySize * sizeof(T));
 
-			m_shadow = new char[_array.m_arraySize];
-			memset(m_shadow, 0, _array.m_arraySize * sizeof(char));
+			m_shadow.resize(_array.m_arraySize);
 
 			m_numUsed = 0;
 			for (size_t i = 0; i < _array.m_arraySize; i++)	{
-				m_shadow[i] = m_array[i] != NULL ? 1 : 0;
+				m_shadow[i] = (m_array[i] != NULL) ? true : false;
 				if (m_shadow[i]) {
 					m_numUsed++;
 				}
@@ -90,7 +87,6 @@ namespace CrissCross
 				m_stepSize = _newStepSize;
 
 			m_numUsed = m_arraySize = 0;
-			m_shadow = NULL;
 			m_array = NULL;
 			m_emptyNodes = new DStack<size_t> (_newStepSize + 1);
 			m_emptyNodes->push((size_t)-1);
@@ -115,7 +111,7 @@ namespace CrissCross
 			/* Step through, rebuilding */
 
 			for (size_t i = m_arraySize - 1; (int)i >= 0; i--)
-				if (m_shadow[i] == 0)
+				if (!m_shadow[i])
 					m_emptyNodes->push(i);
 		}
 
@@ -124,45 +120,42 @@ namespace CrissCross
 		{
 			m_numUsed = 0;
 			for (size_t i = 0; i < m_arraySize; i++)
-				if (m_shadow[i] == 1)
+				if (m_shadow[i])
 					m_numUsed++;
 		}
 
 		template <class T>
 		void DArray <T>::setSize(size_t newsize)
 		{
+			m_shadow.resize(newsize, false);
+			if (m_arraySize)
+				CoreAssert(!m_shadow[m_arraySize]);
+
 			if (newsize > m_arraySize) {
 				size_t oldarraysize = m_arraySize;
 
 				m_arraySize = newsize;
 				T *temparray = new T[m_arraySize];
-				char *tempshadow = new char[m_arraySize];
 
-				if (m_array && m_shadow) {
+				if (m_array) {
 					memcpy(&temparray[0], &m_array[0], sizeof(temparray[0]) * oldarraysize);
-					memcpy(&tempshadow[0], &m_shadow[0], sizeof(tempshadow[0]) * oldarraysize);
 				}
 
 				memset(&temparray[oldarraysize], 0, sizeof(temparray[0]) * (m_arraySize - oldarraysize));
-				memset(&tempshadow[oldarraysize], 0, sizeof(tempshadow[0]) * (m_arraySize - oldarraysize));
 
 				for (size_t a = m_arraySize - 1; (int)a >= (int)oldarraysize; a--) {
 					m_emptyNodes->push(a);
 				}
 
 				delete [] m_array;
-				delete [] m_shadow;
 
 				m_array = temparray;
-				m_shadow = tempshadow;
 			} else if (newsize < m_arraySize) {
 				m_arraySize = newsize;
 				T *temparray = new T[m_arraySize];
-				char *tempshadow = new char[m_arraySize];
 
-				if (m_array && m_shadow) {
+				if (m_array) {
 					memcpy(&temparray[0], &m_array[0], sizeof(temparray[0]) * m_arraySize);
-					memcpy(&tempshadow[0], &m_shadow[0], sizeof(tempshadow[0]) * m_arraySize);
 				}
 
 				/* We may have lost more than one node. It's worth rebuilding over. */
@@ -170,10 +163,8 @@ namespace CrissCross
 				recount();
 
 				delete [] m_array;
-				delete [] m_shadow;
 
 				m_array = temparray;
-				m_shadow = tempshadow;
 			} else if (newsize == m_arraySize) {
 				/* Do nothing */
 			}
@@ -219,23 +210,24 @@ namespace CrissCross
 		size_t DArray <T>::insert(T const & newdata)
 		{
 			size_t freeslot = getNextFree();
-
 			m_array[freeslot] = newdata;
-			if (m_shadow[freeslot] == 0) m_numUsed++;
-
-			m_shadow[freeslot] = 1;
 			return freeslot;
 		}
 
 		template <class T>
 		void DArray <T>::insert(T const & newdata, size_t index)
 		{
-			while (index >= m_arraySize) grow();
-
+			while (index >= m_arraySize)
+				grow();
 			m_array[index] = newdata;
-			if (m_shadow[index] == 0) m_numUsed++;
-
-			m_shadow[index] = 1;
+			if (!m_shadow[index]) {
+				/* Nasty because we took an element that's on the empty
+				 * node stack somewhere. We have to rebuild the stack. :(
+				 */
+				m_shadow[index] = true;
+				m_numUsed++;
+				rebuildStack();
+			}
 		}
 
 		template <class T>
@@ -244,8 +236,8 @@ namespace CrissCross
 			delete [] m_array;
 			m_array = NULL;
 
-			delete [] m_shadow;
-			m_shadow = NULL;
+			m_shadow.resize(0);
+			m_shadow.clear();
 
 			m_emptyNodes->empty();
 			m_emptyNodes->push((size_t)-1);
@@ -260,13 +252,13 @@ namespace CrissCross
 			/* WARNING: This function assumes the node returned */
 			/*          will be used by the calling function. */
 
-			if (!m_shadow)
+			if (!m_array)
 				grow();
 
 			size_t freeslot = (size_t)-2;
 
 			while ((freeslot = m_emptyNodes->pop()) != (size_t)-1) {
-				if (m_shadow[freeslot] == 0)
+				if (!m_shadow[freeslot])
 					break;
 			}
 
@@ -276,10 +268,10 @@ namespace CrissCross
 				grow();
 			}
 
-			if (m_shadow[freeslot] == 0)
+			if (!m_shadow[freeslot])
 				m_numUsed++;
 
-			m_shadow[freeslot] = 1;
+			m_shadow[freeslot] = true;
 
 			return freeslot;
 		}
@@ -316,7 +308,6 @@ namespace CrissCross
 		{
 			size_t ret = sizeof(*this);
 			ret += m_arraySize * sizeof(T);
-			ret += m_arraySize * sizeof(char);
 			return ret;
 		}
 
@@ -328,9 +319,9 @@ namespace CrissCross
 
 			m_emptyNodes->push(index);
 
-			if (m_shadow[index] == 1) m_numUsed--;
+			m_numUsed--;
 
-			m_shadow[index] = 0;
+			m_shadow[index] = false;
 		}
 
 		template <class T>
@@ -347,6 +338,7 @@ namespace CrissCross
 		template <class T>
 		int DArray <T>::sort(Sorter<T> *_sortMethod)
 		{
+			size_t idx = 0;
 			int ret;
 
 			if (m_numUsed < 2)
@@ -359,16 +351,16 @@ namespace CrissCross
 
 			for (size_t i = 0; i < m_arraySize; i++) {
 				if (valid(i)) {
-					*temp_ptr = m_array[i];
-					temp_ptr++;
+					CoreAssert(idx < m_numUsed);
+					temp_array[idx++] = m_array[i];
 				}
 			}
 
 			ret = _sortMethod->Sort(temp_array, m_numUsed);
 
-			delete [] m_shadow;
-			m_shadow = new char[m_numUsed];
-			memset(m_shadow, 1, m_numUsed);
+			m_shadow.clear();
+			m_shadow.resize(0);
+			m_shadow.resize(m_numUsed, true);
 
 			delete [] m_array;
 			m_array = temp_array;
