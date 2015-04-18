@@ -26,9 +26,6 @@ namespace CrissCross
 		class DStack
 		{
 			private:
-				/*! \brief A read-write lock to prevent colliding pushes/pops, etc. */
-				mutable CrissCross::System::Mutex m_lock;
-
 				/*! \brief The step size for which to increase the stack size by. */
 				size_t m_stepSize;
 
