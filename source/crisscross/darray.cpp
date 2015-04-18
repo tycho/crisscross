@@ -26,10 +26,9 @@ namespace CrissCross
 		DArray <T>::DArray()
 		{
 			m_stepSize = -1;
-			m_numUsed = m_arraySize = 0;
+			m_numUsed = m_arraySize = m_insertPos = 0;
 			m_array = NULL;
 			m_emptyNodes = new DStack<size_t>;
-			m_emptyNodes->push((size_t)-1);
 		}
 
 		template <class T>
@@ -45,6 +44,7 @@ namespace CrissCross
 				m_shadow[i] = (m_array[i] != NULL) ? true : false;
 				if (m_shadow[i]) {
 					m_numUsed++;
+					m_insertPos = i + 1;
 				}
 			}
 
@@ -73,6 +73,7 @@ namespace CrissCross
 
 			m_arraySize = _array.m_arraySize;
 			m_stepSize = _array.m_stepSize;
+			m_insertPos = _array.m_insertPos;
 			m_emptyNodes = new DStack<size_t>;
 
 			rebuildStack();
@@ -86,10 +87,9 @@ namespace CrissCross
 			else
 				m_stepSize = _newStepSize;
 
-			m_numUsed = m_arraySize = 0;
+			m_numUsed = m_arraySize = m_insertPos = 0;
 			m_array = NULL;
 			m_emptyNodes = new DStack<size_t> (_newStepSize + 1);
-			m_emptyNodes->push((size_t)-1);
 		}
 
 		template <class T>
@@ -106,11 +106,10 @@ namespace CrissCross
 			/*  Reset free list */
 
 			m_emptyNodes->empty();
-			m_emptyNodes->push((size_t)-1);
 
 			/* Step through, rebuilding */
 
-			for (size_t i = m_arraySize - 1; (int)i >= 0; i--)
+			for (size_t i = m_insertPos - 1; (int)i >= 0; i--)
 				if (!m_shadow[i])
 					m_emptyNodes->push(i);
 		}
@@ -139,10 +138,6 @@ namespace CrissCross
 				}
 
 				memset(&temparray[oldarraysize], 0, sizeof(temparray[0]) * (m_arraySize - oldarraysize));
-
-				for (size_t a = m_arraySize - 1; (int)a >= (int)oldarraysize; a--) {
-					m_emptyNodes->push(a);
-				}
 
 				delete [] m_array;
 
@@ -215,6 +210,8 @@ namespace CrissCross
 		{
 			while (index >= m_arraySize)
 				grow();
+			if (index > m_insertPos)
+				m_insertPos = index + 1;
 			m_array[index] = newdata;
 			if (!m_shadow[index]) {
 				/* Nasty because we took an element that's on the empty
@@ -236,10 +233,10 @@ namespace CrissCross
 			m_shadow.clear();
 
 			m_emptyNodes->empty();
-			m_emptyNodes->push((size_t)-1);
 
 			m_arraySize = 0;
 			m_numUsed = 0;
+			m_insertPos = 0;
 		}
 
 		template <class T>
@@ -251,18 +248,20 @@ namespace CrissCross
 			if (!m_array)
 				grow();
 
-			size_t freeslot = (size_t)-2;
+			size_t freeslot = (size_t)-1;
 
-			while ((freeslot = m_emptyNodes->pop()) != (size_t)-1) {
+			while (m_emptyNodes->count()) {
+				freeslot = m_emptyNodes->pop();
 				if (!m_shadow[freeslot])
 					break;
+				freeslot = -1;
 			}
 
-			if (freeslot == (size_t)-1) {
-				m_emptyNodes->push((size_t)-1);
-				freeslot = m_arraySize;
+			if (freeslot == (size_t)-1)
+				freeslot = m_insertPos++;
+
+			while (freeslot >= m_arraySize)
 				grow();
-			}
 
 			if (!m_shadow[freeslot])
 				m_numUsed++;
@@ -361,7 +360,7 @@ namespace CrissCross
 			delete [] m_array;
 			m_array = temp_array;
 
-			m_arraySize = m_numUsed;
+			m_insertPos = m_arraySize = m_numUsed;
 
 			rebuildStack();
 			recount();

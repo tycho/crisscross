@@ -53,6 +53,9 @@ namespace CrissCross
 				/*! \brief The number of used items in the array. */
 				size_t m_numUsed;
 
+				/*! \brief The last linear insert position. */
+				size_t m_insertPos;
+
 				/*! \brief The actual array which stores our data. */
 				T *m_array;
 
