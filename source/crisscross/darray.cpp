@@ -174,13 +174,12 @@ namespace CrissCross
 		void DArray <T>::grow()
 		{
 			/* Most of the data types we store in DArrays will the system
-			 * pointer size. Try to keep our array approximately the size of
+			 * pointer size. Try to keep our array approximately a multiple of
 			 * a 4K page
 			 */
 			const size_t growthHeuristic = 4096 / sizeof(void *);
 
 			if (m_stepSize == -1) {
-				/* Double array size */
 				if (m_arraySize == 0) {
 					setSize(8);
 				} else if (m_arraySize <= growthHeuristic) {
