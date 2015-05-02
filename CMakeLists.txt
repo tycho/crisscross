@@ -1,7 +1,7 @@
-cmake_minimum_required (VERSION 2.4)
+cmake_minimum_required (VERSION 2.8.13)
 
 if(COMMAND cmake_policy)
-cmake_policy(VERSION 2.6)
+cmake_policy(VERSION 2.8.13)
 endif(COMMAND cmake_policy)
 
 project (CrissCross)
@@ -178,6 +178,5 @@ add_subdirectory (TestSuite)
 add_subdirectory (examples)
 
 IF(NOT MSVC)
-	get_target_property (tspath TestSuite LOCATION)
-	add_custom_target (check COMMAND ${tspath} DEPENDS TestSuite)
+	add_custom_target (check COMMAND $<TARGET_FILE:TestSuite> DEPENDS TestSuite)
 ENDIF(NOT MSVC)
