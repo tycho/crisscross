@@ -24,7 +24,7 @@ $releasever = <RELEASEVER>;
 close RELEASEVER;
 mkdir dirname($outfile);
 
-if (-d "$scriptpath/../.git" ) {
+if (-d "$scriptpath/../.git" || -f "$scriptpath/../.git") {
 	if ( !$Win32 && `which git` ) {
 		$in_git = 1;
 	} else {
