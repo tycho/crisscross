@@ -23,8 +23,6 @@ namespace CrissCross
 {
 	namespace Data
 	{
-		const unsigned qtMax = 7;
-
 		template <class T>
 		struct QtNode
 		{
@@ -37,19 +35,24 @@ namespace CrissCross
 			{ }
 		};
 
-		template <class T>
+		template <class T,
+		          int MaxDepth = 7,
+		          int MaxNodesPerLevel = 32>
 		class Quadtree
 		{
 		protected:
 			vec2 llPosition;
 			vec2 trPosition;
-			Quadtree<T>             * parent;
-			Quadtree<T>             * ll;
-			Quadtree<T>             * lr;
-			Quadtree<T>             * tl;
-			Quadtree<T>             * tr;
+			Quadtree<T, MaxDepth, MaxNodesPerLevel>             * parent;
+			Quadtree<T, MaxDepth, MaxNodesPerLevel>             * ll;
+			Quadtree<T, MaxDepth, MaxNodesPerLevel>             * lr;
+			Quadtree<T, MaxDepth, MaxNodesPerLevel>             * tl;
+			Quadtree<T, MaxDepth, MaxNodesPerLevel>             * tr;
 			int						descentLevel;
 			std::vector<QtNode<T>*>	nodes;
+
+			// Constructor for deeper levels
+			Quadtree(vec2 const &lower_left, vec2 const &upper_right, int _descentLevel, Quadtree<T, MaxDepth, MaxNodesPerLevel> *_parent);
 
 			static bool InRange(float lower_bound, float upper_bound, float point);
 			static bool CircleCollision(vec2 circle1, float radius1, vec2 circle2, float radius2);
@@ -57,29 +60,29 @@ namespace CrissCross
 			void Descend();
 			void Ascend();
 		public:
-			Quadtree(vec2 const &lower_left, vec2 const &upper_right, int _descentLevel = qtMax, Quadtree<T> * _parent = NULL);
+			Quadtree(vec2 const &lower_left, vec2 const &upper_right);
 			virtual ~Quadtree();
 			virtual void InsertObject(T const &_object, vec2 const &position, float _collisionRadius);
 			virtual bool RemoveObject(T const &_object, vec2 const &position, float _collisionRadius);
 			virtual void ObjectsInCircle(std::vector<T> &array, vec2 const &circle, float radius, size_t limit = (size_t)-1) const;
 		};
 
-		template <class T>
-		bool Quadtree<T>::InRange(float lower_bound, float upper_bound, float point)
+		template <class T, int MaxDepth, int MaxNodesPerLevel>
+		bool Quadtree<T, MaxDepth, MaxNodesPerLevel>::InRange(float lower_bound, float upper_bound, float point)
 		{
 			return point > lower_bound && point <= upper_bound;
 		}
 
-		template <class T>
-		bool Quadtree<T>::CircleCollision(vec2 circle1, float radius1, vec2 circle2, float radius2)
+		template <class T, int MaxDepth, int MaxNodesPerLevel>
+		bool Quadtree<T, MaxDepth, MaxNodesPerLevel>::CircleCollision(vec2 circle1, float radius1, vec2 circle2, float radius2)
 		{
 			float maximumDistanceSquared = (radius1 + radius2) * (radius1 + radius2);
 			float actualDistanceSquared = vec2::DistanceSquared(circle1, circle2);
 			return actualDistanceSquared <= maximumDistanceSquared;
 		}
 
-		template <class T>
-		void Quadtree<T>::ObjectsInCircle(std::vector<T> &array, vec2 const &circle, float radius, size_t limit) const
+		template <class T, int MaxDepth, int MaxNodesPerLevel>
+		void Quadtree<T, MaxDepth, MaxNodesPerLevel>::ObjectsInCircle(std::vector<T> &array, vec2 const &circle, float radius, size_t limit) const
 		{
 			if (array.size() >= limit) return;
 
@@ -146,8 +149,8 @@ namespace CrissCross
 			}
 		}
 
-		template <class T>
-		void Quadtree<T>::Descend()
+		template <class T, int MaxDepth, int MaxNodesPerLevel>
+		void Quadtree<T, MaxDepth, MaxNodesPerLevel>::Descend()
 		{
 			float	leftX = llPosition.X(),
 					rightX = trPosition.X(),
@@ -173,8 +176,8 @@ namespace CrissCross
 			}
 		}
 
-		template <class T>
-		void Quadtree<T>::Ascend()
+		template <class T, int MaxDepth, int MaxNodesPerLevel>
+		void Quadtree<T, MaxDepth, MaxNodesPerLevel>::Ascend()
 		{
 			if (ll)	{
 				delete ll; ll = NULL;
@@ -184,8 +187,8 @@ namespace CrissCross
 			}
 		}
 
-		template <class T>
-		bool Quadtree<T>::RemoveObject(T const &_object, vec2 const &_position, float radius)
+		template <class T, int MaxDepth, int MaxNodesPerLevel>
+		bool Quadtree<T, MaxDepth, MaxNodesPerLevel>::RemoveObject(T const &_object, vec2 const &_position, float radius)
 		{
 			/* find objects stored in this quadtree */
 			for (typename std::vector<QtNode<T>*>::iterator i = nodes.begin();
@@ -247,10 +250,10 @@ namespace CrissCross
 			return false;
 		}
 
-		template <class T>
-		void Quadtree<T>::InsertObject(T const &_object, vec2 const &_position, float radius)
+		template <class T, int MaxDepth, int MaxNodesPerLevel>
+		void Quadtree<T, MaxDepth, MaxNodesPerLevel>::InsertObject(T const &_object, vec2 const &_position, float radius)
 		{
-			if (nodes.size() < qtMax || descentLevel == 0) {
+			if (nodes.size() < MaxNodesPerLevel || descentLevel == 0) {
 				nodes.push_back(new QtNode<T>(_object, _position, radius));
 			} else {
 				if (!ll)
@@ -288,20 +291,34 @@ namespace CrissCross
 			}
 		}
 
-		template <class T>
-		Quadtree<T>::Quadtree(vec2 const &lower_left, vec2 const &upper_right, int _descentLevel, Quadtree<T> * _parent) : llPosition(lower_left),
-			trPosition(upper_right),
-			parent(_parent),
-			ll(NULL),
-			lr(NULL),
-			tl(NULL),
-			tr(NULL),
-			descentLevel(_descentLevel)
+		template <class T, int MaxDepth, int MaxNodesPerLevel>
+		Quadtree<T, MaxDepth, MaxNodesPerLevel>::Quadtree(vec2 const &lower_left, vec2 const &upper_right)
+		:   llPosition(lower_left),
+		    trPosition(upper_right),
+		    parent(NULL),
+		    ll(NULL),
+		    lr(NULL),
+		    tl(NULL),
+		    tr(NULL),
+		    descentLevel(MaxDepth)
 		{
 		}
 
-		template <class T>
-		Quadtree<T>::~Quadtree()
+		template <class T, int MaxDepth, int MaxNodesPerLevel>
+		Quadtree<T, MaxDepth, MaxNodesPerLevel>::Quadtree(vec2 const &lower_left, vec2 const &upper_right, int _descentLevel, Quadtree<T, MaxDepth, MaxNodesPerLevel> *_parent)
+		:   llPosition(lower_left),
+		    trPosition(upper_right),
+		    parent(_parent),
+		    ll(NULL),
+		    lr(NULL),
+		    tl(NULL),
+		    tr(NULL),
+		    descentLevel(_descentLevel)
+		{
+		}
+
+		template <class T, int MaxDepth, int MaxNodesPerLevel>
+		Quadtree<T, MaxDepth, MaxNodesPerLevel>::~Quadtree()
 		{
 			Ascend();
 
