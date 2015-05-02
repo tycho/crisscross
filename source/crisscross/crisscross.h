@@ -42,10 +42,6 @@
 #include <crisscross/console.h>
 #include <crisscross/filereader.h>
 #include <crisscross/filewriter.h>
-#include <crisscross/core_network.h>
-#include <crisscross/core_socket.h>
-#include <crisscross/tcpsocket.h>
-#include <crisscross/udpsocket.h>
 #include <crisscross/debug.h>
 #include <crisscross/mutex.h>
 #include <crisscross/stopwatch.h>

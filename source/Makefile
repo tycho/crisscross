@@ -32,8 +32,6 @@ HEADERS = \
 	crisscross/core_io.h \
 	crisscross/core_io_reader.h \
 	crisscross/core_io_writer.h \
-	crisscross/core_network.h \
-	crisscross/core_socket.h \
 	crisscross/crisscross.h \
 	crisscross/darray.cpp \
 	crisscross/darray.h \
@@ -78,9 +76,7 @@ HEADERS = \
 	crisscross/stree.h \
 	crisscross/string_utils.h \
 	crisscross/system.h \
-	crisscross/tcpsocket.h \
 	crisscross/tiger.h \
-	crisscross/udpsocket.h \
 	crisscross/vec2.h \
 	crisscross/version.h \
 	crisscross/zombiehunter.h
@@ -90,8 +86,6 @@ SOURCES = \
 	compare.cpp \
 	core_io_reader.cpp \
 	core_io_writer.cpp \
-	core_network.cpp \
-	core_socket.cpp \
 	debug.cpp \
 	error.cpp \
 	filereader.cpp \
@@ -106,9 +100,7 @@ SOURCES = \
 	stopwatch.cpp \
 	string_utils.cpp \
 	system.cpp \
-	tcpsocket.cpp \
 	tiger.cpp \
-	udpsocket.cpp \
 	universal_include.cpp \
 	version.cpp \
 	zombiehunter.cpp
