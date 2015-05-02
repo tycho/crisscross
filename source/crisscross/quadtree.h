@@ -41,7 +41,6 @@ namespace CrissCross
 		class Quadtree
 		{
 		protected:
-			mutable CrissCross::System::ReadWriteLock rwlock;
 			vec2 llPosition;
 			vec2 trPosition;
 			Quadtree<T>             * parent;
@@ -82,8 +81,6 @@ namespace CrissCross
 		template <class T>
 		void Quadtree<T>::ObjectsInCircle(std::vector<T> &array, vec2 const &circle, float radius, size_t limit) const
 		{
-			RWLockHolder rwlock_holder(&rwlock, RW_LOCK_READ);
-
 			if (array.size() >= limit) return;
 
 			/* find objects stored in this quadtree */
@@ -152,8 +149,6 @@ namespace CrissCross
 		template <class T>
 		void Quadtree<T>::Descend()
 		{
-			RWLockHolder rwlock_holder(&rwlock, RW_LOCK_WRITE);
-
 			float	leftX = llPosition.X(),
 					rightX = trPosition.X(),
 					topY = trPosition.Y(),
@@ -181,8 +176,6 @@ namespace CrissCross
 		template <class T>
 		void Quadtree<T>::Ascend()
 		{
-			RWLockHolder rwlock_holder(&rwlock, RW_LOCK_WRITE);
-
 			if (ll)	{
 				delete ll; ll = NULL;
 				delete lr; lr = NULL;
@@ -194,8 +187,6 @@ namespace CrissCross
 		template <class T>
 		bool Quadtree<T>::RemoveObject(T const &_object, vec2 const &_position, float radius)
 		{
-			RWLockHolder rwlock_holder(&rwlock, RW_LOCK_WRITE);
-
 			/* find objects stored in this quadtree */
 			for (typename std::vector<QtNode<T>*>::iterator i = nodes.begin();
 				 i != nodes.end();
@@ -259,8 +250,6 @@ namespace CrissCross
 		template <class T>
 		void Quadtree<T>::InsertObject(T const &_object, vec2 const &_position, float radius)
 		{
-			RWLockHolder rwlock_holder(&rwlock, RW_LOCK_WRITE);
-
 			if (nodes.size() < qtMax || descentLevel == 0) {
 				nodes.push_back(new QtNode<T>(_object, _position, radius));
 			} else {
