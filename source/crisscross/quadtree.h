@@ -112,41 +112,59 @@ namespace CrissCross
 					midY = (llPosition.Y() + trPosition.Y()) / 2.0f;
 
 			#ifdef _OPENMP
+			std::vector<T> v1, v2, v3, v4;
 			#pragma omp parallel sections
-			#endif
 			{
-				#ifdef _OPENMP
 				#pragma omp section
-				#endif
 				if (top > midY && left < midX) {
 					/* need to descend into top left quadtree */
-					tl->ObjectsInCircle(array, circle, radius);
+					tl->ObjectsInCircle(v1, circle, radius);
 				}
 
-				#ifdef _OPENMP
 				#pragma omp section
-				#endif
 				if (top > midY && right > midX)	{
 					/* top right quadtree */
-					tr->ObjectsInCircle(array, circle, radius);
+					tr->ObjectsInCircle(v2, circle, radius);
 				}
 
-				#ifdef _OPENMP
 				#pragma omp section
-				#endif
 				if (bottom < midY && right > midX) {
 					/* lower right quadtree */
-					lr->ObjectsInCircle(array, circle, radius);
+					lr->ObjectsInCircle(v3, circle, radius);
 				}
 
-				#ifdef _OPENMP
 				#pragma omp section
-				#endif
 				if (bottom < midY && left < midX) {
 					/* lower left quadtree */
-					ll->ObjectsInCircle(array, circle, radius);
+					ll->ObjectsInCircle(v4, circle, radius);
 				}
 			}
+			/* Merge the resulting vectors. */
+			array.insert(array.end(), v1.begin(), v1.end());
+			array.insert(array.end(), v2.begin(), v2.end());
+			array.insert(array.end(), v3.begin(), v3.end());
+			array.insert(array.end(), v4.begin(), v4.end());
+			#else
+			if (top > midY && left < midX) {
+				/* need to descend into top left quadtree */
+				tl->ObjectsInCircle(array, circle, radius);
+			}
+
+			if (top > midY && right > midX)	{
+				/* top right quadtree */
+				tr->ObjectsInCircle(array, circle, radius);
+			}
+
+			if (bottom < midY && right > midX) {
+				/* lower right quadtree */
+				lr->ObjectsInCircle(array, circle, radius);
+			}
+
+			if (bottom < midY && left < midX) {
+				/* lower left quadtree */
+				ll->ObjectsInCircle(array, circle, radius);
+			}
+			#endif
 		}
 
 		template <class T, int MaxDepth, int MaxNodesPerLevel>
