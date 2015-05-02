@@ -44,15 +44,8 @@ void rijndaelSpeed(int keyBits)
 
 	sw.Stop();
 	sec = sw.Elapsed();
-	/*
-	 * The format string ends before the 2 bytes are printed,
-	 * but this is intentional. It's just to ensure that
-	 * the compiler doesn't optimize out the function calls
-	 * during the loop above (i.e. the end result "is" used)
-	 */
 	printf("Encryption:\t\t\t%.1f s, %.0f MB/s\n",
-	       sec, (double)ITERATIONS * 128.0 / sec / 1048576.0,
-	       pt[0], ct[1]);
+	       sec, (double)ITERATIONS * 128.0 / sec / 1048576.0);
 
 	/*
 	 * Decryption key setup timing:
@@ -77,11 +70,6 @@ void rijndaelSpeed(int keyBits)
 
 	sw.Stop();
 	sec = sw.Elapsed();
-	/*
-	 * The format string ends before the 2 bytes are printed,
-	 * but this is intentional. See above explanation.
-	 */
 	printf("Decryption:\t\t\t%.1f s, %.0f MB/s\n\n",
-	       sec, (double)ITERATIONS * 128.0 / sec / 1048576.0,
-	       pt[0], ct[1]);
+	       sec, (double)ITERATIONS * 128.0 / sec / 1048576.0);
 }
