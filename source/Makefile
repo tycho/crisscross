@@ -9,11 +9,12 @@ ifndef V
 endif
 endif
 
-LIB    = libCrissCross.a
-AR    ?= ar rcu
-CXX   ?= g++
-RANLIB?= ranlib
-RM    ?= rm -f
+LIB      = libCrissCross.a
+AR      ?= ar
+ARFLAGS ?= rcu
+CXX     ?= g++
+RANLIB  ?= ranlib
+RM      ?= rm -f
 
 uname_S := $(shell sh -c 'uname -s 2>/dev/null || echo not')
 
@@ -150,7 +151,7 @@ clean:
 distclean: clean
 
 $(LIB): $(OBJECTS)
-	$(QUIET_AR)$(AR) $@ $^
+	$(QUIET_AR)$(AR) $(ARFLAGS) $@ $^
 	$(QUIET_RANLIB)$(RANLIB) $@
 
 %.o: %.cpp .cflags
