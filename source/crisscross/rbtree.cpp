@@ -26,7 +26,11 @@ namespace CrissCross
 		template <class Key, class Data>
 		RedBlackTree<Key, Data>::RedBlackTree()
 		{
-			rootNode = NULL;
+			nullNode = new RedBlackNode<Key, Data>();
+			nullNode->left = nullNode->right = nullNode->parent = nullNode;
+			nullNode->color = BLACK;
+			memset(&nullNode->id, 0, sizeof(nullNode->id));
+			rootNode = nullNode;
 			m_cachedSize = 0;
 		}
 
@@ -34,6 +38,8 @@ namespace CrissCross
 		RedBlackTree<Key, Data>::~RedBlackTree()
 		{
 			killAll();
+			nullNode->right = nullNode->left = NULL;
+			delete nullNode;
 		}
 
 		template <class Key, class Data>
@@ -162,7 +168,7 @@ namespace CrissCross
 		template <class Key, class Data>
 		bool RedBlackTree<Key, Data>::insert(Key const &key, Data const & rec)
 		{
-			RedBlackNode<Key, Data> *current, *parent = NULL, *x = NULL;
+			RedBlackNode<Key, Data> *current, *parent = nullNode, *x = nullNode;
 
 			/* find future parent */
 			current = rootNode;
@@ -183,8 +189,8 @@ namespace CrissCross
 			}
 
 			x->parent = parent;
-			x->left = NULL;
-			x->right = NULL;
+			x->left = nullNode;
+			x->right = nullNode;
 			x->color = RED;
 			x->id = Duplicate(key);
 			x->data = rec;
@@ -289,7 +295,7 @@ namespace CrissCross
 				}
 			}
 
-			if (z == NULL) {
+			if (z == nullNode) {
 				return false;
 			}
 
@@ -411,9 +417,9 @@ namespace CrissCross
 
 			if (valid(rec->parent)) {                /* We're not root. */
 				if (rec->parent->left == rec)
-					rec->parent->left = NULL;
+					rec->parent->left = nullNode;
 				else
-					rec->parent->right = NULL;
+					rec->parent->right = nullNode;
 			}
 
 			Dealloc(rec->id);
@@ -426,7 +432,7 @@ namespace CrissCross
 		void RedBlackTree<Key, Data>::killAll()
 		{
 			killAll(rootNode);
-			rootNode = NULL;
+			rootNode = nullNode;
 			m_cachedSize = 0;
 		}
 

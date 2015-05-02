@@ -53,6 +53,9 @@ namespace CrissCross
 				/*! \brief The root node at the top of the tree. */
 				RedBlackNode<Key, Data> *rootNode;
 
+				/*! \brief The "null" node. Added so we don't need special cases to check for null pointers. */
+				RedBlackNode<Key, Data> *nullNode;
+
 				/*! \brief The cached size() return value. Changes on each tree modification (insertions and deletions). */
 				size_t m_cachedSize;
 
@@ -78,7 +81,7 @@ namespace CrissCross
 				 */
 				inline bool valid(const RedBlackNode<Key, Data> *_node) const
 				{
-					return _node != NULL;
+					return (_node != NULL && _node != nullNode);
 				}
 
 			public:
