@@ -647,8 +647,8 @@ namespace
 		 * win, although the amount it wins by seems to vary quite a bit.
 		 */
 	
-		register uint32_t x_0, x_1, x_2, x_3, x_4, x_5, x_6, x_7;
-		register uint32_t x_8, x_9, x_10, x_11, x_12, x_13, x_14, x_15;
+		uint32_t x_0, x_1, x_2, x_3, x_4, x_5, x_6, x_7;
+		uint32_t x_8, x_9, x_10, x_11, x_12, x_13, x_14, x_15;
 #ifdef sun4v
 		uint64_t *md5_consts64;
 	
