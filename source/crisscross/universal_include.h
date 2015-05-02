@@ -4,7 +4,7 @@
  *
  *   A product of Uplink Laboratories.
  *
- *   (c) 2006-2010 Steven Noonan.
+ *   (c) 2006-2015 Steven Noonan.
  *   Licensed under the New BSD License.
  *
  */
@@ -18,19 +18,8 @@
 
 #define CC_LIB_NAME                "CrissCross"
 
-/* #  define CC_LIB_CODENAME            "Technetium"    // v0.1.0 codename */
-/* #  define CC_LIB_CODENAME            "Freya"         // v0.2.0 codename */
-/* #  define CC_LIB_CODENAME            "Hodur"         // v0.3.0 codename */
-/* #  define CC_LIB_CODENAME            "Baldur"        // v0.4.0 codename */
-/* #  define CC_LIB_CODENAME            "Loki"          // v0.5.0 codename */
-/* #  define CC_LIB_CODENAME            "Ragnarok"      // v0.6.0 codename */
-#define CC_LIB_CODENAME            "Heimdall"      /* v0.7.0 codename */
-/* #  define CC_LIB_CODENAME            "Odin"          // v0.8.0 codename */
-/* #  define CC_LIB_CODENAME            "Thor"          // v0.9.0 codename */
-/* #  define CC_LIB_CODENAME            "Valhalla"      // v1.0.0 codename */
-
 #define CC_LIB_URL                 "http://www.uplinklabs.net/crisscross/"
-#define CC_LIB_COPYRIGHT           "(c) 2006-2010 by Uplink Laboratories. Licensed under the New BSD License."
+#define CC_LIB_COPYRIGHT           "(c) 2006-2015 by Uplink Laboratories. Licensed under the New BSD License."
 #define CC_LIB_NDS_COPYRIGHT       "(c) by Uplink Laboratories.\nLicensed under the BSD License."
 
 /* #define DISABLE_DEPRECATED_CODE */ /* This will be enabled by default in a future release */
