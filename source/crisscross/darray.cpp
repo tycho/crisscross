@@ -210,7 +210,7 @@ namespace CrissCross
 		{
 			while (index >= m_arraySize)
 				grow();
-			if (index > m_insertPos)
+			if (index + 1 > m_insertPos)
 				m_insertPos = index + 1;
 			m_array[index] = newdata;
 			if (!m_shadow[index]) {
