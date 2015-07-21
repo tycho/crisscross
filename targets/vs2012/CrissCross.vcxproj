@@ -178,8 +178,6 @@ tools\gen_buildnum_h_helper.cmd $(ProjectDir)\..\..
     <ClCompile Include="..\..\source\console.cpp" />
     <ClCompile Include="..\..\source\core_io_reader.cpp" />
     <ClCompile Include="..\..\source\core_io_writer.cpp" />
-    <ClCompile Include="..\..\source\core_network.cpp" />
-    <ClCompile Include="..\..\source\core_socket.cpp" />
     <ClCompile Include="..\..\source\debug.cpp" />
     <ClCompile Include="..\..\source\error.cpp" />
     <ClCompile Include="..\..\source\filereader.cpp" />
@@ -194,9 +192,7 @@ tools\gen_buildnum_h_helper.cmd $(ProjectDir)\..\..
     <ClCompile Include="..\..\source\stopwatch.cpp" />
     <ClCompile Include="..\..\source\string_utils.cpp" />
     <ClCompile Include="..\..\source\system.cpp" />
-    <ClCompile Include="..\..\source\tcpsocket.cpp" />
     <ClCompile Include="..\..\source\tiger.cpp" />
-    <ClCompile Include="..\..\source\udpsocket.cpp" />
     <ClCompile Include="..\..\source\universal_include.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -256,8 +252,6 @@ tools\gen_buildnum_h_helper.cmd $(ProjectDir)\..\..
     <ClInclude Include="..\..\source\crisscross\core_io.h" />
     <ClInclude Include="..\..\source\crisscross\core_io_reader.h" />
     <ClInclude Include="..\..\source\crisscross\core_io_writer.h" />
-    <ClInclude Include="..\..\source\crisscross\core_network.h" />
-    <ClInclude Include="..\..\source\crisscross\core_socket.h" />
     <ClInclude Include="..\..\source\crisscross\crisscross.h" />
     <ClInclude Include="..\..\source\crisscross\darray.h" />
     <ClInclude Include="..\..\source\crisscross\datatypes.h" />
@@ -289,9 +283,7 @@ tools\gen_buildnum_h_helper.cmd $(ProjectDir)\..\..
     <ClInclude Include="..\..\source\crisscross\stltree.h" />
     <ClInclude Include="..\..\source\crisscross\stopwatch.h" />
     <ClInclude Include="..\..\source\crisscross\system.h" />
-    <ClInclude Include="..\..\source\crisscross\tcpsocket.h" />
     <ClInclude Include="..\..\source\crisscross\tiger.h" />
-    <ClInclude Include="..\..\source\crisscross\udpsocket.h" />
     <ClInclude Include="..\..\source\crisscross\universal_include.h" />
     <ClInclude Include="..\..\source\crisscross\version.h" />
   </ItemGroup>

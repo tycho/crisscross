@@ -43,8 +43,6 @@
 		<Unit filename="../../source/console.cpp" />
 		<Unit filename="../../source/core_io_reader.cpp" />
 		<Unit filename="../../source/core_io_writer.cpp" />
-		<Unit filename="../../source/core_network.cpp" />
-		<Unit filename="../../source/core_socket.cpp" />
 		<Unit filename="../../source/crisscross/avltree.h" />
 		<Unit filename="../../source/crisscross/build_number.h" />
 		<Unit filename="../../source/crisscross/combsort.h" />
@@ -53,8 +51,6 @@
 		<Unit filename="../../source/crisscross/core_io.h" />
 		<Unit filename="../../source/crisscross/core_io_reader.h" />
 		<Unit filename="../../source/crisscross/core_io_writer.h" />
-		<Unit filename="../../source/crisscross/core_network.h" />
-		<Unit filename="../../source/crisscross/core_socket.h" />
 		<Unit filename="../../source/crisscross/crisscross.h" />
 		<Unit filename="../../source/crisscross/darray.h" />
 		<Unit filename="../../source/crisscross/datatypes.h" />
@@ -88,9 +84,7 @@
 		<Unit filename="../../source/crisscross/stltree.h" />
 		<Unit filename="../../source/crisscross/stopwatch.h" />
 		<Unit filename="../../source/crisscross/system.h" />
-		<Unit filename="../../source/crisscross/tcpsocket.h" />
 		<Unit filename="../../source/crisscross/tiger.h" />
-		<Unit filename="../../source/crisscross/udpsocket.h" />
 		<Unit filename="../../source/crisscross/universal_include.h" />
 		<Unit filename="../../source/crisscross/vec2.h" />
 		<Unit filename="../../source/crisscross/version.h" />
@@ -108,9 +102,7 @@
 		<Unit filename="../../source/sha512.cpp" />
 		<Unit filename="../../source/stopwatch.cpp" />
 		<Unit filename="../../source/system.cpp" />
-		<Unit filename="../../source/tcpsocket.cpp" />
 		<Unit filename="../../source/tiger.cpp" />
-		<Unit filename="../../source/udpsocket.cpp" />
 		<Unit filename="../../source/universal_include.cpp" />
 		<Unit filename="../../source/version.cpp" />
 		<Unit filename="../../source/zombiehunter.cpp" />

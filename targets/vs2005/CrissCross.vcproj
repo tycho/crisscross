@@ -280,14 +280,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\source\core_network.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\source\core_socket.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\source\debug.cpp"
 				>
 			</File>
@@ -344,15 +336,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\source\tcpsocket.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\source\tiger.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\source\udpsocket.cpp"
 				>
 			</File>
 			<File
@@ -465,14 +449,6 @@
 			</File>
 			<File
 				RelativePath="..\..\source\crisscross\core_io_writer.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\source\crisscross\core_network.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\source\crisscross\core_socket.h"
 				>
 			</File>
 			<File
@@ -816,15 +792,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\source\crisscross\tcpsocket.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\source\crisscross\tiger.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\source\crisscross\udpsocket.h"
 				>
 			</File>
 			<File
