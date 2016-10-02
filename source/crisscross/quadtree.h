@@ -197,12 +197,17 @@ namespace CrissCross
 		template <class T, int MaxDepth, int MaxNodesPerLevel>
 		void Quadtree<T, MaxDepth, MaxNodesPerLevel>::Ascend()
 		{
-			if (ll)	{
-				delete ll; ll = NULL;
-				delete lr; lr = NULL;
-				delete tl; tl = NULL;
-				delete tr; tr = NULL;
-			}
+			if (!ll)
+				return;
+			if (ll->nodes.size() != 0 ||
+			    lr->nodes.size() != 0 ||
+				tl->nodes.size() != 0 ||
+				tr->nodes.size() != 0)
+				return;
+			delete ll; ll = NULL;
+			delete lr; lr = NULL;
+			delete tl; tl = NULL;
+			delete tr; tr = NULL;
 		}
 
 		template <class T, int MaxDepth, int MaxNodesPerLevel>
@@ -218,15 +223,6 @@ namespace CrissCross
 					if (node->data == _object) {
 						nodes.erase(i);
 						delete node;
-						/* check for ascension */
-						if (parent) {
-							if (parent->ll->nodes.size() == 0 &&
-							    parent->lr->nodes.size() == 0 &&
-							    parent->tr->nodes.size() == 0 &&
-							    parent->tl->nodes.size() == 0) {
-								parent->Ascend();
-							}
-						}
 						return true;
 					}
 				}
@@ -247,23 +243,31 @@ namespace CrissCross
 
 			if (top > midY && left < midX) {
 				/* need to descend into top left quadtree */
-				if ( tl->RemoveObject(_object, _position, radius) )
+				if ( tl->RemoveObject(_object, _position, radius) ) {
+					Ascend();
 					return true;
+				}
 			}
 			if (top > midY && right > midX)	{
 				/* top right quadtree */
-				if ( tr->RemoveObject(_object, _position, radius) )
+				if ( tr->RemoveObject(_object, _position, radius) ) {
+					Ascend();
 					return true;
+				}
 			}
 			if (bottom < midY && right > midX) {
 				/* lower right quadtree */
-				if ( lr->RemoveObject(_object, _position, radius) )
+				if ( lr->RemoveObject(_object, _position, radius) ) {
+					Ascend();
 					return true;
+				}
 			}
 			if (bottom < midY && left < midX) {
 				/* lower left quadtree */
-				if ( ll->RemoveObject(_object, _position, radius) )
+				if ( ll->RemoveObject(_object, _position, radius) ) {
+					Ascend();
 					return true;
+				}
 			}
 			return false;
 		}
