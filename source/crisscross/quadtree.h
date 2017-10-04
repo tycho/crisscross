@@ -342,8 +342,10 @@ namespace CrissCross
 		template <class T, int MaxDepth, int MaxNodesPerLevel>
 		Quadtree<T, MaxDepth, MaxNodesPerLevel>::~Quadtree()
 		{
-			Ascend();
-
+			delete ll; ll = NULL;
+			delete lr; lr = NULL;
+			delete tl; tl = NULL;
+			delete tr; tr = NULL;
 			for (typename std::vector<QtNode<T>*>::iterator i = nodes.begin();
 				 i != nodes.end();
 				 i++)
