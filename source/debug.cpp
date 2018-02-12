@@ -18,7 +18,20 @@
 #include <cstring>
 
 #if defined (TARGET_OS_LINUX) || defined (TARGET_OS_MACOSX) || defined (TARGET_OS_FREEBSD) || defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD)
+#if !defined(TARGET_COMPILER_CLANG)
 #include <cxxabi.h>
+#else
+namespace __cxxabiv1
+{
+	extern "C"
+	{
+		char*
+		__cxa_demangle(const char* __mangled_name, char* __output_buffer,
+					   size_t* __length, int* __status);
+	}
+}
+namespace abi = __cxxabiv1;
+#endif
 #if defined(TARGET_OS_LINUX) && !defined(TARGET_COMPILER_CYGWIN)
 #include <execinfo.h>
 #endif
