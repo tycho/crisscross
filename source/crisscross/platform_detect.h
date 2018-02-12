@@ -50,6 +50,8 @@
  *  Visual C++
  * TARGET_COMPILER_ICC
  *  Intel C++ Compiler
+ * TARGET_COMPILER_CLANG
+ *  LLVM/Clang compiler
  *
  * TARGET_BIG_ENDIAN
  *      Running on a big endian byte order architecture.
@@ -150,6 +152,9 @@
 #if defined (__GNUC__)
 #define COMPILER_DETECTED
 #define TARGET_COMPILER_GCC
+#endif
+#if defined (__clang__)
+#define TARGET_COMPILER_CLANG
 #endif
 #if defined (__CYGWIN__) || defined (__CYGWIN32__)
 #define TARGET_COMPILER_CYGWIN
