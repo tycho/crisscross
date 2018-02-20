@@ -138,7 +138,7 @@ $(libdir)/%.a: %.a
 install: $(HEADERS_INST) $(libdir)/$(LIB)
 
 clean:
-	$(RM) $(OBJECTS) crisscross/build_number.h $(LIB) .cflags
+	$(RM) $(OBJECTS) build_number.h $(LIB) .cflags
 
 distclean: clean
 
@@ -149,10 +149,10 @@ $(LIB): $(OBJECTS)
 %.o: %.cpp .cflags
 	$(QUIET_CXX)$(CXX) $(CFLAGS) -o $@ -c $<
 
-crisscross/build_number.h:
-	$(QUIET_GEN)../tools/gen_buildnum_h.pl crisscross/build_number.h
+build_number.h:
+	$(QUIET_GEN)../tools/gen_buildnum_h.pl build_number.h
 
-version.cpp: crisscross/build_number.h
+version.cpp: build_number.h
 
 TRACK_CFLAGS = $(subst ','\'',$(CXX) $(CFLAGS))
 

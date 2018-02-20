@@ -11,7 +11,7 @@
 
 #include <crisscross/universal_include.h>
 
-#include <crisscross/build_number.h>
+#include "build_number.h"
 #include <crisscross/version.h>
 
 namespace CrissCross

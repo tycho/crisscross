@@ -24,10 +24,16 @@ sources = [
   'source/version.cpp',
   'source/zombiehunter.cpp',
 ]
-incdirs = include_directories('source')
+incdirs = include_directories('source', '.')
+
+gen_buildnum_h = custom_target('build_number.h',
+                               input: [],
+                               output: ['build_number.h'],
+                               command: [join_paths(meson.current_source_dir(), 'tools', 'gen_buildnum_h.pl'), '@OUTPUT@'])
 
 lib = static_library(
   'crisscross',
+  gen_buildnum_h,
   sources,
   include_directories: incdirs
 )
@@ -35,3 +41,5 @@ lib = static_library(
 crisscross_dep = declare_dependency(
   include_directories: incdirs,
   link_with: lib)
+
+# vim: set ts=4 sts=4 sw=4 et:
