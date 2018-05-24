@@ -101,14 +101,22 @@ namespace CrissCross
 		}
 
 		template <class T>
+		void DArray <T>::disableFreeList()
+		{
+			delete m_emptyNodes;
+			m_emptyNodes = NULL;
+		}
+
+		template <class T>
 		void DArray <T>::rebuildStack()
 		{
-			/*  Reset free list */
+			if (!m_emptyNodes)
+				return;
 
-			m_emptyNodes->empty();
+			/*  Reset free list */
+			m_emptyNodes->empty(false);
 
 			/* Step through, rebuilding */
-
 			for (size_t i = m_insertPos - 1; (int)i >= 0; i--)
 				if (!m_shadow[i])
 					m_emptyNodes->push(i);
@@ -224,19 +232,23 @@ namespace CrissCross
 		}
 
 		template <class T>
-		void DArray <T>::empty()
+		void DArray <T>::empty(bool _freeMemory)
 		{
-			delete [] m_array;
-			m_array = NULL;
-
-			m_shadow.resize(0);
 			m_shadow.clear();
 
-			m_emptyNodes->empty();
-
-			m_arraySize = 0;
 			m_numUsed = 0;
 			m_insertPos = 0;
+
+			if (_freeMemory) {
+				if (m_emptyNodes)
+					m_emptyNodes->empty();
+				m_shadow.resize(0);
+				delete [] m_array;
+				m_array = NULL;
+				m_arraySize = 0;
+			} else {
+				rebuildStack();
+			}
 		}
 
 		template <class T>
@@ -250,7 +262,7 @@ namespace CrissCross
 
 			size_t freeslot = (size_t)-1;
 
-			while (m_emptyNodes->count()) {
+			while (m_emptyNodes && m_emptyNodes->count()) {
 				freeslot = m_emptyNodes->pop();
 				if (!m_shadow[freeslot])
 					break;
@@ -312,7 +324,8 @@ namespace CrissCross
 			CoreAssert(index < m_arraySize);
 			CoreAssert(m_shadow[index]);
 
-			m_emptyNodes->push(index);
+			if (m_emptyNodes)
+				m_emptyNodes->push(index);
 
 			m_numUsed--;
 

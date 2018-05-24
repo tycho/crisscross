@@ -106,11 +106,15 @@ namespace CrissCross
 		}
 
 		template <class T>
-		void DStack<T>::empty()
+		void DStack<T>::empty(bool _freeMemory)
 		{
-			delete [] m_bottom;
-			m_top = m_bottom = NULL;
-			m_size = 0;
+			if (_freeMemory) {
+				delete [] m_bottom;
+				m_top = m_bottom = NULL;
+				m_size = 0;
+			} else {
+				m_top = m_bottom;
+			}
 		}
 	}
 }

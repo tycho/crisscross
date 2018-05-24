@@ -85,7 +85,7 @@ namespace CrissCross
 				/*!
 				 *  If pointers are stored in the stack, they must be freed manually via a series of pop() and delete or free() calls.
 				 */
-				void empty();
+				void empty(bool _freeMemory = true);
 		};
 	}
 }

@@ -104,6 +104,9 @@ namespace CrissCross
 				/*! \brief The destructor. */
 				~DArray();
 
+				/*! \brief Disables free list tracking. */
+				void disableFreeList();
+
 				/*! \brief Sets the size of the array. */
 				/*!
 				 * \param _newsize The new array size.
@@ -193,7 +196,7 @@ namespace CrissCross
 				/*!
 				 *  The array must be iterated through and any pointers must be freed manually before calling this.
 				 */
-				void empty();
+				void empty(bool _freeMemory = true);
 
 				/*! \brief Sorts the array using the provided method. */
 				/*!
