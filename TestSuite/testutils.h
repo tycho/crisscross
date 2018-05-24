@@ -17,7 +17,7 @@
 
 extern CrissCross::IO::Console *g_console;
 
-//#define VERBOSE
+#define VERBOSE
 
 #ifdef VERBOSE
 #define TEST_ASSERT(condition) \
