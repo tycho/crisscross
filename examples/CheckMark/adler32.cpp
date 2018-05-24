@@ -120,7 +120,7 @@ unsigned long adler32(unsigned long adler, const char *buf, size_t len)
 	}
 
 	/* initial Adler-32 value (deferred check for len == 1 speed) */
-	if (buf == '\0')
+	if (*buf == '\0')
 		return 1L;
 
 	/* in case short lengths are provided, keep it somewhat fast */
