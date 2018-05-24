@@ -262,8 +262,8 @@ void CrissCross::Debug::PrintStackTrace(CrissCross::IO::CoreIOWriter * _outputBu
 		char *identifier = ::strchr(strings[i], '(');
 		char *identifier_end = ::strchr(strings[i], '+');
 		char *address = ::strchr(strings[i], '[');
+		bt += address;
 		if (identifier != 0 && identifier_end != 0 && identifier < identifier_end) {
-			bt += address;
 			bt += " ";
 			*identifier_end = '\0';
 			char * realname = abi::__cxa_demangle(identifier + 1, 0, 0, &status);
