@@ -26,21 +26,23 @@ int TestLList()
 	TEST_ASSERT(!llist->valid(1));
 	TEST_ASSERT(!llist->valid(0));
 
+	// three -> one -> two -> four
 	llist->insert(newStr("one"));
 	llist->insert(newStr("two"));
-	llist->insert(newStr("three"));
-	llist->insert(newStr("four"));
+	llist->insert_front(newStr("three"));
+	llist->insert_back(newStr("four"));
 
-	TEST_ASSERT(strcmp(llist->get(0), "one") == 0);
-	TEST_ASSERT(strcmp(llist->get(2), "three") == 0);
+	TEST_ASSERT(strcmp(llist->get(0), "three") == 0);
 	TEST_ASSERT(strcmp(llist->get(3), "four") == 0);
-	TEST_ASSERT(strcmp(llist->get(1), "two") == 0);
+	TEST_ASSERT(strcmp(llist->get(1), "one") == 0);
+	TEST_ASSERT(strcmp(llist->get(2), "two") == 0);
 
+	// three -> two -> four
 	delete [] llist->get(1);
 	llist->remove(1);
 
-	TEST_ASSERT(strcmp(llist->get(0), "one") == 0);
-	TEST_ASSERT(strcmp(llist->get(1), "three") == 0);
+	TEST_ASSERT(strcmp(llist->get(0), "three") == 0);
+	TEST_ASSERT(strcmp(llist->get(1), "two") == 0);
 	TEST_ASSERT(strcmp(llist->get(2), "four") == 0);
 
 	while (llist->valid(0))	{
