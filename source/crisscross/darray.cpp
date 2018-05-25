@@ -142,10 +142,11 @@ namespace CrissCross
 				T *temparray = new T[m_arraySize];
 
 				if (m_array) {
-					memcpy(&temparray[0], &m_array[0], sizeof(temparray[0]) * oldarraysize);
+					for(size_t i = 0; i < oldarraysize; i++)
+					{
+						temparray[i] = m_array[i];
+					}
 				}
-
-				memset(&temparray[oldarraysize], 0, sizeof(temparray[0]) * (m_arraySize - oldarraysize));
 
 				delete [] m_array;
 
@@ -155,7 +156,10 @@ namespace CrissCross
 				T *temparray = new T[m_arraySize];
 
 				if (m_array) {
-					memcpy(&temparray[0], &m_array[0], sizeof(temparray[0]) * m_arraySize);
+					for(size_t i = 0; i < m_arraySize; i++)
+					{
+						temparray[i] = m_array[i];
+					}
 				}
 
 				/* We may have lost more than one node. It's worth rebuilding over. */
