@@ -63,7 +63,9 @@ namespace CrissCross
 				size_t m_size;
 
 				void RecursiveConvertIndexToDArray(DArray <Key> *_darray, SplayNode<Key, Data> *_btree) const;
-				void RecursiveConvertToDArray(DArray <Data> *_darray, SplayNode<Key, Data> *_btree) const;
+
+				template <class TypedData>
+				void RecursiveConvertToDArray(DArray <TypedData> *_darray, SplayNode<Key, Data> *_btree) const;
 
 				bool erase(Key const &key, Data const &rec, SplayNode<Key, Data> *curnode);
 
@@ -115,7 +117,8 @@ namespace CrissCross
 				 * \param _default The value to return if the item couldn't be found.
 				 * \return If found, returns the data at the node, otherwise _default is returned.
 				 */
-				Data find(Key const &_key, Data const &_default = NULL) const;
+				template <class TypedData = Data>
+				TypedData find(Key const &_key, TypedData const &_default = nullptr) const;
 
 				/*! \brief Deletes a node from the tree, specified by the node's key. */
 				/*!
@@ -139,7 +142,8 @@ namespace CrissCross
 				 * \return A DArray containing the data of the tree.
 				 * \warning Delete the returned DArray when done with it.
 				 */
-				DArray <Data> *ConvertToDArray() const;
+				template <class TypedData = Data>
+				DArray <TypedData> *ConvertToDArray() const;
 
 				/*! \brief Converts the tree keys into a linearized DArray. */
 				/*!

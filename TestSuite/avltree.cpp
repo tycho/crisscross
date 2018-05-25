@@ -143,7 +143,7 @@ int TestAVLTree_String()
 		val.clear();
 		TEST_ASSERT(val.length() == 0);
 		TEST_ASSERT(avltree->exists(strings[i]));
-		TEST_ASSERT((val = avltree->find(strings[i], "")) != std::string(""));
+		TEST_ASSERT((val = avltree->find<std::string>(strings[i], "")) != std::string(""));
 		TEST_ASSERT(val.length() > 0);
 		TEST_ASSERT(Compare(val, strings[(TREE_ITEMS - 1) - i]) == 0);
 	}

@@ -151,14 +151,15 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		Data STree<Key, Data>::find(Key const &_key, Data const &_default) const
+		template <class TypedData>
+		TypedData STree<Key, Data>::find(Key const &_key, TypedData const &_default) const
 		{
 			SNode<Key, Data> *p_current = findNode(_key);
 
 			if (!p_current)
 				return _default;
 
-			return p_current->data;
+			return (TypedData)(p_current->data);
 		}
 
 		template <class Key, class Data>
@@ -180,9 +181,10 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		DArray<Data> *STree<Key, Data>::ConvertToDArray() const
+		template <class TypedData>
+		DArray<TypedData> *STree<Key, Data>::ConvertToDArray() const
 		{
-			DArray<Data> *darray = new DArray<Data> ((int)m_size);
+			DArray<TypedData> *darray = new DArray<TypedData> ((int)m_size);
 			RecursiveConvertToDArray(darray, m_root);
 			return darray;
 		}
@@ -196,12 +198,13 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		void STree<Key, Data>::RecursiveConvertToDArray(DArray<Data> *darray, SNode<Key, Data> *btree) const
+		template <class TypedData>
+		void STree<Key, Data>::RecursiveConvertToDArray(DArray<TypedData> *darray, SNode<Key, Data> *btree) const
 		{
 			if (!btree) return;
 
 			RecursiveConvertToDArray(darray, btree->left);
-			darray->insert(btree->data);
+			darray->insert((TypedData)(btree->data));
 			RecursiveConvertToDArray(darray, btree->right);
 		}
 

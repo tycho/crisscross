@@ -145,7 +145,7 @@ int TestSTLTree_String()
 		val.clear();
 		TEST_ASSERT(val.length() == 0);
 		TEST_ASSERT(stltree->exists(strings[i]));
-		TEST_ASSERT((val = stltree->find(strings[i], "")) != std::string(""));
+		TEST_ASSERT((val = stltree->find<std::string>(strings[i], "")) != std::string(""));
 		TEST_ASSERT(val.length() > 0);
 		TEST_ASSERT(Compare(val, strings[(TREE_ITEMS - 1) - i]) == 0);
 	}

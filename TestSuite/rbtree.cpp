@@ -143,7 +143,7 @@ int TestRedBlackTree_String()
 		val.clear();
 		TEST_ASSERT(val.length() == 0);
 		TEST_ASSERT(rbtree->exists(strings[i]));
-		TEST_ASSERT((val = rbtree->find(strings[i], "")) != std::string(""));
+		TEST_ASSERT((val = rbtree->find<std::string>(strings[i], "")) != std::string(""));
 		TEST_ASSERT(val.length() > 0);
 		TEST_ASSERT(Compare(val, strings[(TREE_ITEMS - 1) - i]) == 0);
 	}

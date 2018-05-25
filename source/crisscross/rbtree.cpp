@@ -356,22 +356,15 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		Data RedBlackTree<Key, Data>::find(Key const &_key, Data const &_default) const
+		template <class TypedData>
+		TypedData RedBlackTree<Key, Data>::find(Key const &_key, TypedData const &_default) const
 		{
-			RedBlackNode<Key, Data> *p_current = rootNode;
+			RedBlackNode<Key, Data> *node = findNode(_key);
 
-			while (valid(p_current)) {
-				int cmp = Compare(_key, p_current->id);
-				if (cmp < 0)
-					p_current = p_current->left;
-				else if (cmp > 0)
-					p_current = p_current->right;
-				else {
-					return p_current->data;
-				}
-			}
+			if (!valid(node))
+				return _default;
 
-			return _default;
+			return (TypedData)(node->data);
 		}
 
 		template <class Key, class Data>
@@ -447,9 +440,10 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		DArray<Data> *RedBlackTree<Key, Data>::ConvertToDArray() const
+		template <class TypedData>
+		DArray<TypedData> *RedBlackTree<Key, Data>::ConvertToDArray() const
 		{
-			DArray<Data> *darray = new DArray<Data> ((int)size());
+			DArray<TypedData> *darray = new DArray<TypedData> ((int)size());
 			RecursiveConvertToDArray(darray, rootNode);
 			return darray;
 		}
@@ -463,12 +457,13 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		void RedBlackTree<Key, Data>::RecursiveConvertToDArray(DArray<Data> *darray, RedBlackNode<Key, Data> *btree) const
+		template <class TypedData>
+		void RedBlackTree<Key, Data>::RecursiveConvertToDArray(DArray<TypedData> *darray, RedBlackNode<Key, Data> *btree) const
 		{
 			if (!valid(btree)) return;
 
 			RecursiveConvertToDArray(darray, btree->left);
-			darray->insert(btree->data);
+			darray->insert((TypedData)(btree->data));
 			RecursiveConvertToDArray(darray, btree->right);
 		}
 

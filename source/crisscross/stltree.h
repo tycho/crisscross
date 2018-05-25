@@ -115,13 +115,14 @@ namespace CrissCross
 				 * \param _default The value to return if the item couldn't be found.
 				 * \return If found, returns the data at the node, otherwise _default is returned.
 				 */
-				__forceinline Data find(Key const &_key, Data const &_default = NULL) const
+				template <class TypedData = Data>
+				__forceinline TypedData find(Key const &_key, TypedData const &_default = nullptr) const
 				{
 					if (!exists(_key))
 						return _default;
 					typename std::map<Key,Data,CrissCross::Data::LessThanComparator<Key> >::const_iterator iter;
 					iter = m_map.find(_key);
-					return iter->second;
+					return (TypedData)(iter->second);
 				}
 
 				/*! \brief Deletes a node from the tree, specified by the node's key. */
@@ -154,12 +155,13 @@ namespace CrissCross
 				 * \return A DArray containing the data of the tree.
 				 * \warning Delete the returned DArray when done with it.
 				 */
-				__forceinline DArray <Data> *ConvertToDArray() const
+				template <class TypedData>
+				__forceinline DArray <TypedData> *ConvertToDArray() const
 				{
-					DArray<Data> *darray = new DArray<Data>(size());
+					DArray<TypedData> *darray = new DArray<Data>(size());
 					typename std::map<Key,Data,CrissCross::Data::LessThanComparator<Key> >::const_iterator iter;
 					for (iter = m_map.begin(); iter != m_map.end(); iter++) {
-						darray->insert(iter->second);
+						darray->insert((TypedData)(iter->second));
 					}
 					return darray;
 				}

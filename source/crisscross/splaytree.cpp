@@ -180,14 +180,15 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		Data SplayTree<Key, Data>::find(Key const &key, Data const &_default) const
+		template <class TypedData>
+		TypedData SplayTree<Key, Data>::find(Key const &key, TypedData const &_default) const
 		{
-			splay(key, root);
+			SplayNode<Key, Data> *node = findNode(key);
 
-			if (root == NULL || Compare(root->id, key) != 0)
+			if (!node)
 				return _default;
 
-			return root->data;
+			return (TypedData)(root->data);
 		}
 
 		template <class Key, class Data>
@@ -312,10 +313,11 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		DArray<Data> *SplayTree<Key, Data>::ConvertToDArray() const
+		template <class TypedData>
+		DArray<TypedData> *SplayTree<Key, Data>::ConvertToDArray() const
 		{
-			DArray<Data> *darray = new DArray<Data> ((int)size());
-			RecursiveConvertToDArray(darray, root);
+			DArray<TypedData> *darray = new DArray<TypedData> ((int)size());
+			RecursiveConvertToDArray<TypedData>(darray, root);
 			return darray;
 		}
 
@@ -328,12 +330,13 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data>
-		void SplayTree<Key, Data>::RecursiveConvertToDArray(DArray<Data> *darray, SplayNode<Key, Data> *btree) const
+		template <class TypedData>
+		void SplayTree<Key, Data>::RecursiveConvertToDArray(DArray<TypedData> *darray, SplayNode<Key, Data> *btree) const
 		{
 			if (!btree) return;
 
 			RecursiveConvertToDArray(darray, btree->left);
-			darray->insert(btree->data);
+			darray->insert((TypedData)(btree->data));
 			RecursiveConvertToDArray(darray, btree->right);
 		}
 
