@@ -39,7 +39,7 @@ my $verstring = "";
 if ($in_git == 0) {
 	$verstring = $releasever;
 } else {
-	$verstring = `git describe --tags --long 2> /dev/null || git describe --tags 2> /dev/null`;
+	$verstring = `cd $scriptpath && git describe --tags --long 2> /dev/null || git describe --tags 2> /dev/null`;
 
 	if (!$verstring) {
 		$verstring = $releasever;
@@ -92,7 +92,7 @@ if ( !$build ) {
 # Old versions of git omit the commits-since-tag number,
 # so we can try 'git rev-list' to get this instead.
 if ( $commit == 0 && $in_git ) {
-	$commit = `git rev-list $tag.. | wc -l`
+	$commit = `cd $scriptpath && git rev-list $tag.. | wc -l`
 }
 
 if ( $commit == 0 ) {
