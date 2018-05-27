@@ -26,10 +26,11 @@ sources = [
 ]
 incdirs = include_directories('source', '.')
 
+perl = find_program(['perl'])
 gen_buildnum_h = custom_target('build_number.h',
                                input: [],
                                output: ['build_number.h'],
-                               command: [join_paths(meson.current_source_dir(), 'tools', 'gen_buildnum_h.pl'), '@OUTPUT@'])
+                               command: [perl, join_paths(meson.current_source_dir(), 'tools', 'gen_buildnum_h.pl'), '@OUTPUT@'])
 
 lib = static_library(
   'crisscross',
