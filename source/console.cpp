@@ -48,12 +48,11 @@ namespace CrissCross
 			m_consoleAllocated(false)
 		{
 			AllocateConsole();
-#ifdef TARGET_COMPILER_VC
+#ifdef TARGET_OS_WINDOWS
 			if (m_consoleAllocated) {
 				/* Redirect stdout to the console. */
 				int hCrt = _open_osfhandle(( intptr_t )GetStdHandle(STD_OUTPUT_HANDLE), _O_TEXT);
 				FILE *hf = _fdopen(hCrt, "w");
-
 				*stdout = *hf;
 				int i = setvbuf(stdout, NULL, _IONBF, 0);
 
@@ -65,7 +64,7 @@ namespace CrissCross
 
 				if (_fillScreen) {
 					char findWindowFlag[64];
-					sprintf(findWindowFlag, "%s%08X", CC_LIB_NAME, (unsigned long)this);
+					sprintf(findWindowFlag, "%s%p", CC_LIB_NAME, this);
 					RECT rect; CONSOLE_SCREEN_BUFFER_INFO csbi;
 					HWND consoleWindowHandle = NULL;
 					HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
