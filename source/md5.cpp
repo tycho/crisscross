@@ -141,7 +141,7 @@ namespace
 	const int MD5_SHIFT_43 = 15;
 	const int MD5_SHIFT_44 = 21;
 	
-	uint8_t PADDING[64] = { 0x80, /* all zeros */ };
+	uint8_t MD5_PADDING[64] = { 0x80, /* all zeros */ };
 	
 	/*
 	 * F, G, H and I are the basic MD5 functions.
@@ -613,7 +613,7 @@ namespace
 		Encode(bitcount_le, ctx->count, sizeof(bitcount_le));
 	
 		/* pad out to 56 mod 64 */
-		MD5Update(ctx, PADDING, ((index < 56) ? 56 : 120) - index);
+		MD5Update(ctx, MD5_PADDING, ((index < 56) ? 56 : 120) - index);
 	
 		/* append length (before padding) */
 		MD5Update(ctx, bitcount_le, sizeof(bitcount_le));

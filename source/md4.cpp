@@ -44,7 +44,7 @@ void MD4Transform(uint32_t [4], unsigned char [64]);
 void Encode(unsigned char *, uint32_t *, unsigned int);
 void Decode(uint32_t *, unsigned char *, unsigned int);
 
-unsigned char PADDING[64] = {
+unsigned char MD4_PADDING[64] = {
 	0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
@@ -161,7 +161,7 @@ void MD4Final(unsigned char digest[16], MD4_CTX *context)
 	 */
 	index = (unsigned int)((context->count[0] >> 3) & 0x3f);
 	padLen = (index < 56) ? (56 - index) : (120 - index);
-	MD4Update(context, PADDING, padLen);
+	MD4Update(context, MD4_PADDING, padLen);
 
 	/* Append length (before padding) */
 	MD4Update(context, bits, 8);
