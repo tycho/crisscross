@@ -20,25 +20,25 @@
 namespace
 {
 
-#define MD4_CTX cc_md4_ctx
+typedef cc_md4_ctx MD4_CTX;
 
 typedef unsigned char *POINTER;
 typedef const unsigned char *CONST_POINTER;
 
 /* Constants for MD4Transform routine.
  */
-#define S11 3
-#define S12 7
-#define S13 11
-#define S14 19
-#define S21 3
-#define S22 5
-#define S23 9
-#define S24 13
-#define S31 3
-#define S32 9
-#define S33 11
-#define S34 15
+const int S11 = 3;
+const int S12 = 7;
+const int S13 = 11;
+const int S14 = 19;
+const int S21 = 3;
+const int S22 = 5;
+const int S23 = 9;
+const int S24 = 13;
+const int S31 = 3;
+const int S32 = 9;
+const int S33 = 11;
+const int S34 = 15;
 
 void MD4Transform(uint32_t [4], unsigned char [64]);
 void Encode(unsigned char *, uint32_t *, unsigned int);
@@ -287,6 +287,14 @@ void Decode(uint32_t *output, unsigned char *input, unsigned int len)
 		output[i] = ((uint32_t)input[j]) | (((uint32_t)input[j + 1]) << 8) |
 		            (((uint32_t)input[j + 2]) << 16) | (((uint32_t)input[j + 3]) << 24);
 }
+
+#undef F
+#undef G
+#undef H
+#undef ROTATE_LEFT
+#undef FF
+#undef GG
+#undef HH
 
 }
 

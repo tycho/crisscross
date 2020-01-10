@@ -17,7 +17,7 @@
 #include <crisscross/core_io_reader.h>
 #include <crisscross/md5.h>
 
-#define MD5_CTX cc_md5_ctx
+typedef cc_md5_ctx MD5_CTX;
 
 /*
  * MD5C.C - RSA Data Security, Inc., MD5 message-digest algorithm
@@ -50,96 +50,96 @@ namespace
 {
 	/* constants, as provided in RFC 1321 */
 	
-#define MD5_CONST_0             (uint32_t)0xd76aa478
-#define MD5_CONST_1             (uint32_t)0xe8c7b756
-#define MD5_CONST_2             (uint32_t)0x242070db
-#define MD5_CONST_3             (uint32_t)0xc1bdceee
-#define MD5_CONST_4             (uint32_t)0xf57c0faf
-#define MD5_CONST_5             (uint32_t)0x4787c62a
-#define MD5_CONST_6             (uint32_t)0xa8304613
-#define MD5_CONST_7             (uint32_t)0xfd469501
-#define MD5_CONST_8             (uint32_t)0x698098d8
-#define MD5_CONST_9             (uint32_t)0x8b44f7af
-#define MD5_CONST_10            (uint32_t)0xffff5bb1
-#define MD5_CONST_11            (uint32_t)0x895cd7be
-#define MD5_CONST_12            (uint32_t)0x6b901122
-#define MD5_CONST_13            (uint32_t)0xfd987193
-#define MD5_CONST_14            (uint32_t)0xa679438e
-#define MD5_CONST_15            (uint32_t)0x49b40821
-#define MD5_CONST_16            (uint32_t)0xf61e2562
-#define MD5_CONST_17            (uint32_t)0xc040b340
-#define MD5_CONST_18            (uint32_t)0x265e5a51
-#define MD5_CONST_19            (uint32_t)0xe9b6c7aa
-#define MD5_CONST_20            (uint32_t)0xd62f105d
-#define MD5_CONST_21            (uint32_t)0x2441453
-#define MD5_CONST_22            (uint32_t)0xd8a1e681
-#define MD5_CONST_23            (uint32_t)0xe7d3fbc8
-#define MD5_CONST_24            (uint32_t)0x21e1cde6
-#define MD5_CONST_25            (uint32_t)0xc33707d6
-#define MD5_CONST_26            (uint32_t)0xf4d50d87
-#define MD5_CONST_27            (uint32_t)0x455a14ed
-#define MD5_CONST_28            (uint32_t)0xa9e3e905
-#define MD5_CONST_29            (uint32_t)0xfcefa3f8
-#define MD5_CONST_30            (uint32_t)0x676f02d9
-#define MD5_CONST_31            (uint32_t)0x8d2a4c8a
-#define MD5_CONST_32            (uint32_t)0xfffa3942
-#define MD5_CONST_33            (uint32_t)0x8771f681
-#define MD5_CONST_34            (uint32_t)0x6d9d6122
-#define MD5_CONST_35            (uint32_t)0xfde5380c
-#define MD5_CONST_36            (uint32_t)0xa4beea44
-#define MD5_CONST_37            (uint32_t)0x4bdecfa9
-#define MD5_CONST_38            (uint32_t)0xf6bb4b60
-#define MD5_CONST_39            (uint32_t)0xbebfbc70
-#define MD5_CONST_40            (uint32_t)0x289b7ec6
-#define MD5_CONST_41            (uint32_t)0xeaa127fa
-#define MD5_CONST_42            (uint32_t)0xd4ef3085
-#define MD5_CONST_43            (uint32_t)0x4881d05
-#define MD5_CONST_44            (uint32_t)0xd9d4d039
-#define MD5_CONST_45            (uint32_t)0xe6db99e5
-#define MD5_CONST_46            (uint32_t)0x1fa27cf8
-#define MD5_CONST_47            (uint32_t)0xc4ac5665
-#define MD5_CONST_48            (uint32_t)0xf4292244
-#define MD5_CONST_49            (uint32_t)0x432aff97
-#define MD5_CONST_50            (uint32_t)0xab9423a7
-#define MD5_CONST_51            (uint32_t)0xfc93a039
-#define MD5_CONST_52            (uint32_t)0x655b59c3
-#define MD5_CONST_53            (uint32_t)0x8f0ccc92
-#define MD5_CONST_54            (uint32_t)0xffeff47d
-#define MD5_CONST_55            (uint32_t)0x85845dd1
-#define MD5_CONST_56            (uint32_t)0x6fa87e4f
-#define MD5_CONST_57            (uint32_t)0xfe2ce6e0
-#define MD5_CONST_58            (uint32_t)0xa3014314
-#define MD5_CONST_59            (uint32_t)0x4e0811a1
-#define MD5_CONST_60            (uint32_t)0xf7537e82
-#define MD5_CONST_61            (uint32_t)0xbd3af235
-#define MD5_CONST_62            (uint32_t)0x2ad7d2bb
-#define MD5_CONST_63            (uint32_t)0xeb86d391
+	const uint32_t MD5_CONST_0  = 0xd76aa478;
+	const uint32_t MD5_CONST_1  = 0xe8c7b756;
+	const uint32_t MD5_CONST_2  = 0x242070db;
+	const uint32_t MD5_CONST_3  = 0xc1bdceee;
+	const uint32_t MD5_CONST_4  = 0xf57c0faf;
+	const uint32_t MD5_CONST_5  = 0x4787c62a;
+	const uint32_t MD5_CONST_6  = 0xa8304613;
+	const uint32_t MD5_CONST_7  = 0xfd469501;
+	const uint32_t MD5_CONST_8  = 0x698098d8;
+	const uint32_t MD5_CONST_9  = 0x8b44f7af;
+	const uint32_t MD5_CONST_10 = 0xffff5bb1;
+	const uint32_t MD5_CONST_11 = 0x895cd7be;
+	const uint32_t MD5_CONST_12 = 0x6b901122;
+	const uint32_t MD5_CONST_13 = 0xfd987193;
+	const uint32_t MD5_CONST_14 = 0xa679438e;
+	const uint32_t MD5_CONST_15 = 0x49b40821;
+	const uint32_t MD5_CONST_16 = 0xf61e2562;
+	const uint32_t MD5_CONST_17 = 0xc040b340;
+	const uint32_t MD5_CONST_18 = 0x265e5a51;
+	const uint32_t MD5_CONST_19 = 0xe9b6c7aa;
+	const uint32_t MD5_CONST_20 = 0xd62f105d;
+	const uint32_t MD5_CONST_21 = 0x02441453;
+	const uint32_t MD5_CONST_22 = 0xd8a1e681;
+	const uint32_t MD5_CONST_23 = 0xe7d3fbc8;
+	const uint32_t MD5_CONST_24 = 0x21e1cde6;
+	const uint32_t MD5_CONST_25 = 0xc33707d6;
+	const uint32_t MD5_CONST_26 = 0xf4d50d87;
+	const uint32_t MD5_CONST_27 = 0x455a14ed;
+	const uint32_t MD5_CONST_28 = 0xa9e3e905;
+	const uint32_t MD5_CONST_29 = 0xfcefa3f8;
+	const uint32_t MD5_CONST_30 = 0x676f02d9;
+	const uint32_t MD5_CONST_31 = 0x8d2a4c8a;
+	const uint32_t MD5_CONST_32 = 0xfffa3942;
+	const uint32_t MD5_CONST_33 = 0x8771f681;
+	const uint32_t MD5_CONST_34 = 0x6d9d6122;
+	const uint32_t MD5_CONST_35 = 0xfde5380c;
+	const uint32_t MD5_CONST_36 = 0xa4beea44;
+	const uint32_t MD5_CONST_37 = 0x4bdecfa9;
+	const uint32_t MD5_CONST_38 = 0xf6bb4b60;
+	const uint32_t MD5_CONST_39 = 0xbebfbc70;
+	const uint32_t MD5_CONST_40 = 0x289b7ec6;
+	const uint32_t MD5_CONST_41 = 0xeaa127fa;
+	const uint32_t MD5_CONST_42 = 0xd4ef3085;
+	const uint32_t MD5_CONST_43 = 0x04881d05;
+	const uint32_t MD5_CONST_44 = 0xd9d4d039;
+	const uint32_t MD5_CONST_45 = 0xe6db99e5;
+	const uint32_t MD5_CONST_46 = 0x1fa27cf8;
+	const uint32_t MD5_CONST_47 = 0xc4ac5665;
+	const uint32_t MD5_CONST_48 = 0xf4292244;
+	const uint32_t MD5_CONST_49 = 0x432aff97;
+	const uint32_t MD5_CONST_50 = 0xab9423a7;
+	const uint32_t MD5_CONST_51 = 0xfc93a039;
+	const uint32_t MD5_CONST_52 = 0x655b59c3;
+	const uint32_t MD5_CONST_53 = 0x8f0ccc92;
+	const uint32_t MD5_CONST_54 = 0xffeff47d;
+	const uint32_t MD5_CONST_55 = 0x85845dd1;
+	const uint32_t MD5_CONST_56 = 0x6fa87e4f;
+	const uint32_t MD5_CONST_57 = 0xfe2ce6e0;
+	const uint32_t MD5_CONST_58 = 0xa3014314;
+	const uint32_t MD5_CONST_59 = 0x4e0811a1;
+	const uint32_t MD5_CONST_60 = 0xf7537e82;
+	const uint32_t MD5_CONST_61 = 0xbd3af235;
+	const uint32_t MD5_CONST_62 = 0x2ad7d2bb;
+	const uint32_t MD5_CONST_63 = 0xeb86d391;
 	
 	/* initialization constants, as given in RFC 1321. used in MD5Init */
 	
-#define MD5_INIT_CONST_1        (uint32_t)0x67452301
-#define MD5_INIT_CONST_2        (uint32_t)0xefcdab89
-#define MD5_INIT_CONST_3        (uint32_t)0x98badcfe
-#define MD5_INIT_CONST_4        (uint32_t)0x10325476
+	const uint32_t MD5_INIT_CONST_1 = 0x67452301;
+	const uint32_t MD5_INIT_CONST_2 = 0xefcdab89;
+	const uint32_t MD5_INIT_CONST_3 = 0x98badcfe;
+	const uint32_t MD5_INIT_CONST_4 = 0x10325476;
 	
 	/* shift constants, as given in RFC 1321.  used in MD5Transform */
 	
-#define MD5_SHIFT_11            7
-#define MD5_SHIFT_12            12
-#define MD5_SHIFT_13            17
-#define MD5_SHIFT_14            22
-#define MD5_SHIFT_21            5
-#define MD5_SHIFT_22            9
-#define MD5_SHIFT_23            14
-#define MD5_SHIFT_24            20
-#define MD5_SHIFT_31            4
-#define MD5_SHIFT_32            11
-#define MD5_SHIFT_33            16
-#define MD5_SHIFT_34            23
-#define MD5_SHIFT_41            6
-#define MD5_SHIFT_42            10
-#define MD5_SHIFT_43            15
-#define MD5_SHIFT_44            21
+	const int MD5_SHIFT_11 = 7;
+	const int MD5_SHIFT_12 = 12;
+	const int MD5_SHIFT_13 = 17;
+	const int MD5_SHIFT_14 = 22;
+	const int MD5_SHIFT_21 = 5;
+	const int MD5_SHIFT_22 = 9;
+	const int MD5_SHIFT_23 = 14;
+	const int MD5_SHIFT_24 = 20;
+	const int MD5_SHIFT_31 = 4;
+	const int MD5_SHIFT_32 = 11;
+	const int MD5_SHIFT_33 = 16;
+	const int MD5_SHIFT_34 = 23;
+	const int MD5_SHIFT_41 = 6;
+	const int MD5_SHIFT_42 = 10;
+	const int MD5_SHIFT_43 = 15;
+	const int MD5_SHIFT_44 = 21;
 	
 	uint8_t PADDING[64] = { 0x80, /* all zeros */ };
 	
@@ -919,6 +919,43 @@ namespace
 		}
 	}
 }
+
+#undef F
+#undef G
+#undef H
+#undef I
+#undef ROTATE_LEFT
+#undef FF
+#undef GG
+#undef HH
+#undef II
+#undef MD5_CONST
+#undef MD5_CONST_e
+#undef MD5_CONST_o
+#undef MD5_CONST_e
+#undef MD5_CONST_o
+#undef MD5_CONST_e
+#undef MD5_CONST_o
+#undef LOAD_LITTLE_32
+#undef LOAD_LITTLE_32
+#undef LOAD_LITTLE_32
+#undef LOAD_LITTLE_32_0
+#undef LOAD_LITTLE_32_1
+#undef LOAD_LITTLE_32_2
+#undef LOAD_LITTLE_32_3
+#undef LOAD_LITTLE_32_4
+#undef LOAD_LITTLE_32_5
+#undef LOAD_LITTLE_32_6
+#undef LOAD_LITTLE_32_7
+#undef LOAD_LITTLE_32_8
+#undef LOAD_LITTLE_32_9
+#undef LOAD_LITTLE_32_a
+#undef LOAD_LITTLE_32_b
+#undef LOAD_LITTLE_32_c
+#undef LOAD_LITTLE_32_d
+#undef LOAD_LITTLE_32_e
+#undef LOAD_LITTLE_32_f
+#undef LL_TEMPLATE
 
 namespace CrissCross
 {
