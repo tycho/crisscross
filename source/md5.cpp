@@ -498,7 +498,7 @@ namespace
 #endif   /* TARGET_LITTLE_ENDIAN */
 	
 	void MD5Transform(uint32_t a, uint32_t b, uint32_t c, uint32_t d, MD5_CTX *ctx, const uint8_t block[64]);
-	void Encode(uint8_t * output, const uint32_t * input, size_t input_len);
+	void MD5Encode(uint8_t * output, const uint32_t * input, size_t input_len);
 	
 	/*
 	 * MD5Init()
@@ -610,7 +610,7 @@ namespace
 		uint32_t index = (ctx->count[0] >> 3) & 0x3f;
 	
 		/* store bit count, little endian */
-		Encode(bitcount_le, ctx->count, sizeof(bitcount_le));
+		MD5Encode(bitcount_le, ctx->count, sizeof(bitcount_le));
 	
 		/* pad out to 56 mod 64 */
 		MD5Update(ctx, MD5_PADDING, ((index < 56) ? 56 : 120) - index);
@@ -619,7 +619,7 @@ namespace
 		MD5Update(ctx, bitcount_le, sizeof(bitcount_le));
 	
 		/* store state in digest */
-		Encode(digest, ctx->state, sizeof(ctx->state));
+		MD5Encode(digest, ctx->state, sizeof(ctx->state));
 	
 		/* zeroize sensitive information */
 		memset(ctx, 0, sizeof(*ctx));
@@ -883,7 +883,7 @@ namespace
 	}
 	
 	/*
-	 * Encode()
+	 * MD5Encode()
 	 *
 	 * purpose: to convert a list of numbers from big endian to little endian
 	 *   input: uint8_t *    : place to store the converted little endian numbers
@@ -892,7 +892,7 @@ namespace
 	 *  output: void
 	 */
 	
-	void Encode(uint8_t * output, const uint32_t * input, size_t input_len)
+	void MD5Encode(uint8_t * output, const uint32_t * input, size_t input_len)
 	{
 		size_t i, j;
 	

@@ -41,8 +41,8 @@ const int S33 = 11;
 const int S34 = 15;
 
 void MD4Transform(uint32_t [4], unsigned char [64]);
-void Encode(unsigned char *, uint32_t *, unsigned int);
-void Decode(uint32_t *, unsigned char *, unsigned int);
+void MD4Encode(unsigned char *, uint32_t *, unsigned int);
+void MD4Decode(uint32_t *, unsigned char *, unsigned int);
 
 unsigned char MD4_PADDING[64] = {
 	0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -155,7 +155,7 @@ void MD4Final(unsigned char digest[16], MD4_CTX *context)
 	unsigned int index, padLen;
 
 	/* Save number of bits */
-	Encode(bits, context->count, 8);
+	MD4Encode(bits, context->count, 8);
 
 	/* Pad out to 56 mod 64.
 	 */
@@ -166,7 +166,7 @@ void MD4Final(unsigned char digest[16], MD4_CTX *context)
 	/* Append length (before padding) */
 	MD4Update(context, bits, 8);
 	/* Store state in digest */
-	Encode(digest, context->state, 16);
+	MD4Encode(digest, context->state, 16);
 
 	/* Zeroize sensitive information.
 	 */
@@ -185,7 +185,7 @@ void MD4Transform(uint32_t state[4], unsigned char block[64])
 {
 	uint32_t a = state[0], b = state[1], c = state[2], d = state[3], x[16];
 
-	Decode(x, block, 64);
+	MD4Decode(x, block, 64);
 
 	/* Round 1 */
 	FF(a, b, c, d, x[ 0], S11);    /* 1 */
@@ -251,15 +251,15 @@ void MD4Transform(uint32_t state[4], unsigned char block[64])
 	memset((POINTER)x, 0, sizeof(x));
 }
 
-/* Encodes input (uint32_t) into output (unsigned char). Assumes len is
+/* MD4Encodes input (uint32_t) into output (unsigned char). Assumes len is
  *   a multiple of 4.
  */
 /***************************************************************
 *
-* Procedure Encode
+* Procedure MD4Encode
 *
 ***************************************************************/
-void Encode(unsigned char *output, uint32_t *input, unsigned int len)
+void MD4Encode(unsigned char *output, uint32_t *input, unsigned int len)
 {
 	unsigned int i, j;
 
@@ -271,15 +271,15 @@ void Encode(unsigned char *output, uint32_t *input, unsigned int len)
 	}
 }
 
-/* Decodes input (unsigned char) into output (uint32_t). Assumes len is
+/* MD4Decodes input (unsigned char) into output (uint32_t). Assumes len is
  *   a multiple of 4.
  */
 /***************************************************************
 *
-* Procedure Decode
+* Procedure MD4Decode
 *
 ***************************************************************/
-void Decode(uint32_t *output, unsigned char *input, unsigned int len)
+void MD4Decode(uint32_t *output, unsigned char *input, unsigned int len)
 {
 	unsigned int i, j;
 
