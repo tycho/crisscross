@@ -67,6 +67,8 @@
 #undef COMPILER_DETECTED
 #undef OS_DETECTED
 
+#undef TARGET_CPU_ARM
+
 /* ------------------- *
 * PROCESSOR DETECTION *
 * ------------------- */
@@ -78,7 +80,7 @@
 
 /* ARM */
 #if !defined (PROCESSOR_DETECTED)
-#if defined (__arm__)
+#if defined (__arm__) || defined (__AARCH64EL__)
 #define PROCESSOR_DETECTED
 #define TARGET_CPU_ARM
 #define TARGET_LITTLE_ENDIAN
@@ -207,6 +209,13 @@
 #endif
 
 #if !defined (OS_DETECTED)
+#if defined (__APPLE__) || defined (__MACH__)
+#define OS_DETECTED
+#define TARGET_OS_MACOSX
+#endif
+#endif
+
+#if !defined (OS_DETECTED)
 #if defined (TARGET_CPU_ARM)
 #define OS_DETECTED
 #define TARGET_OS_NDSFIRMWARE
@@ -238,13 +247,6 @@
 #if defined (__OpenBSD__)
 #define OS_DETECTED
 #define TARGET_OS_OPENBSD
-#endif
-#endif
-
-#if !defined (OS_DETECTED)
-#if defined (__APPLE__) || defined (__MACH__)
-#define OS_DETECTED
-#define TARGET_OS_MACOSX
 #endif
 #endif
 
