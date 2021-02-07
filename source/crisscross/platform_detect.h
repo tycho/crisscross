@@ -60,23 +60,44 @@
  *
  */
 
-#ifndef __included_cc_platform_detect_h
-#define __included_cc_platform_detect_h
-
 #undef PROCESSOR_DETECTED
 #undef COMPILER_DETECTED
 #undef OS_DETECTED
 
+/* Clear all macros before continuing, in case another header (e.g.
+ * TargetConditionals.h in macOS) decides to use the same macro names.
+ */
+#undef TARGET_BIG_ENDIAN
+#undef TARGET_COMPILER_BORLAND
+#undef TARGET_COMPILER_CLANG
+#undef TARGET_COMPILER_CYGWIN
+#undef TARGET_COMPILER_GCC
+#undef TARGET_COMPILER_ICC
+#undef TARGET_COMPILER_MINGW
+#undef TARGET_COMPILER_VC
+#undef TARGET_CPU_ALPHA
 #undef TARGET_CPU_ARM
+#undef TARGET_CPU_BITS
+#undef TARGET_CPU_IA64
+#undef TARGET_CPU_PPC
+#undef TARGET_CPU_SPARC
+#undef TARGET_CPU_X64
+#undef TARGET_CPU_X86
+#undef TARGET_CPU_X86_64
+#undef TARGET_LITTLE_ENDIAN
+#undef TARGET_OS_FREEBSD
+#undef TARGET_OS_HAIKU
+#undef TARGET_OS_LINUX
+#undef TARGET_OS_MACOSX
+#undef TARGET_OS_NDSFIRMWARE
+#undef TARGET_OS_NETBSD
+#undef TARGET_OS_OPENBSD
+#undef TARGET_OS_WINDOWS
+
 
 /* ------------------- *
 * PROCESSOR DETECTION *
 * ------------------- */
-
-/* Carbon defines this for us on Mac, apparently... */
-#if defined (TARGET_CPU_PPC)
-#define PROCESSOR_DETECTED
-#endif
 
 /* ARM */
 #if !defined (PROCESSOR_DETECTED)
@@ -278,6 +299,4 @@
 
 #if !defined (TARGET_CPU_BITS)
 #error "Could not detect 32-bit/64-bit architecture."
-#endif
-
 #endif
