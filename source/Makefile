@@ -1,5 +1,9 @@
+.SECONDEXPANSION:
+.SUFFIXES:
+
 ifneq ($(findstring $(MAKEFLAGS),s),s)
 ifndef V
+        QUIET          = @
         QUIET_CXX      = @echo '   ' CXX $@;
         QUIET_GEN      = @echo '   ' GEN $@;
         QUIET_AR       = @echo '   ' AR $@;
@@ -11,10 +15,18 @@ endif
 
 LIB      = libCrissCross.a
 AR      ?= ar
-ARFLAGS ?= rcu
+ARFLAGS ?= rc
 CXX     ?= g++
 RANLIB  ?= ranlib
 RM      ?= rm -f
+
+BUILD_DIR := build
+BUILD_ID  ?= default-build-id
+OBJ_DIR   := $(BUILD_DIR)/$(BUILD_ID)
+
+ifeq (,$(BUILD_ID))
+$(error BUILD_ID cannot be an empty string)
+endif
 
 uname_S := $(shell sh -c 'uname -s 2>/dev/null || echo not')
 
@@ -107,10 +119,11 @@ SOURCES = \
 
 
 HEADERS_INST := $(patsubst crisscross/%,$(includedir)/%,$(HEADERS))
-OBJECTS := $(patsubst %.cpp,%.o,$(SOURCES))
+OBJECTS := $(patsubst %.cpp,$(OBJ_DIR)/%.o,$(SOURCES))
 
 CFLAGS ?= -O2
 override CFLAGS += -I.
+override CFLAGS += -I$(OBJ_DIR)
 
 ifeq ($(uname_S),FreeBSD)
 override CFLAGS += -I/usr/local/include
@@ -130,7 +143,7 @@ $(includedir)/%.cpp: crisscross/%.cpp
 	$(QUIET_INSTALL)cp $< $@
 	@chmod 0644 $@
 
-$(libdir)/%.a: %.a
+$(libdir)/%.a: $(OBJ_DIR)/%.a
 	-@if [ ! -d $(libdir)  ]; then mkdir -p $(libdir); fi
 	$(QUIET_INSTALL)cp $< $@
 	@chmod 0644 $@
@@ -138,29 +151,38 @@ $(libdir)/%.a: %.a
 install: $(HEADERS_INST) $(libdir)/$(LIB)
 
 clean:
-	$(RM) $(OBJECTS) build_number.h $(LIB) .cflags
+	$(RM) -r $(OBJ_DIR)
 
 distclean: clean
+	$(RM) -r $(BUILD_DIR)
 
-$(LIB): $(OBJECTS)
+$(OBJ_DIR)/$(LIB): $(OBJECTS) | $$(@D)/.
 	$(QUIET_AR)$(AR) $(ARFLAGS) $@ $^
 	$(QUIET_RANLIB)$(RANLIB) $@
 
-%.o: %.cpp .cflags
+$(OBJ_DIR)/%.o: %.cpp $(OBJ_DIR)/.cflags | $$(@D)/.
 	$(QUIET_CXX)$(CXX) $(CFLAGS) -o $@ -c $<
 
-build_number.h:
-	$(QUIET_GEN)../tools/gen_buildnum_h.pl build_number.h
+$(OBJ_DIR)/build_number.h: | $$(@D)/.
+	$(QUIET_GEN)../tools/gen_buildnum_h.pl $(OBJ_DIR)/build_number.h
 
-version.cpp: build_number.h
+version.cpp: $(OBJ_DIR)/build_number.h
+
+.PRECIOUS: $(OBJ_DIR)/. $(OBJ_DIR)%/.
+
+$(OBJ_DIR)/.:
+	$(QUIET)mkdir -p $@
+
+$(OBJ_DIR)%/.:
+	$(QUIET)mkdir -p $@
 
 TRACK_CFLAGS = $(subst ','\'',$(CXX) $(CFLAGS))
 
-.cflags: .force-cflags
+$(OBJ_DIR)/.cflags: .force-cflags | $$(@D)/.
 	@FLAGS='$(TRACK_CFLAGS)'; \
-    if test x"$$FLAGS" != x"`cat .cflags 2>/dev/null`" ; then \
+    if test x"$$FLAGS" != x"`cat $(OBJ_DIR)/.cflags 2>/dev/null`" ; then \
         echo "    * rebuilding libCrissCross: new build flags or prefix"; \
-        echo "$$FLAGS" > .cflags; \
+        echo "$$FLAGS" > $(OBJ_DIR)/.cflags; \
     fi
 
 .PHONY: .force-cflags
