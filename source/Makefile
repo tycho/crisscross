@@ -131,7 +131,7 @@ endif
 
 .PHONY: install
 
-all: $(LIB)
+all: $(OBJ_DIR)/$(LIB)
 
 $(includedir)/%.h: crisscross/%.h
 	-@if [ ! -d $(includedir)  ]; then mkdir -p $(includedir); fi
