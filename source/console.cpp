@@ -51,16 +51,12 @@ namespace CrissCross
 #ifdef TARGET_OS_WINDOWS
 			if (m_consoleAllocated) {
 				/* Redirect stdout to the console. */
-				int hCrt = _open_osfhandle(( intptr_t )GetStdHandle(STD_OUTPUT_HANDLE), _O_TEXT);
-				FILE *hf = _fdopen(hCrt, "w");
-				*stdout = *hf;
-				int i = setvbuf(stdout, NULL, _IONBF, 0);
+				freopen_s(reinterpret_cast<FILE**>(stdout), "CONOUT$", "w", stdout);
+				setvbuf(stdout, NULL, _IONBF, 0);
 
 				/* Redirect stderr to the console. */
-				hCrt = _open_osfhandle(( intptr_t )GetStdHandle(STD_ERROR_HANDLE), _O_TEXT);
-				hf = _fdopen(hCrt, "w");
-				*stderr = *hf;
-				i = setvbuf(stdout, NULL, _IONBF, 0);
+				freopen_s(reinterpret_cast<FILE**>(stderr), "CONOUT$", "w", stderr);
+				setvbuf(stderr, NULL, _IONBF, 0);
 
 				if (_fillScreen) {
 					char findWindowFlag[64];
