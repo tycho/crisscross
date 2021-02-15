@@ -1,5 +1,5 @@
 *.ncb
 *.suo
-*.vcproj.*.user
+*.vcxproj.user
 Debug
 Release

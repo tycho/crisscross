@@ -2,10 +2,10 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source">
-      <UniqueIdentifier>{15cfdcc4-b3e6-49c6-bbc8-ecda772aae8b}</UniqueIdentifier>
+      <UniqueIdentifier>{384d1c63-db08-4f42-8165-ac5bc2aefacd}</UniqueIdentifier>
     </Filter>
     <Filter Include="Headers">
-      <UniqueIdentifier>{89e6d218-8e91-4283-9bdd-f055bfe5c6cd}</UniqueIdentifier>
+      <UniqueIdentifier>{6fcd716e-1268-42d2-a0d4-244b702811ac}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -19,12 +19,6 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\core_io_writer.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\core_network.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\core_socket.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\debug.cpp">
@@ -69,13 +63,7 @@
     <ClCompile Include="..\..\source\system.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\tcpsocket.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\tiger.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\udpsocket.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\universal_include.cpp">
@@ -129,12 +117,6 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\crisscross\core_io_writer.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\crisscross\core_network.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\crisscross\core_socket.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\crisscross\crisscross.h">
@@ -230,13 +212,7 @@
     <ClInclude Include="..\..\source\crisscross\system.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\crisscross\tcpsocket.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\crisscross\tiger.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\crisscross\udpsocket.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\crisscross\universal_include.h">
