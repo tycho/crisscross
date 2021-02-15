@@ -12,11 +12,7 @@
 #ifndef __included_cc_datatypes_h
 #define __included_cc_datatypes_h
 
-#ifdef _MSC_VER
-#include <crisscross/pstdint.h>
-#else
 #include <stdint.h>
-#endif
 #ifdef TARGET_OS_MACOSX
 #include <stdio.h>
 #endif
