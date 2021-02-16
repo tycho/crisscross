@@ -70,7 +70,6 @@ HEADERS = \
 	crisscross/nasty_cast.h \
 	crisscross/node.h \
 	crisscross/platform_detect.h \
-	crisscross/pstdint.h \
 	crisscross/quadtree.h \
 	crisscross/quicksort.h \
 	crisscross/rbtree.cpp \
