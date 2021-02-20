@@ -123,7 +123,7 @@ namespace CrissCross
 				 * Sets the console window title using the value in the _title parameter.
 				 * \param _title The title requested for the console window.
 				 */
-				void SetTitle(std::string &_title);
+				void SetTitle(std::string const &_title);
 
 				/*! \brief Clears the console. */
 				/*!

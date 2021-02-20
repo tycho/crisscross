@@ -332,7 +332,7 @@ namespace CrissCross
 #endif
 		}
 
-		void Console::SetTitle(std::string &_title)
+		void Console::SetTitle(std::string const &_title)
 		{
 			CoreAssert(this != NULL);
 			SetTitle(_title.c_str());
