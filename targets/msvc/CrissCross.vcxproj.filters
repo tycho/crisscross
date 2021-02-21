@@ -221,5 +221,8 @@
     <ClInclude Include="..\..\source\crisscross\version.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\crisscross\quadtree.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
