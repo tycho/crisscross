@@ -101,7 +101,7 @@
 
 /* ARM */
 #if !defined (PROCESSOR_DETECTED)
-#if defined (__arm__) || defined (__AARCH64EL__)
+#if defined (__arm__) || defined (__AARCH64EL__) || defined(_M_ARM) || defined(_M_ARM64)
 #define PROCESSOR_DETECTED
 #define TARGET_CPU_ARM
 #define TARGET_LITTLE_ENDIAN
@@ -271,7 +271,7 @@
 #endif
 #endif
 
-#if defined (_LP64) || defined (__LP64__) || defined (_M_X64) || defined(_M_IA64)
+#if defined (_LP64) || defined (__LP64__) || defined (_M_X64) || defined(_M_IA64) || defined(__arm64__) || defined(_M_ARM64)
 #define TARGET_CPU_BITS 64
 #else
 #define TARGET_CPU_BITS 32
