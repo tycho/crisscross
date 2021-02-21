@@ -166,37 +166,43 @@ void SymbolEngine::StackTrace(PCONTEXT _pContext, CoreIOWriter * _outputBuffer)
 	_outputBuffer->WriteLine("  Frame              Address            Code");
 #endif
 
-	STACKFRAME stackFrame = { 0 };
+	STACKFRAME64 stackFrame = { 0 };
 
-	stackFrame.AddrPC.Offset =
-#if TARGET_CPU_BITS == 32
-		_pContext->Eip;
-#else
-		_pContext->Rip;
+#if defined(TARGET_CPU_X86)
+	stackFrame.AddrPC.Offset = _pContext->Eip;
+	stackFrame.AddrStack.Offset = _pContext->Esp;
+	stackFrame.AddrFrame.Offset = _pContext->Ebp;
+#elif defined(TARGET_CPU_X64)
+	stackFrame.AddrPC.Offset = _pContext->Rip;
+	stackFrame.AddrStack.Offset = _pContext->Rsp;
+	stackFrame.AddrFrame.Offset = _pContext->Rbp;
+#elif defined(TARGET_CPU_ARM) && TARGET_CPU_BITS == 32
+	stackFrame.AddrPC.Offset = _pContext->Pc;
+	stackFrame.AddrStack.Offset = _pContext->Sp;
+	stackFrame.AddrFrame.Offset = _pContext->R11;
+#elif defined(TARGET_CPU_ARM) && TARGET_CPU_BITS == 64
+	stackFrame.AddrPC.Offset = _pContext->Pc;
+	stackFrame.AddrStack.Offset = _pContext->Sp;
+	stackFrame.AddrFrame.Offset = _pContext->Fp;
 #endif
+
 	stackFrame.AddrPC.Mode = AddrModeFlat;
-
-	stackFrame.AddrFrame.Offset =
-#if TARGET_CPU_BITS == 32
-		_pContext->Ebp;
-#else
-		_pContext->Rbp;
-#endif
 	stackFrame.AddrFrame.Mode = AddrModeFlat;
-
-	stackFrame.AddrStack.Offset =
-#if TARGET_CPU_BITS == 32
-		_pContext->Esp;
-#else
-		_pContext->Rsp;
-#endif
 	stackFrame.AddrStack.Mode = AddrModeFlat;
 
 #ifdef TARGET_CPU_X86
 	DWORD machine = IMAGE_FILE_MACHINE_I386;
-	const char *format = " 0x%08x %s";
 #elif defined(TARGET_CPU_X64)
 	DWORD machine = IMAGE_FILE_MACHINE_AMD64;
+#elif defined(TARGET_CPU_ARM) && TARGET_CPU_BITS == 32
+	DWORD machine = IMAGE_FILE_MACHINE_ARM;
+#elif defined(TARGET_CPU_ARM) && TARGET_CPU_BITS == 64
+	DWORD machine = IMAGE_FILE_MACHINE_ARM64;
+#endif
+
+#if TARGET_CPU_BITS == 32
+	const char *format = " 0x%08x %s";
+#elif TARGET_CPU_BITS == 64
 	const char *format = " 0x%016x %s";
 #endif
 
@@ -220,16 +226,7 @@ void CrissCross::Debug::PrintStackTrace(CrissCross::IO::CoreIOWriter * _outputBu
 	CONTEXT context = { CONTEXT_ALL };
 	BOOL ret = ::GetThreadContext(GetCurrentThread(), &context);
 	CoreAssert(ret != FALSE);
-#ifdef TARGET_CPU_X64
 	RtlCaptureContext(&context);
-#elif defined(TARGET_CPU_X86)
-	_asm call $ + 5;
-	_asm pop eax;
-	_asm mov context.Eip, eax;
-	_asm mov eax, esp;
-	_asm mov context.Esp, eax;
-	_asm mov context.Ebp, ebp;
-#endif
 	SymbolEngine::instance().StackTrace(&context, _outputBuffer);
 
 #elif defined (ENABLE_BACKTRACE)
