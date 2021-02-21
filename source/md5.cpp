@@ -687,7 +687,7 @@ namespace
 	
 #ifdef _MD5_CHECK_ALIGNMENT
 		if ((uintptr_t)block & 0x3) {                /* not 4-byte aligned? */
-			bcopy(block, ctx->buf_un.buf32, sizeof(ctx->buf_un.buf32));
+			memmove(ctx->buf_un.buf32, block, sizeof(ctx->buf_un.buf32));
 	
 #ifdef sun4v
 			x_15 = LOAD_LITTLE_32_f(ctx->buf_un.buf32);
@@ -901,7 +901,7 @@ namespace
 	
 #ifdef _MD5_CHECK_ALIGNMENT
 			if ((uintptr_t)output & 0x3)  /* Not 4-byte aligned */
-				bcopy(input + i, output + j, 4);
+				memmove(output + j, input + i, 4);
 			else *(uint32_t *)(output + j) = input[i];
 	
 #else
