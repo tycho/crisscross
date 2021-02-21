@@ -65,7 +65,25 @@ namespace CrissCross
 			virtual void InsertObject(T const &_object, vec2 const &position, float _collisionRadius);
 			virtual bool RemoveObject(T const &_object, vec2 const &position, float _collisionRadius);
 			virtual void ObjectsInCircle(std::vector<T> &array, vec2 const &circle, float radius, size_t limit = (size_t)-1) const;
+
+			virtual void Collect(std::vector<T>& _elements, uint32_t &maxDepthSeen, uint32_t &maxNodesSeen, uint32_t currentDepth = 0);
 		};
+
+		template <class T, int MaxDepth, int MaxNodesPerLevel>
+		void Quadtree<T, MaxDepth, MaxNodesPerLevel>::Collect(std::vector<T>& _elements, uint32_t &maxDepthSeen, uint32_t &maxNodesSeen, uint32_t currentDepth)
+		{
+			if (nodes.size() > maxNodesSeen)
+				maxNodesSeen = nodes.size();
+			if (currentDepth > maxDepthSeen)
+				maxDepthSeen = currentDepth;
+			for (auto& elem : nodes) {
+				_elements.push_back(elem->data);
+			}
+			if (ll) ll->Collect(_elements, maxDepthSeen, maxNodesSeen, currentDepth + 1);
+			if (lr) lr->Collect(_elements, maxDepthSeen, maxNodesSeen, currentDepth + 1);
+			if (tl) tl->Collect(_elements, maxDepthSeen, maxNodesSeen, currentDepth + 1);
+			if (tr) tr->Collect(_elements, maxDepthSeen, maxNodesSeen, currentDepth + 1);
+		}
 
 		template <class T, int MaxDepth, int MaxNodesPerLevel>
 		bool Quadtree<T, MaxDepth, MaxNodesPerLevel>::InRange(float lower_bound, float upper_bound, float point)
