@@ -132,6 +132,14 @@ namespace CrissCross
 		}
 
 		template <class T>
+		void DArray <T>::reserve(size_t newsize)
+		{
+			setSize(newsize);
+			m_shadow.clear();
+			m_shadow.resize(newsize, true);
+		}
+
+		template <class T>
 		void DArray <T>::setSize(size_t newsize)
 		{
 			m_shadow.resize(newsize, false);
