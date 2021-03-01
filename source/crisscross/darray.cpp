@@ -308,8 +308,7 @@ namespace CrissCross
 		T & DArray <T>::operator [](size_t index)
 		{
 			CoreAssert(index < m_arraySize);
-			CoreAssert(m_shadow[index]);
-
+			m_shadow[index] = 1;
 			return m_array[index];
 		}
 
