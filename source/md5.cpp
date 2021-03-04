@@ -993,11 +993,12 @@ namespace CrissCross
 
 			int64_t pos = _reader->Position();
 			_reader->Seek(0);
-			char buffer[8192]; int bytesRead = 0;
+			char buffer[8192];
+			size_t bytesRead = 0;
 			do
 			{
 				bytesRead = _reader->ReadBlock(buffer, sizeof(buffer));
-				if (bytesRead >= 0)
+				if (bytesRead > 0)
 					ProcessBlock(buffer, bytesRead);
 			} while (bytesRead == sizeof(buffer) && !_reader->EndOfFile());
 			Finalize();

@@ -150,25 +150,22 @@ namespace CrissCross
 #endif
 		}
 
-		int CoreIOReader::ReadBlock(void *_buffer, size_t _count)
+		size_t CoreIOReader::ReadBlock(void *_buffer, size_t _count)
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
 			if (!_buffer) return CC_ERR_INVALID_BUFFER;
 			if (!_count) return CC_ERR_INVALID_BUFFER;
 
-			size_t retval;
-
 			CoreAssert(_buffer != NULL);
 			CoreAssert(_count > 0);
 #ifndef __GNUC__
 			MutexHolder mh(&m_ioMutex);
 #endif
-			retval = fread(_buffer, _count, 1, m_fileInputPointer);
-			return (int)retval;
+			return fread(_buffer, _count, 1, m_fileInputPointer);
 		}
 
-		int CoreIOReader::ReadU8(uint8_t *_buffer)
+		size_t CoreIOReader::ReadU8(uint8_t *_buffer)
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
@@ -178,12 +175,10 @@ namespace CrissCross
 			MutexHolder mh(&m_ioMutex);
 #endif
 
-			size_t retval;
-			retval = fread(_buffer, sizeof(uint8_t), 1, m_fileInputPointer);
-			return retval;
+			return fread(_buffer, sizeof(uint8_t), 1, m_fileInputPointer);
 		}
 
-		int CoreIOReader::ReadU16(uint16_t *_buffer)
+		size_t CoreIOReader::ReadU16(uint16_t *_buffer)
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
@@ -211,7 +206,7 @@ namespace CrissCross
 			return retval;
 		}
 
-		int CoreIOReader::ReadU32(uint32_t *_buffer)
+		size_t CoreIOReader::ReadU32(uint32_t *_buffer)
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
@@ -240,7 +235,7 @@ namespace CrissCross
 			return retval;
 		}
 
-		int CoreIOReader::ReadU64(uint64_t *_buffer)
+		size_t CoreIOReader::ReadU64(uint64_t *_buffer)
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
@@ -269,7 +264,7 @@ namespace CrissCross
 			return retval;
 		}
 
-		int CoreIOReader::ReadLine(char *_buffer, size_t _bufferLength)
+		size_t CoreIOReader::ReadLine(char *_buffer, size_t _bufferLength)
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
@@ -283,8 +278,8 @@ namespace CrissCross
 			/* We use fgets because it detects line endings. */
 			_buffer[0] = '\x0';
 			char *ret = fgets(_buffer, (int)_bufferLength, m_fileInputPointer);
-			if (ret != _buffer)
-				return -1;
+			if ( ret != _buffer )
+				return 0;
 
 			/* Detect line endings. */
 			char *endl = NULL;
@@ -302,11 +297,11 @@ namespace CrissCross
 			if (endl)
 				*endl = '\x0';
 
-			return (int)strlen(_buffer);
+			return strlen(_buffer);
 		}
 
 		/* TODO: This function uses fgetc() which incurs unnecessary function call overhead. Find a suitable replacement. */
-		int CoreIOReader::ReadLine(std::string &_string)
+		size_t CoreIOReader::ReadLine(std::string &_string)
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
@@ -333,7 +328,7 @@ namespace CrissCross
 
 			_string = buffer;
 
-			return (int)_string.length() * sizeof(char);
+			return _string.length() * sizeof(char);
 		}
 
 		int CoreIOReader::Seek(int64_t _position, int _origin)

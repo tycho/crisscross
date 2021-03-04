@@ -210,7 +210,7 @@ namespace CrissCross
 			return CC_ERR_NONE;
 		}
 
-		int CoreIOWriter::WriteBlock(const void *_buffer, size_t _count)
+		size_t CoreIOWriter::WriteBlock(const void *_buffer, size_t _count)
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return 0;
@@ -222,12 +222,10 @@ namespace CrissCross
 			MutexHolder mh(&m_ioMutex);
 #endif
 
-			size_t ret = fwrite(_buffer, _count, 1, m_fileOutputPointer);
-
-			return ret;
+			return fwrite(_buffer, _count, 1, m_fileOutputPointer);
 		}
 
-		int CoreIOWriter::WriteU8(uint8_t _data)
+		size_t CoreIOWriter::WriteU8(uint8_t _data)
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return 0;
@@ -235,12 +233,10 @@ namespace CrissCross
 #ifndef __GNUC__
 			MutexHolder mh(&m_ioMutex);
 #endif
-			size_t ret = fwrite(&_data, sizeof(uint8_t), 1, m_fileOutputPointer);
-
-			return ret;
+			return fwrite(&_data, sizeof(uint8_t), 1, m_fileOutputPointer);
 		}
 
-		int CoreIOWriter::WriteU16(uint16_t _data)
+		size_t CoreIOWriter::WriteU16(uint16_t _data)
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return 0;
@@ -260,12 +256,10 @@ namespace CrissCross
 				/* Do nothing */
 				break;
 			}
-			size_t ret = fwrite(&_data, sizeof(uint16_t), 1, m_fileOutputPointer);
-
-			return ret;
+			return fwrite(&_data, sizeof(uint16_t), 1, m_fileOutputPointer);
 		}
 
-		int CoreIOWriter::WriteU32(uint32_t _data)
+		size_t CoreIOWriter::WriteU32(uint32_t _data)
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return 0;
@@ -285,12 +279,10 @@ namespace CrissCross
 				/* Do nothing */
 				break;
 			}
-			size_t ret = fwrite(&_data, sizeof(uint32_t), 1, m_fileOutputPointer);
-
-			return ret;
+			return fwrite(&_data, sizeof(uint32_t), 1, m_fileOutputPointer);
 		}
 
-		int CoreIOWriter::WriteU64(uint64_t _data)
+		size_t CoreIOWriter::WriteU64(uint64_t _data)
 		{
 			CoreAssert(this != NULL);
 			if (!IsOpen()) return 0;
@@ -310,9 +302,7 @@ namespace CrissCross
 				/* Do nothing */
 				break;
 			}
-			size_t ret = fwrite(&_data, sizeof(uint64_t), 1, m_fileOutputPointer);
-
-			return ret;
+			return fwrite(&_data, sizeof(uint64_t), 1, m_fileOutputPointer);
 		}
 	}
 }
