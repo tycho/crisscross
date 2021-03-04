@@ -22,11 +22,6 @@
 #define CC_LIB_COPYRIGHT           "(c) 2006-2020 by Uplink Laboratories. Licensed under the New BSD License."
 #define CC_LIB_NDS_COPYRIGHT       "(c) by Uplink Laboratories.\nLicensed under the BSD License."
 
-/* #define DISABLE_DEPRECATED_CODE */ /* This will be enabled by default in a future release */
-
-/* NOTE: By disabling this line, you will not be in compliance with the New BSD License. */
-/*      If you disable this line, you must display the copyright notice in the program */
-/*      elsewhere. */
 #define ENABLE_CREDITS
 
 /* Linux backtrace() */
@@ -56,6 +51,7 @@
 #ifndef _WIN32_IE
 #define _WIN32_IE   _WIN32_IE_IE70
 #endif
+#if !defined(__SANITIZE_ADDRESS__)
 #ifdef _SCL_SECURE
 #undef _SCL_SECURE
 #endif
@@ -64,6 +60,7 @@
 #undef _HAS_ITERATOR_DEBUGGING
 #endif
 #define _HAS_ITERATOR_DEBUGGING 0
+#endif
 #endif
 
 #if !defined (_CONSOLE)
