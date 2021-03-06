@@ -18,7 +18,7 @@ sources = [
   'source/version.cpp',
   'source/zombiehunter.cpp',
 ]
-incdirs = include_directories('source', '.')
+incdirs = include_directories('source/crisscross', 'source', '.')
 
 perl = find_program(['perl'])
 gen_buildnum_h = custom_target('build_number.h',
