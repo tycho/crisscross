@@ -12,6 +12,8 @@
 #ifndef __included_internal_mem_h
 #define __included_internal_mem_h
 
+#include <cstring>
+
 #include <crisscross/cc_attr.h>
 #include <crisscross/debug.h>
 #include <crisscross/string_utils.h>
