@@ -35,16 +35,18 @@ namespace CrissCross
 		__inline char *Duplicate(char * const &_data)
 		{
 			if (!_data) return NULL;
-
-			return ::cc_strdup(_data);
+			char *dup = (char *)::malloc(strlen(_data) + 1);
+			if (!dup) return NULL;
+			return strcpy(dup, _data);
 		}
 
 		template <>
 		__inline const char *Duplicate(const char * const &_data)
 		{
 			if (!_data) return NULL;
-
-			return ::cc_strdup(_data);
+			char *dup = (char *)::malloc(strlen(_data) + 1);
+			if (!dup) return NULL;
+			return strcpy(dup, _data);
 		}
 
 		template <class T>	__inline T NullKey() { return T(); }
