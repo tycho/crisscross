@@ -4,7 +4,7 @@
  *
  *   A product of Uplink Laboratories.
  *
- *   (c) 2006-2020 Steven Noonan.
+ *   (c) 2006-2021 Steven Noonan.
  *   Licensed under the New BSD License.
  *
  */
@@ -19,7 +19,7 @@
 #define CC_LIB_NAME                "CrissCross"
 
 #define CC_LIB_URL                 "http://www.uplinklabs.net/crisscross/"
-#define CC_LIB_COPYRIGHT           "(c) 2006-2020 by Uplink Laboratories. Licensed under the New BSD License."
+#define CC_LIB_COPYRIGHT           "(c) 2006-2021 by Uplink Laboratories. Licensed under the New BSD License."
 #define CC_LIB_NDS_COPYRIGHT       "(c) by Uplink Laboratories.\nLicensed under the BSD License."
 
 #define ENABLE_CREDITS
