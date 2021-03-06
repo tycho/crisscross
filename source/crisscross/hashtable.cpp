@@ -164,7 +164,7 @@ namespace CrissCross
 
 			size_t index = findInsertIndex(_key);
 			CoreAssert(m_keys[index] == NULL || m_keys[index] == (char*)-1);
-			m_keys[index] = cc_strdup(_key);
+			m_keys[index] = (char *)Duplicate(_key);
 			m_data[index] = _data;
 			m_slotsFree--;
 
@@ -272,7 +272,7 @@ namespace CrissCross
 
 			size_t index = HashTable<T>::findInsertIndex(_key);
 			CoreAssert(this->m_keys[index] == NULL || this->m_keys[index] == (char*)-1);
-			this->m_keys[index] = cc_strdup(_key);
+			this->m_keys[index] = (char *)Duplicate(_key);
 			this->m_data[index] = _data;
 			this->m_slotsFree--;
 
@@ -312,7 +312,7 @@ namespace CrissCross
 
 			if (this->m_keys[_index] != (char *)-1) {
 				retval = true;
-				delete [] this->m_keys[_index];
+				Dealloc(this->m_keys[_index]);
 			}
 			this->m_keys[_index] = (char *)-1;
 			this->m_slotsFree++;
