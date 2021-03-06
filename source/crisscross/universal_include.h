@@ -145,14 +145,6 @@ extern "C" __int64 __cdecl _ftelli64(FILE *);
  */
 namespace CrissCross
 {
-	/*! \brief The cryptographic routine namespace. */
-	/*!
-	 *      Contains a variety of hashing algorithms for general use.
-	 */
-	namespace Crypto
-	{
-	}
-
 	/*! \brief The data structure namespace. */
 	/*!
 	 *  Contains basic data structures to assist in sorting and searching

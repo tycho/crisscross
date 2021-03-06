@@ -46,11 +46,5 @@
 #include <crisscross/mutex.h>
 #include <crisscross/stopwatch.h>
 #include <crisscross/system.h>
-#include <crisscross/md4.h>
-#include <crisscross/md5.h>
-#include <crisscross/sha1.h>
-#include <crisscross/sha256.h>
-#include <crisscross/sha512.h>
-#include <crisscross/tiger.h>
 
 #endif

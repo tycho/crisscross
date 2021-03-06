@@ -9,20 +9,14 @@ add_executable(TestSuite
 	header.cpp
 	llist.cpp
 	main.cpp
-	md4.cpp
-	md5.cpp
 	rbtree.cpp
 	sanity.cpp
-	sha1.cpp
-	sha256.cpp
-	sha512.cpp
 	sort.cpp
 	splaytree.cpp
 	stltree.cpp
 	stopwatch.cpp
 	stree.cpp
 	testutils.cpp
-	tiger.cpp
 )
 
 target_include_directories(TestSuite

@@ -36,22 +36,7 @@
     <ClCompile Include="..\..\source\filewriter.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\md4.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\md5.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\mutex.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\sha1.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\sha256.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\sha512.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\stopwatch.cpp">
@@ -61,9 +46,6 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\system.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\tiger.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\universal_include.cpp">
@@ -164,12 +146,6 @@
     <ClInclude Include="..\..\source\crisscross\llist.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\crisscross\md4.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\crisscross\md5.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\crisscross\mutex.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -183,15 +159,6 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\crisscross\rbtree.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\crisscross\sha1.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\crisscross\sha256.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\crisscross\sha512.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\crisscross\shellsort.h">
@@ -210,9 +177,6 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\crisscross\system.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\crisscross\tiger.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\crisscross\universal_include.h">

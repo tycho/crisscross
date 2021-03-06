@@ -64,8 +64,6 @@ HEADERS = \
 	crisscross/internal_mem.h \
 	crisscross/llist.cpp \
 	crisscross/llist.h \
-	crisscross/md4.h \
-	crisscross/md5.h \
 	crisscross/mutex.h \
 	crisscross/nasty_cast.h \
 	crisscross/node.h \
@@ -74,9 +72,6 @@ HEADERS = \
 	crisscross/quicksort.h \
 	crisscross/rbtree.cpp \
 	crisscross/rbtree.h \
-	crisscross/sha1.h \
-	crisscross/sha256.h \
-	crisscross/sha512.h \
 	crisscross/shellsort.h \
 	crisscross/sort.h \
 	crisscross/splaytree.cpp \
@@ -87,7 +82,6 @@ HEADERS = \
 	crisscross/stree.h \
 	crisscross/string_utils.h \
 	crisscross/system.h \
-	crisscross/tiger.h \
 	crisscross/vec2.h \
 	crisscross/version.h \
 	crisscross/zombiehunter.h
@@ -102,16 +96,10 @@ SOURCES = \
 	filereader.cpp \
 	filesystem.cpp \
 	filewriter.cpp \
-	md4.cpp \
-	md5.cpp \
 	mutex.cpp \
-	sha1.cpp \
-	sha256.cpp \
-	sha512.cpp \
 	stopwatch.cpp \
 	string_utils.cpp \
 	system.cpp \
-	tiger.cpp \
 	universal_include.cpp \
 	version.cpp \
 	zombiehunter.cpp

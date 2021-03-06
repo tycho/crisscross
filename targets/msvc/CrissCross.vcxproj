@@ -269,16 +269,10 @@ tools\gen_buildnum_h_helper.cmd $(ProjectDir)\..\..
     <ClCompile Include="..\..\source\filereader.cpp" />
     <ClCompile Include="..\..\source\filesystem.cpp" />
     <ClCompile Include="..\..\source\filewriter.cpp" />
-    <ClCompile Include="..\..\source\md4.cpp" />
-    <ClCompile Include="..\..\source\md5.cpp" />
     <ClCompile Include="..\..\source\mutex.cpp" />
-    <ClCompile Include="..\..\source\sha1.cpp" />
-    <ClCompile Include="..\..\source\sha256.cpp" />
-    <ClCompile Include="..\..\source\sha512.cpp" />
     <ClCompile Include="..\..\source\stopwatch.cpp" />
     <ClCompile Include="..\..\source\string_utils.cpp" />
     <ClCompile Include="..\..\source\system.cpp" />
-    <ClCompile Include="..\..\source\tiger.cpp" />
     <ClCompile Include="..\..\source\universal_include.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -313,24 +307,18 @@ tools\gen_buildnum_h_helper.cmd $(ProjectDir)\..\..
     <ClInclude Include="..\..\source\crisscross\heapsort.h" />
     <ClInclude Include="..\..\source\crisscross\internal_mem.h" />
     <ClInclude Include="..\..\source\crisscross\llist.h" />
-    <ClInclude Include="..\..\source\crisscross\md4.h" />
-    <ClInclude Include="..\..\source\crisscross\md5.h" />
     <ClInclude Include="..\..\source\crisscross\mutex.h" />
     <ClInclude Include="..\..\source\crisscross\node.h" />
     <ClInclude Include="..\..\source\crisscross\platform_detect.h" />
     <ClInclude Include="..\..\source\crisscross\quadtree.h" />
     <ClInclude Include="..\..\source\crisscross\quicksort.h" />
     <ClInclude Include="..\..\source\crisscross\rbtree.h" />
-    <ClInclude Include="..\..\source\crisscross\sha1.h" />
-    <ClInclude Include="..\..\source\crisscross\sha256.h" />
-    <ClInclude Include="..\..\source\crisscross\sha512.h" />
     <ClInclude Include="..\..\source\crisscross\shellsort.h" />
     <ClInclude Include="..\..\source\crisscross\sort.h" />
     <ClInclude Include="..\..\source\crisscross\splaytree.h" />
     <ClInclude Include="..\..\source\crisscross\stltree.h" />
     <ClInclude Include="..\..\source\crisscross\stopwatch.h" />
     <ClInclude Include="..\..\source\crisscross\system.h" />
-    <ClInclude Include="..\..\source\crisscross\tiger.h" />
     <ClInclude Include="..\..\source\crisscross\universal_include.h" />
     <ClInclude Include="..\..\source\crisscross\version.h" />
   </ItemGroup>

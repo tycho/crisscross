@@ -28,16 +28,10 @@ add_library(CrissCross STATIC
 	filesystem.cpp
 	filereader.cpp
 	filewriter.cpp
-	md4.cpp
-	md5.cpp
 	mutex.cpp
-	sha1.cpp
-	sha256.cpp
-	sha512.cpp
 	stopwatch.cpp
 	string_utils.cpp
 	system.cpp
-	tiger.cpp
 	universal_include.cpp
 	version.cpp
 	zombiehunter.cpp

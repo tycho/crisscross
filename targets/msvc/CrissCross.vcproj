@@ -300,27 +300,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\source\md4.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\source\md5.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\source\mutex.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\source\sha1.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\source\sha256.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\source\sha512.cpp"
 				>
 			</File>
 			<File
@@ -333,10 +313,6 @@
 			</File>
 			<File
 				RelativePath="..\..\source\system.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\source\tiger.cpp"
 				>
 			</File>
 			<File
@@ -656,14 +632,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\source\crisscross\md4.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\source\crisscross\md5.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\source\crisscross\mutex.h"
 				>
 			</File>
@@ -717,18 +685,6 @@
 			</File>
 			<File
 				RelativePath="..\..\source\crisscross\rbtree.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\source\crisscross\sha1.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\source\crisscross\sha256.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\source\crisscross\sha512.h"
 				>
 			</File>
 			<File
@@ -789,10 +745,6 @@
 			</File>
 			<File
 				RelativePath="..\..\source\crisscross\system.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\source\crisscross\tiger.h"
 				>
 			</File>
 			<File

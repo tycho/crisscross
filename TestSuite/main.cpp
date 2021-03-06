@@ -27,12 +27,6 @@
 #include "stopwatch.h"
 #include "stree.h"
 #include "sort.h"
-#include "md4.h"
-#include "md5.h"
-#include "sha1.h"
-#include "sha256.h"
-#include "sha512.h"
-#include "tiger.h"
 
 using namespace CrissCross;
 
@@ -66,13 +60,6 @@ int main(int argc, char * *argv)
 #ifdef TARGET_LITTLE_ENDIAN
 	WritePrefix("Type-based aliasing sanity"); retval |= WriteResult(TestSanity_TypeBasedAliasing());
 #endif
-
-	WritePrefix("MD4"); retval |= WriteResult(TestMD4());
-	WritePrefix("MD5"); retval |= WriteResult(TestMD5());
-	WritePrefix("SHA-1"); retval |= WriteResult(TestSHA1());
-	WritePrefix("SHA-256"); retval |= WriteResult(TestSHA256());
-	WritePrefix("SHA-512"); retval |= WriteResult(TestSHA512());
-	WritePrefix("Tiger"); retval |= WriteResult(TestTiger());
 
 	WritePrefix("Stopwatch"); retval |= WriteResult(TestStopwatch());
 

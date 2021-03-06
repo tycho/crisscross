@@ -9,25 +9,13 @@
 /* Begin PBXBuildFile section */
 		7BF5FBAA110974DC000F3F2F /* compare.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5FBA8110974DC000F3F2F /* compare.cpp */; };
 		7BF5FBAB110974DC000F3F2F /* string_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5FBA9110974DC000F3F2F /* string_utils.cpp */; };
-		B01CB6750D52D2970081CCAC /* md4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01CB66D0D52D2970081CCAC /* md4.cpp */; };
-		B01CB6760D52D2970081CCAC /* md5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01CB66E0D52D2970081CCAC /* md5.cpp */; };
-		B01CB6770D52D2970081CCAC /* sha1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01CB66F0D52D2970081CCAC /* sha1.cpp */; };
-		B01CB6780D52D2970081CCAC /* sha256.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01CB6700D52D2970081CCAC /* sha256.cpp */; };
-		B01CB6790D52D2970081CCAC /* sha512.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01CB6710D52D2970081CCAC /* sha512.cpp */; };
-		B01CB67A0D52D2970081CCAC /* tiger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B01CB6720D52D2970081CCAC /* tiger.cpp */; };
 		B01CB6900D52D2B40081CCAC /* avltree.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB67C0D52D2B40081CCAC /* avltree.h */; };
 		B01CB6920D52D2B40081CCAC /* build_number.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB67E0D52D2B40081CCAC /* build_number.h */; };
 		B01CB6930D52D2B40081CCAC /* datatypes.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB67F0D52D2B40081CCAC /* datatypes.h */; };
 		B01CB6960D52D2B40081CCAC /* hashtable.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB6820D52D2B40081CCAC /* hashtable.h */; };
 		B01CB6980D52D2B40081CCAC /* internal_mem.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB6840D52D2B40081CCAC /* internal_mem.h */; };
-		B01CB69A0D52D2B40081CCAC /* md4.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB6860D52D2B40081CCAC /* md4.h */; };
-		B01CB69B0D52D2B40081CCAC /* md5.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB6870D52D2B40081CCAC /* md5.h */; };
-		B01CB69C0D52D2B40081CCAC /* sha1.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB6880D52D2B40081CCAC /* sha1.h */; };
-		B01CB69D0D52D2B40081CCAC /* sha256.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB6890D52D2B40081CCAC /* sha256.h */; };
-		B01CB69E0D52D2B40081CCAC /* sha512.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB68A0D52D2B40081CCAC /* sha512.h */; };
 		B01CB69F0D52D2B40081CCAC /* shellsort.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB68B0D52D2B40081CCAC /* shellsort.h */; };
 		B01CB6A10D52D2B40081CCAC /* splaytree.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB68D0D52D2B40081CCAC /* splaytree.h */; };
-		B01CB6A20D52D2B40081CCAC /* tiger.h in Headers */ = {isa = PBXBuildFile; fileRef = B01CB68E0D52D2B40081CCAC /* tiger.h */; };
 		B02A92870EA070F300A7DB38 /* hash.h in Headers */ = {isa = PBXBuildFile; fileRef = B02A92860EA070F300A7DB38 /* hash.h */; };
 		B07FD4B10D6CD41400464636 /* filereader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B07FD4AF0D6CD41400464636 /* filereader.cpp */; };
 		B07FD4B20D6CD41400464636 /* filewriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B07FD4B00D6CD41400464636 /* filewriter.cpp */; };
@@ -89,27 +77,15 @@
 		7BF5FBA8110974DC000F3F2F /* compare.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = compare.cpp; path = ../../source/compare.cpp; sourceTree = SOURCE_ROOT; };
 		7BF5FBA9110974DC000F3F2F /* string_utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = string_utils.cpp; path = ../../source/string_utils.cpp; sourceTree = SOURCE_ROOT; };
 		8D07F2C70486CC7A007CD1D0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		B01CB66D0D52D2970081CCAC /* md4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = md4.cpp; path = ../../source/md4.cpp; sourceTree = SOURCE_ROOT; };
-		B01CB66E0D52D2970081CCAC /* md5.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = md5.cpp; path = ../../source/md5.cpp; sourceTree = SOURCE_ROOT; };
-		B01CB66F0D52D2970081CCAC /* sha1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sha1.cpp; path = ../../source/sha1.cpp; sourceTree = SOURCE_ROOT; };
-		B01CB6700D52D2970081CCAC /* sha256.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sha256.cpp; path = ../../source/sha256.cpp; sourceTree = SOURCE_ROOT; };
-		B01CB6710D52D2970081CCAC /* sha512.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sha512.cpp; path = ../../source/sha512.cpp; sourceTree = SOURCE_ROOT; };
-		B01CB6720D52D2970081CCAC /* tiger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tiger.cpp; path = ../../source/tiger.cpp; sourceTree = SOURCE_ROOT; };
 		B01CB67C0D52D2B40081CCAC /* avltree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = avltree.h; path = ../../source/crisscross/avltree.h; sourceTree = SOURCE_ROOT; };
 		B01CB67E0D52D2B40081CCAC /* build_number.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = build_number.h; path = ../../source/crisscross/build_number.h; sourceTree = SOURCE_ROOT; };
 		B01CB67F0D52D2B40081CCAC /* datatypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = datatypes.h; path = ../../source/crisscross/datatypes.h; sourceTree = SOURCE_ROOT; };
 		B01CB6810D52D2B40081CCAC /* hashtable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hashtable.cpp; path = ../../source/crisscross/hashtable.cpp; sourceTree = SOURCE_ROOT; };
 		B01CB6820D52D2B40081CCAC /* hashtable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hashtable.h; path = ../../source/crisscross/hashtable.h; sourceTree = SOURCE_ROOT; };
 		B01CB6840D52D2B40081CCAC /* internal_mem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = internal_mem.h; path = ../../source/crisscross/internal_mem.h; sourceTree = SOURCE_ROOT; };
-		B01CB6860D52D2B40081CCAC /* md4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = md4.h; path = ../../source/crisscross/md4.h; sourceTree = SOURCE_ROOT; };
-		B01CB6870D52D2B40081CCAC /* md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = md5.h; path = ../../source/crisscross/md5.h; sourceTree = SOURCE_ROOT; };
-		B01CB6880D52D2B40081CCAC /* sha1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sha1.h; path = ../../source/crisscross/sha1.h; sourceTree = SOURCE_ROOT; };
-		B01CB6890D52D2B40081CCAC /* sha256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sha256.h; path = ../../source/crisscross/sha256.h; sourceTree = SOURCE_ROOT; };
-		B01CB68A0D52D2B40081CCAC /* sha512.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sha512.h; path = ../../source/crisscross/sha512.h; sourceTree = SOURCE_ROOT; };
 		B01CB68B0D52D2B40081CCAC /* shellsort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = shellsort.h; path = ../../source/crisscross/shellsort.h; sourceTree = SOURCE_ROOT; };
 		B01CB68C0D52D2B40081CCAC /* splaytree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = splaytree.cpp; path = ../../source/crisscross/splaytree.cpp; sourceTree = SOURCE_ROOT; };
 		B01CB68D0D52D2B40081CCAC /* splaytree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = splaytree.h; path = ../../source/crisscross/splaytree.h; sourceTree = SOURCE_ROOT; };
-		B01CB68E0D52D2B40081CCAC /* tiger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tiger.h; path = ../../source/crisscross/tiger.h; sourceTree = SOURCE_ROOT; };
 		B01CB6A50D52D2E60081CCAC /* avltree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = avltree.cpp; path = ../../source/crisscross/avltree.cpp; sourceTree = SOURCE_ROOT; };
 		B02A92860EA070F300A7DB38 /* hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hash.h; path = ../../source/crisscross/hash.h; sourceTree = SOURCE_ROOT; };
 		B07FD4AF0D6CD41400464636 /* filereader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = filereader.cpp; path = ../../source/filereader.cpp; sourceTree = SOURCE_ROOT; };
@@ -214,21 +190,9 @@
 				B01CB6810D52D2B40081CCAC /* hashtable.cpp */,
 				B01CB6820D52D2B40081CCAC /* hashtable.h */,
 				B01CB6840D52D2B40081CCAC /* internal_mem.h */,
-				B01CB6860D52D2B40081CCAC /* md4.h */,
-				B01CB6870D52D2B40081CCAC /* md5.h */,
-				B01CB6880D52D2B40081CCAC /* sha1.h */,
-				B01CB6890D52D2B40081CCAC /* sha256.h */,
-				B01CB68A0D52D2B40081CCAC /* sha512.h */,
 				B01CB68B0D52D2B40081CCAC /* shellsort.h */,
 				B01CB68C0D52D2B40081CCAC /* splaytree.cpp */,
 				B01CB68D0D52D2B40081CCAC /* splaytree.h */,
-				B01CB68E0D52D2B40081CCAC /* tiger.h */,
-				B01CB66D0D52D2970081CCAC /* md4.cpp */,
-				B01CB66E0D52D2970081CCAC /* md5.cpp */,
-				B01CB66F0D52D2970081CCAC /* sha1.cpp */,
-				B01CB6700D52D2970081CCAC /* sha256.cpp */,
-				B01CB6710D52D2970081CCAC /* sha512.cpp */,
-				B01CB6720D52D2970081CCAC /* tiger.cpp */,
 				B0B10A9F0C513C6F00A2D43D /* crisscross.h */,
 				B0A6251E0BFA8FB5006F2B68 /* combsort.h */,
 				B0A625200BFA8FB5006F2B68 /* heapsort.h */,
@@ -326,14 +290,8 @@
 				B01CB6930D52D2B40081CCAC /* datatypes.h in Headers */,
 				B01CB6960D52D2B40081CCAC /* hashtable.h in Headers */,
 				B01CB6980D52D2B40081CCAC /* internal_mem.h in Headers */,
-				B01CB69A0D52D2B40081CCAC /* md4.h in Headers */,
-				B01CB69B0D52D2B40081CCAC /* md5.h in Headers */,
-				B01CB69C0D52D2B40081CCAC /* sha1.h in Headers */,
-				B01CB69D0D52D2B40081CCAC /* sha256.h in Headers */,
-				B01CB69E0D52D2B40081CCAC /* sha512.h in Headers */,
 				B01CB69F0D52D2B40081CCAC /* shellsort.h in Headers */,
 				B01CB6A10D52D2B40081CCAC /* splaytree.h in Headers */,
-				B01CB6A20D52D2B40081CCAC /* tiger.h in Headers */,
 				B07FD4B50D6CD42300464636 /* filereader.h in Headers */,
 				B07FD4B60D6CD42300464636 /* filewriter.h in Headers */,
 				B02A92870EA070F300A7DB38 /* hash.h in Headers */,
@@ -421,12 +379,6 @@
 				B0BD2C810BE26C3200F71A26 /* tcpsocket.cpp in Sources */,
 				B0BD2C830BE26C3300F71A26 /* stopwatch.cpp in Sources */,
 				B0A6251C0BFA8FA1006F2B68 /* version.cpp in Sources */,
-				B01CB6750D52D2970081CCAC /* md4.cpp in Sources */,
-				B01CB6760D52D2970081CCAC /* md5.cpp in Sources */,
-				B01CB6770D52D2970081CCAC /* sha1.cpp in Sources */,
-				B01CB6780D52D2970081CCAC /* sha256.cpp in Sources */,
-				B01CB6790D52D2970081CCAC /* sha512.cpp in Sources */,
-				B01CB67A0D52D2970081CCAC /* tiger.cpp in Sources */,
 				B07FD4B10D6CD41400464636 /* filereader.cpp in Sources */,
 				B07FD4B20D6CD41400464636 /* filewriter.cpp in Sources */,
 				B0E512E90FD7697200590EDF /* zombiehunter.cpp in Sources */,
