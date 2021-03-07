@@ -266,6 +266,8 @@ namespace CrissCross
 				m_array = NULL;
 				m_arraySize = 0;
 			} else {
+				m_shadow.resize( 0, false );
+				m_shadow.resize( m_arraySize, false );
 				rebuildStack();
 			}
 		}
