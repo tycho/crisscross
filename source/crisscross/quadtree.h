@@ -13,6 +13,7 @@
 #define __included_cc_quadtree_h
 
 #include <vector>
+#include <functional>
 
 #include <crisscross/cc_attr.h>
 #include <crisscross/compare.h>
@@ -34,6 +35,27 @@ namespace CrissCross
 			QtNode(T const &_data, vec2 const &_pos, float _collisionRadius) : collisionRadius(_collisionRadius), data(_data), pos(_pos)
 			{ }
 		};
+
+		enum class QuadtreeCallbackResponse
+		{
+			ACCEPT,
+			REJECT,
+			ACCEPT_AND_STOP,
+			REJECT_AND_STOP,
+			STOP_ITERATION
+		};
+
+		enum class QuadtreeSearchResult
+		{
+			SUCCESS,
+			NOT_FOUND,
+			ABORTED
+		};
+
+#if __cplusplus >= 202002L
+		template<class T>
+		using QuadtreeSearchFunction = std::function<QuadtreeCallbackResponse ( T const & )>;
+#endif
 
 		template <class T,
 		          int MaxDepth = 7,
@@ -60,11 +82,19 @@ namespace CrissCross
 			void Descend();
 			void Ascend();
 		public:
+#if __cplusplus >= 202002L
+			using predicate_t = QuadtreeSearchFunction<T>;
+#endif
+
 			Quadtree(vec2 const &lower_left, vec2 const &upper_right);
 			virtual ~Quadtree();
 			virtual void InsertObject(T const &_object, vec2 const &position, float _collisionRadius);
 			virtual bool RemoveObject(T const &_object, vec2 const &position, float _collisionRadius);
-			virtual void ObjectsInCircle(std::vector<T> &array, vec2 const &circle, float radius, size_t limit = (size_t)-1) const;
+			virtual QuadtreeSearchResult ObjectsInCircle(std::vector<T> &array, vec2 const &circle, float radius, size_t maxResults
+#if __cplusplus >= 202002L
+				, predicate_t predicate
+#endif
+			) const;
 
 			virtual void Collect(std::vector<T>& _elements, uint32_t &maxDepthSeen, uint32_t &maxNodesSeen, uint32_t currentDepth = 0);
 		};
@@ -100,24 +130,48 @@ namespace CrissCross
 		}
 
 		template <class T, int MaxDepth, int MaxNodesPerLevel>
-		void Quadtree<T, MaxDepth, MaxNodesPerLevel>::ObjectsInCircle(std::vector<T> &array, vec2 const &circle, float radius, size_t limit) const
+		QuadtreeSearchResult Quadtree<T, MaxDepth, MaxNodesPerLevel>::ObjectsInCircle(std::vector<T> &array, vec2 const &circle, float radius, size_t maxResults
+#if __cplusplus >= 202002L
+			, predicate_t predicate
+#endif
+		) const
 		{
-			if (array.size() >= limit) return;
-
 			/* find objects stored in this quadtree */
 			for (typename std::vector<QtNode<T>>::const_iterator i = nodes.begin();
 				 i != nodes.end();
 				 i++)
 			{
 				QtNode<T> const &node = *i;
-				if (CircleCollision(circle, radius, node.pos, node.collisionRadius)) {
-					array.push_back(node.data);
-					if (array.size() >= limit) return;
+				if ( CircleCollision( circle, radius, node.pos, node.collisionRadius ) )
+				{
+#if __cplusplus >= 202002L
+					QuadtreeCallbackResponse response = predicate( node.data );
+					if ( response == QuadtreeCallbackResponse::ACCEPT ||
+						 response == QuadtreeCallbackResponse::ACCEPT_AND_STOP )
+					{
+						array.push_back( node.data );
+					}
+					if ( response == QuadtreeCallbackResponse::STOP_ITERATION ||
+						 response == QuadtreeCallbackResponse::ACCEPT_AND_STOP ||
+						 response == QuadtreeCallbackResponse::REJECT_AND_STOP )
+					{
+						return QuadtreeSearchResult::ABORTED;
+					}
+#else
+					array.push_back( node.data );
+					if ( array.size() >= maxResults )
+						return QuadtreeSearchResult::ABORTED;
+#endif
 				}
 			}
 
-			if (!ll)  /* if no subtrees, return this as-is */
-				return;
+			if ( !ll )  /* if no subtrees, return this as-is */
+			{
+				if ( array.size() > 0 )
+					return QuadtreeSearchResult::SUCCESS;
+				else
+					return QuadtreeSearchResult::NOT_FOUND;
+			}
 
 			/* find objects stored in the child quadtrees */
 			float	x = circle.X(),
@@ -129,60 +183,58 @@ namespace CrissCross
 					midX = (llPosition.X() + trPosition.X()) / 2.0f,
 					midY = (llPosition.Y() + trPosition.Y()) / 2.0f;
 
-			#ifdef _OPENMP
-			std::vector<T> v1, v2, v3, v4;
-			#pragma omp parallel sections
-			{
-				#pragma omp section
-				if (top > midY && left < midX) {
-					/* need to descend into top left quadtree */
-					tl->ObjectsInCircle(v1, circle, radius);
-				}
-
-				#pragma omp section
-				if (top > midY && right > midX)	{
-					/* top right quadtree */
-					tr->ObjectsInCircle(v2, circle, radius);
-				}
-
-				#pragma omp section
-				if (bottom < midY && right > midX) {
-					/* lower right quadtree */
-					lr->ObjectsInCircle(v3, circle, radius);
-				}
-
-				#pragma omp section
-				if (bottom < midY && left < midX) {
-					/* lower left quadtree */
-					ll->ObjectsInCircle(v4, circle, radius);
-				}
-			}
-			/* Merge the resulting vectors. */
-			array.insert(array.end(), v1.begin(), v1.end());
-			array.insert(array.end(), v2.begin(), v2.end());
-			array.insert(array.end(), v3.begin(), v3.end());
-			array.insert(array.end(), v4.begin(), v4.end());
-			#else
 			if (top > midY && left < midX) {
 				/* need to descend into top left quadtree */
-				tl->ObjectsInCircle(array, circle, radius);
+				if ( tl->ObjectsInCircle( array, circle, radius, maxResults
+#if __cplusplus >= 202002L
+					, predicate
+#endif
+				) == QuadtreeSearchResult::ABORTED )
+				{
+					return QuadtreeSearchResult::ABORTED;
+				}
 			}
 
 			if (top > midY && right > midX)	{
 				/* top right quadtree */
-				tr->ObjectsInCircle(array, circle, radius);
+				if ( tr->ObjectsInCircle( array, circle, radius, maxResults
+#if __cplusplus >= 202002L
+					, predicate
+#endif
+				) == QuadtreeSearchResult::ABORTED )
+				{
+					return QuadtreeSearchResult::ABORTED;
+				}
 			}
 
 			if (bottom < midY && right > midX) {
 				/* lower right quadtree */
-				lr->ObjectsInCircle(array, circle, radius);
+				if ( lr->ObjectsInCircle( array, circle, radius, maxResults
+#if __cplusplus >= 202002L
+					, predicate
+#endif
+				) == QuadtreeSearchResult::ABORTED )
+				{
+					return QuadtreeSearchResult::ABORTED;
+				}
 			}
 
 			if (bottom < midY && left < midX) {
 				/* lower left quadtree */
-				ll->ObjectsInCircle(array, circle, radius);
+				if ( ll->ObjectsInCircle( array, circle, radius, maxResults
+#if __cplusplus >= 202002L
+					, predicate
+#endif
+				) == QuadtreeSearchResult::ABORTED )
+				{
+					return QuadtreeSearchResult::ABORTED;
+				}
 			}
-			#endif
+
+			if ( array.size() > 0 )
+				return QuadtreeSearchResult::SUCCESS;
+			else
+				return QuadtreeSearchResult::NOT_FOUND;
 		}
 
 		template <class T, int MaxDepth, int MaxNodesPerLevel>
