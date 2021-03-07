@@ -19,11 +19,11 @@ namespace CrissCross
 	namespace Data
 	{
 		/*! \brief A simple HashTable. */
-		template <class Data>
+		template <class Data, bool OwnsKeys = true>
 		class HashTable
 		{
 		protected:
-			char       **m_keys;
+			const char **m_keys;
 			Data        *m_data;
 			unsigned int m_slotsFree;
 			unsigned int m_size;
@@ -179,8 +179,8 @@ namespace CrissCross
 #endif
 		};
 
-		template <class Data>
-		class SortingHashTable : public HashTable<Data>
+		template <class Data, bool OwnsKeys>
+		class SortingHashTable : public HashTable<Data, OwnsKeys>
 		{
 		protected:
 			size_t	*m_orderedIndices;                    /* Stores a chain of indices that make it easy to walk through the table in alphabetical key order */

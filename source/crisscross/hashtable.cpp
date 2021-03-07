@@ -21,21 +21,21 @@ namespace CrissCross
 {
 	namespace Data
 	{
-		template <class Data>
-		HashTable<Data>::HashTable(size_t _initialSize)
+		template <class Data, bool OwnsKeys>
+		HashTable<Data, OwnsKeys>::HashTable(size_t _initialSize)
 		: m_keys(NULL), m_size(32)
 		{
 			m_mask = m_size - 1;
 			m_slotsFree = m_size;
-			m_keys = new char *[m_size];
+			m_keys = new const char *[m_size];
 			m_data = new Data[m_size];
 
-			memset(m_keys, 0, sizeof(char *) * m_size);
+			memset(m_keys, 0, sizeof(const char *) * m_size);
 			memset(m_data, 0, sizeof(Data) * m_size);
 		}
 
-		template <class Data>
-		HashTable<Data>::~HashTable()
+		template <class Data, bool OwnsKeys>
+		HashTable<Data, OwnsKeys>::~HashTable()
 		{
 			empty();
 
@@ -43,14 +43,14 @@ namespace CrissCross
 			delete [] m_data;
 		}
 
-		template <class Data>
-		void HashTable<Data>::grow()
+		template <class Data, bool OwnsKeys>
+		void HashTable<Data, OwnsKeys>::grow()
 		{
 			unsigned int oldSize = m_size;
 			m_size *= 2;
 			m_mask = m_size - 1;
-			char **oldKeys = m_keys;
-			m_keys = new char *[m_size];
+			const char **oldKeys = m_keys;
+			m_keys = new const char *[m_size];
 			Data *oldData = m_data;
 			m_data = new Data[m_size];
 
@@ -71,8 +71,8 @@ namespace CrissCross
 			delete [] oldData;
 		}
 
-		template <class Data>
-		size_t HashTable<Data>::findInsertIndex(const char *_key) const
+		template <class Data, bool OwnsKeys>
+		size_t HashTable<Data, OwnsKeys>::findInsertIndex(const char *_key) const
 		{
 			size_t index = Hash<const char *>(_key) & m_mask;
 
@@ -87,8 +87,8 @@ namespace CrissCross
 			return index;
 		}
 
-		template <class Data>
-		size_t HashTable<Data>::findIndex(const char *_key) const
+		template <class Data, bool OwnsKeys>
+		size_t HashTable<Data, OwnsKeys>::findIndex(const char *_key) const
 		{
 			size_t index = Hash<const char *>(_key) & m_mask;
 
@@ -114,8 +114,8 @@ namespace CrissCross
 			return index;
 		}
 
-		template <class Data>
-		Data HashTable<Data>::find(const char * _key, Data const &_default) const
+		template <class Data, bool OwnsKeys>
+		Data HashTable<Data, OwnsKeys>::find(const char * _key, Data const &_default) const
 		{
 			size_t index = findIndex(_key);
 			if (index != (size_t)-1) {
@@ -124,39 +124,41 @@ namespace CrissCross
 			return _default;
 		}
 
-		template <class Data>
-		bool HashTable<Data>::exists(const char * _key) const
+		template <class Data, bool OwnsKeys>
+		bool HashTable<Data, OwnsKeys>::exists(const char * _key) const
 		{
 			return findIndex(_key) != -1;
 		}
 
-		template <class Data>
-		bool HashTable<Data>::erase(const char *_key)
+		template <class Data, bool OwnsKeys>
+		bool HashTable<Data, OwnsKeys>::erase(const char *_key)
 		{
 			size_t index = findIndex(_key);
 			if (index != (size_t)-1) {
-				Dealloc(m_keys[index]);
-				m_keys[index] = (char*)-1;
+				if (OwnsKeys)
+					Dealloc((char *)m_keys[index]);
+				m_keys[index] = (const char*)-1;
 				m_slotsFree++;
 				return true;
 			}
 			return false;
 		}
 
-		template <class Data>
-		void HashTable<Data>::empty()
+		template <class Data, bool OwnsKeys>
+		void HashTable<Data, OwnsKeys>::empty()
 		{
 			for (size_t i = 0; i < m_size; ++i) {
-				if (m_keys[i] == (char*)-1) m_keys[i] = NULL;
-				Dealloc(m_keys[i]);
+				if (m_keys[i] == (const char*)-1) m_keys[i] = NULL;
+				if (OwnsKeys)
+					Dealloc(m_keys[i]);
 			}
 
-			memset(m_keys, 0, sizeof(char *) * m_size);
+			memset(m_keys, 0, sizeof(const char *) * m_size);
 			memset(m_data, 0, sizeof(Data) * m_size);
 		}
 
-		template <class Data>
-		size_t HashTable<Data>::insert(const char *_key, Data const &_data)
+		template <class Data, bool OwnsKeys>
+		size_t HashTable<Data, OwnsKeys>::insert(const char *_key, Data const &_data)
 		{
 			if (m_slotsFree * 2 <= m_size) {
 				grow();
@@ -164,32 +166,35 @@ namespace CrissCross
 
 			size_t index = findInsertIndex(_key);
 			CoreAssert(m_keys[index] == NULL || m_keys[index] == (char*)-1);
-			m_keys[index] = (char *)Duplicate(_key);
+			if (OwnsKeys)
+				m_keys[index] = (const char *)Duplicate(_key);
+			else
+				m_keys[index] = _key;
 			m_data[index] = _data;
 			m_slotsFree--;
 
 			return index;
 		}
 
-		template <class T>
-		void SortingHashTable<T>::grow()
+		template <class T, bool OwnsKeys>
+		void SortingHashTable<T, OwnsKeys>::grow()
 		{
 			unsigned int oldSize = this->m_size;
 			this->m_size *= 2;
 			this->m_mask = (this->m_mask << 1) + 1;
 
 			/* Copy pointers to existing data */
-			char      * *oldKeys = this->m_keys;
+			const char **oldKeys = this->m_keys;
 			T           *oldData = this->m_data;
 			size_t      *oldOrderedIndices = m_orderedIndices;
 
 			/* Make new data */
-			this->m_keys = new char *[this->m_size];
+			this->m_keys = new const char *[this->m_size];
 			this->m_data = new T [this->m_size];
 			m_orderedIndices = new size_t[this->m_size];
 
 			/* Set all new data to zero */
-			memset(this->m_keys, 0, sizeof(char *) * this->m_size);
+			memset(this->m_keys, 0, sizeof(const char *) * this->m_size);
 			memset(this->m_data, 0, sizeof(T) * this->m_size);
 			for (size_t i = 0; i < this->m_size; i++)
 				m_orderedIndices[i] = (size_t)-1;
@@ -224,8 +229,8 @@ namespace CrissCross
 		}
 
 		/* See header for description */
-		template <class T>
-		size_t SortingHashTable<T>::findPrevKey(char const *_key) const
+		template <class T, bool OwnsKeys>
+		size_t SortingHashTable<T, OwnsKeys>::findPrevKey(const char *_key) const
 		{
 			size_t prevI = -1;
 			size_t i = m_firstOrderedIndex;
@@ -234,7 +239,7 @@ namespace CrissCross
 			{
 				if (i == (size_t)-1) return prevI;
 
-				if (Compare((const char *)this->m_keys[i], _key) >= 0)
+				if (Compare(this->m_keys[i], _key) >= 0)
 					return prevI;
 
 				prevI = i;
@@ -242,23 +247,23 @@ namespace CrissCross
 			}
 		}
 
-		template <class T>
-		SortingHashTable<T>::SortingHashTable() :
-			HashTable<T>(),
+		template <class T, bool OwnsKeys>
+		SortingHashTable<T, OwnsKeys>::SortingHashTable() :
+			HashTable<T, OwnsKeys>(),
 			m_firstOrderedIndex(-1)
 		{
 			m_orderedIndices = new size_t[this->m_size];
 			memset(m_orderedIndices, 0, sizeof(size_t) * this->m_size);
 		}
 
-		template <class T>
-		SortingHashTable<T>::~SortingHashTable()
+		template <class T, bool OwnsKeys>
+		SortingHashTable<T, OwnsKeys>::~SortingHashTable()
 		{
 			delete [] m_orderedIndices;
 		}
 
-		template <class T>
-		size_t SortingHashTable<T>::insert(char const *_key, T const &_data)
+		template <class T, bool OwnsKeys>
+		size_t SortingHashTable<T, OwnsKeys>::insert(char const *_key, T const &_data)
 		{
 			/* */
 			/* Make sure the table is big enough */
@@ -270,9 +275,12 @@ namespace CrissCross
 			/* */
 			/* Do the main insert */
 
-			size_t index = HashTable<T>::findInsertIndex(_key);
+			size_t index = HashTable<T, OwnsKeys>::findInsertIndex(_key);
 			CoreAssert(this->m_keys[index] == NULL || this->m_keys[index] == (char*)-1);
-			this->m_keys[index] = (char *)Duplicate(_key);
+			if (OwnsKeys)
+				this->m_keys[index] = (char *)Duplicate(_key);
+			else
+				this->m_keys[index] = _key;
 			this->m_data[index] = _data;
 			this->m_slotsFree--;
 
@@ -293,8 +301,8 @@ namespace CrissCross
 			return index;
 		}
 
-		template <class T>
-		bool SortingHashTable<T>::erase(char const *_key)
+		template <class T, bool OwnsKeys>
+		bool SortingHashTable<T, OwnsKeys>::erase(char const *_key)
 		{
 			int index = this->GetIndex(_key);
 			if (index >= 0)	{
@@ -303,8 +311,8 @@ namespace CrissCross
 			return false;
 		}
 
-		template <class T>
-		bool SortingHashTable<T>::erase(size_t _index)
+		template <class T, bool OwnsKeys>
+		bool SortingHashTable<T, OwnsKeys>::erase(size_t _index)
 		{
 			bool retval = false;
 			/* */
@@ -312,7 +320,8 @@ namespace CrissCross
 
 			if (this->m_keys[_index] != (char *)-1) {
 				retval = true;
-				Dealloc(this->m_keys[_index]);
+				if (OwnsKeys)
+					Dealloc(this->m_keys[_index]);
 			}
 			this->m_keys[_index] = (char *)-1;
 			this->m_slotsFree++;
@@ -337,15 +346,15 @@ namespace CrissCross
 			return retval;
 		}
 
-		template <class T>
-		size_t SortingHashTable<T>::beginOrderedWalk()
+		template <class T, bool OwnsKeys>
+		size_t SortingHashTable<T, OwnsKeys>::beginOrderedWalk()
 		{
 			m_nextOrderedIndex = m_orderedIndices[m_firstOrderedIndex];
 			return m_firstOrderedIndex;
 		}
 
-		template <class T>
-		size_t SortingHashTable<T>::nextOrderedIndex()
+		template <class T, bool OwnsKeys>
+		size_t SortingHashTable<T, OwnsKeys>::nextOrderedIndex()
 		{
 			size_t rv = m_nextOrderedIndex;
 			if (rv != (size_t)-1)
