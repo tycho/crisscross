@@ -136,7 +136,7 @@ namespace CrissCross
 			size_t index = findIndex(_key);
 			if (index != (size_t)-1) {
 				if (OwnsKeys)
-					Dealloc((char *)m_keys[index]);
+					Dealloc(m_keys[index]);
 				m_keys[index] = (const char*)-1;
 				m_slotsFree++;
 				return true;
