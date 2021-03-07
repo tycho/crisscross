@@ -140,6 +140,13 @@ namespace CrissCross
 		}
 
 		template <class T>
+		void DArray <T>::setMinimumSize(size_t newsize)
+		{
+			if (m_arraySize < newsize)
+				setSize(newsize);
+		}
+
+		template <class T>
 		void DArray <T>::setSize(size_t newsize)
 		{
 			m_shadow.resize(newsize, false);
@@ -189,7 +196,7 @@ namespace CrissCross
 			 * pointer size. Try to keep our array approximately a multiple of
 			 * a 4K page
 			 */
-			const size_t growthHeuristic = 4096 / sizeof(void *);
+			const size_t growthHeuristic = 4096 / sizeof(T);
 
 			if (m_stepSize == -1) {
 				if (m_arraySize == 0) {

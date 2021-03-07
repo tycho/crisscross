@@ -113,6 +113,12 @@ namespace CrissCross
 				 */
 				void setSize(size_t _newsize);
 
+				/*! \brief Sets the size of the array. */
+				/*!
+				 * \param _newsize The new array size.
+				 */
+				void setMinimumSize(size_t _newsize);
+
 				/*! \brief Sets the size of the array, and marks all the slots
 				 * as "in use". This is useful for pre-allocating large chunks
 				 * of memory for direct access. */
