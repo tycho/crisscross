@@ -49,7 +49,7 @@ namespace CrissCross
 			Quadtree<T, MaxDepth, MaxNodesPerLevel>             * tl;
 			Quadtree<T, MaxDepth, MaxNodesPerLevel>             * tr;
 			int						descentLevel;
-			std::vector<QtNode<T>*>	nodes;
+			std::vector<QtNode<T>>	nodes;
 
 			// Constructor for deeper levels
 			Quadtree(vec2 const &lower_left, vec2 const &upper_right, int _descentLevel, Quadtree<T, MaxDepth, MaxNodesPerLevel> *_parent);
@@ -77,7 +77,7 @@ namespace CrissCross
 			if (currentDepth > maxDepthSeen)
 				maxDepthSeen = currentDepth;
 			for (auto& elem : nodes) {
-				_elements.push_back(elem->data);
+				_elements.push_back(elem.data);
 			}
 			if (ll) ll->Collect(_elements, maxDepthSeen, maxNodesSeen, currentDepth + 1);
 			if (lr) lr->Collect(_elements, maxDepthSeen, maxNodesSeen, currentDepth + 1);
@@ -105,13 +105,13 @@ namespace CrissCross
 			if (array.size() >= limit) return;
 
 			/* find objects stored in this quadtree */
-			for (typename std::vector<QtNode<T>*>::const_iterator i = nodes.begin();
+			for (typename std::vector<QtNode<T>>::const_iterator i = nodes.begin();
 				 i != nodes.end();
 				 i++)
 			{
-				QtNode<T> *node = *i;
-				if (CircleCollision(circle, radius, node->pos, node->collisionRadius)) {
-					array.push_back(node->data);
+				QtNode<T> const &node = *i;
+				if (CircleCollision(circle, radius, node.pos, node.collisionRadius)) {
+					array.push_back(node.data);
 					if (array.size() >= limit) return;
 				}
 			}
@@ -200,16 +200,10 @@ namespace CrissCross
 			tl = new Quadtree(vec2(leftX, midY), vec2(rightX, midY), descentLevel - 1, this);
 			tr = new Quadtree(vec2(midX, midY), vec2(rightX, topY), descentLevel - 1, this);
 			/* distribute all current nodes */
-			std::vector<QtNode<T>*> oldCopy = nodes;
+			std::vector<QtNode<T>> oldCopy = nodes;
 			nodes.clear();
-			for (typename std::vector<QtNode<T>*>::iterator i = oldCopy.begin();
-				 i != oldCopy.end();
-				 i++)
-			{
-				QtNode<T> *node = *i;
-				InsertObject(node->data, node->pos, node->collisionRadius);
-				delete node;
-			}
+			for (auto node : oldCopy)
+				InsertObject(node.data, node.pos, node.collisionRadius);
 		}
 
 		template <class T, int MaxDepth, int MaxNodesPerLevel>
@@ -232,15 +226,11 @@ namespace CrissCross
 		bool Quadtree<T, MaxDepth, MaxNodesPerLevel>::RemoveObject(T const &_object, vec2 const &_position, float radius)
 		{
 			/* find objects stored in this quadtree */
-			for (typename std::vector<QtNode<T>*>::iterator i = nodes.begin();
-				 i != nodes.end();
-				 i++)
+			for (auto node = nodes.begin(); node != nodes.end(); node++)
 			{
-				QtNode<T> *node = *i;
 				if (CircleCollision(_position, radius, node->pos, node->collisionRadius)) {
 					if (node->data == _object) {
-						nodes.erase(i);
-						delete node;
+						nodes.erase(node);
 						return true;
 					}
 				}
@@ -294,7 +284,7 @@ namespace CrissCross
 		void Quadtree<T, MaxDepth, MaxNodesPerLevel>::InsertObject(T const &_object, vec2 const &_position, float radius)
 		{
 			if (nodes.size() < MaxNodesPerLevel || descentLevel == 0) {
-				nodes.push_back(new QtNode<T>(_object, _position, radius));
+				nodes.push_back(QtNode<T>(_object, _position, radius));
 			} else {
 				if (!ll)
 					Descend();
@@ -313,7 +303,7 @@ namespace CrissCross
 				if (InRange(left, right, midX) ||
 				    InRange(top, bottom, midY))	{
 					/* yes, it is :/ */
-					nodes.push_back(new QtNode<T>(_object, _position, radius));
+					nodes.push_back(QtNode<T>(_object, _position, radius));
 				} else {
 					if (!ll)  /* create the subquadrants */
 						Descend();
@@ -364,12 +354,6 @@ namespace CrissCross
 			delete lr; lr = NULL;
 			delete tl; tl = NULL;
 			delete tr; tr = NULL;
-			for (typename std::vector<QtNode<T>*>::iterator i = nodes.begin();
-				 i != nodes.end();
-				 i++)
-			{
-				delete *i;
-			}
 			nodes.clear();
 		}
 	}
