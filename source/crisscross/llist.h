@@ -239,12 +239,14 @@ namespace CrissCross
 				}
 				_CC_DEPRECATE_FUNCTION_N inline void EmptyAndDelete()
 				{
+					static_assert(std::is_pointer<T>::value, "attempting to delete a non-pointer type");
 					while (valid(0)) {
 						delete get(0); remove(0);
 					}
 				}
 				_CC_DEPRECATE_FUNCTION_N inline void EmptyAndDeleteArray()
 				{
+					static_assert(std::is_pointer<T>::value, "attempting to delete a non-pointer type");
 					while (valid(0)) {
 						delete [] get(0); remove(0);
 					}

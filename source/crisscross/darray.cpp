@@ -409,6 +409,7 @@ namespace CrissCross
 		template <class T>
 		void DArray<T>::flush()
 		{
+			static_assert(std::is_pointer<T>::value, "attempting to delete a non-pointer type");
 			for (size_t i = 0; i < m_arraySize; ++i) {
 				if (valid(i)) {
 					delete m_array[i];
@@ -420,6 +421,7 @@ namespace CrissCross
 		template <class T>
 		void DArray<T>::flushArray()
 		{
+			static_assert(std::is_pointer<T>::value, "attempting to delete a non-pointer type");
 			for (size_t i = 0; i < m_arraySize; ++i) {
 				if (valid(i)) {
 					delete [] m_array[i];
@@ -435,6 +437,7 @@ namespace CrissCross
 		template <class T>
 		void DArray<T>::EmptyAndDelete()
 		{
+			static_assert(std::is_pointer<T>::value, "attempting to delete a non-pointer type");
 			for (size_t i = 0; i < m_arraySize; ++i) {
 				if (valid(i)) {
 					delete m_array[i];
@@ -447,6 +450,7 @@ namespace CrissCross
 		template <class T>
 		void DArray<T>::EmptyAndDeleteArray()
 		{
+			static_assert(std::is_pointer<T>::value, "attempting to delete a non-pointer type");
 			for (size_t i = 0; i < m_arraySize; ++i) {
 				if (valid(i)) {
 					delete [] m_array[i];
