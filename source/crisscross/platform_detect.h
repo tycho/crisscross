@@ -179,10 +179,10 @@
 #if defined (__clang__)
 #define TARGET_COMPILER_CLANG
 #endif
-#if defined (__CYGWIN__) || defined (__CYGWIN32__)
+#if defined (__CYGWIN__)
 #define TARGET_COMPILER_CYGWIN
 #endif
-#if defined (__MINGW32__)
+#if defined (__MINGW32__) || defined(__MINGW64__)
 #define TARGET_COMPILER_MINGW
 #endif
 #endif
