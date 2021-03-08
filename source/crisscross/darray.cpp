@@ -25,6 +25,7 @@ namespace CrissCross
 		template <class T>
 		DArray <T>::DArray()
 		{
+			static_assert(std::is_trivially_copyable<T>::value);
 			m_stepSize = -1;
 			m_numUsed = m_arraySize = m_insertPos = 0;
 			m_array = NULL;
