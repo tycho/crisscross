@@ -67,7 +67,11 @@ class vec2
 		__forceinline float Angle() const { return atan2f(y, x); }
 
 		/* ! Calculates a unit vector in the direction of this vector, or a zero vector if this is a zero vector */
-		__forceinline vec2 UnitVector() const { if (ModulusSquared() < 0.0001f) return vec2(0.0f, 0.0f);return (*this / Modulus()); }
+		__forceinline vec2 UnitVector() const {
+			if (ModulusSquared() < 0.0001f)
+				return vec2(0.0f, 0.0f);
+			return (*this / Modulus());
+		}
 
 		__forceinline vec2 operator+(const vec2 & ov2) const
 		{ return vec2(x + ov2.x, y + ov2.y); }
