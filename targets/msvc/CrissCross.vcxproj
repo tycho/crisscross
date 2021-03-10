@@ -264,6 +264,14 @@ tools\gen_buildnum_h_helper.cmd $(ProjectDir)\..\..
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\source\crisscross\stree.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\source\debug.cpp" />
     <ClCompile Include="..\..\source\error.cpp" />
     <ClCompile Include="..\..\source\filereader.cpp" />
@@ -318,6 +326,7 @@ tools\gen_buildnum_h_helper.cmd $(ProjectDir)\..\..
     <ClInclude Include="..\..\source\crisscross\splaytree.h" />
     <ClInclude Include="..\..\source\crisscross\stltree.h" />
     <ClInclude Include="..\..\source\crisscross\stopwatch.h" />
+    <ClInclude Include="..\..\source\crisscross\stree.h" />
     <ClInclude Include="..\..\source\crisscross\system.h" />
     <ClInclude Include="..\..\source\crisscross\universal_include.h" />
     <ClInclude Include="..\..\source\crisscross\version.h" />

@@ -75,6 +75,9 @@
     <ClCompile Include="..\..\source\crisscross\splaytree.cpp">
       <Filter>Headers</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\crisscross\stree.cpp">
+      <Filter>Headers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\crisscross\avltree.h">
@@ -186,6 +189,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\crisscross\quadtree.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\crisscross\stree.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
