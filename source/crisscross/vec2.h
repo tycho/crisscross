@@ -98,4 +98,6 @@ class vec2
 		{ return (v2 - v1).ModulusSquared(); }
 };
 
+static_assert(std::is_trivially_copyable<vec2>::value);
+
 #endif
