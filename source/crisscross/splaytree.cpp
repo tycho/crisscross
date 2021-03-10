@@ -21,31 +21,34 @@ namespace CrissCross
 {
 	namespace Data
 	{
-		template <class Key, class Data>
-		SplayTree<Key, Data>::SplayTree()
+		template <class Key, class Data, bool OwnsKeys>
+		SplayTree<Key, Data, OwnsKeys>::SplayTree()
 		{
 			root = NULL;
 			m_size = 0;
 		}
 
-		template <class Key, class Data>
-		SplayTree<Key, Data>::~SplayTree()
+		template <class Key, class Data, bool OwnsKeys>
+		SplayTree<Key, Data, OwnsKeys>::~SplayTree()
 		{
 			while (m_size > 0)
 				erase(root->id);
 		}
 
-		template <class Key, class Data>
-		bool SplayTree<Key, Data>::insert(Key const &key, Data const &x)
+		template <class Key, class Data, bool OwnsKeys>
+		bool SplayTree<Key, Data, OwnsKeys>::insert(Key const &key, Data const &x)
 		{
-			static SplayNode<Key, Data> *newNode = NULL;
+			static SplayNode<Key, Data, OwnsKeys> *newNode = NULL;
 
 			if (newNode == NULL)
-				newNode = new SplayNode<Key, Data>;
-			else
+				newNode = new SplayNode<Key, Data, OwnsKeys>;
+			else if (OwnsKeys)
 				Dealloc(newNode->id);
 
-			newNode->id = Duplicate(key);
+			if (OwnsKeys)
+				newNode->id = Duplicate(key);
+			else
+				newNode->id = key;
 			newNode->data = x;
 			newNode->parent = newNode->right = newNode->left = NULL;
 
@@ -82,10 +85,10 @@ namespace CrissCross
 			return true;
 		}
 
-		template <class Key, class Data>
-		bool SplayTree<Key, Data>::killNode(SplayNode<Key, Data> * z)
+		template <class Key, class Data, bool OwnsKeys>
+		bool SplayTree<Key, Data, OwnsKeys>::killNode(SplayNode<Key, Data, OwnsKeys> * z)
 		{
-			SplayNode<Key, Data> *x, *y;
+			SplayNode<Key, Data, OwnsKeys> *x, *y;
 
 			if (z->left == NULL || z->right == NULL) {
 				/* y has a NULL node as a child */
@@ -116,10 +119,14 @@ namespace CrissCross
 				root = x;
 
 			if (y != z) {
-				Dealloc(z->id);
-				z->id = Duplicate(y->id);
+				if ( OwnsKeys ) {
+					Dealloc( z->id );
+					z->id = Duplicate( y->id );
+				} else {
+					z->id = y->id;
+				}
 				z->data = y->data;
-			} else {
+			} else if (OwnsKeys) {
 				Dealloc(y->id);
 			}
 
@@ -132,10 +139,10 @@ namespace CrissCross
 			return true;
 		}
 
-		template <class Key, class Data>
-		bool SplayTree<Key, Data>::erase(Key const &key)
+		template <class Key, class Data, bool OwnsKeys>
+		bool SplayTree<Key, Data, OwnsKeys>::erase(Key const &key)
 		{
-			SplayNode<Key, Data> *newTree;
+			SplayNode<Key, Data, OwnsKeys> *newTree;
 
 			if (!root) return false;
 
@@ -168,8 +175,8 @@ namespace CrissCross
 			return true;
 		}
 
-		template <class Key, class Data>
-		bool SplayTree<Key, Data>::exists(Key const &key) const
+		template <class Key, class Data, bool OwnsKeys>
+		bool SplayTree<Key, Data, OwnsKeys>::exists(Key const &key) const
 		{
 			splay(key, root);
 
@@ -179,11 +186,11 @@ namespace CrissCross
 			return true;
 		}
 
-		template <class Key, class Data>
+		template <class Key, class Data, bool OwnsKeys>
 		template <class TypedData>
-		TypedData SplayTree<Key, Data>::find(Key const &key, TypedData const &_default) const
+		TypedData SplayTree<Key, Data, OwnsKeys>::find(Key const &key, TypedData const &_default) const
 		{
-			SplayNode<Key, Data> *node = findNode(key);
+			SplayNode<Key, Data, OwnsKeys> *node = findNode(key);
 
 			if (!node)
 				return _default;
@@ -191,8 +198,8 @@ namespace CrissCross
 			return (TypedData)(root->data);
 		}
 
-		template <class Key, class Data>
-		bool SplayTree<Key, Data>::replace(Key const &key, Data const &data)
+		template <class Key, class Data, bool OwnsKeys>
+		bool SplayTree<Key, Data, OwnsKeys>::replace(Key const &key, Data const &data)
 		{
 			splay(key, root);
 
@@ -203,8 +210,8 @@ namespace CrissCross
 			return true;
 		}
 
-		template <class Key, class Data>
-		SplayNode<Key, Data> *SplayTree<Key, Data>::findNode(Key const &key) const
+		template <class Key, class Data, bool OwnsKeys>
+		SplayNode<Key, Data, OwnsKeys> *SplayTree<Key, Data, OwnsKeys>::findNode(Key const &key) const
 		{
 			splay(key, root);
 
@@ -214,20 +221,20 @@ namespace CrissCross
 			return root;
 		}
 
-		template <class Key, class Data>
-		void SplayTree<Key, Data>::empty()
+		template <class Key, class Data, bool OwnsKeys>
+		void SplayTree<Key, Data, OwnsKeys>::empty()
 		{
 			while (m_size > 0)
 				erase(root->id);
 		}
 
-		template <class Key, class Data>
-		void SplayTree<Key, Data>::splay(Key const &key, SplayNode<Key, Data> * & t) const
+		template <class Key, class Data, bool OwnsKeys>
+		void SplayTree<Key, Data, OwnsKeys>::splay(Key const &key, SplayNode<Key, Data, OwnsKeys> * & t) const
 		{
 			if (!t) return;
 
-			SplayNode<Key, Data> *leftTreeMax, *rightTreeMin;
-			static SplayNode<Key, Data> header;
+			SplayNode<Key, Data, OwnsKeys> *leftTreeMax, *rightTreeMin;
+			static SplayNode<Key, Data, OwnsKeys> header;
 
 			header.left = header.right = NULL;
 
@@ -274,10 +281,10 @@ namespace CrissCross
 		}
 
 
-		template <class Key, class Data>
-		void SplayTree<Key, Data>::rotateWithLeftChild(SplayNode<Key, Data> * & k2) const
+		template <class Key, class Data, bool OwnsKeys>
+		void SplayTree<Key, Data, OwnsKeys>::rotateWithLeftChild(SplayNode<Key, Data, OwnsKeys> * & k2) const
 		{
-			SplayNode<Key, Data> *k1 = k2->left;
+			SplayNode<Key, Data, OwnsKeys> *k1 = k2->left;
 			k2->left = k1->right;
 			if (k2->left)
 				k2->left->parent = k2;
@@ -288,10 +295,10 @@ namespace CrissCross
 			k2 = k1;
 		}
 
-		template <class Key, class Data>
-		void SplayTree<Key, Data>::rotateWithRightChild(SplayNode<Key, Data> * & k1) const
+		template <class Key, class Data, bool OwnsKeys>
+		void SplayTree<Key, Data, OwnsKeys>::rotateWithRightChild(SplayNode<Key, Data, OwnsKeys> * & k1) const
 		{
-			SplayNode<Key, Data> *k2 = k1->right;
+			SplayNode<Key, Data, OwnsKeys> *k2 = k1->right;
 			k1->right = k2->left;
 			if (k1->right)
 				k1->right->parent = k1;
@@ -302,8 +309,8 @@ namespace CrissCross
 			k1 = k2;
 		}
 
-		template <class Key, class Data>
-		size_t SplayTree<Key, Data>::mem_usage() const
+		template <class Key, class Data, bool OwnsKeys>
+		size_t SplayTree<Key, Data, OwnsKeys>::mem_usage() const
 		{
 			size_t ret = sizeof(*this);
 			if (!root) return ret;
@@ -312,26 +319,26 @@ namespace CrissCross
 			return ret;
 		}
 
-		template <class Key, class Data>
+		template <class Key, class Data, bool OwnsKeys>
 		template <class TypedData>
-		DArray<TypedData> *SplayTree<Key, Data>::ConvertToDArray() const
+		DArray<TypedData> *SplayTree<Key, Data, OwnsKeys>::ConvertToDArray() const
 		{
 			DArray<TypedData> *darray = new DArray<TypedData> ((int)size());
 			RecursiveConvertToDArray<TypedData>(darray, root);
 			return darray;
 		}
 
-		template <class Key, class Data>
-		DArray<Key> *SplayTree<Key, Data>::ConvertIndexToDArray() const
+		template <class Key, class Data, bool OwnsKeys>
+		DArray<Key> *SplayTree<Key, Data, OwnsKeys>::ConvertIndexToDArray() const
 		{
 			DArray<Key> *darray = new DArray<Key> ((int)size());
 			RecursiveConvertIndexToDArray(darray, root);
 			return darray;
 		}
 
-		template <class Key, class Data>
+		template <class Key, class Data, bool OwnsKeys>
 		template <class TypedData>
-		void SplayTree<Key, Data>::RecursiveConvertToDArray(DArray<TypedData> *darray, SplayNode<Key, Data> *btree) const
+		void SplayTree<Key, Data, OwnsKeys>::RecursiveConvertToDArray(DArray<TypedData> *darray, SplayNode<Key, Data, OwnsKeys> *btree) const
 		{
 			if (!btree) return;
 
@@ -340,8 +347,8 @@ namespace CrissCross
 			RecursiveConvertToDArray(darray, btree->right);
 		}
 
-		template <class Key, class Data>
-		void SplayTree<Key, Data>::RecursiveConvertIndexToDArray(DArray<Key> *darray, SplayNode<Key, Data> *btree) const
+		template <class Key, class Data, bool OwnsKeys>
+		void SplayTree<Key, Data, OwnsKeys>::RecursiveConvertIndexToDArray(DArray<Key> *darray, SplayNode<Key, Data, OwnsKeys> *btree) const
 		{
 			if (!btree) return;
 

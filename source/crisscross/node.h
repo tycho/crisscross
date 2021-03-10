@@ -31,7 +31,7 @@ namespace CrissCross
 		 */
 
 		/*! \brief A binary tree node. */
-		template <class Key, class Data>
+		template <class Key, class Data, bool OwnsKeys>
 		class SplayNode
 		{
 			public:
@@ -58,7 +58,8 @@ namespace CrissCross
 				/*! \brief The destructor. */
 				~SplayNode()
 				{
-					Dealloc(id);
+					if (OwnsKeys)
+						Dealloc(id);
 				}
 
 				/*! \brief Returns the overhead caused by the node. */
@@ -88,7 +89,7 @@ namespace CrissCross
 		} AVLBalance;
 
 		/*! \brief A binary tree node used for AVLTree. */
-		template <class Key, class Data>
+		template <class Key, class Data, bool OwnsKeys>
 		class AVLNode
 		{
 			public:
@@ -119,7 +120,8 @@ namespace CrissCross
 				/*! \brief The destructor. */
 				~AVLNode()
 				{
-					Dealloc(id);
+					if (OwnsKeys)
+						Dealloc(id);
 					delete left; left = NULL;
 					delete right; right = NULL;
 				}
@@ -138,7 +140,7 @@ namespace CrissCross
 		};
 
 		/*! \brief A binary tree node used for STree. */
-		template <class Key, class Data>
+		template <class Key, class Data, bool OwnsKeys>
 		class SNode
 		{
 			public:
@@ -166,7 +168,8 @@ namespace CrissCross
 				/*! \brief The destructor. */
 				~SNode()
 				{
-					Dealloc(id);
+					if (OwnsKeys)
+						Dealloc(id);
 					delete left; left = NULL;
 					delete right; right = NULL;
 				}
@@ -185,7 +188,7 @@ namespace CrissCross
 		};
 
 		/*! \brief A binary tree node used for RedBlackTree. */
-		template <class Key, class Data>
+		template <class Key, class Data, bool OwnsKeys>
 		class RedBlackNode
 		{
 			public:
@@ -216,7 +219,8 @@ namespace CrissCross
 				/*! \brief The destructor. */
 				~RedBlackNode()
 				{
-					Dealloc(id);
+					if (OwnsKeys)
+						Dealloc(id);
 					delete left; left = NULL;
 					delete right; right = NULL;
 				}

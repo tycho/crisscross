@@ -29,7 +29,7 @@ namespace CrissCross
 		 * has no self-balancing features, but is a fully functional
 		 * binary search tree.
 		 */
-		template <class Key, class Data>
+		template <class Key, class Data, bool OwnsKeys = true>
 		class STree
 		{
 			private:
@@ -41,7 +41,7 @@ namespace CrissCross
 				 * \deprecated This is a reference implementation. Do not use it for real world
 				 * applications.
 				 */
-				STree(const STree<Key, Data> &);
+				STree(const STree<Key, Data, OwnsKeys> &) = delete;
 
 				/*! \brief Private assignment operator. */
 				/*!
@@ -49,11 +49,11 @@ namespace CrissCross
 				 * the code wrong. A tree copy is generally unnecessary, and in cases that it
 				 * is, it can be achieved by other means.
 				 */
-				STree<Key, Data> &operator =(const STree<Key, Data> &);
+				STree<Key, Data, OwnsKeys> &operator =(const STree<Key, Data, OwnsKeys> &) = delete;
 
 			protected:
 				/*! \brief The root node. */
-				SNode<Key, Data> *m_root;
+				SNode<Key, Data, OwnsKeys> *m_root;
 
 				/*! \brief The current tree size. */
 				size_t m_size;
@@ -64,14 +64,14 @@ namespace CrissCross
 				 * \param _key Identifier of node to remove
 				 * \return Address of the node. If not found, returns NULL.
 				 */
-				SNode<Key, Data> *findNode(Key const &_key) const;
+				SNode<Key, Data, OwnsKeys> *findNode(Key const &_key) const;
 
 				/*! \brief Recursively convert the tree's keys into a DArray */
 				/*!
 				 * \param _darray Array to insert keys into
 				 * \param _btree The node being traversed
 				 */
-				void RecursiveConvertIndexToDArray(DArray <Key> *_darray, SNode<Key, Data> *_btree) const;
+				void RecursiveConvertIndexToDArray(DArray <Key> *_darray, SNode<Key, Data, OwnsKeys> *_btree) const;
 
 				/*! \brief Recursively convert the tree's data into a DArray */
 				/*!
@@ -79,14 +79,14 @@ namespace CrissCross
 				 * \param _btree The node being traversed
 				 */
 				template <class TypedData>
-				void RecursiveConvertToDArray(DArray <TypedData> *_darray, SNode<Key, Data> *_btree) const;
+				void RecursiveConvertToDArray(DArray <TypedData> *_darray, SNode<Key, Data, OwnsKeys> *_btree) const;
 
 				/*! \brief Verifies that a node is valid. */
 				/*!
 				 * \param _node A node pointer.
 				 * \return True if the node is a valid node, false otherwise.
 				 */
-				inline bool valid(const SNode<Key, Data> *_node) const
+				inline bool valid(const SNode<Key, Data, OwnsKeys> *_node) const
 				{
 					return (_node != NULL);
 				}

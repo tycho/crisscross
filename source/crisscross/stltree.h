@@ -16,7 +16,7 @@
 
 #define ENABLE_STLTREE
 
-#if defined (TARGET_COMPILER_BORLAND) || defined (TARGET_COMPILER_VC)
+#if defined (TARGET_COMPILER_BORLAND)
 #undef ENABLE_STLTREE
 #endif
 
@@ -43,7 +43,7 @@ namespace CrissCross
 		/*!
 		 *      This is a tree which does NOT allow duplicate keys.
 		 */
-		template <class Key, class Data>
+		template <class Key, class Data, bool OwnsKeys = true>
 		class STLTree
 		{
 			private:
@@ -66,10 +66,10 @@ namespace CrissCross
 				 */
 				__forceinline void empty()
 				{
-					typename std::map<Key,Data,CrissCross::Data::LessThanComparator<Key> >::iterator iter;
-					for (iter = m_map.begin(); iter != m_map.end(); iter++) {
-						Dealloc(iter->first);
-					}
+					if (OwnsKeys)
+						for (auto iter : m_map) {
+							Dealloc(iter.first);
+						}
 					m_map.clear();
 				}
 
@@ -83,7 +83,10 @@ namespace CrissCross
 				{
 					if (exists(_key))
 						return false;
-					m_map[Duplicate(_key)] = _rec;
+					if (OwnsKeys)
+						m_map[Duplicate(_key)] = _rec;
+					else
+						m_map[_key] = _rec;
 					return true;
 				}
 
@@ -118,10 +121,9 @@ namespace CrissCross
 				template <class TypedData = Data>
 				__forceinline TypedData find(Key const &_key, TypedData const &_default = nullptr) const
 				{
-					if (!exists(_key))
+					auto iter = m_map.find(_key);
+					if (iter == m_map.cend())
 						return _default;
-					typename std::map<Key,Data,CrissCross::Data::LessThanComparator<Key> >::const_iterator iter;
-					iter = m_map.find(_key);
 					return (TypedData)(iter->second);
 				}
 
@@ -133,13 +135,13 @@ namespace CrissCross
 				 */
 				__forceinline bool erase(Key const &_key)
 				{
-					typename std::map<Key,Data,CrissCross::Data::LessThanComparator<Key> >::iterator iter;
-					iter = m_map.find(_key);
+					auto iter = m_map.find(_key);
 					if (iter == m_map.end())
 						return false;
 					Key key = iter->first;
 					m_map.erase(iter);
-					Dealloc(key);
+					if (OwnsKeys)
+						Dealloc(key);
 					return true;
 				}
 
@@ -158,7 +160,7 @@ namespace CrissCross
 				template <class TypedData>
 				__forceinline DArray <TypedData> *ConvertToDArray() const
 				{
-					DArray<TypedData> *darray = new DArray<Data>(size());
+					DArray<TypedData> *darray = new DArray<TypedData>(size());
 					typename std::map<Key,Data,CrissCross::Data::LessThanComparator<Key> >::const_iterator iter;
 					for (iter = m_map.begin(); iter != m_map.end(); iter++) {
 						darray->insert((TypedData)(iter->second));

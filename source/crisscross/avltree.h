@@ -27,7 +27,7 @@ namespace CrissCross
 		 * well-balanced trees. Due to the ruleset implemented internally,
 		 * AVL trees enforce a maximum height of 1.44*log(n).
 		 */
-		template <class Key, class Data>
+		template <class Key, class Data, bool OwnsKeys = true>
 		class AVLTree
 		{
 			private:
@@ -37,7 +37,7 @@ namespace CrissCross
 				 * the code wrong. A tree copy is generally unnecessary, and in cases that it
 				 * is, it can be achieved by other means.
 				 */
-				AVLTree(const AVLTree<Key, Data> &);
+				AVLTree(const AVLTree<Key, Data, OwnsKeys> &);
 
 				/*! \brief Private assignment operator. */
 				/*!
@@ -45,11 +45,11 @@ namespace CrissCross
 				 * the code wrong. A tree copy is generally unnecessary, and in cases that it
 				 * is, it can be achieved by other means.
 				 */
-				AVLTree<Key, Data> &operator =(const AVLTree<Key, Data> &);
+				AVLTree<Key, Data, OwnsKeys> &operator =(const AVLTree<Key, Data, OwnsKeys> &);
 
 			protected:
 				/*! \brief The root node. */
-				AVLNode<Key, Data> *m_root;
+				AVLNode<Key, Data, OwnsKeys> *m_root;
 
 				/*! \brief The current tree size. */
 				size_t m_size;
@@ -72,14 +72,14 @@ namespace CrissCross
 				 * Rotate tree left around the given node
 				 * \param _node Pointer to current node pointer to rotate
 				 */
-				inline void rotateLeft(AVLNode<Key, Data> **_node);
+				inline void rotateLeft(AVLNode<Key, Data, OwnsKeys> **_node);
 
 				/*! \brief Rotate tree right */
 				/*!
 				 * Rotate tree right around the given node
 				 * \param _node Pointer to current node pointer to rotate
 				 */
-				inline void rotateRight(AVLNode<Key, Data> **_node);
+				inline void rotateRight(AVLNode<Key, Data, OwnsKeys> **_node);
 
 				/*! \brief Rebalance tree */
 				/*!
@@ -87,7 +87,7 @@ namespace CrissCross
 				 * \param _node Pointer to current node pointer to balance
 				 * \return OK if tree is balanced (entire tree is valid), BALANCE if local tree is balanced but has grown in height (entire tree not guaranteed to be valid)
 				 */
-				inline int balanceLeftGrown(AVLNode<Key, Data> **_node);
+				inline int balanceLeftGrown(AVLNode<Key, Data, OwnsKeys> **_node);
 
 				/*! \brief Rebalance tree */
 				/*!
@@ -95,7 +95,7 @@ namespace CrissCross
 				 * \param _node Pointer to current node pointer to balance
 				 * \return OK if tree is balanced (entire tree is valid), BALANCE if local tree is balanced but has grown in height (entire tree not guaranteed to be valid)
 				 */
-				inline int balanceRightGrown(AVLNode<Key, Data> **_node);
+				inline int balanceRightGrown(AVLNode<Key, Data, OwnsKeys> **_node);
 
 				/*! \brief Rebalance tree */
 				/*!
@@ -103,7 +103,7 @@ namespace CrissCross
 				 * \param _node Pointer to current node pointer to balance
 				 * \return OK if tree is balanced (entire tree is valid), BALANCE if local tree is balanced but has shrunk in height (entire tree not guaranteed to be valid)
 				 */
-				inline int balanceLeftShrunk(AVLNode<Key, Data> **_node);
+				inline int balanceLeftShrunk(AVLNode<Key, Data, OwnsKeys> **_node);
 
 				/*! \brief Rebalance tree */
 				/*!
@@ -111,7 +111,7 @@ namespace CrissCross
 				 * \param _node Pointer to current node pointer to balance
 				 * \return OK if tree is balanced (entire tree is valid), BALANCE if local tree is balanced but has shrunk in height (entire tree not guaranteed to be valid)
 				 */
-				inline int balanceRightShrunk(AVLNode<Key, Data> **_node);
+				inline int balanceRightShrunk(AVLNode<Key, Data, OwnsKeys> **_node);
 
 				/*! \brief Replace node */
 				/*!
@@ -121,7 +121,7 @@ namespace CrissCross
 				 * \param _result Pointer to result variable to tell caller if further checks are needed
 				 * \return true if node found, false if not
 				 */
-				inline bool replaceWithHighest(AVLNode<Key, Data> *_target, AVLNode<Key, Data> **_subtree, int *_result);
+				inline bool replaceWithHighest(AVLNode<Key, Data, OwnsKeys> *_target, AVLNode<Key, Data, OwnsKeys> **_subtree, int *_result);
 
 				/*! \brief Replace node */
 				/*!
@@ -131,7 +131,7 @@ namespace CrissCross
 				 * \param _result Pointer to result variable to tell caller if further checks are needed
 				 * \return true if node found, false if not
 				 */
-				inline bool replaceWithLowest(AVLNode<Key, Data> *_target, AVLNode<Key, Data> **_subtree, int *_result);
+				inline bool replaceWithLowest(AVLNode<Key, Data, OwnsKeys> *_target, AVLNode<Key, Data, OwnsKeys> **_subtree, int *_result);
 
 				/*! \brief Add object */
 				/*!
@@ -142,7 +142,7 @@ namespace CrissCross
 				 * \param _data Data to insert
 				 * \return int of addition (OK if subtree is balanced, BALANCE if tree is heavy on either side)
 				 */
-				int insert(AVLNode<Key, Data> **_parent, AVLNode<Key, Data> **_node, Key const &_key, Data const &_data);
+				int insert(AVLNode<Key, Data, OwnsKeys> **_parent, AVLNode<Key, Data, OwnsKeys> **_node, Key const &_key, Data const &_data);
 
 				/*! \brief Remove object */
 				/*!
@@ -151,7 +151,7 @@ namespace CrissCross
 				 * \param _key Identifier of node to remove
 				 * \return int of removal (OK if subtree is balanced, BALANCE if tree is heavy on either side)
 				 */
-				int erase(AVLNode<Key, Data> **_node, Key const &_key);
+				int erase(AVLNode<Key, Data, OwnsKeys> **_node, Key const &_key);
 
 				/*! \brief Find a node in the tree */
 				/*!
@@ -159,14 +159,14 @@ namespace CrissCross
 				 * \param _key Identifier of node to remove
 				 * \return Address of the node. If not found, returns NULL.
 				 */
-				AVLNode<Key, Data> *findNode(Key const &_key) const;
+				AVLNode<Key, Data, OwnsKeys> *findNode(Key const &_key) const;
 
 				/*! \brief Recursively convert the tree's keys into a DArray */
 				/*!
 				 * \param _darray Array to insert keys into
 				 * \param _btree The node being traversed
 				 */
-				void RecursiveConvertIndexToDArray(DArray <Key> *_darray, AVLNode<Key, Data> *_btree) const;
+				void RecursiveConvertIndexToDArray(DArray <Key> *_darray, AVLNode<Key, Data, OwnsKeys> *_btree) const;
 
 				/*! \brief Recursively convert the tree's data into a DArray */
 				/*!
@@ -174,14 +174,14 @@ namespace CrissCross
 				 * \param _btree The node being traversed
 				 */
 				template <class TypedData>
-				void RecursiveConvertToDArray(DArray <TypedData> *_darray, AVLNode<Key, Data> *_btree) const;
+				void RecursiveConvertToDArray(DArray <TypedData> *_darray, AVLNode<Key, Data, OwnsKeys> *_btree) const;
 
 				/*! \brief Verifies that a node is valid. */
 				/*!
 				 * \param _node A node pointer.
 				 * \return True if the node is a valid node, false otherwise.
 				 */
-				inline bool valid(const AVLNode<Key, Data> *_node) const
+				inline bool valid(const AVLNode<Key, Data, OwnsKeys> *_node) const
 				{
 					return (_node != NULL);
 				}

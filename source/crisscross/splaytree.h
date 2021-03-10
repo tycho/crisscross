@@ -26,7 +26,7 @@ namespace CrissCross
 		/*!
 		 *      This is a tree which does NOT allow duplicate keys.
 		 */
-		template <class Key, class Data>
+		template <class Key, class Data, bool OwnsKeys = true>
 		class SplayTree
 		{
 			private:
@@ -37,7 +37,7 @@ namespace CrissCross
 				 * the code wrong. A tree copy is generally unnecessary, and in cases that it
 				 * is, it can be achieved by other means.
 				 */
-				SplayTree(const SplayTree<Key, Data> &);
+				SplayTree(const SplayTree<Key, Data, OwnsKeys> &) = delete;
 
 				/*! \brief Private assignment operator. */
 				/*!
@@ -45,31 +45,31 @@ namespace CrissCross
 				 * the code wrong. A tree copy is generally unnecessary, and in cases that it
 				 * is, it can be achieved by other means.
 				 */
-				SplayTree<Key, Data> &operator =(const SplayTree<Key, Data> &);
+				SplayTree<Key, Data, OwnsKeys> &operator =(const SplayTree<Key, Data, OwnsKeys> &) = delete;
 
 				/* Mutable because splaying is an operation which changes */
 				/* the structure of the tree. */
-				mutable SplayNode<Key, Data> *root;
+				mutable SplayNode<Key, Data, OwnsKeys> *root;
 
-				void printTree(SplayNode<Key, Data> *t) const;
+				void printTree(SplayNode<Key, Data, OwnsKeys> *t) const;
 
 				/* Tree manipulations */
-				void rotateWithLeftChild(SplayNode<Key, Data> * &k2) const;
-				void rotateWithRightChild(SplayNode<Key, Data> * &k1) const;
-				void splay(Key const &key, SplayNode<Key, Data> * &t) const;
+				void rotateWithLeftChild(SplayNode<Key, Data, OwnsKeys> * &k2) const;
+				void rotateWithRightChild(SplayNode<Key, Data, OwnsKeys> * &k1) const;
+				void splay(Key const &key, SplayNode<Key, Data, OwnsKeys> * &t) const;
 
-				SplayNode<Key, Data> *findNode(Key const &key) const;
+				SplayNode<Key, Data, OwnsKeys> *findNode(Key const &key) const;
 
 				size_t m_size;
 
-				void RecursiveConvertIndexToDArray(DArray <Key> *_darray, SplayNode<Key, Data> *_btree) const;
+				void RecursiveConvertIndexToDArray(DArray <Key> *_darray, SplayNode<Key, Data, OwnsKeys> *_btree) const;
 
 				template <class TypedData>
-				void RecursiveConvertToDArray(DArray <TypedData> *_darray, SplayNode<Key, Data> *_btree) const;
+				void RecursiveConvertToDArray(DArray <TypedData> *_darray, SplayNode<Key, Data, OwnsKeys> *_btree) const;
 
-				bool erase(Key const &key, Data const &rec, SplayNode<Key, Data> *curnode);
+				bool erase(Key const &key, Data const &rec, SplayNode<Key, Data, OwnsKeys> *curnode);
 
-				bool killNode(SplayNode<Key, Data> * z);
+				bool killNode(SplayNode<Key, Data, OwnsKeys> * z);
 
 			public:
 

@@ -28,7 +28,7 @@ namespace CrissCross
 		 * operations and are efficient in practice: they can search, insert, and delete
 		 * in O(log n) time, where n is total number of elements in the tree.
 		 */
-		template <class Key, class Data>
+		template <class Key, class Data, bool OwnsKeys = true>
 		class RedBlackTree
 		{
 			private:
@@ -38,7 +38,7 @@ namespace CrissCross
 				 * the code wrong. A tree copy is generally unnecessary, and in cases that it
 				 * is, it can be achieved by other means.
 				 */
-				RedBlackTree(const RedBlackTree<Key, Data> &);
+				RedBlackTree(const RedBlackTree<Key, Data, OwnsKeys> &) = delete;
 
 				/*! \brief Private assignment operator. */
 				/*!
@@ -46,42 +46,42 @@ namespace CrissCross
 				 * the code wrong. A tree copy is generally unnecessary, and in cases that it
 				 * is, it can be achieved by other means.
 				 */
-				RedBlackTree<Key, Data> &operator =(const RedBlackTree<Key, Data> &);
+				RedBlackTree<Key, Data, OwnsKeys> &operator =(const RedBlackTree<Key, Data, OwnsKeys> &) = delete;
 
 			protected:
 
 				/*! \brief The root node at the top of the tree. */
-				RedBlackNode<Key, Data> *rootNode;
+				RedBlackNode<Key, Data, OwnsKeys> *rootNode;
 
 				/*! \brief The "null" node. Added so we don't need special cases to check for null pointers. */
-				RedBlackNode<Key, Data> *nullNode;
+				RedBlackNode<Key, Data, OwnsKeys> *nullNode;
 
 				/*! \brief The cached size() return value. Changes on each tree modification (insertions and deletions). */
 				size_t m_cachedSize;
 
-				void RecursiveConvertIndexToDArray(DArray <Key> *_darray, RedBlackNode<Key, Data> *_btree) const;
+				void RecursiveConvertIndexToDArray(DArray <Key> *_darray, RedBlackNode<Key, Data, OwnsKeys> *_btree) const;
 
 				template <class TypedData>
-				void RecursiveConvertToDArray(DArray <TypedData> *_darray, RedBlackNode<Key, Data> *_btree) const;
+				void RecursiveConvertToDArray(DArray <TypedData> *_darray, RedBlackNode<Key, Data, OwnsKeys> *_btree) const;
 
-				void rotateLeft(RedBlackNode<Key, Data> * _x);
-				void rotateRight(RedBlackNode<Key, Data> * _x);
-				void insertFixup(RedBlackNode<Key, Data> * _x);
-				void deleteFixup(RedBlackNode<Key, Data> * _x);
+				void rotateLeft(RedBlackNode<Key, Data, OwnsKeys> * _x);
+				void rotateRight(RedBlackNode<Key, Data, OwnsKeys> * _x);
+				void insertFixup(RedBlackNode<Key, Data, OwnsKeys> * _x);
+				void deleteFixup(RedBlackNode<Key, Data, OwnsKeys> * _x);
 
 				void killAll();
-				void killAll(RedBlackNode<Key, Data> *rec);
+				void killAll(RedBlackNode<Key, Data, OwnsKeys> *rec);
 
-				bool killNode(RedBlackNode<Key, Data> * z);
+				bool killNode(RedBlackNode<Key, Data, OwnsKeys> * z);
 
-				RedBlackNode<Key, Data> *findNode(Key const &key) const;
+				RedBlackNode<Key, Data, OwnsKeys> *findNode(Key const &key) const;
 
 				/*! \brief Verifies that a node is valid. */
 				/*!
 				 * \param _node A node pointer.
 				 * \return True if the node is a valid node, false otherwise.
 				 */
-				inline bool valid(const RedBlackNode<Key, Data> *_node) const
+				inline bool valid(const RedBlackNode<Key, Data, OwnsKeys> *_node) const
 				{
 					return (_node != NULL && _node != nullNode);
 				}
@@ -212,9 +212,7 @@ namespace CrissCross
 				/*! @endcond */
 #endif
 
-#if !defined(_MSC_VER) || _MSC_VER >= 1400
-				template <class K, class D>
-#endif
+				template <class K, class D, bool O>
 				friend class RedBlackNode;
 		};
 	}
