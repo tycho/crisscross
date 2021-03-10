@@ -14,7 +14,6 @@
 
 #include "backtrace.h"
 #include "compare.h"
-#include "datatypes.h"
 #include "darray.h"
 #include "dstack.h"
 #include "llist.h"
@@ -23,7 +22,6 @@
 #include "avltree.h"
 #include "rbtree.h"
 #include "hashtable.h"
-#include "sanity.h"
 #include "stopwatch.h"
 #include "stree.h"
 #include "sort.h"
@@ -46,20 +44,6 @@ int main(int argc, char * *argv)
 	System::SeedRandom();
 	g_console->WriteLine("Testing PrintStackTrace()");
 	TestBacktrace();
-
-	WritePrefix("Size of uint8_t"); retval |= WriteResult(TestDatatypes_Uint8());
-	WritePrefix("Size of uint16_t"); retval |= WriteResult(TestDatatypes_Uint16());
-	WritePrefix("Size of uint32_t"); retval |= WriteResult(TestDatatypes_Uint32());
-	WritePrefix("Size of uint64_t"); retval |= WriteResult(TestDatatypes_Uint64());
-	WritePrefix("Size of ulong_t"); retval |= WriteResult(TestDatatypes_Ulong());
-	WritePrefix("Size of bool"); retval |= WriteResult(TestDatatypes_Bool());
-	WritePrefix("Size of float"); retval |= WriteResult(TestDatatypes_Float());
-	WritePrefix("Size of double"); retval |= WriteResult(TestDatatypes_Double());
-	WritePrefix("Size of uintptr_t"); retval |= WriteResult(TestDatatypes_Pointer());
-
-#ifdef TARGET_LITTLE_ENDIAN
-	WritePrefix("Type-based aliasing sanity"); retval |= WriteResult(TestSanity_TypeBasedAliasing());
-#endif
 
 	WritePrefix("Stopwatch"); retval |= WriteResult(TestStopwatch());
 

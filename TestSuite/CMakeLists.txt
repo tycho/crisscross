@@ -3,14 +3,12 @@ add_executable(TestSuite
 	backtrace.cpp
 	compare.cpp
 	darray.cpp
-	datatypes.cpp
 	dstack.cpp
 	hashtable.cpp
 	header.cpp
 	llist.cpp
 	main.cpp
 	rbtree.cpp
-	sanity.cpp
 	sort.cpp
 	splaytree.cpp
 	stltree.cpp
