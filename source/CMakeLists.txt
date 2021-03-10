@@ -11,7 +11,7 @@ add_custom_command(
 else(WIN32 AND MSVC)
 add_custom_command(
 	OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/build_number.h
-	COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/../tools/gen_buildnum_h.pl" "${CMAKE_CURRENT_BINARY_DIR}/build_number.h"
+	COMMAND perl "${CMAKE_CURRENT_SOURCE_DIR}/../tools/gen_buildnum_h.pl" "${CMAKE_CURRENT_BINARY_DIR}/build_number.h"
 )
 endif(WIN32 AND MSVC)
 
