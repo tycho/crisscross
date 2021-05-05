@@ -286,7 +286,8 @@ namespace CrissCross
 			{
 				if (CircleCollision(_position, radius, node->pos, node->collisionRadius)) {
 					if (node->data == _object) {
-						nodes.erase(node);
+						std::swap(*node, nodes.back());
+						nodes.pop_back();
 						return true;
 					}
 				}
