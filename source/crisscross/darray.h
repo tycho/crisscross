@@ -28,13 +28,6 @@ namespace CrissCross
 		/*! \brief A dynamic array implementation. */
 		template <class T> class DArray
 		{
-			private:
-				/*! \brief A DStack containing indices of empty nodes in the array. */
-				/*!
-				 *  Vastly speeds up insertions by keeping track of where empty spaces are.
-				 */
-				DStack<size_t> *m_emptyNodes;
-
 			protected:
 				/*! \brief The size by which to increase the size of the array when there are no more empty nodes. */
 				/*!
@@ -53,9 +46,6 @@ namespace CrissCross
 				/*! \brief The number of used items in the array. */
 				size_t m_numUsed;
 
-				/*! \brief The last linear insert position. */
-				size_t m_insertPos;
-
 				/*! \brief The actual array which stores our data. */
 				T *m_array;
 
@@ -64,9 +54,6 @@ namespace CrissCross
 
 				/*! \brief Increases the size of the array. */
 				void grow();
-
-				/*! \brief Rebuilds the empty node stack. */
-				void rebuildStack();
 
 				/*! \brief Recounts the number of used nodes. */
 				void recount();
@@ -89,7 +76,7 @@ namespace CrissCross
 				DArray(T *_array, size_t _indices);
 
 				/*! \brief Initialize the DArray with an existing array. */
-				DArray(DArray<T> const &_array);
+				explicit DArray(DArray<T> const &_array);
 
 				/*! \brief The secondary constructor. */
 				/*!
@@ -104,8 +91,8 @@ namespace CrissCross
 				/*! \brief The destructor. */
 				~DArray();
 
-				/*! \brief Disables free list tracking. */
-				void disableFreeList();
+				/*! \brief Truncates the array, if it's under-utilized. */
+				void compact();
 
 				/*! \brief Sets the size of the array. */
 				/*!

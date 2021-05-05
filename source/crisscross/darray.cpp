@@ -27,9 +27,8 @@ namespace CrissCross
 		{
 			static_assert(std::is_trivially_copyable<T>::value);
 			m_stepSize = -1;
-			m_numUsed = m_arraySize = m_insertPos = 0;
+			m_numUsed = m_arraySize = 0;
 			m_array = NULL;
-			m_emptyNodes = new DStack<size_t>;
 		}
 
 		template <class T>
@@ -45,15 +44,11 @@ namespace CrissCross
 				m_shadow[i] = (m_array[i] != NULL) ? true : false;
 				if (m_shadow[i]) {
 					m_numUsed++;
-					m_insertPos = i + 1;
 				}
 			}
 
 			m_arraySize = _indices;
 			m_stepSize = -1;
-			m_emptyNodes = new DStack<size_t>;
-
-			rebuildStack();
 		}
 
 		template <class T>
@@ -74,10 +69,6 @@ namespace CrissCross
 
 			m_arraySize = _array.m_arraySize;
 			m_stepSize = _array.m_stepSize;
-			m_insertPos = _array.m_insertPos;
-			m_emptyNodes = new DStack<size_t>;
-
-			rebuildStack();
 		}
 
 		template <class T>
@@ -88,39 +79,43 @@ namespace CrissCross
 			else
 				m_stepSize = _newStepSize;
 
-			m_numUsed = m_arraySize = m_insertPos = 0;
+			m_numUsed = m_arraySize = 0;
 			m_array = NULL;
-			m_emptyNodes = new DStack<size_t> (_newStepSize + 1);
 		}
 
 		template <class T>
 		DArray <T>::~DArray()
 		{
 			empty();
-			delete m_emptyNodes;
-			m_emptyNodes = NULL;
 		}
 
 		template <class T>
-		void DArray <T>::disableFreeList()
+		void DArray <T>::compact()
 		{
-			delete m_emptyNodes;
-			m_emptyNodes = NULL;
-		}
+			constexpr size_t pageSizeInElements = std::max((size_t)(4096u / sizeof(T)), (size_t)32u);
 
-		template <class T>
-		void DArray <T>::rebuildStack()
-		{
-			if (!m_emptyNodes)
+			/* Only resize if it would possibly be beneficial. */
+			if ((m_arraySize * sizeof(T)) <= 4096)
+				return;
+			if (m_numUsed > m_arraySize / 2)
 				return;
 
-			/*  Reset free list */
-			m_emptyNodes->empty(false);
+			auto found = std::find(std::rbegin(m_shadow), std::rend(m_shadow), 1);
+			size_t idx = std::distance(found, m_shadow.rend());
 
-			/* Step through, rebuilding */
-			for (size_t i = m_insertPos - 1; (int)i >= 0; i--)
-				if (!m_shadow[i])
-					m_emptyNodes->push(i);
+			if (idx > m_arraySize)
+				return;
+
+			if ((m_arraySize - idx) < pageSizeInElements * 2)
+				return;
+			
+			/* Only shrink if the array is significantly under-used */
+			float inUse = (float)idx / (float)m_arraySize;
+			if (inUse < 0.33f) {
+				/* Round up to next page boundary. */
+				idx = ((idx / pageSizeInElements) + 1) * pageSizeInElements;
+				setSize(idx);
+			}
 		}
 
 		template <class T>
@@ -179,7 +174,6 @@ namespace CrissCross
 				}
 
 				/* We may have lost more than one node. It's worth rebuilding over. */
-				rebuildStack();
 				recount();
 
 				delete [] m_array;
@@ -230,6 +224,8 @@ namespace CrissCross
 		{
 			size_t freeslot = getNextFree();
 			m_array[freeslot] = newdata;
+			m_shadow[freeslot] = true;
+			m_numUsed++;
 			return freeslot;
 		}
 
@@ -238,16 +234,10 @@ namespace CrissCross
 		{
 			while (index >= m_arraySize)
 				grow();
-			if (index + 1 > m_insertPos)
-				m_insertPos = index + 1;
 			m_array[index] = newdata;
 			if (!m_shadow[index]) {
-				/* Nasty because we took an element that's on the empty
-				 * node stack somewhere. We have to rebuild the stack. :(
-				 */
 				m_shadow[index] = true;
 				m_numUsed++;
-				rebuildStack();
 			}
 		}
 
@@ -257,11 +247,8 @@ namespace CrissCross
 			m_shadow.clear();
 
 			m_numUsed = 0;
-			m_insertPos = 0;
 
 			if (_freeMemory) {
-				if (m_emptyNodes)
-					m_emptyNodes->empty();
 				m_shadow.resize(0);
 				delete [] m_array;
 				m_array = NULL;
@@ -269,38 +256,24 @@ namespace CrissCross
 			} else {
 				m_shadow.resize( 0, false );
 				m_shadow.resize( m_arraySize, false );
-				rebuildStack();
 			}
 		}
 
 		template <class T>
 		size_t DArray <T>::getNextFree()
 		{
-			/* WARNING: This function assumes the node returned */
-			/*          will be used by the calling function. */
-
 			if (!m_array)
 				grow();
 
 			size_t freeslot = (size_t)-1;
 
-			while (m_emptyNodes && m_emptyNodes->count()) {
-				freeslot = m_emptyNodes->pop();
-				if (!m_shadow[freeslot])
-					break;
-				freeslot = -1;
+			while (freeslot == (size_t)-1) {
+				auto found = std::find(std::begin(m_shadow), std::end(m_shadow), false);
+				if (found != std::end(m_shadow))
+					freeslot = std::distance(std::begin(m_shadow), found);
+				else
+					grow();
 			}
-
-			if (freeslot == (size_t)-1)
-				freeslot = m_insertPos++;
-
-			while (freeslot >= m_arraySize)
-				grow();
-
-			if (!m_shadow[freeslot])
-				m_numUsed++;
-
-			m_shadow[freeslot] = true;
 
 			return freeslot;
 		}
@@ -318,7 +291,10 @@ namespace CrissCross
 		T & DArray <T>::operator [](size_t index)
 		{
 			CoreAssert(index < m_arraySize);
-			m_shadow[index] = 1;
+			if (!m_shadow[index]) {
+				m_shadow[index] = true;
+				m_numUsed++;
+			}
 			return m_array[index];
 		}
 
@@ -344,9 +320,6 @@ namespace CrissCross
 		{
 			CoreAssert(index < m_arraySize);
 			CoreAssert(m_shadow[index]);
-
-			if (m_emptyNodes)
-				m_emptyNodes->push(index);
 
 			m_numUsed--;
 
@@ -393,9 +366,8 @@ namespace CrissCross
 			delete [] m_array;
 			m_array = temp_array;
 
-			m_insertPos = m_arraySize = m_numUsed;
+			m_arraySize = m_numUsed;
 
-			rebuildStack();
 			recount();
 
 			return ret;
