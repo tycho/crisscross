@@ -64,7 +64,7 @@ namespace CrissCross
 		template <class T,
 		          int MaxDepth = 7,
 		          int MaxNodesPerLevel = 32>
-		class Quadtree
+		class Quadtree final
 		{
 		protected:
 			vec2 llPosition;
@@ -91,16 +91,17 @@ namespace CrissCross
 #endif
 
 			Quadtree(vec2 const &lower_left, vec2 const &upper_right);
-			virtual ~Quadtree();
-			virtual void InsertObject(T const &_object, vec2 const &position, float _collisionRadius);
-			virtual bool RemoveObject(T const &_object, vec2 const &position, float _collisionRadius);
-			virtual QuadtreeSearchResult ObjectsInCircle(std::vector<T> &array, vec2 const &circle, float radius, size_t maxResults
+			~Quadtree();
+			void Empty();
+			void InsertObject(T const &_object, vec2 const &position, float _collisionRadius);
+			bool RemoveObject(T const &_object, vec2 const &position, float _collisionRadius);
+			QuadtreeSearchResult ObjectsInCircle(std::vector<T> &array, vec2 const &circle, float radius, size_t maxResults
 #ifdef QUADTREE_SEARCH_CALLBACK_SUPPORTED
 				, predicate_t predicate
 #endif
 			) const;
 
-			virtual void Collect(std::vector<T>& _elements, uint32_t &maxDepthSeen, uint32_t &maxNodesSeen, uint32_t currentDepth = 0);
+			void Collect(std::vector<T>& _elements, uint32_t &maxDepthSeen, uint32_t &maxNodesSeen, uint32_t currentDepth = 0);
 		};
 
 		template <class T, int MaxDepth, int MaxNodesPerLevel>
@@ -276,6 +277,16 @@ namespace CrissCross
 			delete lr; lr = NULL;
 			delete tl; tl = NULL;
 			delete tr; tr = NULL;
+		}
+
+		template <class T, int MaxDepth, int MaxNodesPerLevel>
+		void Quadtree<T, MaxDepth, MaxNodesPerLevel>::Empty()
+		{
+			nodes.clear();
+			if (ll) ll->Empty();
+			if (lr) lr->Empty();
+			if (tl) tl->Empty();
+			if (tr) tr->Empty();
 		}
 
 		template <class T, int MaxDepth, int MaxNodesPerLevel>
