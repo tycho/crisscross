@@ -34,7 +34,7 @@ namespace CrissCross
 		template <class T>
 		DArray <T>::DArray(T *_array, size_t _indices)
 		{
-			m_array = new T[_indices];
+			m_array = (T *)malloc(sizeof(T) * _indices);
 			memcpy(m_array, _array, _indices * sizeof(T));
 
 			m_shadow.resize(_indices, false);
@@ -55,7 +55,7 @@ namespace CrissCross
 		template <class T>
 		DArray <T>::DArray(DArray<T> const &_array)
 		{
-			m_array = new T[_array.m_arraySize];
+			m_array = (T *)malloc(sizeof(T) * _array.m_arraySize);
 			memcpy(m_array, _array.m_array, _array.m_arraySize * sizeof(T));
 
 			m_shadow.resize(_array.m_arraySize);
@@ -154,35 +154,13 @@ namespace CrissCross
 				size_t oldarraysize = m_arraySize;
 
 				m_arraySize = newsize;
-				T *temparray = new T[m_arraySize];
-
-				if (m_array) {
-					for(size_t i = 0; i < oldarraysize; i++)
-					{
-						temparray[i] = m_array[i];
-					}
-				}
-
-				delete [] m_array;
-
-				m_array = temparray;
+				m_array = (T *)realloc(m_array, sizeof(T) * newsize);
 			} else if (newsize < m_arraySize) {
 				m_arraySize = newsize;
-				T *temparray = new T[m_arraySize];
-
-				if (m_array) {
-					for(size_t i = 0; i < m_arraySize; i++)
-					{
-						temparray[i] = m_array[i];
-					}
-				}
+				m_array = (T *)realloc(m_array, sizeof(T) * newsize);
 
 				/* We may have lost more than one node. It's worth rebuilding over. */
 				recount();
-
-				delete [] m_array;
-
-				m_array = temparray;
 				m_nextInsertPos = 0;
 			} else if (newsize == m_arraySize) {
 				/* Do nothing */
@@ -255,7 +233,7 @@ namespace CrissCross
 			m_nextInsertPos = 0;
 
 			if (_freeMemory) {
-				delete [] m_array;
+				free(m_array);
 				m_array = NULL;
 				m_arraySize = 0;
 			} else {
@@ -358,7 +336,7 @@ namespace CrissCross
 			if (m_numUsed < 2)
 				return 0;
 
-			T *temp_array = new T[m_numUsed];
+			T *temp_array = (T *)malloc(sizeof(T) * m_numUsed);
 
 			memset(temp_array, 0, m_numUsed * sizeof(T));
 
@@ -372,10 +350,9 @@ namespace CrissCross
 			ret = _sortMethod->Sort(temp_array, m_numUsed);
 
 			m_shadow.clear();
-			m_shadow.resize(0);
 			m_shadow.resize(m_numUsed, true);
 
-			delete [] m_array;
+			free(m_array);
 			m_array = temp_array;
 
 			m_arraySize = m_numUsed;

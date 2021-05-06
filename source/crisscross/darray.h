@@ -13,6 +13,7 @@
 #define __included_cc_darray_h
 
 #include <cstring>
+#include <algorithm>
 #include <vector>
 
 #include <crisscross/cc_attr.h>
