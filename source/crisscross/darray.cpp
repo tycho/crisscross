@@ -27,7 +27,7 @@ namespace CrissCross
 		{
 			static_assert(std::is_trivially_copyable<T>::value);
 			m_stepSize = -1;
-			m_numUsed = m_arraySize = 0;
+			m_numUsed = m_arraySize = m_nextInsertPos = 0;
 			m_array = NULL;
 		}
 
@@ -49,6 +49,7 @@ namespace CrissCross
 
 			m_arraySize = _indices;
 			m_stepSize = -1;
+			m_nextInsertPos = 0;
 		}
 
 		template <class T>
@@ -69,6 +70,7 @@ namespace CrissCross
 
 			m_arraySize = _array.m_arraySize;
 			m_stepSize = _array.m_stepSize;
+			m_nextInsertPos = 0;
 		}
 
 		template <class T>
@@ -79,7 +81,7 @@ namespace CrissCross
 			else
 				m_stepSize = _newStepSize;
 
-			m_numUsed = m_arraySize = 0;
+			m_numUsed = m_arraySize = m_nextInsertPos = 0;
 			m_array = NULL;
 		}
 
@@ -181,6 +183,7 @@ namespace CrissCross
 				delete [] m_array;
 
 				m_array = temparray;
+				m_nextInsertPos = 0;
 			} else if (newsize == m_arraySize) {
 				/* Do nothing */
 			}
@@ -249,14 +252,13 @@ namespace CrissCross
 			m_shadow.clear();
 
 			m_numUsed = 0;
+			m_nextInsertPos = 0;
 
 			if (_freeMemory) {
-				m_shadow.resize(0);
 				delete [] m_array;
 				m_array = NULL;
 				m_arraySize = 0;
 			} else {
-				m_shadow.resize( 0, false );
 				m_shadow.resize( m_arraySize, false );
 			}
 		}
@@ -264,11 +266,16 @@ namespace CrissCross
 		template <class T>
 		size_t DArray <T>::getNextFree()
 		{
-			if (!m_array)
+			if (!m_array || m_nextInsertPos >= m_arraySize)
 				grow();
 
 			size_t freeslot = (size_t)-1;
 
+			/* Fast path: look at next linear insertion index */
+			if (!m_shadow[m_nextInsertPos])
+				freeslot = m_nextInsertPos;
+
+			/* Slow path: find an empty spot somewhere in the array */
 			while (freeslot == (size_t)-1) {
 				auto found = std::find(std::begin(m_shadow), std::end(m_shadow), false);
 				if (found != std::end(m_shadow))
@@ -276,6 +283,9 @@ namespace CrissCross
 				else
 					grow();
 			}
+
+			/* Remember the last insertion position, in case the next spot is open. */
+			m_nextInsertPos = freeslot + 1;
 
 			return freeslot;
 		}

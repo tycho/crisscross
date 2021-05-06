@@ -37,6 +37,11 @@ namespace CrissCross
 				 */
 				int m_stepSize;
 
+				/*! \brief The next (possible) linear insertion position. Might
+				 *  be occupied, in which case we search for an alternative.
+				 */
+				size_t m_nextInsertPos;
+
 				/*! \brief The current size of the array. */
 				/*!
 				 * \sa setSize
