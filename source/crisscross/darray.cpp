@@ -314,6 +314,7 @@ namespace CrissCross
 			m_numUsed--;
 
 			m_shadow[index] = false;
+			m_nextInsertPos = index;
 		}
 
 		template <class T>
