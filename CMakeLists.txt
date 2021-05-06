@@ -18,7 +18,6 @@ set(CC_COMMON_FLAGS
 	-pedantic)
 
 set(CC_CXX_FLAGS
-	-std=gnu++17
 	-Wno-non-virtual-dtor
 	-Wno-reorder
 	-fno-exceptions

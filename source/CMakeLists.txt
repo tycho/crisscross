@@ -44,7 +44,7 @@ if(OPENMP_CXX_FOUND)
 		${OpenMP_CXX_FLAGS})
 endif()
 
-set_target_properties(CrissCross PROPERTIES CXX_STANDARD 11)
+set_target_properties(CrissCross PROPERTIES CXX_STANDARD 17)
 
 target_include_directories(CrissCross PUBLIC
 	${CMAKE_CURRENT_SOURCE_DIR}
