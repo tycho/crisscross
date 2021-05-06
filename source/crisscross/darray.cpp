@@ -148,8 +148,6 @@ namespace CrissCross
 		{
 			m_shadow.resize(newsize, false);
 			if (newsize > m_arraySize) {
-				size_t oldarraysize = m_arraySize;
-
 				m_arraySize = newsize;
 				m_array = (T *)realloc(m_array, sizeof(T) * newsize);
 			} else if (newsize < m_arraySize) {
