@@ -250,10 +250,13 @@ namespace CrissCross
 			if (!m_shadow[m_nextInsertPos])
 				freeslot = m_nextInsertPos;
 
-			/* Slow path: find an empty spot somewhere in the array */
+			/* Slow path: find an empty spot somewhere in the array, and if we don't find one, grow. */
 			while (freeslot == (size_t)-1) {
-				auto found = std::find(std::begin(m_shadow), std::end(m_shadow), false);
-				if (found != std::end(m_shadow))
+				/* We can start at m_nextInsertPos because it's always set to the most recent minimum free index */
+				auto searchBegin = std::begin(m_shadow) + m_nextInsertPos;
+				auto searchEnd = std::end(m_shadow);
+				auto found = std::find(searchBegin, searchEnd, false);
+				if (found != searchEnd)
 					freeslot = std::distance(std::begin(m_shadow), found);
 				else
 					grow();
@@ -311,7 +314,7 @@ namespace CrissCross
 			m_numUsed--;
 
 			m_shadow[index] = false;
-			m_nextInsertPos = index;
+			m_nextInsertPos = std::min(index, m_nextInsertPos);
 		}
 
 		template <class T>
