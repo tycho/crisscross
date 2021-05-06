@@ -123,10 +123,7 @@ namespace CrissCross
 		template <class T>
 		void DArray <T>::recount()
 		{
-			m_numUsed = 0;
-			for (size_t i = 0; i < m_arraySize; i++)
-				if (m_shadow[i])
-					m_numUsed++;
+			m_numUsed = std::count(std::begin(m_shadow), std::end(m_shadow), true);
 		}
 
 		template <class T>
