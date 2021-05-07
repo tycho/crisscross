@@ -108,12 +108,13 @@ SOURCES = \
 HEADERS_INST := $(patsubst crisscross/%,$(includedir)/%,$(HEADERS))
 OBJECTS := $(patsubst %.cpp,$(OBJ_DIR)/%.o,$(SOURCES))
 
-CFLAGS ?= -O2
-override CFLAGS += -I.
-override CFLAGS += -I$(OBJ_DIR)
+CXXFLAGS ?= -O2
+override CXXFLAGS += -std=c++17
+override CXXFLAGS += -I.
+override CXXFLAGS += -I$(OBJ_DIR)
 
 ifeq ($(uname_S),FreeBSD)
-override CFLAGS += -I/usr/local/include
+override CXXFLAGS += -I/usr/local/include
 endif
 
 .PHONY: install
@@ -148,7 +149,7 @@ $(OBJ_DIR)/$(LIB): $(OBJECTS) | $$(@D)/.
 	$(QUIET_RANLIB)$(RANLIB) $@
 
 $(OBJ_DIR)/%.o: %.cpp $(OBJ_DIR)/.cflags | $$(@D)/.
-	$(QUIET_CXX)$(CXX) $(CFLAGS) -o $@ -c $<
+	$(QUIET_CXX)$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 $(OBJ_DIR)/build_number.h: | $$(@D)/.
 	$(QUIET_GEN)../tools/gen_buildnum_h.pl $(OBJ_DIR)/build_number.h
@@ -163,10 +164,10 @@ $(OBJ_DIR)/.:
 $(OBJ_DIR)%/.:
 	$(QUIET)mkdir -p $@
 
-TRACK_CFLAGS = $(subst ','\'',$(CXX) $(CFLAGS))
+TRACK_CXXFLAGS = $(subst ','\'',$(CXX) $(CXXFLAGS))
 
 $(OBJ_DIR)/.cflags: .force-cflags | $$(@D)/.
-	@FLAGS='$(TRACK_CFLAGS)'; \
+	@FLAGS='$(TRACK_CXXFLAGS)'; \
     if test x"$$FLAGS" != x"`cat $(OBJ_DIR)/.cflags 2>/dev/null`" ; then \
         echo "    * rebuilding libCrissCross: new build flags or prefix"; \
         echo "$$FLAGS" > $(OBJ_DIR)/.cflags; \
