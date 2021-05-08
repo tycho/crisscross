@@ -97,18 +97,18 @@ namespace CrissCross
 			constexpr size_t pageSizeInElements = std::max((size_t)(4096u / sizeof(T)), (size_t)32u);
 
 			/* Only resize if it would possibly be beneficial. */
-			if ((m_arraySize * sizeof(T)) <= 4096)
+			if (m_arraySize < pageSizeInElements)
 				return;
 			if (m_numUsed > m_arraySize / 2)
 				return;
 
-			auto found = std::find(std::rbegin(m_shadow), std::rend(m_shadow), 1);
-			size_t idx = std::distance(found, m_shadow.rend());
+			auto found = std::find(std::crbegin(m_shadow), std::crend(m_shadow), true);
+			size_t idx = std::distance(found, std::crend(m_shadow));
 
 			if (idx > m_arraySize)
 				return;
 
-			if ((m_arraySize - idx) < pageSizeInElements * 2)
+			if ((m_arraySize - idx) < pageSizeInElements)
 				return;
 			
 			/* Only shrink if the array is significantly under-used */
@@ -173,7 +173,7 @@ namespace CrissCross
 
 			if (m_stepSize == -1) {
 				if (m_arraySize == 0) {
-					setSize(8);
+					setSize(32);
 				} else if (m_arraySize <= growthHeuristic) {
 					setSize(m_arraySize * 2);
 				} else {
