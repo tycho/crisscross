@@ -76,7 +76,6 @@ namespace CrissCross
 		protected:
 			vec2 llPosition;
 			vec2 trPosition;
-			Quadtree<T, MaxDepth, MaxNodesPerLevel>             * parent;
 			Quadtree<T, MaxDepth, MaxNodesPerLevel>             * ll;
 			Quadtree<T, MaxDepth, MaxNodesPerLevel>             * lr;
 			Quadtree<T, MaxDepth, MaxNodesPerLevel>             * tl;
@@ -85,7 +84,7 @@ namespace CrissCross
 			std::vector<QtNode<T>>	nodes;
 
 			// Constructor for deeper levels
-			Quadtree(vec2 const &lower_left, vec2 const &upper_right, int _descentLevel, Quadtree<T, MaxDepth, MaxNodesPerLevel> *_parent);
+			Quadtree(vec2 const &lower_left, vec2 const &upper_right, int _descentLevel);
 
 			static bool InRange(float lower_bound, float upper_bound, float point);
 			static bool CircleCollision(vec2 circle1, float radius1, vec2 circle2, float radius2);
@@ -275,10 +274,10 @@ namespace CrissCross
 					midX = (leftX + rightX) * 0.5f,
 					midY = (topY + bottomY) * 0.5f;
 
-			ll = new Quadtree(vec2(leftX, bottomY), vec2(midX, midY), descentLevel - 1, this);
-			lr = new Quadtree(vec2(midX, bottomY), vec2(rightX, midY), descentLevel - 1, this);
-			tl = new Quadtree(vec2(leftX, midY), vec2(midX, topY), descentLevel - 1, this);
-			tr = new Quadtree(vec2(midX, midY), vec2(rightX, topY), descentLevel - 1, this);
+			ll = new Quadtree(vec2(leftX, bottomY), vec2(midX, midY), descentLevel - 1);
+			lr = new Quadtree(vec2(midX, bottomY), vec2(rightX, midY), descentLevel - 1);
+			tl = new Quadtree(vec2(leftX, midY), vec2(midX, topY), descentLevel - 1);
+			tr = new Quadtree(vec2(midX, midY), vec2(rightX, topY), descentLevel - 1);
 			/* distribute all current nodes */
 			std::vector<QtNode<T>> oldCopy = nodes;
 			nodes.clear();
@@ -416,7 +415,6 @@ namespace CrissCross
 		Quadtree<T, MaxDepth, MaxNodesPerLevel>::Quadtree(vec2 const &lower_left, vec2 const &upper_right)
 		:   llPosition(lower_left),
 		    trPosition(upper_right),
-		    parent(NULL),
 		    ll(NULL),
 		    lr(NULL),
 		    tl(NULL),
@@ -426,10 +424,9 @@ namespace CrissCross
 		}
 
 		template <class T, int MaxDepth, int MaxNodesPerLevel>
-		Quadtree<T, MaxDepth, MaxNodesPerLevel>::Quadtree(vec2 const &lower_left, vec2 const &upper_right, int _descentLevel, Quadtree<T, MaxDepth, MaxNodesPerLevel> *_parent)
+		Quadtree<T, MaxDepth, MaxNodesPerLevel>::Quadtree(vec2 const &lower_left, vec2 const &upper_right, int _descentLevel)
 		:   llPosition(lower_left),
 		    trPosition(upper_right),
-		    parent(_parent),
 		    ll(NULL),
 		    lr(NULL),
 		    tl(NULL),
