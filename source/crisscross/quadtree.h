@@ -208,8 +208,8 @@ namespace CrissCross
 					right = x + radius,
 					top = y + radius,
 					bottom = y - radius,
-					midX = (llPosition.X() + trPosition.X()) / 2.0f,
-					midY = (llPosition.Y() + trPosition.Y()) / 2.0f;
+					midX = (llPosition.X() + trPosition.X()) * 0.5f,
+					midY = (llPosition.Y() + trPosition.Y()) * 0.5f;
 
 			if (top > midY && left < midX) {
 				/* need to descend into top left quadtree */
@@ -272,8 +272,8 @@ namespace CrissCross
 					rightX = trPosition.X(),
 					topY = trPosition.Y(),
 					bottomY = llPosition.Y(),
-					midX = (leftX + rightX) / 2.0f,
-					midY = (topY + bottomY) / 2.0f;
+					midX = (leftX + rightX) * 0.5f,
+					midY = (topY + bottomY) * 0.5f;
 
 			ll = new Quadtree(vec2(leftX, bottomY), vec2(midX, midY), descentLevel - 1, this);
 			lr = new Quadtree(vec2(midX, bottomY), vec2(rightX, midY), descentLevel - 1, this);
@@ -337,8 +337,8 @@ namespace CrissCross
 					right = x + radius,
 					top = y + radius,
 					bottom = y - radius,
-					midX = (llPosition.X() + trPosition.X()) / 2.0f,
-					midY = (llPosition.Y() + trPosition.Y()) / 2.0f;
+					midX = (llPosition.X() + trPosition.X()) * 0.5f,
+					midY = (llPosition.Y() + trPosition.Y()) * 0.5f;
 
 			if (top > midY && left < midX) {
 				/* need to descend into top left quadtree */
@@ -387,8 +387,8 @@ namespace CrissCross
 						right = x + radius,
 						top = y + radius,
 						bottom = y - radius,
-						midX = (llPosition.X() + trPosition.X()) / 2.0f,
-						midY = (llPosition.Y() + trPosition.Y()) / 2.0f;
+						midX = (llPosition.X() + trPosition.X()) * 0.5f,
+						midY = (llPosition.Y() + trPosition.Y()) * 0.5f;
 
 				/* is it a nasty case, crossing the borderline? */
 				if (InRange(left, right, midX) ||
