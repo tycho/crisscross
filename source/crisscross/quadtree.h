@@ -212,7 +212,7 @@ namespace CrissCross
 					midX = (llPosition.X() + trPosition.X()) * 0.5f,
 					midY = (llPosition.Y() + trPosition.Y()) * 0.5f;
 
-			if (top > midY && left < midX) {
+			if (top >= midY && left <= midX) {
 				/* need to descend into top left quadtree */
 				if ( tl->ObjectsInCircle( array, circle, radius, maxResults
 #ifdef QUADTREE_SEARCH_CALLBACK_SUPPORTED
@@ -224,7 +224,7 @@ namespace CrissCross
 				}
 			}
 
-			if (top > midY && right > midX)	{
+			if (top >= midY && right >= midX) {
 				/* top right quadtree */
 				if ( tr->ObjectsInCircle( array, circle, radius, maxResults
 #ifdef QUADTREE_SEARCH_CALLBACK_SUPPORTED
@@ -236,7 +236,7 @@ namespace CrissCross
 				}
 			}
 
-			if (bottom < midY && right > midX) {
+			if (bottom <= midY && right >= midX) {
 				/* lower right quadtree */
 				if ( lr->ObjectsInCircle( array, circle, radius, maxResults
 #ifdef QUADTREE_SEARCH_CALLBACK_SUPPORTED
@@ -248,7 +248,7 @@ namespace CrissCross
 				}
 			}
 
-			if (bottom < midY && left < midX) {
+			if (bottom <= midY && left <= midX) {
 				/* lower left quadtree */
 				if ( ll->ObjectsInCircle( array, circle, radius, maxResults
 #ifdef QUADTREE_SEARCH_CALLBACK_SUPPORTED
@@ -360,16 +360,9 @@ namespace CrissCross
 					midX = (llPosition.X() + trPosition.X()) * 0.5f,
 					midY = (llPosition.Y() + trPosition.Y()) * 0.5f;
 
-			if (top > midY && left < midX) {
-				/* need to descend into top left quadtree */
-				if ( tl->RemoveObject(_object, _position, radius) ) {
-					Ascend();
-					return true;
-				}
-			}
-			if (top > midY && right > midX)	{
-				/* top right quadtree */
-				if ( tr->RemoveObject(_object, _position, radius) ) {
+			if (bottom < midY && left < midX) {
+				/* lower left quadtree */
+				if ( ll->RemoveObject(_object, _position, radius) ) {
 					Ascend();
 					return true;
 				}
@@ -381,9 +374,16 @@ namespace CrissCross
 					return true;
 				}
 			}
-			if (bottom < midY && left < midX) {
-				/* lower left quadtree */
-				if ( ll->RemoveObject(_object, _position, radius) ) {
+			if (top > midY && left < midX) {
+				/* need to descend into top left quadtree */
+				if ( tl->RemoveObject(_object, _position, radius) ) {
+					Ascend();
+					return true;
+				}
+			}
+			if (top > midY && right > midX)	{
+				/* top right quadtree */
+				if ( tr->RemoveObject(_object, _position, radius) ) {
 					Ascend();
 					return true;
 				}
@@ -410,24 +410,30 @@ namespace CrissCross
 						midX = (llPosition.X() + trPosition.X()) * 0.5f,
 						midY = (llPosition.Y() + trPosition.Y()) * 0.5f;
 
-				/* is it a nasty case, crossing the borderline? */
 				if (InRange(left, right, midX) ||
 				    InRange(top, bottom, midY))	{
-					/* yes, it is :/ */
+					/*
+					 * Crosses the border between trees, so we insert at this
+					 * level instead of a lower one.
+					 */
 					nodes.push_back(QtNode<T>(_object, _position, radius));
 				} else {
-					if (!ll)  /* create the subquadrants */
-						Descend();
-					/* determine the quadrant */
-					if (x < midX && y < midY) {
-						ll->InsertObject(_object, _position, radius);
-					} else if (x > midX && y < midY) {
-						lr->InsertObject(_object, _position, radius);
-					} else if (x < midX && y > midY) {
-						tl->InsertObject(_object, _position, radius);
+					/* Find target quadrant for insertion. */
+					Quadtree<T, MaxDepth, MaxNodesPerLevel> *target = nullptr;
+					if (y <= midY)
+					{
+						if (x <= midX)
+							target = ll;
+						else
+							target = lr;
 					} else {
-						tr->InsertObject(_object, _position, radius);
+						if (x <= midX)
+							target = tl;
+						else
+							target = tr;
 					}
+					CoreAssert(target != nullptr);
+					target->InsertObject(_object, _position, radius);
 				}
 			}
 		}
