@@ -89,6 +89,7 @@ namespace CrissCross
 			static bool InRange(float lower_bound, float upper_bound, float point);
 			static bool CircleCollision(vec2 circle1, float radius1, vec2 circle2, float radius2);
 
+			bool AreChildrenEmpty();
 			void Descend();
 			void Ascend();
 		public:
@@ -99,6 +100,7 @@ namespace CrissCross
 			Quadtree(vec2 const &lower_left, vec2 const &upper_right);
 			~Quadtree();
 			void Empty();
+			bool IsEmpty();
 			void InsertObject(T const &_object, vec2 const &position, float _collisionRadius);
 			bool RemoveObject(T const &_object, vec2 const &position, float _collisionRadius);
 			QuadtreeSearchResult ObjectsInCircle(std::vector<T> &array, vec2 const &circle, float radius, size_t maxResults
@@ -290,15 +292,34 @@ namespace CrissCross
 		{
 			if (!ll)
 				return;
-			if (ll->nodes.size() != 0 ||
-			    lr->nodes.size() != 0 ||
-				tl->nodes.size() != 0 ||
-				tr->nodes.size() != 0)
+			if (!AreChildrenEmpty())
 				return;
 			delete ll; ll = NULL;
 			delete lr; lr = NULL;
 			delete tl; tl = NULL;
 			delete tr; tr = NULL;
+		}
+
+		template <class T, int MaxDepth, int MaxNodesPerLevel>
+		bool CrissCross::Data::Quadtree<T, MaxDepth, MaxNodesPerLevel>::AreChildrenEmpty()
+		{
+			if (ll && !ll->IsEmpty()) return false;
+			if (lr && !lr->IsEmpty()) return false;
+			if (tl && !tl->IsEmpty()) return false;
+			if (tr && !tr->IsEmpty()) return false;
+			return true;
+		}
+
+		template <class T, int MaxDepth, int MaxNodesPerLevel>
+		bool CrissCross::Data::Quadtree<T, MaxDepth, MaxNodesPerLevel>::IsEmpty()
+		{
+			if (nodes.size() > 0)
+				return false;
+			if (ll && !ll->IsEmpty()) return false;
+			if (lr && !lr->IsEmpty()) return false;
+			if (tl && !tl->IsEmpty()) return false;
+			if (tr && !tr->IsEmpty()) return false;
+			return true;
 		}
 
 		template <class T, int MaxDepth, int MaxNodesPerLevel>
