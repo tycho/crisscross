@@ -374,7 +374,7 @@ namespace CrissCross
 		template <class T, int MaxDepth, int MaxNodesPerLevel>
 		void Quadtree<T, MaxDepth, MaxNodesPerLevel>::InsertObject(T const &_object, vec2 const &_position, float radius)
 		{
-			if (nodes.size() < MaxNodesPerLevel || descentLevel == 0) {
+			if (descentLevel == 0 || (!ll && nodes.size() < MaxNodesPerLevel)) {
 				nodes.push_back(QtNode<T>(_object, _position, radius));
 			} else {
 				if (!ll)
