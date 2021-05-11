@@ -254,7 +254,7 @@ namespace CrissCross
 
 			ll = new Quadtree(vec2(leftX, bottomY), vec2(midX, midY), descentLevel - 1, this);
 			lr = new Quadtree(vec2(midX, bottomY), vec2(rightX, midY), descentLevel - 1, this);
-			tl = new Quadtree(vec2(leftX, midY), vec2(rightX, midY), descentLevel - 1, this);
+			tl = new Quadtree(vec2(leftX, midY), vec2(midX, topY), descentLevel - 1, this);
 			tr = new Quadtree(vec2(midX, midY), vec2(rightX, topY), descentLevel - 1, this);
 			/* distribute all current nodes */
 			std::vector<QtNode<T>> oldCopy = nodes;
