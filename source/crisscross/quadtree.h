@@ -279,7 +279,7 @@ namespace CrissCross
 			tl = new Quadtree(vec2(leftX, midY), vec2(midX, topY), descentLevel - 1);
 			tr = new Quadtree(vec2(midX, midY), vec2(rightX, topY), descentLevel - 1);
 			/* distribute all current nodes */
-			std::vector<QtNode<T>> oldCopy = nodes;
+			std::vector<QtNode<T>> oldCopy = std::move(nodes);
 			nodes.clear();
 			for (auto node : oldCopy)
 				InsertObject(node.data, node.pos, node.collisionRadius);
