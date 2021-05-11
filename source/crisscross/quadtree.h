@@ -40,6 +40,13 @@ namespace CrissCross
 			{ }
 		};
 
+		struct QtStats {
+			vec2 pos_ll;
+			vec2 pos_tr;
+			uint32_t depth;
+			size_t elements;
+		};
+
 		enum class QuadtreeCallbackResponse
 		{
 			ACCEPT,
@@ -102,6 +109,7 @@ namespace CrissCross
 			) const;
 
 			void Collect(std::vector<T>& _elements, uint32_t &maxDepthSeen, uint32_t &maxNodesSeen, uint32_t currentDepth = 0);
+			void CollectStats(std::vector<QtStats> &rects, uint32_t currentDepth = 0);
 		};
 
 		template <class T, int MaxDepth, int MaxNodesPerLevel>
@@ -118,6 +126,21 @@ namespace CrissCross
 			if (lr) lr->Collect(_elements, maxDepthSeen, maxNodesSeen, currentDepth + 1);
 			if (tl) tl->Collect(_elements, maxDepthSeen, maxNodesSeen, currentDepth + 1);
 			if (tr) tr->Collect(_elements, maxDepthSeen, maxNodesSeen, currentDepth + 1);
+		}
+
+		template <class T, int MaxDepth, int MaxNodesPerLevel>
+		void Quadtree<T, MaxDepth, MaxNodesPerLevel>::CollectStats(std::vector<QtStats> &_rects, uint32_t currentDepth)
+		{
+			QtStats rect;
+			rect.pos_ll = llPosition;
+			rect.pos_tr = trPosition;
+			rect.depth = currentDepth;
+			rect.elements = nodes.size();
+			_rects.push_back(rect);
+			if (ll) ll->CollectStats(_rects, currentDepth + 1);
+			if (lr) lr->CollectStats(_rects, currentDepth + 1);
+			if (tl) tl->CollectStats(_rects, currentDepth + 1);
+			if (tr) tr->CollectStats(_rects, currentDepth + 1);
 		}
 
 		template <class T, int MaxDepth, int MaxNodesPerLevel>
