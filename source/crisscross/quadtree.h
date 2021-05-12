@@ -93,7 +93,6 @@ namespace CrissCross
 			static bool InRange(float lower_bound, float upper_bound, float point);
 			static bool CircleCollision(VectorType circle1, float radius1, VectorType circle2, float radius2);
 
-			bool AreChildrenEmpty();
 			void Descend();
 			void Ascend();
 		public:
@@ -105,7 +104,7 @@ namespace CrissCross
 			Quadtree(VectorType const &lower_left, VectorType const &upper_right);
 			~Quadtree();
 			void Empty();
-			bool IsEmpty();
+			bool IsEmpty(bool _childOnly);
 			void InsertObject(T const &_object, VectorType const &position, float _collisionRadius);
 			bool RemoveObject(T const &_object, VectorType const &position, float _collisionRadius);
 			QuadtreeSearchResult ObjectsInCircle(std::vector<T> &array, VectorType const &circle, float radius, size_t maxResults
@@ -128,10 +127,12 @@ namespace CrissCross
 			for (auto& elem : nodes) {
 				_elements.push_back(elem.data);
 			}
-			if (ll) ll->Collect(_elements, maxDepthSeen, maxNodesSeen, currentDepth + 1);
-			if (lr) lr->Collect(_elements, maxDepthSeen, maxNodesSeen, currentDepth + 1);
-			if (tl) tl->Collect(_elements, maxDepthSeen, maxNodesSeen, currentDepth + 1);
-			if (tr) tr->Collect(_elements, maxDepthSeen, maxNodesSeen, currentDepth + 1);
+			if (!ll)
+				return;
+			ll->Collect(_elements, maxDepthSeen, maxNodesSeen, currentDepth + 1);
+			lr->Collect(_elements, maxDepthSeen, maxNodesSeen, currentDepth + 1);
+			tl->Collect(_elements, maxDepthSeen, maxNodesSeen, currentDepth + 1);
+			tr->Collect(_elements, maxDepthSeen, maxNodesSeen, currentDepth + 1);
 		}
 
 		template <class T, class VectorType, int MaxDepth, int MaxNodesPerLevel>
@@ -143,10 +144,12 @@ namespace CrissCross
 			rect.depth = currentDepth;
 			rect.elements = nodes.size();
 			_rects.push_back(rect);
-			if (ll) ll->CollectStats(_rects, currentDepth + 1);
-			if (lr) lr->CollectStats(_rects, currentDepth + 1);
-			if (tl) tl->CollectStats(_rects, currentDepth + 1);
-			if (tr) tr->CollectStats(_rects, currentDepth + 1);
+			if (!ll)
+				return;
+			ll->CollectStats(_rects, currentDepth + 1);
+			lr->CollectStats(_rects, currentDepth + 1);
+			tl->CollectStats(_rects, currentDepth + 1);
+			tr->CollectStats(_rects, currentDepth + 1);
 		}
 
 		template <class T, class VectorType, int MaxDepth, int MaxNodesPerLevel>
@@ -296,9 +299,7 @@ namespace CrissCross
 		template <class T, class VectorType, int MaxDepth, int MaxNodesPerLevel>
 		void Quadtree<T, VectorType, MaxDepth, MaxNodesPerLevel>::Ascend()
 		{
-			if (!ll)
-				return;
-			if (!AreChildrenEmpty())
+			if (!IsEmpty(true))
 				return;
 			delete ll; ll = NULL;
 			delete lr; lr = NULL;
@@ -307,24 +308,18 @@ namespace CrissCross
 		}
 
 		template <class T, class VectorType, int MaxDepth, int MaxNodesPerLevel>
-		bool Quadtree<T, VectorType, MaxDepth, MaxNodesPerLevel>::AreChildrenEmpty()
+		bool Quadtree<T, VectorType, MaxDepth, MaxNodesPerLevel>::IsEmpty(bool _childOnly)
 		{
-			if (ll && !ll->IsEmpty()) return false;
-			if (lr && !lr->IsEmpty()) return false;
-			if (tl && !tl->IsEmpty()) return false;
-			if (tr && !tr->IsEmpty()) return false;
-			return true;
-		}
-
-		template <class T, class VectorType, int MaxDepth, int MaxNodesPerLevel>
-		bool Quadtree<T, VectorType, MaxDepth, MaxNodesPerLevel>::IsEmpty()
-		{
-			if (nodes.size() > 0)
-				return false;
-			if (ll && !ll->IsEmpty()) return false;
-			if (lr && !lr->IsEmpty()) return false;
-			if (tl && !tl->IsEmpty()) return false;
-			if (tr && !tr->IsEmpty()) return false;
+			if (!_childOnly) {
+				if (nodes.size() > 0)
+					return false;
+			}
+			if (!ll)
+				return true;
+			if (!ll->IsEmpty(false)) return false;
+			if (!lr->IsEmpty(false)) return false;
+			if (!tl->IsEmpty(false)) return false;
+			if (!tr->IsEmpty(false)) return false;
 			return true;
 		}
 
@@ -332,10 +327,12 @@ namespace CrissCross
 		void Quadtree<T, VectorType, MaxDepth, MaxNodesPerLevel>::Empty()
 		{
 			nodes.clear();
-			if (ll) ll->Empty();
-			if (lr) lr->Empty();
-			if (tl) tl->Empty();
-			if (tr) tr->Empty();
+			if (!ll)
+				return;
+			ll->Empty();
+			lr->Empty();
+			tl->Empty();
+			tr->Empty();
 		}
 
 		template <class T, class VectorType, int MaxDepth, int MaxNodesPerLevel>
