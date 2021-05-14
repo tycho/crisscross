@@ -109,7 +109,8 @@ namespace CrissCross
 			bool RemoveObject(T const &_object, VectorType const &position, float _collisionRadius);
 			QuadtreeSearchResult ObjectsInCircle(std::vector<T> &array, VectorType const &circle, float radius, size_t maxResults
 #ifdef QUADTREE_SEARCH_CALLBACK_SUPPORTED
-				, predicate_t predicate
+				, predicate_t pretest
+				, predicate_t matchtest
 #endif
 			) const;
 
@@ -170,7 +171,8 @@ namespace CrissCross
 		template <class T, class VectorType, int MaxDepth, int MaxNodesPerLevel>
 		QuadtreeSearchResult Quadtree<T, VectorType, MaxDepth, MaxNodesPerLevel>::ObjectsInCircle(std::vector<T> &array, VectorType const &circle, float radius, size_t maxResults
 #ifdef QUADTREE_SEARCH_CALLBACK_SUPPORTED
-			, predicate_t predicate
+			, predicate_t pretest
+			, predicate_t matchtest
 #endif
 		) const
 		{
@@ -180,10 +182,17 @@ namespace CrissCross
 				 i++)
 			{
 				nodetype_t const &node = *i;
-				if ( CircleCollision( circle, radius, node.pos, node.collisionRadius ) )
+				QuadtreeCallbackResponse response = pretest( node.data );
+
+				// Do early test for criteria match/mismatch, which should be cheaper than the circle collision test
+				bool testCollision = response != QuadtreeCallbackResponse::REJECT;
+
+				// If the early check didn't explicitly reject it, test for circle collision.
+				if ( testCollision && CircleCollision( circle, radius, node.pos, node.collisionRadius ) )
 				{
+					response = matchtest( node.data );
+
 #ifdef QUADTREE_SEARCH_CALLBACK_SUPPORTED
-					QuadtreeCallbackResponse response = predicate( node.data );
 					if ( response == QuadtreeCallbackResponse::ACCEPT ||
 						 response == QuadtreeCallbackResponse::ACCEPT_AND_STOP )
 					{
@@ -225,7 +234,7 @@ namespace CrissCross
 				/* need to descend into top left quadtree */
 				if ( tl->ObjectsInCircle( array, circle, radius, maxResults
 #ifdef QUADTREE_SEARCH_CALLBACK_SUPPORTED
-					, predicate
+					, pretest, matchtest
 #endif
 				) == QuadtreeSearchResult::ABORTED )
 				{
@@ -237,7 +246,7 @@ namespace CrissCross
 				/* top right quadtree */
 				if ( tr->ObjectsInCircle( array, circle, radius, maxResults
 #ifdef QUADTREE_SEARCH_CALLBACK_SUPPORTED
-					, predicate
+					, pretest, matchtest
 #endif
 				) == QuadtreeSearchResult::ABORTED )
 				{
@@ -249,7 +258,7 @@ namespace CrissCross
 				/* lower right quadtree */
 				if ( lr->ObjectsInCircle( array, circle, radius, maxResults
 #ifdef QUADTREE_SEARCH_CALLBACK_SUPPORTED
-					, predicate
+					, pretest, matchtest
 #endif
 				) == QuadtreeSearchResult::ABORTED )
 				{
@@ -261,7 +270,7 @@ namespace CrissCross
 				/* lower left quadtree */
 				if ( ll->ObjectsInCircle( array, circle, radius, maxResults
 #ifdef QUADTREE_SEARCH_CALLBACK_SUPPORTED
-					, predicate
+					, pretest, matchtest
 #endif
 				) == QuadtreeSearchResult::ABORTED )
 				{
