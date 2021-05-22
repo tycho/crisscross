@@ -166,7 +166,11 @@ void SymbolEngine::StackTrace(PCONTEXT _pContext, CoreIOWriter * _outputBuffer)
 	_outputBuffer->WriteLine("  Frame              Address            Code");
 #endif
 
+#if TARGET_CPU_BITS == 32
+	STACKFRAME stackFrame = { 0 };
+#else
 	STACKFRAME64 stackFrame = { 0 };
+#endif
 
 #if defined(TARGET_CPU_X86)
 	stackFrame.AddrPC.Offset = _pContext->Eip;
