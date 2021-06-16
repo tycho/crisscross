@@ -54,52 +54,151 @@ typedef char **(*backtrace_symbols_t)(void * const *, int);
 #include <windows.h>
 #include <dbghelp.h>
 
-#pragma warning (disable: 4312)
-#pragma comment( lib, "dbghelp" )
+extern "C" {
+#if TARGET_CPU_BITS == 32
+typedef BOOL(__stdcall *STACKWALK32)( DWORD, HANDLE, HANDLE, LPSTACKFRAME, PVOID, PREAD_PROCESS_MEMORY_ROUTINE, PFUNCTION_TABLE_ACCESS_ROUTINE, PGET_MODULE_BASE_ROUTINE, PTRANSLATE_ADDRESS_ROUTINE);
+typedef BOOL(__stdcall *SYMGETLINEFROMADDR32)(HANDLE, DWORD, PDWORD, PIMAGEHLP_LINE);
+typedef BOOL(__stdcall *SYMGETMODULEINFO32)(HANDLE, DWORD, PIMAGEHLP_MODULE);
+typedef BOOL(__stdcall *SYMGETSYMFROMADDR32)(HANDLE, DWORD, PDWORD, PIMAGEHLP_SYMBOL);
+#else
+typedef BOOL(__stdcall *STACKWALK64)(DWORD, HANDLE, HANDLE, LPSTACKFRAME64, PVOID, PREAD_PROCESS_MEMORY_ROUTINE64, PFUNCTION_TABLE_ACCESS_ROUTINE64, PGET_MODULE_BASE_ROUTINE64, PTRANSLATE_ADDRESS_ROUTINE64);
+typedef BOOL(__stdcall *SYMGETLINEFROMADDR64)(HANDLE, DWORD64, PDWORD, PIMAGEHLP_LINE64);
+typedef BOOL(__stdcall *SYMGETMODULEINFO64)(HANDLE, DWORD64, PIMAGEHLP_MODULE64);
+typedef BOOL(__stdcall *SYMGETSYMFROMADDR64)(HANDLE, DWORD64, PDWORD64, PIMAGEHLP_SYMBOL64);
+#endif
+typedef BOOL(__stdcall *SYMINITIALIZE)(HANDLE, LPCSTR, BOOL);
+typedef BOOL(__stdcall *SYMCLEANUP)(HANDLE);
+typedef DWORD(__stdcall *SYMGETOPTIONS)(VOID);
+typedef DWORD(__stdcall *SYMSETOPTIONS)(DWORD);
+
+static HMODULE hDbgHelp = nullptr;
+#if TARGET_CPU_BITS == 32
+static STACKWALK32 pStackWalk = NULL;
+static PFUNCTION_TABLE_ACCESS_ROUTINE pSymFunctionTableAccess = NULL;
+static SYMGETLINEFROMADDR32 pSymGetLineFromAddr = NULL;
+static PGET_MODULE_BASE_ROUTINE pSymGetModuleBase = NULL;
+static SYMGETMODULEINFO32 pSymGetModuleInfo = NULL;
+static SYMGETSYMFROMADDR32 pSymGetSymFromAddr = NULL;
+#else
+static STACKWALK64 pStackWalk = NULL;
+static PFUNCTION_TABLE_ACCESS_ROUTINE64 pSymFunctionTableAccess = NULL;
+static SYMGETLINEFROMADDR64 pSymGetLineFromAddr = NULL;
+static PGET_MODULE_BASE_ROUTINE64 pSymGetModuleBase = NULL;
+static SYMGETMODULEINFO64 pSymGetModuleInfo = NULL;
+static SYMGETSYMFROMADDR64 pSymGetSymFromAddr = NULL;
+#endif
+static SYMINITIALIZE pSymInitialize = NULL;
+static SYMCLEANUP pSymCleanup = NULL;
+static SYMSETOPTIONS pSymSetOptions = NULL;
+static SYMGETOPTIONS pSymGetOptions = NULL;
+}
 
 class SymbolEngine
 {
-	public:
-		static SymbolEngine & instance();
+public:
+	SymbolEngine(SymbolEngine const &) = delete;
+	SymbolEngine & operator=(SymbolEngine const &) = delete;
+
+	static SymbolEngine & instance();
 #if TARGET_CPU_BITS == 32
-		std::string addressToString(DWORD address);
+	std::string addressToString(DWORD address);
 #else
-		std::string addressToString(DWORD64 address);
+	std::string addressToString(DWORD64 address);
 #endif
-		void StackTrace(PCONTEXT _pContext, CoreIOWriter * _outputBuffer);
-	private:
-		SymbolEngine(SymbolEngine const &);
-		SymbolEngine & operator=(SymbolEngine const &);
-		SymbolEngine();
-		HANDLE hProcess;
-	public:
-		~SymbolEngine();
-	private:
+	void StackTrace(PCONTEXT _pContext, CoreIOWriter * _outputBuffer);
+	HANDLE hProcess;
+
+public:
+	~SymbolEngine();
+private:
+	SymbolEngine();
+	bool m_initialized;
 };
 
 SymbolEngine & SymbolEngine::instance()
 {
-	static SymbolEngine
-	theEngine;
+	static SymbolEngine theEngine;
 
 	return theEngine;
 }
 
 SymbolEngine::SymbolEngine()
 {
+	DWORD dwOpts;
+
+	if (!hDbgHelp) {
+		hDbgHelp = LoadLibraryA("dbghelp.dll");
+		if (!hDbgHelp) goto init_fail;
+		#if TARGET_CPU_BITS == 32
+		pStackWalk = (STACKWALK32)GetProcAddress(hDbgHelp, "StackWalk");
+		pSymFunctionTableAccess = (PFUNCTION_TABLE_ACCESS_ROUTINE)GetProcAddress(hDbgHelp, "SymFunctionTableAccess");
+		pSymGetLineFromAddr = (SYMGETLINEFROMADDR32)GetProcAddress(hDbgHelp, "SymGetLineFromAddr");
+		pSymGetModuleBase = (PGET_MODULE_BASE_ROUTINE)GetProcAddress(hDbgHelp, "SymGetModuleBase");
+		pSymGetModuleInfo = (SYMGETMODULEINFO32)GetProcAddress(hDbgHelp, "SymGetModuleInfo");
+		pSymGetSymFromAddr = (SYMGETSYMFROMADDR32)GetProcAddress(hDbgHelp, "SymGetSymFromAddr");
+		#else
+		pStackWalk = (STACKWALK64)GetProcAddress(hDbgHelp, "StackWalk64");
+		pSymFunctionTableAccess = (PFUNCTION_TABLE_ACCESS_ROUTINE64)GetProcAddress(hDbgHelp, "SymFunctionTableAccess64");
+		pSymGetLineFromAddr = (SYMGETLINEFROMADDR64)GetProcAddress(hDbgHelp, "SymGetLineFromAddr64");
+		pSymGetModuleBase = (PGET_MODULE_BASE_ROUTINE64)GetProcAddress(hDbgHelp, "SymGetModuleBase64");
+		pSymGetModuleInfo = (SYMGETMODULEINFO64)GetProcAddress(hDbgHelp, "SymGetModuleInfo64");
+		pSymGetSymFromAddr = (SYMGETSYMFROMADDR64)GetProcAddress(hDbgHelp, "SymGetSymFromAddr64");
+		#endif
+		pSymGetOptions = (SYMGETOPTIONS)GetProcAddress(hDbgHelp, "SymGetOptions");
+		pSymSetOptions = (SYMSETOPTIONS)GetProcAddress(hDbgHelp, "SymSetOptions");
+		pSymInitialize = (SYMINITIALIZE)GetProcAddress(hDbgHelp, "SymInitialize");
+		pSymCleanup = (SYMCLEANUP)GetProcAddress(hDbgHelp, "SymCleanup");
+	}
+
+	if (!pStackWalk ||
+		!pSymFunctionTableAccess ||
+		!pSymGetLineFromAddr ||
+		!pSymGetModuleBase ||
+		!pSymGetModuleInfo ||
+		!pSymGetSymFromAddr ||
+		!pSymGetOptions ||
+		!pSymSetOptions ||
+		!pSymInitialize ||
+		!pSymCleanup)
+	{
+		goto init_fail;
+	}
+
 	hProcess = GetCurrentProcess();
 
-	DWORD dwOpts = SymGetOptions();
+	dwOpts = pSymGetOptions();
 
-	dwOpts |= SYMOPT_LOAD_LINES | SYMOPT_DEFERRED_LOADS;
-	SymSetOptions(dwOpts);
+	dwOpts |= SYMOPT_LOAD_LINES | SYMOPT_DEFERRED_LOADS | SYMOPT_AUTO_PUBLICS;
+	dwOpts &= ~(SYMOPT_DEBUG | SYMOPT_PUBLICS_ONLY | SYMOPT_FAIL_CRITICAL_ERRORS);
 
-	::SymInitialize(hProcess, 0, true);
+	pSymSetOptions(dwOpts);
+
+	pSymInitialize(hProcess, 0, true);
+
+	m_initialized = true;
+	return;
+init_fail:
+	m_initialized = false;
+	return;
 }
 
 SymbolEngine::~SymbolEngine()
 {
-	::SymCleanup(hProcess);
+	if (m_initialized) {
+		pSymCleanup(hProcess);
+
+		pStackWalk = nullptr;
+		pSymFunctionTableAccess = nullptr;
+		pSymGetLineFromAddr = nullptr;
+		pSymGetModuleBase = nullptr;
+		pSymGetModuleInfo = nullptr;
+		pSymGetSymFromAddr = nullptr;
+		pSymGetOptions = nullptr;
+		pSymSetOptions = nullptr;
+		pSymInitialize = nullptr;
+		pSymCleanup = nullptr;
+		FreeLibrary(hDbgHelp);
+	}
 }
 
 #if TARGET_CPU_BITS == 32
@@ -108,7 +207,12 @@ std::string SymbolEngine::addressToString(DWORD address)
 std::string SymbolEngine::addressToString(DWORD64 address)
 #endif
 {
-	char buffer[4096];
+	std::string str = "";
+
+	if (!m_initialized)
+		return str;
+
+	static char addr_string[16];
 #if TARGET_CPU_BITS == 32
 	const char *format = "0x%08x";
 #elif TARGET_CPU_BITS == 64
@@ -116,7 +220,9 @@ std::string SymbolEngine::addressToString(DWORD64 address)
 #endif
 
 	/* First the raw address */
-	sprintf(buffer, format, address);
+	sprintf(addr_string, format, address);
+
+	str += addr_string;
 
 	/* Then any name for the symbol */
 	struct tagSymInfo
@@ -132,38 +238,38 @@ std::string SymbolEngine::addressToString(DWORD64 address)
 	        sizeof(SymInfo) - offsetof(tagSymInfo, symInfo.Name);
 
 #if TARGET_CPU_BITS == 32
-	DWORD
+	DWORD dwDisplacement;
 #elif TARGET_CPU_BITS == 64
-	DWORD64
+	DWORD64 dwDisplacement;
 #endif
-	dwDisplacement;
+	IMAGEHLP_LINE lineInfo = { sizeof(IMAGEHLP_LINE) };
 
-	if (SymGetSymFromAddr(GetCurrentProcess(), address, &dwDisplacement, pSym)) {
-		strcat(buffer, " ");
-		strcat(buffer, pSym->Name);
-		/*if ( dwDisplacement != 0 )
-		 * oss << "+0x" << std::hex << dwDisplacement << std::dec; */
+	if (pSymGetSymFromAddr(GetCurrentProcess(), address, &dwDisplacement, pSym)) {
+		str += "  ";
+		str += pSym->Name;
 	}
 
 	/* Finally any file/line number */
-	IMAGEHLP_LINE
-	lineInfo = { sizeof(IMAGEHLP_LINE) };
-	if (SymGetLineFromAddr(GetCurrentProcess(), (DWORD)address, (PDWORD)&dwDisplacement, &lineInfo)) {
+	if (pSymGetLineFromAddr(GetCurrentProcess(), address, (PDWORD)&dwDisplacement, &lineInfo)) {
 		const char *pDelim = strrchr(lineInfo.FileName, '\\');
-		char temp[1024];
-		sprintf(temp, " at %s(%u)", (pDelim ? pDelim + 1 : lineInfo.FileName), lineInfo.LineNumber);
-		strcat(buffer, temp);
+		char lineDetails[64];
+		snprintf(lineDetails, sizeof(lineDetails), "at %s(%u)", (pDelim ? pDelim + 1 : lineInfo.FileName), lineInfo.LineNumber);
+		str += " ";
+		str += lineDetails;
 	}
 
-	return std::string(buffer);
+	return str;
 }
 
 void SymbolEngine::StackTrace(PCONTEXT _pContext, CoreIOWriter * _outputBuffer)
 {
+	if (!m_initialized)
+		return;
+
 #if TARGET_CPU_BITS == 32
-	_outputBuffer->WriteLine("  Frame       Address   Code");
+	_outputBuffer->WriteLine("  Frame         Address    Code");
 #else
-	_outputBuffer->WriteLine("  Frame              Address            Code");
+	_outputBuffer->WriteLine("  Frame                Address             Code");
 #endif
 
 #if TARGET_CPU_BITS == 32
@@ -205,15 +311,15 @@ void SymbolEngine::StackTrace(PCONTEXT _pContext, CoreIOWriter * _outputBuffer)
 #endif
 
 #if TARGET_CPU_BITS == 32
-	const char *format = " 0x%08x %s";
+	const char *format = "  0x%08x   %s";
 #elif TARGET_CPU_BITS == 64
-	const char *format = " 0x%016x %s";
+	const char *format = "  0x%016x   %s";
 #endif
 
-	while (::StackWalk(machine, hProcess, GetCurrentThread(),        /* this value doesn't matter much if previous one is a real handle */
+	while (pStackWalk(machine, hProcess, GetCurrentThread(),        /* this value doesn't matter much if previous one is a real handle */
 	                   &stackFrame,
 	                   _pContext,
-	                   NULL, ::SymFunctionTableAccess, ::SymGetModuleBase,
+	                   NULL, pSymFunctionTableAccess, pSymGetModuleBase,
 	                   NULL)) {
 		_outputBuffer->WriteLine(format, stackFrame.AddrFrame.Offset,
 		                         addressToString(stackFrame.AddrPC.
