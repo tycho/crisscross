@@ -212,7 +212,7 @@ std::string SymbolEngine::addressToString(DWORD64 address)
 	if (!m_initialized)
 		return str;
 
-	static char addr_string[16];
+	static char addr_string[20];
 #if TARGET_CPU_BITS == 32
 	const char *format = "0x%08x";
 #elif TARGET_CPU_BITS == 64
