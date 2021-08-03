@@ -80,6 +80,12 @@ namespace CrissCross
 				/*! \brief The implicit copy operator. */
 				LList & operator =(const LList <T> &);
 
+				/*! \brief Adds a new node to the end of the list and returns a reference to the new data element. */
+				/*!
+				 * \return Reference to new node's value.
+				 */
+				_CC_WARN_UNUSED_RESULT T &insert_new();
+
 				/*! \brief Adds data at the end of the list. */
 				/*!
 				 * \param _newdata The data to add to the list.

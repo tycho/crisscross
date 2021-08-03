@@ -76,6 +76,26 @@ namespace CrissCross
 			insert_back(newdata);
 		}
 
+		template <class T> T &LList <T>::insert_new()
+		{
+			LListNode <T> *li = new LListNode <T> ();
+			li->m_next = NULL;
+			li->m_previous = m_last;
+			++m_numItems;
+
+			if (m_last == NULL) {
+				m_first = li;
+				m_last = li;
+
+				m_previous = li;
+				m_previousIndex = 0;
+			} else {
+				m_last->m_next = li;
+				m_last = li;
+			}
+
+			return li->m_data;
+		}
 
 		template <class T> void LList <T>::insert_back(const T & newdata)
 		{
