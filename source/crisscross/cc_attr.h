@@ -118,4 +118,50 @@
 #define assume(x)
 #endif
 
+#if defined (TARGET_COMPILER_GCC)
+#if (__GNUC__ >= 4)
+#define _CC_DEPRECATE_TEXT(_Text)  __attribute__((__deprecated__))
+#else
+#define _CC_DEPRECATE_TEXT(_Text)
+#endif
+#elif defined (TARGET_COMPILER_VC)
+#if _MSC_FULL_VER >= 140050320
+#define _CC_DEPRECATE_TEXT(_Text) __declspec(deprecated(_Text))
+#elif _MSC_VER > 1200
+#define _CC_DEPRECATE_TEXT(_Text) __declspec(deprecated)
+#else
+#define _CC_DEPRECATE_TEXT(_Text)
+#endif
+#else
+#define _CC_DEPRECATE_TEXT(_Text)
+#endif
+
+#if !defined (_CC_NO_DEPRECATE)
+#ifndef _CC_SLOW_NO_DEPRECATE
+#define _CC_DEPRECATE_SLOW(x)                    _CC_DEPRECATE_TEXT("This function or class is known to be slow and should not be used in production.")
+#else
+#define _CC_DEPRECATE_SLOW(x)
+#endif
+#ifndef _CC_ONLY_DEPRECATE_SLOW
+#define _CC_DEPRECATE_CLASS(_Replacement)        _CC_DEPRECATE_TEXT("This class is deprecated and may be removed from future versions. Consider using '" # _Replacement "' instead. Be sure to check the CrissCross documentation.")
+#define _CC_DEPRECATE_FUNCTION(_Replacement)     _CC_DEPRECATE_TEXT("This function is deprecated and may be removed from future versions. Consider using '" # _Replacement "' instead. Be sure to check the CrissCross documentation.")
+#define _CC_DEPRECATE_FUNCTION_N                 _CC_DEPRECATE_TEXT("This function is deprecated and may be removed from future versions. Be sure to check the CrissCross documentation.")
+#else
+#define _CC_DEPRECATE_CLASS(_Replacement)
+#define _CC_DEPRECATE_FUNCTION(_Replacement)
+#define _CC_DEPRECATE_FUNCTION_N
+#endif
+#else
+#define _CC_DEPRECATE_SLOW(x)
+#define _CC_DEPRECATE_CLASS(_Replacement)
+#define _CC_DEPRECATE_FUNCTION(_Replacement)
+#define _CC_DEPRECATE_FUNCTION_N
+#endif
+
+#if __cplusplus >= 201703L || _MSVC_LANG >= 201703L
+#define _CC_WARN_UNUSED_RESULT [[nodiscard]]
+#else
+#define _CC_WARN_UNUSED_RESULT
+#endif
+
 #endif

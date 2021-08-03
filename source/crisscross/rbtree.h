@@ -13,7 +13,6 @@
 #define __included_cc_rbtree_h
 
 #include <crisscross/cc_attr.h>
-#include <crisscross/deprecate.h>
 #include <crisscross/internal_mem.h>
 #include <crisscross/darray.h>
 #include <crisscross/node.h>

@@ -37,7 +37,6 @@
 		B0BD2C550BE26C0400F71A26 /* compare.h in Headers */ = {isa = PBXBuildFile; fileRef = B0BD2BAE0BE2542600F71A26 /* compare.h */; };
 		B0BD2C560BE26C0500F71A26 /* console.h in Headers */ = {isa = PBXBuildFile; fileRef = B0BD2BAF0BE2542600F71A26 /* console.h */; };
 		B0BD2C590BE26C0600F71A26 /* debug.h in Headers */ = {isa = PBXBuildFile; fileRef = B0BD2BB20BE2542600F71A26 /* debug.h */; };
-		B0BD2C5A0BE26C0600F71A26 /* deprecate.h in Headers */ = {isa = PBXBuildFile; fileRef = B0BD2BB30BE2542600F71A26 /* deprecate.h */; };
 		B0BD2C5B0BE26C0700F71A26 /* error.h in Headers */ = {isa = PBXBuildFile; fileRef = B0BD2BB40BE2542600F71A26 /* error.h */; };
 		B0BD2C5D0BE26C0800F71A26 /* core_io.h in Headers */ = {isa = PBXBuildFile; fileRef = B0BD2BB80BE2542600F71A26 /* core_io.h */; };
 		B0BD2C5E0BE26C0800F71A26 /* core_io_reader.h in Headers */ = {isa = PBXBuildFile; fileRef = B0BD2BB60BE2542600F71A26 /* core_io_reader.h */; };
@@ -116,7 +115,6 @@
 		B0BD2BAE0BE2542600F71A26 /* compare.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = compare.h; path = ../../source/crisscross/compare.h; sourceTree = SOURCE_ROOT; };
 		B0BD2BAF0BE2542600F71A26 /* console.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = console.h; path = ../../source/crisscross/console.h; sourceTree = SOURCE_ROOT; };
 		B0BD2BB20BE2542600F71A26 /* debug.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = debug.h; path = ../../source/crisscross/debug.h; sourceTree = SOURCE_ROOT; };
-		B0BD2BB30BE2542600F71A26 /* deprecate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = deprecate.h; path = ../../source/crisscross/deprecate.h; sourceTree = SOURCE_ROOT; };
 		B0BD2BB40BE2542600F71A26 /* error.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = error.h; path = ../../source/crisscross/error.h; sourceTree = SOURCE_ROOT; };
 		B0BD2BB60BE2542600F71A26 /* core_io_reader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = core_io_reader.h; path = ../../source/crisscross/core_io_reader.h; sourceTree = SOURCE_ROOT; };
 		B0BD2BB70BE2542600F71A26 /* core_io_writer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = core_io_writer.h; path = ../../source/crisscross/core_io_writer.h; sourceTree = SOURCE_ROOT; };
@@ -205,7 +203,6 @@
 				B0BD2BAE0BE2542600F71A26 /* compare.h */,
 				B0BD2BAF0BE2542600F71A26 /* console.h */,
 				B0BD2BB20BE2542600F71A26 /* debug.h */,
-				B0BD2BB30BE2542600F71A26 /* deprecate.h */,
 				B0BD2BB40BE2542600F71A26 /* error.h */,
 				B0BD2BB60BE2542600F71A26 /* core_io_reader.h */,
 				B0BD2BB70BE2542600F71A26 /* core_io_writer.h */,
@@ -263,7 +260,6 @@
 				B0BD2C550BE26C0400F71A26 /* compare.h in Headers */,
 				B0BD2C560BE26C0500F71A26 /* console.h in Headers */,
 				B0BD2C590BE26C0600F71A26 /* debug.h in Headers */,
-				B0BD2C5A0BE26C0600F71A26 /* deprecate.h in Headers */,
 				B0BD2C5B0BE26C0700F71A26 /* error.h in Headers */,
 				B0BD2C5D0BE26C0800F71A26 /* core_io.h in Headers */,
 				B0BD2C5E0BE26C0800F71A26 /* core_io_reader.h in Headers */,

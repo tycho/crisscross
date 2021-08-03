@@ -12,8 +12,7 @@
 #ifndef __included_cc_llist_h
 #define __included_cc_llist_h
 
-#include <crisscross/deprecate.h>
-
+#include <crisscross/cc_attr.h>
 #include <crisscross/sort.h>
 #include <crisscross/darray.h>
 

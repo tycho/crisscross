@@ -12,7 +12,7 @@
 #ifndef __included_cc_quicksort_h
 #define __included_cc_quicksort_h
 
-#include <crisscross/deprecate.h>
+#include <crisscross/cc_attr.h>
 #include <crisscross/sort.h>
 #include <crisscross/system.h>
 #include <crisscross/heapsort.h>

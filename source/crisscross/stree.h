@@ -13,7 +13,6 @@
 #define __included_cc_stree_h
 
 #include <crisscross/cc_attr.h>
-#include <crisscross/deprecate.h>
 #include <crisscross/internal_mem.h>
 #include <crisscross/darray.h>
 #include <crisscross/node.h>
@@ -94,7 +93,7 @@ namespace CrissCross
 			public:
 
 				/*! \brief The default constructor. */
-				_CC_DEPRECATE_SLOW("SEVERE") STree();
+				_CC_DEPRECATE_SLOW STree();
 
 				/*! \brief The destructor. */
 				virtual ~STree();

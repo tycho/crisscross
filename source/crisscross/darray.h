@@ -17,7 +17,6 @@
 #include <vector>
 
 #include <crisscross/cc_attr.h>
-#include <crisscross/deprecate.h>
 #include <crisscross/debug.h>
 #include <crisscross/dstack.h>
 #include <crisscross/sort.h>

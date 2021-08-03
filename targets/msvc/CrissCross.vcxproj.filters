@@ -116,9 +116,6 @@
     <ClInclude Include="..\..\source\crisscross\debug.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\crisscross\deprecate.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\crisscross\dstack.h">
       <Filter>Headers</Filter>
     </ClInclude>

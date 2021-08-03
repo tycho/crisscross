@@ -27,7 +27,6 @@
 #ifdef ENABLE_STLTREE
 
 #include <crisscross/cc_attr.h>
-#include <crisscross/deprecate.h>
 #include <crisscross/compare.h>
 #include <crisscross/internal_mem.h>
 #include <crisscross/darray.h>

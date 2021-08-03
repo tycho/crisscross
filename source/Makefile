@@ -49,7 +49,6 @@ HEADERS = \
 	crisscross/darray.h \
 	crisscross/datatypes.h \
 	crisscross/debug.h \
-	crisscross/deprecate.h \
 	crisscross/dstack.cpp \
 	crisscross/dstack.h \
 	crisscross/endian.h \

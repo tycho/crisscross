@@ -30,6 +30,7 @@
     <ProjectGuid>{D41B6899-77A7-4CB8-B739-BE29475EF864}</ProjectGuid>
     <RootNamespace>CrissCross</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -304,7 +305,6 @@ tools\gen_buildnum_h_helper.cmd $(ProjectDir)\..\..
     <ClInclude Include="..\..\source\crisscross\darray.h" />
     <ClInclude Include="..\..\source\crisscross\datatypes.h" />
     <ClInclude Include="..\..\source\crisscross\debug.h" />
-    <ClInclude Include="..\..\source\crisscross\deprecate.h" />
     <ClInclude Include="..\..\source\crisscross\dstack.h" />
     <ClInclude Include="..\..\source\crisscross\error.h" />
     <ClInclude Include="..\..\source\crisscross\filereader.h" />

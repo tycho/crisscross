@@ -12,7 +12,7 @@
 #ifndef __included_cc_sort_h
 #define __included_cc_sort_h
 
-#include <crisscross/deprecate.h>
+#include <crisscross/cc_attr.h>
 #include <crisscross/compare.h>
 
 namespace CrissCross

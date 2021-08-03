@@ -480,10 +480,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\source\crisscross\deprecate.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\source\crisscross\dstack.cpp"
 				>
 				<FileConfiguration
