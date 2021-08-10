@@ -163,7 +163,7 @@ namespace CrissCross
 			}
 			else if (newsize < m_arraySize)
 			{
-				if (std::is_destructible<T>::value) {
+				if (std::is_destructible<T>::value && !std::is_trivially_destructible<T>::value) {
 					// Destroy any objects that are getting dropped off the end of the array.
 					for (size_t idx = newsize; idx < m_arraySize; idx++)
 						if (m_shadow[idx])
@@ -260,7 +260,7 @@ namespace CrissCross
 		template <class T>
 		void DArray <T>::empty(bool _freeMemory)
 		{
-			if (std::is_destructible<T>::value) {
+			if (std::is_destructible<T>::value && !std::is_trivially_destructible<T>::value) {
 				for (size_t idx = 0; idx < m_arraySize; idx++) {
 					if (m_shadow[idx])
 						std::destroy_at<T>(&m_array[idx]);
@@ -353,7 +353,7 @@ namespace CrissCross
 			CoreAssert(index < m_arraySize);
 			CoreAssert(m_shadow[index]);
 
-			if ( std::is_destructible<T>::value ) {
+			if (std::is_destructible<T>::value && !std::is_trivially_destructible<T>::value) {
 				std::destroy_at<T>(&m_array[index]);
 			}
 
