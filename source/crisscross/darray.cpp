@@ -13,6 +13,8 @@
 #error "This file shouldn't be compiled directly."
 #endif
 
+#include <memory>
+
 #include <crisscross/debug.h>
 
 #include <crisscross/darray.h>
@@ -25,7 +27,6 @@ namespace CrissCross
 		template <class T>
 		DArray <T>::DArray()
 		{
-			static_assert(std::is_trivially_copyable<T>::value);
 			m_stepSize = -1;
 			m_numUsed = m_arraySize = m_nextInsertPos = 0;
 			m_array = NULL;
@@ -148,11 +149,37 @@ namespace CrissCross
 		{
 			m_shadow.resize(newsize, false);
 			if (newsize > m_arraySize) {
+				T *newArray = (T *)malloc(sizeof(T) * newsize);
+
+				// Zero-initialize all slots
+				memset(newArray, 0, sizeof(T) * newsize);
+
+				// Move any filled slots to new array.
+				for (size_t idx = 0; idx < m_arraySize; idx++)
+					newArray[idx] = std::move(m_array[idx]);
+
 				m_arraySize = newsize;
-				m_array = (T *)realloc(m_array, sizeof(T) * newsize);
-			} else if (newsize < m_arraySize) {
+				m_array = newArray;
+			}
+			else if (newsize < m_arraySize)
+			{
+				if (std::is_destructible<T>::value) {
+					// Destroy any objects that are getting dropped off the end of the array.
+					for (size_t idx = newsize; idx < m_arraySize; idx++)
+						if (m_shadow[idx])
+							std::destroy_at<T>(&m_array[idx]);
+				}
+
+				T *newArray = (T *)malloc(sizeof(T) * newsize);
+
+				// Move any filled slots to new array.
+				for (size_t idx = 0; idx < newsize; idx++)
+					newArray[idx] = std::move(m_array[idx]);
+
+				free(m_array);
+
+				m_array = newArray;
 				m_arraySize = newsize;
-				m_array = (T *)realloc(m_array, sizeof(T) * newsize);
 
 				/* We may have lost more than one node. It's worth rebuilding over. */
 				recount();
@@ -198,6 +225,17 @@ namespace CrissCross
 		}
 
 		template <class T>
+		size_t DArray <T>::allocate()
+		{
+			static_assert(std::is_constructible<T>::value);
+			size_t freeslot = getNextFree();
+			std::construct_at<T>(&m_array[freeslot]);
+			m_shadow[freeslot] = true;
+			m_numUsed++;
+			return freeslot;
+		}
+
+		template <class T>
 		size_t DArray <T>::insert(T const & newdata)
 		{
 			size_t freeslot = getNextFree();
@@ -222,6 +260,12 @@ namespace CrissCross
 		template <class T>
 		void DArray <T>::empty(bool _freeMemory)
 		{
+			if (std::is_destructible<T>::value) {
+				for (size_t idx = 0; idx < m_arraySize; idx++) {
+					if (m_shadow[idx])
+						std::destroy_at<T>(&m_array[idx]);
+				}
+			}
 			m_shadow.clear();
 
 			m_numUsed = 0;
@@ -308,6 +352,10 @@ namespace CrissCross
 		{
 			CoreAssert(index < m_arraySize);
 			CoreAssert(m_shadow[index]);
+
+			if ( std::is_destructible<T>::value ) {
+				std::destroy_at<T>(&m_array[index]);
+			}
 
 			m_numUsed--;
 

@@ -153,6 +153,12 @@ namespace CrissCross
 				 */
 				size_t find(T const & _data);
 
+				/*! \brief Constructs a new instance of T in an empty slot and returns its new index. */
+				/*!
+				 * \return The index of the node where the data was stored.
+				 */
+				size_t allocate();
+
 				/*! \brief Inserts data into the array at the first available index. */
 				/*!
 				 * \param _newdata The data to put into the array.
