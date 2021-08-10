@@ -229,7 +229,7 @@ namespace CrissCross
 		{
 			static_assert(std::is_constructible<T>::value);
 			size_t freeslot = getNextFree();
-			std::construct_at<T>(&m_array[freeslot]);
+			(void)(new (&m_array[freeslot]) T());
 			m_shadow[freeslot] = true;
 			m_numUsed++;
 			return freeslot;
