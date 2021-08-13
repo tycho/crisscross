@@ -152,7 +152,7 @@ namespace CrissCross
 				T *newArray = (T *)malloc(sizeof(T) * newsize);
 
 				// Zero-initialize all slots
-				memset(newArray, 0, sizeof(T) * newsize);
+				memset((void*)newArray, 0, sizeof(T) * newsize);
 
 				// Move any filled slots to new array.
 				for (size_t idx = 0; idx < m_arraySize; idx++)
