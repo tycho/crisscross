@@ -130,7 +130,7 @@ namespace CrissCross
 							std::destroy_at<T>(&m_array[idx]);
 				}
 
-				T *newArray = (T *)malloc(sizeof(T) * newsize);
+				T *newArray = newsize > 0 ? (T *)malloc(sizeof(T) * newsize) : nullptr;
 
 				// Move any filled slots to new array.
 				for (size_t idx = 0; idx < newsize; idx++)
