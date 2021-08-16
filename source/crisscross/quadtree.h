@@ -32,9 +32,9 @@ namespace CrissCross
 		struct QtNode
 		{
 		public:
+			VectorType pos;
 			float collisionRadius;
 			T data;
-			VectorType pos;
 
 			QtNode(T const &_data, VectorType const &_pos, float _collisionRadius) : collisionRadius(_collisionRadius), data(_data), pos(_pos)
 			{ }
@@ -182,7 +182,11 @@ namespace CrissCross
 				 i++)
 			{
 				nodetype_t const &node = *i;
+#ifdef QUADTREE_SEARCH_CALLBACK_SUPPORTED
 				QuadtreeCallbackResponse response = pretest( node.data );
+#else
+				QuadtreeCallbackResponse response = QuadtreeCallbackResponse::ACCEPT;
+#endif
 
 				// Do early test for criteria match/mismatch, which should be cheaper than the circle collision test
 				bool testCollision = response != QuadtreeCallbackResponse::REJECT;
@@ -190,9 +194,9 @@ namespace CrissCross
 				// If the early check didn't explicitly reject it, test for circle collision.
 				if ( testCollision && CircleCollision( circle, radius, node.pos, node.collisionRadius ) )
 				{
+#ifdef QUADTREE_SEARCH_CALLBACK_SUPPORTED
 					response = matchtest( node.data );
 
-#ifdef QUADTREE_SEARCH_CALLBACK_SUPPORTED
 					if ( response == QuadtreeCallbackResponse::ACCEPT ||
 						 response == QuadtreeCallbackResponse::ACCEPT_AND_STOP )
 					{
