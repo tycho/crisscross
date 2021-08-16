@@ -82,8 +82,11 @@ namespace CrissCross
 				/*! \brief The destructor. */
 				~DArray();
 
-				/*! \brief Truncates the array, if it's under-utilized. */
+				/*! \brief Truncates the array, if it's less than one third filled. */
 				void compact();
+
+				/*! \brief Truncates the array to the last used element. */
+				void minimize();
 
 				/*! \brief Sets the size of the array. */
 				/*!

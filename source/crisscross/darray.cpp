@@ -68,6 +68,22 @@ namespace CrissCross
 		}
 
 		template <class T>
+		void DArray <T>::minimize()
+		{
+			/* Early out if we're already at the smallest size we can be. */
+			if (m_numUsed == m_arraySize)
+				return;
+
+			auto found = std::find(std::crbegin(m_shadow), std::crend(m_shadow), true);
+			size_t idx = std::distance(found, std::crend(m_shadow));
+
+			if (idx >= m_arraySize)
+				return;
+
+			setSize(idx);
+		}
+
+		template <class T>
 		void DArray <T>::recount()
 		{
 			m_numUsed = std::count(std::begin(m_shadow), std::end(m_shadow), true);
