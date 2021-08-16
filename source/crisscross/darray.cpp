@@ -33,60 +33,6 @@ namespace CrissCross
 		}
 
 		template <class T>
-		DArray <T>::DArray(T *_array, size_t _indices)
-		{
-			m_array = (T *)malloc(sizeof(T) * _indices);
-			memcpy(m_array, _array, _indices * sizeof(T));
-
-			m_shadow.resize(_indices, false);
-
-			m_numUsed = 0;
-			for (size_t i = 0; i < _indices; i++) {
-				m_shadow[i] = (m_array[i] != NULL) ? true : false;
-				if (m_shadow[i]) {
-					m_numUsed++;
-				}
-			}
-
-			m_arraySize = _indices;
-			m_stepSize = -1;
-			m_nextInsertPos = 0;
-		}
-
-		template <class T>
-		DArray <T>::DArray(DArray<T> const &_array)
-		{
-			m_array = (T *)malloc(sizeof(T) * _array.m_arraySize);
-			memcpy(m_array, _array.m_array, _array.m_arraySize * sizeof(T));
-
-			m_shadow.resize(_array.m_arraySize);
-
-			m_numUsed = 0;
-			for (size_t i = 0; i < _array.m_arraySize; i++)	{
-				m_shadow[i] = (m_array[i] != NULL) ? true : false;
-				if (m_shadow[i]) {
-					m_numUsed++;
-				}
-			}
-
-			m_arraySize = _array.m_arraySize;
-			m_stepSize = _array.m_stepSize;
-			m_nextInsertPos = 0;
-		}
-
-		template <class T>
-		DArray <T>::DArray(int _newStepSize)
-		{
-			if (_newStepSize < 1)
-				m_stepSize = -1;
-			else
-				m_stepSize = _newStepSize;
-
-			m_numUsed = m_arraySize = m_nextInsertPos = 0;
-			m_array = NULL;
-		}
-
-		template <class T>
 		DArray <T>::~DArray()
 		{
 			empty();

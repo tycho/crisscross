@@ -73,25 +73,11 @@ namespace CrissCross
 				size_t getNextFree();
 
 			public:
-
 				/*! \brief The default constructor. */
 				DArray();
 
-				/*! \brief Initialize the DArray with an existing array. */
-				DArray(T *_array, size_t _indices);
-
-				/*! \brief Initialize the DArray with an existing array. */
-				explicit DArray(DArray<T> const &_array);
-
-				/*! \brief The secondary constructor. */
-				/*!
-				 * Parameter _newStepSize should be larger than 1. A step size of 1 forces
-				 * the DArray to resize way too often. A step size of -1 is a magic value
-				 * which makes the DArray double in size on each grow() call (offers a pretty
-				 * good speedup).
-				 * \param _newStepSize The step size to use in grow().
-				 */
-				DArray(int _newStepSize);
+				/*! \brief Prevent copying DArrays implicitly */
+				DArray(DArray<T> const &) = delete;
 
 				/*! \brief The destructor. */
 				~DArray();
