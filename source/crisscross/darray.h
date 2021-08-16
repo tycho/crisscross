@@ -28,6 +28,123 @@ namespace CrissCross
 		/*! \brief A dynamic array implementation. */
 		template <class T> class DArray
 		{
+			public:
+				/*! \brief STL-compatible and range-loop compatible iterator */
+				struct DArrayIterator
+				{
+					friend class DArray<T>;
+				protected:
+					DArray<T> *m_darray;
+					size_t m_idx;
+
+					__forceinline void ensure_valid()
+					{
+						// Keep incrementing the index until we find a filled slot or the end of the array.
+						while (!this->m_darray->valid(this->m_idx) && this->m_idx != this->m_darray->m_arraySize)
+							this->m_idx++;
+					}
+
+					__forceinline void advance()
+					{
+						this->m_idx++;
+						ensure_valid();
+					}
+
+				public:
+					using iterator_category = std::forward_iterator_tag;
+					using difference_type = std::ptrdiff_t;
+					using value_type = T;
+					using pointer = T*;
+					using reference = std::pair<std::size_t, T &>;
+
+					__forceinline explicit DArrayIterator(DArray<T> *_darray) {
+						this->m_darray = _darray;
+						this->m_idx = 0;
+					}
+
+					__forceinline reference operator*() const {
+						return reference(this->m_idx, this->m_darray->m_array[this->m_idx]);
+					}
+
+					__forceinline pointer operator->() {
+						return &this->m_darray->m_array[this->m_idx];
+					}
+
+					__forceinline DArrayIterator &operator++()
+					{
+						advance();
+						return *this;
+					}
+
+					inline bool operator == (const DArrayIterator &_rhs) const
+					{
+						return this->m_idx == _rhs.m_idx && this->m_darray == _rhs.m_darray;
+					}
+					inline bool operator != (const DArrayIterator &_rhs) const
+					{
+						return !(*this == _rhs);
+					}
+				};
+
+				struct DArrayConstIterator
+				{
+					friend class DArray<T>;
+				protected:
+					const DArray<T> *m_darray;
+					size_t m_idx;
+
+					__forceinline void ensure_valid()
+					{
+						// Keep incrementing the index until we find a filled slot or the end of the array.
+						while (!this->m_darray->valid(this->m_idx) && this->m_idx != this->m_darray->m_arraySize)
+							this->m_idx++;
+					}
+
+					__forceinline void advance()
+					{
+						this->m_idx++;
+						ensure_valid();
+					}
+
+				public:
+					using iterator_category = std::forward_iterator_tag;
+					using difference_type = std::ptrdiff_t;
+					using value_type = T const;
+					using pointer = T const *;
+					using reference = std::pair<std::size_t, T const &>;
+
+					__forceinline explicit DArrayConstIterator(const DArray<T> *_darray) {
+						this->m_darray = _darray;
+						this->m_idx = 0;
+					}
+
+					__forceinline reference operator*() const {
+						return reference(this->m_idx, this->m_darray->m_array[this->m_idx]);
+					}
+
+					__forceinline pointer operator->() {
+						return &this->m_darray->m_array[this->m_idx];
+					}
+
+					__forceinline DArrayConstIterator &operator++()
+					{
+						advance();
+						return *this;
+					}
+
+					inline bool operator == (const DArrayConstIterator &_rhs) const
+					{
+						return this->m_idx == _rhs.m_idx && this->m_darray == _rhs.m_darray;
+					}
+					inline bool operator != (const DArrayConstIterator &_rhs) const
+					{
+						return !(*this == _rhs);
+					}
+				};
+
+				using iterator = DArrayIterator;
+				using const_iterator = DArrayConstIterator;
+
 			protected:
 				/*! \brief The size by which to increase the size of the array when there are no more empty nodes. */
 				/*!
@@ -184,7 +301,7 @@ namespace CrissCross
 				/*! \brief Indicates whether a given index is valid. */
 				/*!
 				 *  Tests whether the index is within the bounds of the array and
-				 *  is an empty node.
+				 *  is not an empty node.
 				 * \param _index The index to test.
 				 * \return Boolean value. True if valid, false if not.
 				 */
@@ -238,6 +355,30 @@ namespace CrissCross
 
 				/*! \brief Empties the array and deletes the data contained in it with the 'delete []' operator. */
 				inline void flushArray();
+
+				iterator begin() {
+					iterator it(this);
+					it.ensure_valid();
+					return it;
+				}
+
+				iterator end() {
+					iterator it(this);
+					it.m_idx = m_arraySize;
+					return it;
+				}
+
+				const_iterator begin() const {
+					const_iterator it(this);
+					it.ensure_valid();
+					return it;
+				}
+
+				const_iterator end() const {
+					const_iterator it(this);
+					it.m_idx = m_arraySize;
+					return it;
+				}
 
 #if !defined (DISABLE_DEPRECATED_CODE)
 				/*
