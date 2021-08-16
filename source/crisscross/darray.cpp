@@ -93,17 +93,15 @@ namespace CrissCross
 		template <class T>
 		void DArray <T>::setSize(size_t newsize)
 		{
-			m_shadow.resize(newsize, false);
 			if (newsize > m_arraySize) {
 				T *newArray = (T *)malloc(sizeof(T) * newsize);
 
-				// Zero-initialize all slots
-				memset((void*)newArray, 0, sizeof(T) * newsize);
-
 				// Move any filled slots to new array.
 				for (size_t idx = 0; idx < m_arraySize; idx++)
-					newArray[idx] = std::move(m_array[idx]);
+					if (m_shadow[idx])
+						newArray[idx] = std::move(m_array[idx]);
 
+				m_shadow.resize(newsize, false);
 				m_arraySize = newsize;
 				m_array = newArray;
 			}
@@ -120,10 +118,12 @@ namespace CrissCross
 
 				// Move any filled slots to new array.
 				for (size_t idx = 0; idx < newsize; idx++)
-					newArray[idx] = std::move(m_array[idx]);
+					if (m_shadow[idx])
+						newArray[idx] = std::move(m_array[idx]);
 
 				free(m_array);
 
+				m_shadow.resize(newsize, false);
 				m_array = newArray;
 				m_arraySize = newsize;
 
