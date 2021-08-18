@@ -117,6 +117,8 @@ namespace CrissCross
 					if (m_shadow[idx])
 						newArray[idx] = std::move(m_array[idx]);
 
+				free(m_array);
+
 				m_shadow.resize(newsize, false);
 				m_arraySize = newsize;
 				m_array = newArray;
