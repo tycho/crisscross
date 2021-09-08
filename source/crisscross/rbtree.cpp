@@ -38,7 +38,7 @@ namespace CrissCross
 		RedBlackTree<Key, Data, OwnsKeys>::~RedBlackTree()
 		{
 			killAll();
-			nullNode->right = nullNode->left = NULL;
+			nullNode->right = nullNode->left = nullptr;
 			delete nullNode;
 		}
 
@@ -356,8 +356,8 @@ namespace CrissCross
 
 			m_cachedSize--;
 
-			y->left = NULL;
-			y->right = NULL;
+			y->left = nullptr;
+			y->right = nullptr;
 			delete y;
 
 			return true;
@@ -391,7 +391,7 @@ namespace CrissCross
 				}
 			}
 
-			return NULL;
+			return nullptr;
 		}
 
 		template <class Key, class Data, bool OwnsKeys>
@@ -425,8 +425,8 @@ namespace CrissCross
 
 			if (OwnsKeys)
 				Dealloc(rec->id);
-			rec->left = NULL;
-			rec->right = NULL;
+			rec->left = nullptr;
+			rec->right = nullptr;
 			delete rec;
 		}
 

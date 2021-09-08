@@ -36,16 +36,16 @@ namespace {
 			fatInitDefault();
 #endif
 
-			g_stderr = new Console(stderr, NULL);
-			g_stdout = new Console(stdout, NULL);
+			g_stderr = new Console(stderr, nullptr);
+			g_stdout = new Console(stdout, nullptr);
 
 			CrissCross::System::InitTimer();
 		}
 
 		~CrissCrossInitializer ()
 		{
-			delete g_stderr; g_stderr = NULL;
-			delete g_stdout; g_stdout = NULL;
+			delete g_stderr; g_stderr = nullptr;
+			delete g_stdout; g_stdout = nullptr;
 		}
 	};
 

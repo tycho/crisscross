@@ -24,7 +24,7 @@ namespace CrissCross
 		template <class Key, class Data, bool OwnsKeys>
 		SplayTree<Key, Data, OwnsKeys>::SplayTree()
 		{
-			root = NULL;
+			root = nullptr;
 			m_size = 0;
 		}
 
@@ -38,9 +38,9 @@ namespace CrissCross
 		template <class Key, class Data, bool OwnsKeys>
 		bool SplayTree<Key, Data, OwnsKeys>::insert(Key const &key, Data const &x)
 		{
-			static SplayNode<Key, Data, OwnsKeys> *newNode = NULL;
+			static SplayNode<Key, Data, OwnsKeys> *newNode = nullptr;
 
-			if (newNode == NULL)
+			if (newNode == nullptr)
 				newNode = new SplayNode<Key, Data, OwnsKeys>;
 			else if (OwnsKeys)
 				Dealloc(newNode->id);
@@ -50,10 +50,10 @@ namespace CrissCross
 			else
 				newNode->id = key;
 			newNode->data = x;
-			newNode->parent = newNode->right = newNode->left = NULL;
+			newNode->parent = newNode->right = newNode->left = nullptr;
 
-			if (root == NULL) {
-				newNode->left = newNode->right = NULL;
+			if (root == nullptr) {
+				newNode->left = newNode->right = nullptr;
 				root = newNode;
 			} else {
 				splay(key, root);
@@ -64,7 +64,7 @@ namespace CrissCross
 
 					newNode->right = root;
 					root->parent = newNode;
-					root->left = NULL;
+					root->left = nullptr;
 					root = newNode;
 				} else
 				if (Compare(root->id, key) < 0)	{
@@ -74,14 +74,14 @@ namespace CrissCross
 
 					newNode->left = root;
 					root->parent = newNode;
-					root->right = NULL;
+					root->right = nullptr;
 					root = newNode;
 				} else
 					return false;
 			}
 
 			m_size++;
-			newNode = NULL;               /* So next insert will call new */
+			newNode = nullptr;               /* So next insert will call new */
 			return true;
 		}
 
@@ -90,19 +90,19 @@ namespace CrissCross
 		{
 			SplayNode<Key, Data, OwnsKeys> *x, *y;
 
-			if (z->left == NULL || z->right == NULL) {
-				/* y has a NULL node as a child */
+			if (z->left == nullptr || z->right == nullptr) {
+				/* y has a nullptr node as a child */
 				y = z;
 			} else {
-				/* find tree successor with a NULL node as a child */
+				/* find tree successor with a nullptr node as a child */
 				y = z->right;
 
-				while (y->left != NULL)
+				while (y->left != nullptr)
 					y = y->left;
 			}
 
 			/* x is y's only child */
-			if (y->left != NULL)
+			if (y->left != nullptr)
 				x = y->left;
 			else
 				x = y->right;
@@ -132,8 +132,8 @@ namespace CrissCross
 
 			m_size--;
 
-			y->left = NULL;
-			y->right = NULL;
+			y->left = nullptr;
+			y->right = nullptr;
 			delete y;
 
 			return true;
@@ -151,10 +151,10 @@ namespace CrissCross
 			if (Compare(root->id, key) != 0)
 				return false;
 
-			if (root == NULL)
+			if (root == nullptr)
 				return false;
 
-			if (root->left == NULL)
+			if (root->left == nullptr)
 				newTree = root->right;
 			else{
 				/* Find the maximum in the left subtree */
@@ -166,8 +166,8 @@ namespace CrissCross
 
 			m_size--;
 
-			root->left = NULL;
-			root->right = NULL;
+			root->left = nullptr;
+			root->right = nullptr;
 			delete root;
 
 			root = newTree;
@@ -180,7 +180,7 @@ namespace CrissCross
 		{
 			splay(key, root);
 
-			if (root == NULL || Compare(root->id, key) != 0)
+			if (root == nullptr || Compare(root->id, key) != 0)
 				return false;
 
 			return true;
@@ -203,7 +203,7 @@ namespace CrissCross
 		{
 			splay(key, root);
 
-			if (root == NULL || Compare(root->id, key) != 0)
+			if (root == nullptr || Compare(root->id, key) != 0)
 				return false;
 
 			root->data = data;
@@ -215,8 +215,8 @@ namespace CrissCross
 		{
 			splay(key, root);
 
-			if (root == NULL || Compare(root->id, key) != 0)
-				return NULL;
+			if (root == nullptr || Compare(root->id, key) != 0)
+				return nullptr;
 
 			return root;
 		}
@@ -236,19 +236,19 @@ namespace CrissCross
 			SplayNode<Key, Data, OwnsKeys> *leftTreeMax, *rightTreeMin;
 			static SplayNode<Key, Data, OwnsKeys> header;
 
-			header.left = header.right = NULL;
+			header.left = header.right = nullptr;
 
 			leftTreeMax = rightTreeMin = &header;
 
 			for ( ; ;)
 				if (Compare(key, t->id) < 0) {
-					if (t->left == NULL)
+					if (t->left == nullptr)
 						break;
 
 					if (Compare(key, t->left->id) < 0)
 						rotateWithLeftChild(t);
 
-					if (t->left == NULL)
+					if (t->left == nullptr)
 						break;
 
 					/* Link Right */
@@ -256,13 +256,13 @@ namespace CrissCross
 					rightTreeMin = t;
 					t = t->left;
 				} else if (Compare(t->id, key) < 0) {
-					if (t->right == NULL)
+					if (t->right == nullptr)
 						break;
 
 					if (Compare(t->right->id, key) < 0)
 						rotateWithRightChild(t);
 
-					if (t->right == NULL)
+					if (t->right == nullptr)
 						break;
 
 					/* Link Left */
@@ -277,7 +277,7 @@ namespace CrissCross
 			t->left = header.right;
 			t->right = header.left;
 
-			header.left = header.right = NULL;
+			header.left = header.right = nullptr;
 		}
 
 

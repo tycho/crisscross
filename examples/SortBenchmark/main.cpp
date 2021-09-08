@@ -18,7 +18,7 @@ using namespace CrissCross::IO;
 using namespace CrissCross::System;
 using namespace std;
 
-Console *console = NULL;
+Console *console = nullptr;
 
 void BenchmarkDArray(Sorter<char *> &sorter)
 {

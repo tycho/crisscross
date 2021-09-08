@@ -21,16 +21,16 @@ namespace CrissCross
 	{
 		template <class T> LListNode <T>::LListNode()
 		{
-			m_next = NULL;
-			m_previous = NULL;
+			m_next = nullptr;
+			m_previous = nullptr;
 		}
 
 		template <class T> LList <T>::LList()
 		{
-			m_first = NULL;
-			m_last = NULL;
+			m_first = nullptr;
+			m_last = nullptr;
 			m_numItems = 0;
-			m_previous = NULL;
+			m_previous = nullptr;
 			m_previousIndex = (size_t)-1;
 		}
 
@@ -39,9 +39,9 @@ namespace CrissCross
 			empty();
 		}
 
-		template <class T> LList <T>::LList(const LList <T> &source) : m_first(NULL),
-			m_last(NULL),
-			m_previous(NULL),
+		template <class T> LList <T>::LList(const LList <T> &source) : m_first(nullptr),
+			m_last(nullptr),
+			m_previous(nullptr),
 			m_previousIndex(-1),
 			m_numItems(0)
 		{
@@ -79,11 +79,11 @@ namespace CrissCross
 		template <class T> T &LList <T>::insert_new()
 		{
 			LListNode <T> *li = new LListNode <T> ();
-			li->m_next = NULL;
+			li->m_next = nullptr;
 			li->m_previous = m_last;
 			++m_numItems;
 
-			if (m_last == NULL) {
+			if (m_last == nullptr) {
 				m_first = li;
 				m_last = li;
 
@@ -101,11 +101,11 @@ namespace CrissCross
 		{
 			LListNode <T> *li = new LListNode <T> ();
 			li->m_data = newdata;
-			li->m_next = NULL;
+			li->m_next = nullptr;
 			li->m_previous = m_last;
 			++m_numItems;
 
-			if (m_last == NULL) {
+			if (m_last == nullptr) {
 				m_first = li;
 				m_last = li;
 
@@ -121,11 +121,11 @@ namespace CrissCross
 		{
 			LListNode <T> *li = new LListNode <T> ();
 			li->m_data = newdata;
-			li->m_previous = NULL;
+			li->m_previous = nullptr;
 			++m_numItems;
 
-			if (m_last == NULL) {
-				li->m_next = NULL;
+			if (m_last == nullptr) {
+				li->m_next = nullptr;
 				m_first = li;
 				m_last = li;
 
@@ -202,13 +202,13 @@ namespace CrissCross
 				return ret;
 			}
 
-			return NULL;
+			return nullptr;
 		}
 
 		template <class T> LListNode <T> *LList <T>::getItem(size_t index) const
 		{
 			if (!valid(index)) {
-				return NULL;
+				return nullptr;
 			}
 
 			/* */
@@ -269,10 +269,10 @@ namespace CrissCross
 				current = m_next;
 			}
 
-			m_first = NULL;
-			m_last = NULL;
+			m_first = nullptr;
+			m_last = nullptr;
 			m_numItems = 0;
-			m_previous = NULL;
+			m_previous = nullptr;
 			m_previousIndex = (size_t)-1;
 		}
 
@@ -280,16 +280,16 @@ namespace CrissCross
 		{
 			LListNode <T> *current = getItem(index);
 
-			if (current == NULL) {
+			if (current == nullptr) {
 				return;
 			}
 
-			if (current->m_previous == NULL)
+			if (current->m_previous == nullptr)
 				m_first = current->m_next;
 			else
 				current->m_previous->m_next = current->m_next;
 
-			if (current->m_next == NULL)
+			if (current->m_next == nullptr)
 				m_last = current->m_previous;
 			else
 				current->m_next->m_previous = current->m_previous;
@@ -297,7 +297,7 @@ namespace CrissCross
 			if (index == m_previousIndex) {
 				if (m_numItems == 1) {
 					m_previousIndex = (size_t)-1;
-					m_previous = NULL;
+					m_previous = nullptr;
 				} else if (index > 0) {
 					m_previousIndex--;
 					m_previous = current->m_previous;

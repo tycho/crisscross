@@ -46,7 +46,7 @@ int makeKey(keyInstance *key, BYTE direction, int keyLen, char *keyMaterial)
 	char *keyMat;
 	u8 cipherKey[MAXKB];
 
-	if (key == NULL) {
+	if (key == nullptr) {
 		return BAD_KEY_INSTANCE;
 	}
 
@@ -62,7 +62,7 @@ int makeKey(keyInstance *key, BYTE direction, int keyLen, char *keyMaterial)
 		return BAD_KEY_MAT;
 	}
 
-	if (keyMaterial != NULL) {
+	if (keyMaterial != nullptr) {
 		strncpy(key->keyMaterial, keyMaterial, keyLen / 4);
 	}
 
@@ -104,7 +104,7 @@ int cipherInit(cipherInstance *cipher, BYTE mode, char *IV)
 		return BAD_CIPHER_MODE;
 	}
 
-	if (IV != NULL) {
+	if (IV != nullptr) {
 		int i;
 		for (i = 0; i < MAX_IV_SIZE; i++) {
 			int t, j;
@@ -135,13 +135,13 @@ int blockEncrypt(cipherInstance *cipher, keyInstance *key, BYTE *input, int inpu
 	int i, k, t, numBlocks;
 	u8 block[16], *iv;
 
-	if (cipher == NULL ||
-	    key == NULL ||
+	if (cipher == nullptr ||
+	    key == nullptr ||
 	    key->direction == DIR_DECRYPT) {
 		return BAD_CIPHER_STATE;
 	}
 
-	if (input == NULL || inputLen <= 0) {
+	if (input == nullptr || inputLen <= 0) {
 		return 0; /* nothing to do */
 	}
 
@@ -213,13 +213,13 @@ int padEncrypt(cipherInstance *cipher, keyInstance *key, BYTE *input, int inputO
 	int i, numBlocks, padLen;
 	u8 block[16], *iv;
 
-	if (cipher == NULL ||
-	    key == NULL ||
+	if (cipher == nullptr ||
+	    key == nullptr ||
 	    key->direction == DIR_DECRYPT) {
 		return BAD_CIPHER_STATE;
 	}
 
-	if (input == NULL || inputOctets <= 0) {
+	if (input == nullptr || inputOctets <= 0) {
 		return 0; /* nothing to do */
 	}
 
@@ -278,13 +278,13 @@ int blockDecrypt(cipherInstance *cipher, keyInstance *key, BYTE *input, int inpu
 	int i, k, t, numBlocks;
 	u8 block[16], *iv;
 
-	if (cipher == NULL ||
-	    key == NULL ||
+	if (cipher == nullptr ||
+	    key == nullptr ||
 	    cipher->mode != MODE_CFB1 && key->direction == DIR_ENCRYPT) {
 		return BAD_CIPHER_STATE;
 	}
 
-	if (input == NULL || inputLen <= 0) {
+	if (input == nullptr || inputLen <= 0) {
 		return 0; /* nothing to do */
 	}
 
@@ -349,13 +349,13 @@ int padDecrypt(cipherInstance *cipher, keyInstance *key, BYTE *input, int inputO
 	int i, numBlocks, padLen;
 	u8 block[16];
 
-	if (cipher == NULL ||
-	    key == NULL ||
+	if (cipher == nullptr ||
+	    key == nullptr ||
 	    key->direction == DIR_ENCRYPT) {
 		return BAD_CIPHER_STATE;
 	}
 
-	if (input == NULL || inputOctets <= 0) {
+	if (input == nullptr || inputOctets <= 0) {
 		return 0; /* nothing to do */
 	}
 
@@ -446,7 +446,7 @@ int cipherUpdateRounds(cipherInstance *cipher, keyInstance *key, BYTE *input, in
 {
 	u8 block[16];
 
-	if (cipher == NULL || key == NULL) {
+	if (cipher == nullptr || key == nullptr) {
 		return BAD_CIPHER_STATE;
 	}
 

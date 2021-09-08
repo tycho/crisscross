@@ -17,20 +17,20 @@
 
 char *cc_strdup(const char *x)
 {
-	if (!x) return NULL;
+	if (!x) return nullptr;
 
 	char *dup = (char *)malloc(strlen(x) + 1);
-	if (!dup) return NULL;
+	if (!dup) return nullptr;
 
 	return strcpy(dup, x);
 }
 
 char *cc_newstr(const char *x)
 {
-	if (!x) return NULL;
+	if (!x) return nullptr;
 
 	char *dup = new char[strlen(x) + 1];
-	if (!dup) return NULL;
+	if (!dup) return nullptr;
 
 	return strcpy(dup, x);
 }

@@ -20,7 +20,7 @@ namespace CrissCross
 		template <class Key, class Data, bool OwnsKeys>
 		STree<Key, Data, OwnsKeys>::STree()
 		{
-			m_root = NULL;
+			m_root = nullptr;
 			m_size = 0;
 		}
 
@@ -31,14 +31,14 @@ namespace CrissCross
 				Dealloc(m_root->id);
 
 			delete m_root;
-			m_root = NULL;
+			m_root = nullptr;
 		}
 
 		template <class Key, class Data, bool OwnsKeys>
 		bool STree<Key, Data, OwnsKeys>::erase(Key const &_key)
 		{
 			SNode<Key, Data, OwnsKeys> *node = findNode(_key),
-				**ploc = NULL;
+				**ploc = nullptr;
 
 			if (!valid(node))
 				return false;
@@ -71,11 +71,11 @@ namespace CrissCross
 				*ploc = node->right;
 			}
 
-			node->left = NULL;
-			node->right = NULL;
+			node->left = nullptr;
+			node->right = nullptr;
 
 			if (m_root == node)
-				m_root = NULL;
+				m_root = nullptr;
 
 			delete node;
 
@@ -147,7 +147,7 @@ namespace CrissCross
 					return p_current;
 				}
 			}
-			return NULL;
+			return nullptr;
 		}
 
 		template <class Key, class Data, bool OwnsKeys>

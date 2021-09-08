@@ -314,10 +314,10 @@ namespace CrissCross
 		{
 			if (!IsEmpty(true))
 				return;
-			delete ll; ll = NULL;
-			delete lr; lr = NULL;
-			delete tl; tl = NULL;
-			delete tr; tr = NULL;
+			delete ll; ll = nullptr;
+			delete lr; lr = nullptr;
+			delete tl; tl = nullptr;
+			delete tr; tr = nullptr;
 		}
 
 		template <class T, class VectorType, int MaxDepth, int MaxNodesPerLevel>
@@ -458,10 +458,10 @@ namespace CrissCross
 		Quadtree<T, VectorType, MaxDepth, MaxNodesPerLevel>::Quadtree(VectorType const &lower_left, VectorType const &upper_right)
 		:   llPosition(lower_left),
 		    trPosition(upper_right),
-		    ll(NULL),
-		    lr(NULL),
-		    tl(NULL),
-		    tr(NULL),
+		    ll(nullptr),
+		    lr(nullptr),
+		    tl(nullptr),
+		    tr(nullptr),
 		    descentLevel(MaxDepth)
 		{
 		}
@@ -470,10 +470,10 @@ namespace CrissCross
 		Quadtree<T, VectorType, MaxDepth, MaxNodesPerLevel>::Quadtree(VectorType const &lower_left, VectorType const &upper_right, int _descentLevel)
 		:   llPosition(lower_left),
 		    trPosition(upper_right),
-		    ll(NULL),
-		    lr(NULL),
-		    tl(NULL),
-		    tr(NULL),
+		    ll(nullptr),
+		    lr(nullptr),
+		    tl(nullptr),
+		    tr(nullptr),
 		    descentLevel(_descentLevel)
 		{
 		}
@@ -481,10 +481,10 @@ namespace CrissCross
 		template <class T, class VectorType, int MaxDepth, int MaxNodesPerLevel>
 		Quadtree<T, VectorType, MaxDepth, MaxNodesPerLevel>::~Quadtree()
 		{
-			delete ll; ll = NULL;
-			delete lr; lr = NULL;
-			delete tl; tl = NULL;
-			delete tr; tr = NULL;
+			delete ll; ll = nullptr;
+			delete lr; lr = nullptr;
+			delete tl; tl = nullptr;
+			delete tr; tr = nullptr;
 			nodes.clear();
 		}
 	}

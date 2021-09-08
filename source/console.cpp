@@ -52,17 +52,17 @@ namespace CrissCross
 			if (m_consoleAllocated) {
 				/* Redirect stdout to the console. */
 				freopen_s(reinterpret_cast<FILE**>(stdout), "CONOUT$", "w", stdout);
-				setvbuf(stdout, NULL, _IONBF, 0);
+				setvbuf(stdout, nullptr, _IONBF, 0);
 
 				/* Redirect stderr to the console. */
 				freopen_s(reinterpret_cast<FILE**>(stderr), "CONOUT$", "w", stderr);
-				setvbuf(stderr, NULL, _IONBF, 0);
+				setvbuf(stderr, nullptr, _IONBF, 0);
 
 				if (_fillScreen) {
 					char findWindowFlag[64];
 					sprintf(findWindowFlag, "%s%p", CC_LIB_NAME, this);
 					RECT rect; CONSOLE_SCREEN_BUFFER_INFO csbi;
-					HWND consoleWindowHandle = NULL;
+					HWND consoleWindowHandle = nullptr;
 					HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
 					/* We need to know the console's maximum sizes. */
@@ -83,7 +83,7 @@ namespace CrissCross
 
 					/* Try a few times to find the window or else bail out. */
 					for (int i = 0; i < 50 && !consoleWindowHandle; i++) {
-						consoleWindowHandle = FindWindowA(NULL, findWindowFlag);
+						consoleWindowHandle = FindWindowA(nullptr, findWindowFlag);
 						Sleep(10);
 					}
 
@@ -146,7 +146,7 @@ namespace CrissCross
 
 		Console::~Console()
 		{
-			CoreAssert(this != NULL);
+			CoreAssert(this != nullptr);
 			SetColour(0);
 #ifdef TARGET_OS_WINDOWS
 			if (m_consoleAllocated) FreeConsole();
@@ -162,7 +162,7 @@ namespace CrissCross
 
 		bool Console::AllocateConsole()
 		{
-			CoreAssert(this != NULL);
+			CoreAssert(this != nullptr);
 #ifdef TARGET_OS_WINDOWS
 			m_consoleAllocated = (AllocConsole() == TRUE);
 #elif defined (TARGET_OS_MACOSX) && 0
@@ -208,7 +208,7 @@ namespace CrissCross
 					char *pt = &m_slaveName[strlen(m_slaveName) - 1];
 					const char *xterm = "/usr/X11/bin/xterm";
 					sprintf(call, "-S%s/%d", pt, m_ptyfd);
-					execl(xterm, xterm, "-bg", "black", "-fg", "white", "-geometry", "132x50", call, NULL);
+					execl(xterm, xterm, "-bg", "black", "-fg", "white", "-geometry", "132x50", call, nullptr);
 					exit(0);
 				} else {
 					/* master */
@@ -232,13 +232,13 @@ namespace CrissCross
 
 		void Console::SetColour()
 		{
-			CoreAssert(this != NULL);
+			CoreAssert(this != nullptr);
 			SetColour(0);
 		}
 
 		void Console::SetColour(int _flags)
 		{
-			CoreAssert(this != NULL);
+			CoreAssert(this != nullptr);
 
 #if defined (TARGET_OS_WINDOWS)
 			HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -320,7 +320,7 @@ namespace CrissCross
 
 		void Console::SetTitle(const char *_title)
 		{
-			CoreAssert(this != NULL);
+			CoreAssert(this != nullptr);
 #ifdef TARGET_OS_WINDOWS
 			SetConsoleTitleA(_title);
 #else
@@ -334,13 +334,13 @@ namespace CrissCross
 
 		void Console::SetTitle(std::string const &_title)
 		{
-			CoreAssert(this != NULL);
+			CoreAssert(this != nullptr);
 			SetTitle(_title.c_str());
 		}
 
 		void Console::Clear()
 		{
-			CoreAssert(this != NULL);
+			CoreAssert(this != nullptr);
 
 #if defined (TARGET_OS_WINDOWS)
 			COORD coordScreen = { 0, 0 };
@@ -365,14 +365,14 @@ namespace CrissCross
 
 		void Console::Flush()
 		{
-			CoreAssert(this != NULL);
+			CoreAssert(this != nullptr);
 			CoreIOReader::Flush();
 			CoreIOWriter::Flush();
 		}
 
 		void Console::MoveUp(int _lines)
 		{
-			CoreAssert(this != NULL);
+			CoreAssert(this != nullptr);
 #if defined (TARGET_OS_WINDOWS)
 			COORD coordScreen = { 0, 0 };
 			CONSOLE_SCREEN_BUFFER_INFO csbi;

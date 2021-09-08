@@ -36,18 +36,18 @@ namespace CrissCross
 		template <>
 		__inline char *Duplicate(char * const &_data)
 		{
-			if (!_data) return NULL;
+			if (!_data) return nullptr;
 			char *dup = (char *)::malloc(strlen(_data) + 1);
-			if (!dup) return NULL;
+			if (!dup) return nullptr;
 			return strcpy(dup, _data);
 		}
 
 		template <>
 		__inline const char *Duplicate(const char * const &_data)
 		{
-			if (!_data) return NULL;
+			if (!_data) return nullptr;
 			char *dup = (char *)::malloc(strlen(_data) + 1);
-			if (!dup) return NULL;
+			if (!dup) return nullptr;
 			return strcpy(dup, _data);
 		}
 
@@ -60,8 +60,8 @@ namespace CrissCross
 		template <>		__inline uint32_t NullKey() { return 0; }
 		template <>		__inline int64_t NullKey() { return 0; }
 		template <>		__inline uint64_t NullKey() { return 0; }
-		template <>		__inline char * NullKey() { return NULL; }
-		template <>		__inline const char * NullKey() { return NULL; }
+		template <>		__inline char * NullKey() { return nullptr; }
+		template <>		__inline const char * NullKey() { return nullptr; }
 		template <>		__inline std::string NullKey() { return std::string(""); }
 
 		template <class T>
@@ -74,7 +74,7 @@ namespace CrissCross
 		{
 			if (_data) {
 				::free(_data);
-				_data = NULL;
+				_data = nullptr;
 			}
 		}
 
@@ -83,7 +83,7 @@ namespace CrissCross
 		{
 			if (_data) {
 				::free((char *)_data);
-				_data = NULL;
+				_data = nullptr;
 			}
 		}
 

@@ -20,7 +20,7 @@ namespace CrissCross
 		template <class Key, class Data, bool OwnsKeys>
 		AVLTree<Key, Data, OwnsKeys>::AVLTree()
 		{
-			m_root = NULL;
+			m_root = nullptr;
 			m_size = 0;
 		}
 
@@ -31,7 +31,7 @@ namespace CrissCross
 				Dealloc(m_root->id);
 
 			delete m_root;
-			m_root = NULL;
+			m_root = nullptr;
 		}
 
 		template <class Key, class Data, bool OwnsKeys>
@@ -104,8 +104,8 @@ namespace CrissCross
 				}
 			}
 
-			(*_node)->left = NULL;
-			(*_node)->right = NULL;
+			(*_node)->left = nullptr;
+			(*_node)->right = nullptr;
 
 			/* Leaf, delete and rebalance */
 			delete *_node, *_node = 0;
@@ -116,7 +116,7 @@ namespace CrissCross
 		template <class Key, class Data, bool OwnsKeys>
 		bool AVLTree<Key, Data, OwnsKeys>::insert(Key const &_key, Data const &_data)
 		{
-			if (insert(NULL, &m_root, _key, _data) != INVALID) {
+			if (insert(nullptr, &m_root, _key, _data) != INVALID) {
 				++m_size;
 				return true;
 			} else
@@ -137,7 +137,7 @@ namespace CrissCross
 					return p_current;
 				}
 			}
-			return NULL;
+			return nullptr;
 		}
 
 		template <class Key, class Data, bool OwnsKeys>
@@ -497,8 +497,8 @@ namespace CrissCross
 			if (p_tmp) {
 				if (OwnsKeys)
 					Dealloc(p_tmp->id);
-				p_tmp->left = NULL;
-				p_tmp->right = NULL;
+				p_tmp->left = nullptr;
+				p_tmp->right = nullptr;
 				delete p_tmp;
 			}
 
@@ -539,8 +539,8 @@ namespace CrissCross
 			if (p_tmp) {
 				if (OwnsKeys)
 					Dealloc(p_tmp->id);
-				p_tmp->left = NULL;
-				p_tmp->right = NULL;
+				p_tmp->left = nullptr;
+				p_tmp->right = nullptr;
 				delete p_tmp;
 			}
 
@@ -556,7 +556,7 @@ namespace CrissCross
 
 			if (!*_node) {
 				*_node = new AVLNode<Key, Data, OwnsKeys>();
-				(*_node)->parent = pp_parent ? *pp_parent : NULL;
+				(*_node)->parent = pp_parent ? *pp_parent : nullptr;
 				if (OwnsKeys)
 					(*_node)->id = Duplicate(_key);
 				else

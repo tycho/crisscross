@@ -21,19 +21,19 @@ namespace CrissCross
 {
 	namespace IO
 	{
-		FileWriter::FileWriter() : CoreIOWriter(NULL, false), m_filePath(NULL)
+		FileWriter::FileWriter() : CoreIOWriter(nullptr, false), m_filePath(nullptr)
 		{
 		}
 
 		FileWriter::~FileWriter()
 		{
-			CoreAssert(this != NULL);
+			CoreAssert(this != nullptr);
 			Close();
 		}
 
 		CrissCross::Errors FileWriter::Open(const char *_file, FileWriteMode _writeMode, LineEndingType _lnEnding)
 		{
-			CoreAssert(this != NULL);
+			CoreAssert(this != nullptr);
 
 			Close();
 
@@ -43,7 +43,7 @@ namespace CrissCross
 
 			int _filePathLength = 0;
 
-			if (_file == NULL)
+			if (_file == nullptr)
 				return CC_ERR_BADPARAMETER;
 
 			if ((_filePathLength = (int)strlen(_file)) < 1)
@@ -56,7 +56,7 @@ namespace CrissCross
 			sprintf(openModes, "%s%s", (_writeMode == CC_FILE_APPEND ? "a" : "w"), "t");
 			m_fileOutputPointer = fopen(m_filePath, openModes);
 
-			if (m_fileOutputPointer == NULL)
+			if (m_fileOutputPointer == nullptr)
 				return CC_ERR_FILE_OPEN;
 			else
 				return CC_ERR_NONE;
@@ -64,17 +64,17 @@ namespace CrissCross
 
 		CrissCross::Errors FileWriter::Close()
 		{
-			CoreAssert(this != NULL);
+			CoreAssert(this != nullptr);
 
 			Flush();
 
 			if (m_fileOutputPointer)
 				fclose(m_fileOutputPointer);
 
-			m_fileOutputPointer = NULL;
+			m_fileOutputPointer = nullptr;
 
 			delete [] (char *)m_filePath;
-			m_filePath = NULL;
+			m_filePath = nullptr;
 
 			return CC_ERR_NONE;
 		}

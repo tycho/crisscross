@@ -127,7 +127,7 @@ namespace CrissCross
 
 	int TranslateError(int why)
 	{
-		for (int i = 0; errmap[i].s != NULL; ++i)
+		for (int i = 0; errmap[i].s != nullptr; ++i)
 			if (why == errmap[i].w)
 				return errmap[i].e;
 		return why;

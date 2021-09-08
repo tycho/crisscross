@@ -70,7 +70,7 @@ namespace CrissCross
 	#elif defined (TARGET_OS_LINUX) || defined (TARGET_OS_FREEBSD) || \
 			defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD) || \
 			defined (TARGET_OS_NDSFIRMWARE)
-			gettimeofday(&__m_start, NULL);
+			gettimeofday(&__m_start, nullptr);
 	#endif
 			timerPaused = false;
 		}
@@ -109,7 +109,7 @@ namespace CrissCross
 			timeval now;
 			double t1, t2;
 
-			gettimeofday(&now, NULL);
+			gettimeofday(&now, nullptr);
 
 			t1 = ( double )__m_start.tv_sec +
 			     ( double )__m_start.tv_usec / (1000 * 1000);
@@ -151,7 +151,7 @@ namespace CrissCross
 			holdrand = GetTickCount();
 #else
 			struct timeval t;
-			gettimeofday(&t, NULL);
+			gettimeofday(&t, nullptr);
 			holdrand = t.tv_usec;
 			srand48(holdrand);
 #endif

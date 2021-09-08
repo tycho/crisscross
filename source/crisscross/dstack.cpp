@@ -28,7 +28,7 @@ namespace CrissCross
 			else
 				m_stepSize = N;
 
-			m_top = m_bottom = NULL;
+			m_top = m_bottom = nullptr;
 			m_size = 0;
 		}
 
@@ -36,14 +36,14 @@ namespace CrissCross
 		DStack<T>::~DStack()
 		{
 			delete [] m_bottom;
-			m_top = m_bottom = NULL;
+			m_top = m_bottom = nullptr;
 		}
 
 		template <class T>
 		void DStack<T>::setSize(size_t _size)
 		{
 			/* This function is ONLY stable for increases in size, not decreases. */
-			T *newstack_ = NULL;
+			T *newstack_ = nullptr;
 			newstack_ = new T[_size];
 			if (m_bottom) {
 				memcpy(newstack_, m_bottom, sizeof(T) * m_size);
@@ -110,7 +110,7 @@ namespace CrissCross
 		{
 			if (_freeMemory) {
 				delete [] m_bottom;
-				m_top = m_bottom = NULL;
+				m_top = m_bottom = nullptr;
 				m_size = 0;
 			} else {
 				m_top = m_bottom;

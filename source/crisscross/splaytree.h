@@ -167,7 +167,7 @@ namespace CrissCross
 				{
 					insert(_key, _rec);
 				}
-				_CC_DEPRECATE_FUNCTION(find)    inline Data GetData(Key const &_key, Data const &_default = NULL)
+				_CC_DEPRECATE_FUNCTION(find)    inline Data GetData(Key const &_key, Data const &_default = nullptr)
 				{
 					return find(_key, _default);
 				}

@@ -21,25 +21,25 @@ namespace CrissCross
 {
 	namespace IO
 	{
-		FileReader::FileReader() : CoreIOReader(NULL, false), m_filePath(NULL)
+		FileReader::FileReader() : CoreIOReader(nullptr, false), m_filePath(nullptr)
 		{
 		}
 
 		FileReader::~FileReader()
 		{
-			CoreAssert(this != NULL);
+			CoreAssert(this != nullptr);
 			Close();
 		}
 
 		CrissCross::Errors FileReader::Open(const char *_file)
 		{
-			CoreAssert(this != NULL);
+			CoreAssert(this != nullptr);
 
 			Close();
 
 			int _filePathLength = 0;
 
-			if (_file == NULL)
+			if (_file == nullptr)
 				return CC_ERR_BADPARAMETER;
 
 			if ((_filePathLength = (int)strlen(_file)) < 1)
@@ -51,7 +51,7 @@ namespace CrissCross
 
 			m_fileInputPointer = fopen(m_filePath, "rb");
 
-			if (m_fileInputPointer == NULL)
+			if (m_fileInputPointer == nullptr)
 				return CC_ERR_FILE_OPEN;
 			else
 				return CC_ERR_NONE;
@@ -59,15 +59,15 @@ namespace CrissCross
 
 		CrissCross::Errors FileReader::Close()
 		{
-			CoreAssert(this != NULL);
+			CoreAssert(this != nullptr);
 
 			if (m_fileInputPointer)
 				fclose(m_fileInputPointer);
 
-			m_fileInputPointer = NULL;
+			m_fileInputPointer = nullptr;
 
 			delete [] (char *)m_filePath;
-			m_filePath = NULL;
+			m_filePath = nullptr;
 
 			return CC_ERR_NONE;
 		}

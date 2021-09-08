@@ -29,7 +29,7 @@ namespace CrissCross
 		{
 			m_stepSize = -1;
 			m_numUsed = m_arraySize = m_nextInsertPos = 0;
-			m_array = NULL;
+			m_array = nullptr;
 		}
 
 		template <class T>
@@ -237,7 +237,7 @@ namespace CrissCross
 
 			if (_freeMemory) {
 				free(m_array);
-				m_array = NULL;
+				m_array = nullptr;
 				m_arraySize = 0;
 			} else {
 				m_shadow.resize( m_arraySize, false );

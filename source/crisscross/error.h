@@ -32,7 +32,7 @@ namespace CrissCross
 		CC_ERR_WRITE = -5,                         /*!< \brief The buffer could not be written to. */
 		CC_ERR_INTERNAL = -4,                      /*!< \brief A call inside the function failed. */
 		CC_ERR_INVALID_CALL = -3,                  /*!< \brief The function call was invalid. */
-		CC_ERR_INVALID_BUFFER = -2,                /*!< \brief The buffer was NULL (file not opened?) */
+		CC_ERR_INVALID_BUFFER = -2,                /*!< \brief The buffer was nullptr (file not opened?) */
 		CC_ERR_INCOMPATIBLE_BUFFER = -1,           /*!< \brief The buffer was incompatible (i.e. reading unicode data on a non-unicode buffer). */
 		CC_ERR_NONE = 0                            /*!< \brief Everything is fine, nothing is ruined. */
 	};

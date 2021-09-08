@@ -55,7 +55,7 @@ namespace CrissCross
 			 * \param _default The value to return if the item couldn't be found.
 			 * \return If found, returns the data at the node, otherwise _default is returned.
 			 */
-			Data find(const char *_key, Data const &_default = NULL) const;
+			Data find(const char *_key, Data const &_default = nullptr) const;
 
 			/*! \brief Deletes a node from the table, specified by the node's key. */
 			/*!
@@ -104,7 +104,7 @@ namespace CrissCross
 			bool valid(size_t _index) const
 			{
 				CoreAssert(_index < m_size);
-				return m_keys[_index] != NULL &&
+				return m_keys[_index] != nullptr &&
 				       m_keys[_index] != (char*)-1;
 			}
 
@@ -134,7 +134,7 @@ namespace CrissCross
 			{
 				return (int)insert(_key, _data);
 			}
-			Data GetData(const char *_key, Data const &_default = NULL) const
+			Data GetData(const char *_key, Data const &_default = nullptr) const
 			{
 				return find(_key, _default);
 			}
@@ -148,7 +148,7 @@ namespace CrissCross
 				if (index >= 0)	{
 					return &m_data[index];
 				}
-				return NULL;
+				return nullptr;
 			}
 			Data *GetPointer(unsigned int _index) const
 			{
@@ -169,7 +169,7 @@ namespace CrissCross
 			void EmptyAndDelete()
 			{
 				for (size_t i = 0; i < m_size; ++i) {
-					if (m_keys[i] != NULL && m_keys[i] != (char *)-1) {
+					if (m_keys[i] != nullptr && m_keys[i] != (char *)-1) {
 						delete m_data[i];
 					}
 				}

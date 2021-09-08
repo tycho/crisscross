@@ -28,7 +28,7 @@ DIR *opendir(const char *dirname)
 
 	/* construct new DIR structure */
 	dirp = (DIR *)malloc(sizeof(struct DIR));
-	if (dirp != NULL) {
+	if (dirp != nullptr) {
 		char *p;
 
 		/* take directory name... */
@@ -48,7 +48,7 @@ DIR *opendir(const char *dirname)
 		if (dirp->search_handle == INVALID_HANDLE_VALUE) {
 			/* invalid search pattern? */
 			free(dirp);
-			return NULL;
+			return nullptr;
 		}
 
 		/* there is an un-processed directory entry in memory now */
@@ -71,7 +71,7 @@ struct dirent *readdir(DIR *dirp)
 
 	if (dirp->search_handle == INVALID_HANDLE_VALUE) {
 		/* directory stream was opened/rewound incorrectly or it ended normally */
-		return NULL;
+		return nullptr;
 	}
 
 	/* get next directory entry */
@@ -84,7 +84,7 @@ struct dirent *readdir(DIR *dirp)
 			/* the very last file has been processed or an error occured */
 			FindClose(dirp->search_handle);
 			dirp->search_handle = INVALID_HANDLE_VALUE;
-			return NULL;
+			return nullptr;
 		}
 	}
 

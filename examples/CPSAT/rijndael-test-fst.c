@@ -81,7 +81,7 @@ static void rijndaelVKKAT(FILE *fp, int keyLength) {
 		fprintf(fp, "\nI=%d\n", i+1);
 		fprintf(fp, "KEY=%s\n", keyMaterial);
 		memset(block, 0, 16);
-		r = cipherInit(&cipherInst, MODE_ECB, NULL);
+		r = cipherInit(&cipherInst, MODE_ECB, nullptr);
 		if (TRUE != r) {
 			fprintf(stderr,"cipherInit error %d\n",r);
 			exit(-1);
@@ -141,7 +141,7 @@ static void rijndaelVTKAT(FILE *fp, int keyLength) {
 		block[i/8] |= 1 << (7 - i%8); /* set only the i-th bit of the i-th test block */
 		fprintf (fp, "\nI=%d\n", i+1);
 		blockPrint(fp, block, "PT");
-		cipherInit(&cipherInst, MODE_ECB, NULL);
+		cipherInit(&cipherInst, MODE_ECB, nullptr);
 		blockEncrypt(&cipherInst, &keyInst, block, 128, block);
 		blockPrint(fp, block, "CT");
 	}
@@ -189,7 +189,7 @@ static void rijndaelTKAT(FILE *fp, int keyLength, FILE *in) {
 		fscanf(in, "%c", (char *)&s);
 		fscanf(in, "%c", (char *)&s);
 		blockPrint(fp, block, "PT");
-		cipherInit(&cipherInst, MODE_ECB, NULL);
+		cipherInit(&cipherInst, MODE_ECB, nullptr);
 		blockEncrypt(&cipherInst, &keyInst, block, 128, block2);
 		blockPrint(fp, block2, "CT");
 	}
@@ -208,7 +208,7 @@ static void rijndaelTKAT(FILE *fp, int keyLength, FILE *in) {
 		}
 		fscanf(in, "%c", (char *)&s);
 		fscanf(in, "%c", (char *)&s);
-		cipherInit(&cipherInst, MODE_ECB, NULL);
+		cipherInit(&cipherInst, MODE_ECB, nullptr);
 		blockDecrypt(&cipherInst, &keyInst, block, 128, block2);
 		blockPrint(fp, block2, "PT");
 		blockPrint(fp, block, "CT");
@@ -252,7 +252,7 @@ static void rijndaelIVKAT (FILE *fp, int keyLength) {
 	fprintf(fp, "\nIntermediate Ciphertext Values (Encryption)\n\n");
 	makeKey(&keyInst, DIR_ENCRYPT, keyLength, keyMaterial);
 	blockPrint(fp, pt, "PT");
-	cipherInit(&cipherInst, MODE_ECB, NULL);
+	cipherInit(&cipherInst, MODE_ECB, nullptr);
 	for(i = 1; i < keyInst.Nr; i++) {
 		cipherUpdateRounds(&cipherInst, &keyInst, pt, 16, ct, i);
 		sprintf(format, "CT%d", i);
@@ -264,7 +264,7 @@ static void rijndaelIVKAT (FILE *fp, int keyLength) {
 	fprintf(fp, "\nIntermediate Ciphertext Values (Decryption)\n\n");
 	makeKey(&keyInst, DIR_DECRYPT, keyLength, keyMaterial);
 	blockPrint(fp, ct, "CT");
-	cipherInit(&cipherInst, MODE_ECB, NULL);
+	cipherInit(&cipherInst, MODE_ECB, nullptr);
 	for(i = 1; i < keyInst.Nr; i++) {
 		cipherUpdateRounds(&cipherInst, &keyInst, ct, 16, pt, i);
 		sprintf(format, "PT%d", i);
@@ -355,7 +355,7 @@ static void makeKATs(const char *vkFile, const char *vtFile, const char *tblFile
 		tblFile, SUBMITTER);
 	fflush(fp);
 
-	if (NULL != (fp2 = fopen("table.128", "r"))) {
+	if (nullptr != (fp2 = fopen("table.128", "r"))) {
 		rijndaelTKAT(fp, 128, fp2);
 		fclose(fp2);
 	} else {
@@ -363,7 +363,7 @@ static void makeKATs(const char *vkFile, const char *vtFile, const char *tblFile
 		fclose(fp);
 		exit(EXIT_FAILURE);
 	}
-	if (NULL != (fp2 = fopen("table.192", "r"))) {
+	if (nullptr != (fp2 = fopen("table.192", "r"))) {
 		rijndaelTKAT(fp, 192, fp2);
 		fclose(fp2);
 	} else {
@@ -371,7 +371,7 @@ static void makeKATs(const char *vkFile, const char *vtFile, const char *tblFile
 		fclose(fp);
 		exit(EXIT_FAILURE);		
 	}
-	if (NULL != (fp2 = fopen("table.256", "r"))) {
+	if (nullptr != (fp2 = fopen("table.256", "r"))) {
 		rijndaelTKAT(fp, 256, fp2);
 		fclose(fp2);
 	} else {
@@ -453,7 +453,7 @@ static void rijndaelECB_MCT(FILE *fp, int keyLength, BYTE direction) {
 		makeKey(&keyInst, direction, keyLength, keyMaterial);
 		/* do encryption/decryption: */
 		blockPrint(fp, outBlock, direction == DIR_ENCRYPT ? "PT" : "CT");
-		cipherInit(&cipherInst, MODE_ECB, NULL);
+		cipherInit(&cipherInst, MODE_ECB, nullptr);
 		if (direction == DIR_ENCRYPT) {
 			for (j = 0; j < 10000; j++) {
 				memcpy(inBlock, outBlock, 16);
@@ -544,7 +544,7 @@ static void rijndaelCBC_MCT(FILE *fp, int keyLength, BYTE direction) {
 			fprintf(stderr,"makeKey error %d\n",r);
 			exit(-1);
 		}
-		r = cipherInit(&cipherInst, MODE_ECB, NULL);
+		r = cipherInit(&cipherInst, MODE_ECB, nullptr);
 		if (TRUE != r) {
 			fprintf(stderr,"cipherInit error %d\n",r);
 			exit(-1);
@@ -763,7 +763,7 @@ static void makeFIPSTestVectors(const char *fipsFile) {
 
     /* encryption: */	
 	makeKey(&keyInst, DIR_ENCRYPT, keyLength, keyMaterial);
-	cipherInit(&cipherInst, MODE_ECB, NULL);
+	cipherInit(&cipherInst, MODE_ECB, nullptr);
 	fprintf(fp, "Round Subkey Values (Encryption)\n\n");
     for (r = 0; r <= keyInst.Nr; r++) {
         fprintf(fp, "RK%d=", r);
@@ -785,7 +785,7 @@ static void makeFIPSTestVectors(const char *fipsFile) {
 	
     /* decryption: */	
 	makeKey(&keyInst, DIR_DECRYPT, keyLength, keyMaterial);
-	cipherInit(&cipherInst, MODE_ECB, NULL);
+	cipherInit(&cipherInst, MODE_ECB, nullptr);
 	fprintf(fp, "\nRound Subkey Values (Decryption)\n\n");
     for (r = 0; r <= keyInst.Nr; r++) {
         fprintf(fp, "RK%d=", r);
@@ -823,7 +823,7 @@ static void makeFIPSTestVectors(const char *fipsFile) {
 
     /* encryption: */	
 	makeKey(&keyInst, DIR_ENCRYPT, keyLength, keyMaterial);
-	cipherInit(&cipherInst, MODE_ECB, NULL);
+	cipherInit(&cipherInst, MODE_ECB, nullptr);
 	fprintf(fp, "\nRound Subkey Values (Encryption)\n\n");
     for (r = 0; r <= keyInst.Nr; r++) {
         fprintf(fp, "RK%d=", r);
@@ -845,7 +845,7 @@ static void makeFIPSTestVectors(const char *fipsFile) {
 	
     /* decryption: */	
 	makeKey(&keyInst, DIR_DECRYPT, keyLength, keyMaterial);
-	cipherInit(&cipherInst, MODE_ECB, NULL);
+	cipherInit(&cipherInst, MODE_ECB, nullptr);
 	fprintf(fp, "\nRound Subkey Values (Decryption)\n\n");
     for (r = 0; r <= keyInst.Nr; r++) {
         fprintf(fp, "RK%d=", r);
@@ -883,7 +883,7 @@ static void makeFIPSTestVectors(const char *fipsFile) {
 
     /* encryption: */	
 	makeKey(&keyInst, DIR_ENCRYPT, keyLength, keyMaterial);
-	cipherInit(&cipherInst, MODE_ECB, NULL);
+	cipherInit(&cipherInst, MODE_ECB, nullptr);
 	fprintf(fp, "\nRound Subkey Values (Encryption)\n\n");
     for (r = 0; r <= keyInst.Nr; r++) {
         fprintf(fp, "RK%d=", r);
@@ -905,7 +905,7 @@ static void makeFIPSTestVectors(const char *fipsFile) {
 	
     /* decryption: */	
 	makeKey(&keyInst, DIR_DECRYPT, keyLength, keyMaterial);
-	cipherInit(&cipherInst, MODE_ECB, NULL);
+	cipherInit(&cipherInst, MODE_ECB, nullptr);
 	fprintf(fp, "\nRound Subkey Values (Decryption)\n\n");
     for (r = 0; r <= keyInst.Nr; r++) {
         fprintf(fp, "RK%d=", r);

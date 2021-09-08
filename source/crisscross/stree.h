@@ -61,7 +61,7 @@ namespace CrissCross
 				/*!
 				 * Get a pointer to a node with the specified key value
 				 * \param _key Identifier of node to remove
-				 * \return Address of the node. If not found, returns NULL.
+				 * \return Address of the node. If not found, returns nullptr.
 				 */
 				SNode<Key, Data, OwnsKeys> *findNode(Key const &_key) const;
 
@@ -87,7 +87,7 @@ namespace CrissCross
 				 */
 				inline bool valid(const SNode<Key, Data, OwnsKeys> *_node) const
 				{
-					return (_node != NULL);
+					return (_node != nullptr);
 				}
 
 			public:
@@ -148,7 +148,7 @@ namespace CrissCross
 				 */
 				inline void empty()
 				{
-					delete m_root; m_root = NULL; m_size = 0;
+					delete m_root; m_root = nullptr; m_size = 0;
 				}
 
 				/*! \brief Indicates the size of the tree. */
@@ -199,7 +199,7 @@ namespace CrissCross
 				{
 					insert(_key, _rec);
 				}
-				_CC_DEPRECATE_FUNCTION(find)    inline Data	    GetData(Key const &_key, Data const &_default = NULL)
+				_CC_DEPRECATE_FUNCTION(find)    inline Data	    GetData(Key const &_key, Data const &_default = nullptr)
 				{
 					return find(_key, _default);
 				}

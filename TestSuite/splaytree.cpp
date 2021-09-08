@@ -26,7 +26,7 @@ int TestSplayTree_CString()
 	char *strings[TREE_ITEMS], *tmp;
 
 	/* Make sure allocation worked */
-	TEST_ASSERT(splaytree != NULL);
+	TEST_ASSERT(splaytree != nullptr);
 
 	/* Make sure the size starts at 0 */
 	TEST_ASSERT(splaytree->size() == 0);
@@ -36,7 +36,7 @@ int TestSplayTree_CString()
 	/* Make sure the tree encapsulates keys properly */
 	tmp = cc_strdup("testkey");
 	splaytree->insert(tmp, "encapsulation test");
-	free(tmp); tmp = NULL;
+	free(tmp); tmp = nullptr;
 	TEST_ASSERT(splaytree->size() == 1);
 	TEST_ASSERT(splaytree->exists("testkey"));
 	TEST_ASSERT(splaytree->erase("testkey"));
@@ -47,9 +47,9 @@ int TestSplayTree_CString()
 	/* Simplest sanity checks done, now create some random data */
 	for (unsigned int i = 0; i < TREE_ITEMS; i++)
 	{
-		TEST_ASSERT(strings[i] == NULL);
+		TEST_ASSERT(strings[i] == nullptr);
 		strings[i] = new char[20];
-		TEST_ASSERT(strings[i] != NULL);
+		TEST_ASSERT(strings[i] != nullptr);
 		memset(strings[i], 0, 20);
 		TEST_ASSERT(strlen(strings[i]) == 0);
 		sprintf(strings[i], "%08x", i);
@@ -65,9 +65,9 @@ int TestSplayTree_CString()
 	/* Verify existence of all the added data */
 	for (size_t i = 0; i < TREE_ITEMS; i++)
 	{
-		const char *val = NULL;
+		const char *val = nullptr;
 		TEST_ASSERT(splaytree->exists(strings[i]));
-		TEST_ASSERT((val = splaytree->find(strings[i])) != NULL);
+		TEST_ASSERT((val = splaytree->find(strings[i])) != nullptr);
 		TEST_ASSERT(Compare(val, (const char *)strings[(TREE_ITEMS - 1) - i]) == 0);
 	}
 
@@ -88,7 +88,7 @@ int TestSplayTree_CString()
 	for (size_t i = 0; i < TREE_ITEMS; i++)
 	{
 		delete [] strings[i];
-		strings[i] = NULL;
+		strings[i] = nullptr;
 	}
 
 	/* And finally, clear the tree */
@@ -103,7 +103,7 @@ int TestSplayTree_String()
 	std::string strings[TREE_ITEMS], tmp;
 
 	/* Make sure allocation worked */
-	TEST_ASSERT(splaytree != NULL);
+	TEST_ASSERT(splaytree != nullptr);
 
 	/* Make sure the size starts at 0 */
 	TEST_ASSERT(splaytree->size() == 0);
@@ -173,7 +173,7 @@ int TestSplayTree_Int()
 	int data[TREE_ITEMS], tmp;
 
 	/* Make sure allocation worked */
-	TEST_ASSERT(splaytree != NULL);
+	TEST_ASSERT(splaytree != nullptr);
 
 	/* Make sure the size starts at 0 */
 	TEST_ASSERT(splaytree->size() == 0);

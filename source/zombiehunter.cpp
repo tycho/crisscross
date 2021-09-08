@@ -28,7 +28,7 @@ namespace
 	void *prepareToShotgunTheZombieMenace(void *param)
 	{
 		ZombieHunter::ZombieWatcherDossier *data = (ZombieHunter::ZombieWatcherDossier *)param;
-		CoreAssert(data != NULL);
+		CoreAssert(data != nullptr);
 		size_t ticks = 0;
 		pid_t ret = 0;
 		
@@ -56,7 +56,7 @@ namespace
 		if (!data->m_storeExitCode)
 			delete data;
 	
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -82,7 +82,7 @@ namespace CrissCross
 			dossier->m_active = true;
 			dossier->m_pid = _pid;
 			dossier->m_storeExitCode = _storeExitCode;
-			int ret = pthread_create(&dossier->m_thread, NULL, prepareToShotgunTheZombieMenace, dossier);
+			int ret = pthread_create(&dossier->m_thread, nullptr, prepareToShotgunTheZombieMenace, dossier);
 			CoreAssert(ret == 0);
 			
 			if (_storeExitCode)

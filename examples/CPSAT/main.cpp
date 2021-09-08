@@ -15,7 +15,7 @@
 using namespace CrissCross::IO;
 using namespace std;
 
-Console *console = NULL;
+Console *console = nullptr;
 
 int main(int argc, char * *argv)
 {

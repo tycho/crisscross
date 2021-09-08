@@ -51,7 +51,7 @@ namespace CrissCross
 				SplayNode *parent;
 
 				/*! \brief The constructor. */
-				SplayNode() : left(NULL), right(NULL), parent(NULL)
+				SplayNode() : left(nullptr), right(nullptr), parent(nullptr)
 				{
 				}
 
@@ -113,7 +113,7 @@ namespace CrissCross
 				unsigned char balance : 2;
 
 				/*! \brief The default constructor. */
-				AVLNode() : left(NULL), right(NULL), parent(NULL), balance(BALANCED)
+				AVLNode() : left(nullptr), right(nullptr), parent(nullptr), balance(BALANCED)
 				{
 				}
 
@@ -122,8 +122,8 @@ namespace CrissCross
 				{
 					if (OwnsKeys)
 						Dealloc(id);
-					delete left; left = NULL;
-					delete right; right = NULL;
+					delete left; left = nullptr;
+					delete right; right = nullptr;
 				}
 
 				/*! \brief Returns the overhead caused by the node. */
@@ -161,7 +161,7 @@ namespace CrissCross
 				Data data;
 
 				/*! \brief The default constructor. */
-				SNode() : left(NULL), right(NULL), parent(NULL)
+				SNode() : left(nullptr), right(nullptr), parent(nullptr)
 				{
 				}
 
@@ -170,8 +170,8 @@ namespace CrissCross
 				{
 					if (OwnsKeys)
 						Dealloc(id);
-					delete left; left = NULL;
-					delete right; right = NULL;
+					delete left; left = nullptr;
+					delete right; right = nullptr;
 				}
 
 				/*! \brief Returns the overhead caused by the node. */
@@ -212,7 +212,7 @@ namespace CrissCross
 				unsigned char color : 1;
 
 				/*! \brief The default constructor. */
-				RedBlackNode() : left(NULL), right(NULL), parent(NULL)
+				RedBlackNode() : left(nullptr), right(nullptr), parent(nullptr)
 				{
 				}
 
@@ -221,8 +221,8 @@ namespace CrissCross
 				{
 					if (OwnsKeys)
 						Dealloc(id);
-					delete left; left = NULL;
-					delete right; right = NULL;
+					delete left; left = nullptr;
+					delete right; right = nullptr;
 				}
 		};
 	}

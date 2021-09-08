@@ -82,7 +82,7 @@ namespace CrissCross
 				 */
 				virtual int64_t Length();
 
-				/*! \brief Validates that the file buffer isn't NULL. */
+				/*! \brief Validates that the file buffer isn't nullptr. */
 				/*!
 				 * \return Boolean indicating whether the file is safe to read from.
 				 */

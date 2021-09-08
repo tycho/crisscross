@@ -78,7 +78,7 @@ namespace CrissCross
 #elif defined (TARGET_OS_LINUX) || defined (TARGET_OS_FREEBSD) || \
 			defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD) || \
 			defined (TARGET_OS_HAIKU)
-			gettimeofday(&m_impl->m_start, NULL);
+			gettimeofday(&m_impl->m_start, nullptr);
 #elif defined (TARGET_OS_NDSFIRMWARE)
 			TIMER0_CR = 0;
 			TIMER1_CR = 0;
@@ -97,7 +97,7 @@ namespace CrissCross
 			m_impl->m_finish = mach_absolute_time();
 #elif defined (TARGET_OS_LINUX) || defined (TARGET_OS_FREEBSD) || \
 			defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD)
-			gettimeofday(&m_impl->m_finish, NULL);
+			gettimeofday(&m_impl->m_finish, nullptr);
 #elif defined (TARGET_OS_NDSFIRMWARE)
 			TIMER0_CR = 0;
 #endif
@@ -106,7 +106,7 @@ namespace CrissCross
 #if defined (TARGET_OS_WINDOWS)
 		void StopwatchImpl::RecalculateFrequency()
 		{
-			CoreAssert(this != NULL);
+			CoreAssert(this != nullptr);
 
 			LARGE_INTEGER freq;
 			QueryPerformanceFrequency(&freq);
@@ -116,7 +116,7 @@ namespace CrissCross
 
 		double Stopwatch::Elapsed()
 		{
-			CoreAssert(this != NULL);
+			CoreAssert(this != nullptr);
 
 #if defined (TARGET_OS_WINDOWS)
 			return ((double)m_impl->m_finish.QuadPart - (double)m_impl->m_start.QuadPart) * m_impl->m_tickInterval;
@@ -135,7 +135,7 @@ namespace CrissCross
 
 		unsigned long Stopwatch::ElapsedMS()
 		{
-			CoreAssert(this != NULL);
+			CoreAssert(this != nullptr);
 
 #if defined (TARGET_OS_WINDOWS)
 			return (unsigned long)(((double)m_impl->m_finish.QuadPart - (double)m_impl->m_start.QuadPart) * m_impl->m_tickInterval * 1000.0);

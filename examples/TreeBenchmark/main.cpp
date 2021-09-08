@@ -18,7 +18,7 @@ using namespace CrissCross::IO;
 using namespace CrissCross::System;
 using namespace std;
 
-Console *console = NULL;
+Console *console = nullptr;
 
 typedef unsigned long ktype_t;
 
@@ -45,7 +45,7 @@ void RunTestcase(T _tree, unsigned long _size, bool _ordered_insert)
 	
 	unsigned long realsize = _size * 2;
 
-	ktype_t *elems = NULL;
+	ktype_t *elems = nullptr;
 	if (!_ordered_insert) {
 		elems = new ktype_t[_size + 1];
 		for (size_t i = 1; i < _size + 1; i++) {
@@ -70,7 +70,7 @@ void RunTestcase(T _tree, unsigned long _size, bool _ordered_insert)
 	sw.Stop();
 	console->Write("%9.5lfs ", sw.Elapsed());
 	delete [] elems;
-	elems = NULL;
+	elems = nullptr;
 
 	// successful searches
 	sw.Start();
@@ -116,7 +116,7 @@ void Test(const char *_name, size_t *sizes)
 		RunTestcase<T *> (tree, *p, false);
 	}
 	delete tree;
-	tree = NULL;
+	tree = nullptr;
 	console->WriteLine();
 	console->WriteLine("Dataset: Ordered");
 	console->WriteLine("%10s %10s %10s %10s %10s %10s", "size", "add", "srch+", "srch", "srch-", "empty");
@@ -125,7 +125,7 @@ void Test(const char *_name, size_t *sizes)
 		RunTestcase<T *> (tree, *p, true);
 	}
 	delete tree;
-	tree = NULL;
+	tree = nullptr;
 	console->WriteLine();
 	console->WriteLine("%s tests complete.", _name);
 	console->WriteLine();

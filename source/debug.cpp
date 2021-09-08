@@ -73,24 +73,24 @@ typedef DWORD(__stdcall *SYMSETOPTIONS)(DWORD);
 
 static HMODULE hDbgHelp = nullptr;
 #if TARGET_CPU_BITS == 32
-static STACKWALK32 pStackWalk = NULL;
-static PFUNCTION_TABLE_ACCESS_ROUTINE pSymFunctionTableAccess = NULL;
-static SYMGETLINEFROMADDR32 pSymGetLineFromAddr = NULL;
-static PGET_MODULE_BASE_ROUTINE pSymGetModuleBase = NULL;
-static SYMGETMODULEINFO32 pSymGetModuleInfo = NULL;
-static SYMGETSYMFROMADDR32 pSymGetSymFromAddr = NULL;
+static STACKWALK32 pStackWalk = nullptr;
+static PFUNCTION_TABLE_ACCESS_ROUTINE pSymFunctionTableAccess = nullptr;
+static SYMGETLINEFROMADDR32 pSymGetLineFromAddr = nullptr;
+static PGET_MODULE_BASE_ROUTINE pSymGetModuleBase = nullptr;
+static SYMGETMODULEINFO32 pSymGetModuleInfo = nullptr;
+static SYMGETSYMFROMADDR32 pSymGetSymFromAddr = nullptr;
 #else
-static STACKWALK64 pStackWalk = NULL;
-static PFUNCTION_TABLE_ACCESS_ROUTINE64 pSymFunctionTableAccess = NULL;
-static SYMGETLINEFROMADDR64 pSymGetLineFromAddr = NULL;
-static PGET_MODULE_BASE_ROUTINE64 pSymGetModuleBase = NULL;
-static SYMGETMODULEINFO64 pSymGetModuleInfo = NULL;
-static SYMGETSYMFROMADDR64 pSymGetSymFromAddr = NULL;
+static STACKWALK64 pStackWalk = nullptr;
+static PFUNCTION_TABLE_ACCESS_ROUTINE64 pSymFunctionTableAccess = nullptr;
+static SYMGETLINEFROMADDR64 pSymGetLineFromAddr = nullptr;
+static PGET_MODULE_BASE_ROUTINE64 pSymGetModuleBase = nullptr;
+static SYMGETMODULEINFO64 pSymGetModuleInfo = nullptr;
+static SYMGETSYMFROMADDR64 pSymGetSymFromAddr = nullptr;
 #endif
-static SYMINITIALIZE pSymInitialize = NULL;
-static SYMCLEANUP pSymCleanup = NULL;
-static SYMSETOPTIONS pSymSetOptions = NULL;
-static SYMGETOPTIONS pSymGetOptions = NULL;
+static SYMINITIALIZE pSymInitialize = nullptr;
+static SYMCLEANUP pSymCleanup = nullptr;
+static SYMSETOPTIONS pSymSetOptions = nullptr;
+static SYMGETOPTIONS pSymGetOptions = nullptr;
 }
 
 class SymbolEngine
@@ -319,8 +319,8 @@ void SymbolEngine::StackTrace(PCONTEXT _pContext, CoreIOWriter * _outputBuffer)
 	while (pStackWalk(machine, hProcess, GetCurrentThread(),        /* this value doesn't matter much if previous one is a real handle */
 	                   &stackFrame,
 	                   _pContext,
-	                   NULL, pSymFunctionTableAccess, pSymGetModuleBase,
-	                   NULL)) {
+	                   nullptr, pSymFunctionTableAccess, pSymGetModuleBase,
+	                   nullptr)) {
 		_outputBuffer->WriteLine(format, stackFrame.AddrFrame.Offset,
 		                         addressToString(stackFrame.AddrPC.
 		                                         Offset).c_str());
@@ -374,7 +374,7 @@ void CrissCross::Debug::PrintStackTrace(CrissCross::IO::CoreIOWriter * _outputBu
 			bt += " ";
 			*identifier_end = '\0';
 			char * realname = abi::__cxa_demangle(identifier + 1, 0, 0, &status);
-			if (realname != NULL) {
+			if (realname != nullptr) {
 				bt += realname;
 			} else {
 				bt += (identifier + 1);

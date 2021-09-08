@@ -71,7 +71,7 @@ namespace CrissCross
 				/*! \brief The destructor. */
 				virtual ~CoreIOWriter();
 
-				/*! \brief Validates that the file buffer isn't NULL. */
+				/*! \brief Validates that the file buffer isn't nullptr. */
 				/*!
 				 * \return Boolean indicating whether the file is safe to write to.
 				 */
