@@ -305,7 +305,7 @@ namespace CrissCross
 			/* distribute all current nodes */
 			std::vector<nodetype_t> oldCopy = std::move(nodes);
 			nodes.clear();
-			for (auto node : oldCopy)
+			for (auto& node : oldCopy)
 				InsertObject(node.data, node.pos, node.collisionRadius);
 		}
 
