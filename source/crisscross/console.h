@@ -142,10 +142,10 @@ namespace CrissCross
 				void Flush();
 
 			private:
-				bool EndOfFile();
-				int Forward(int64_t _position);
-				int Seek(int64_t _position);
-				int64_t Length();
+				bool EndOfFile() override;
+				int Forward(int64_t _position) override;
+				int Seek(int64_t _position) override;
+				int64_t Length() override;
 				int Read(void *_buffer, size_t _count);
 		};
 	}
