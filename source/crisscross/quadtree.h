@@ -90,8 +90,8 @@ namespace CrissCross
 			// Constructor for deeper levels
 			Quadtree(VectorType const &lower_left, VectorType const &upper_right, int _descentLevel);
 
-			static bool InRange(float lower_bound, float upper_bound, float point);
-			static bool CircleCollision(VectorType circle1, float radius1, VectorType circle2, float radius2);
+			static constexpr bool InRange(float lower_bound, float upper_bound, float point);
+			static constexpr bool CircleCollision(VectorType circle1, float radius1, VectorType circle2, float radius2);
 
 			void Descend();
 			void Ascend();
@@ -154,13 +154,13 @@ namespace CrissCross
 		}
 
 		template <class T, class VectorType, int MaxDepth, int MaxNodesPerLevel>
-		bool Quadtree<T, VectorType, MaxDepth, MaxNodesPerLevel>::InRange(float lower_bound, float upper_bound, float point)
+		constexpr bool Quadtree<T, VectorType, MaxDepth, MaxNodesPerLevel>::InRange(float lower_bound, float upper_bound, float point)
 		{
 			return point > lower_bound && point <= upper_bound;
 		}
 
 		template <class T, class VectorType, int MaxDepth, int MaxNodesPerLevel>
-		bool Quadtree<T, VectorType, MaxDepth, MaxNodesPerLevel>::CircleCollision(VectorType circle1, float radius1, VectorType circle2, float radius2)
+		constexpr bool Quadtree<T, VectorType, MaxDepth, MaxNodesPerLevel>::CircleCollision(VectorType circle1, float radius1, VectorType circle2, float radius2)
 		{
 			VectorType diff = circle1 - circle2;
 			float maximumDistanceSquared = (radius1 + radius2) * (radius1 + radius2);
