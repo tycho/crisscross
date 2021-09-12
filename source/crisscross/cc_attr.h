@@ -14,108 +14,108 @@
 
 #if defined(__GNUC__) && __GNUC__ >= 3
 
-#ifndef __pure
-#define __pure         __attribute__ ((pure))
+#ifndef cc_pure
+#define cc_pure         __attribute__ ((pure))
 #endif
 
-#ifndef __forceinline
-#define __forceinline  __attribute__ ((always_inline))
+#ifndef cc_forceinline
+#define cc_forceinline  __attribute__ ((always_inline))
 #endif
 
-#ifndef __noreturn
-#define __noreturn     __attribute__ ((noreturn))
+#ifndef cc_noreturn
+#define cc_noreturn     __attribute__ ((noreturn))
 #endif
 
-#ifndef __malloc
-#define __malloc       __attribute__ ((malloc))
+#ifndef cc_malloc
+#define cc_malloc       __attribute__ ((malloc))
 #endif
 
-#ifndef __must_check
-#define __must_check   __attribute__ ((warn_unused_result))
+#ifndef cc_must_check
+#define cc_must_check   __attribute__ ((warn_unused_result))
 #endif
 
-#ifndef __deprecated
-#define __deprecated   __attribute__ ((deprecated))
+#ifndef cc_deprecated
+#define cc_deprecated   __attribute__ ((deprecated))
 #endif
 
-#ifndef __used
-#define __used         __attribute__ ((used))
+#ifndef cc_used
+#define cc_used         __attribute__ ((used))
 #endif
 
-#ifndef __unused_param
-#define __unused_param __attribute__ ((unused))
+#ifndef cc_unused_param
+#define cc_unused_param __attribute__ ((unused))
 #endif
 
-#ifndef __packed
-#define __packed       __attribute__ ((packed))
+#ifndef cc_packed
+#define cc_packed       __attribute__ ((packed))
 #endif
 
-#ifndef likely
-#define likely(x)      __builtin_expect(!!(x), 1)
+#ifndef cc_likely
+#define cc_likely(x)      __builtin_expect(!!(x), 1)
 #endif
 
-#ifndef unlikely
-#define unlikely(x)    __builtin_expect(!!(x), 0)
+#ifndef cc_uncc_likely
+#define cc_uncc_likely(x)    __builtin_expect(!!(x), 0)
 #endif
 
-#define assume(x)    do { if (!(x)) __builtin_unreachable(); } while (0)
+#define cc_assume(x)    do { if (!(x)) __builtin_unreachable(); } while (0)
 
 #elif defined(_MSC_VER)
 
-#define assume(x)      __assume(x)
+#define cc_assume(x)      __assume(x)
 
 #endif
 
-#ifndef __pure
-#define __pure
+#ifndef cc_pure
+#define cc_pure
 #endif
 
 #ifndef __const
 #define __const
 #endif
 
-#ifndef __forceinline
-#define __forceinline  inline
+#ifndef cc_forceinline
+#define cc_forceinline  inline
 #endif
 
-#ifndef __noreturn
-#define __noreturn
+#ifndef cc_noreturn
+#define cc_noreturn
 #endif
 
-#ifndef __malloc
-#define __malloc
+#ifndef cc_malloc
+#define cc_malloc
 #endif
 
-#ifndef __must_check
-#define __must_check
+#ifndef cc_must_check
+#define cc_must_check
 #endif
 
-#ifndef __deprecated
-#define __deprecated
+#ifndef cc_deprecated
+#define cc_deprecated
 #endif
 
-#ifndef __used
-#define __used
+#ifndef cc_used
+#define cc_used
 #endif
 
-#ifndef __unused_param
-#define __unused_param
+#ifndef cc_unused_param
+#define cc_unused_param
 #endif
 
-#ifndef __packed
-#define __packed
+#ifndef cc_packed
+#define cc_packed
 #endif
 
-#ifndef likely
-#define likely(x)      (x)
+#ifndef cc_likely
+#define cc_likely(x)      (x)
 #endif
 
-#ifndef unlikely
-#define unlikely(x)    (x)
+#ifndef cc_unlikely
+#define cc_unlikely(x)    (x)
 #endif
 
-#ifndef assume
-#define assume(x)
+#ifndef cc_assume
+#define cc_assume(x)
 #endif
 
 #if defined (TARGET_COMPILER_GCC)

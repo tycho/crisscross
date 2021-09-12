@@ -65,7 +65,7 @@ namespace CrissCross
 		template <>		__inline std::string NullKey() { return std::string(""); }
 
 		template <class T>
-		__inline void Dealloc(__unused_param T &_data)
+		__inline void Dealloc(cc_unused_param T &_data)
 		{
 		}
 
