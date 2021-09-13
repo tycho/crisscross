@@ -37,14 +37,14 @@ namespace CrissCross
 					DArray<T> *m_darray;
 					size_t m_idx;
 
-					__forceinline void ensure_valid()
+					cc_forceinline void ensure_valid()
 					{
 						// Keep incrementing the index until we find a filled slot or the end of the array.
 						while (!this->m_darray->valid(this->m_idx) && this->m_idx != this->m_darray->m_arraySize)
 							this->m_idx++;
 					}
 
-					__forceinline void advance()
+					cc_forceinline void advance()
 					{
 						this->m_idx++;
 						ensure_valid();
@@ -57,20 +57,20 @@ namespace CrissCross
 					using pointer = T*;
 					using reference = std::pair<std::size_t, T &>;
 
-					__forceinline explicit DArrayIterator(DArray<T> *_darray) {
+					cc_forceinline explicit DArrayIterator(DArray<T> *_darray) {
 						this->m_darray = _darray;
 						this->m_idx = 0;
 					}
 
-					__forceinline reference operator*() const {
+					cc_forceinline reference operator*() const {
 						return reference(this->m_idx, this->m_darray->m_array[this->m_idx]);
 					}
 
-					__forceinline pointer operator->() {
+					cc_forceinline pointer operator->() {
 						return &this->m_darray->m_array[this->m_idx];
 					}
 
-					__forceinline DArrayIterator &operator++()
+					cc_forceinline DArrayIterator &operator++()
 					{
 						advance();
 						return *this;
@@ -93,14 +93,14 @@ namespace CrissCross
 					const DArray<T> *m_darray;
 					size_t m_idx;
 
-					__forceinline void ensure_valid()
+					cc_forceinline void ensure_valid()
 					{
 						// Keep incrementing the index until we find a filled slot or the end of the array.
 						while (!this->m_darray->valid(this->m_idx) && this->m_idx != this->m_darray->m_arraySize)
 							this->m_idx++;
 					}
 
-					__forceinline void advance()
+					cc_forceinline void advance()
 					{
 						this->m_idx++;
 						ensure_valid();
@@ -113,20 +113,20 @@ namespace CrissCross
 					using pointer = T const *;
 					using reference = std::pair<std::size_t, T const &>;
 
-					__forceinline explicit DArrayConstIterator(const DArray<T> *_darray) {
+					cc_forceinline explicit DArrayConstIterator(const DArray<T> *_darray) {
 						this->m_darray = _darray;
 						this->m_idx = 0;
 					}
 
-					__forceinline reference operator*() const {
+					cc_forceinline reference operator*() const {
 						return reference(this->m_idx, this->m_darray->m_array[this->m_idx]);
 					}
 
-					__forceinline pointer operator->() {
+					cc_forceinline pointer operator->() {
 						return &this->m_darray->m_array[this->m_idx];
 					}
 
-					__forceinline DArrayConstIterator &operator++()
+					cc_forceinline DArrayConstIterator &operator++()
 					{
 						advance();
 						return *this;

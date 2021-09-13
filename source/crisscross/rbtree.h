@@ -145,7 +145,7 @@ namespace CrissCross
 				/*!
 				 * \return Size of the tree.
 				 */
-				__forceinline size_t size() const
+				cc_forceinline size_t size() const
 				{
 					return m_cachedSize;
 				}

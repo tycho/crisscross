@@ -63,7 +63,7 @@ namespace CrissCross
 				 *    with ConvertToDArray() and then iterate through it to delete the data in whatever
 				 *    way is proper.
 				 */
-				__forceinline void empty()
+				cc_forceinline void empty()
 				{
 					if (OwnsKeys)
 						for (auto iter : m_map) {
@@ -78,7 +78,7 @@ namespace CrissCross
 				 * \param _rec The data to insert.
 				 * \return True on success, false on failure.
 				 */
-				__forceinline bool insert(Key const &_key, Data const &_rec)
+				cc_forceinline bool insert(Key const &_key, Data const &_rec)
 				{
 					if (exists(_key))
 						return false;
@@ -94,7 +94,7 @@ namespace CrissCross
 				 * \param _key The key of the node to find.
 				 * \return True if the key is in the tree, false if not.
 				 */
-				__forceinline bool exists(Key const &_key) const
+				cc_forceinline bool exists(Key const &_key) const
 				{ return m_map.count(_key) != 0; }
 
 				/*! \brief Change the data at the given node. */
@@ -103,7 +103,7 @@ namespace CrissCross
 				 * \param _rec The data to insert.
 				 * \return True on success, false on failure.
 				 */
-				__forceinline bool replace(Key const &_key, Data const &_rec)
+				cc_forceinline bool replace(Key const &_key, Data const &_rec)
 				{
 					if (!exists(_key))
 						return false;
@@ -118,7 +118,7 @@ namespace CrissCross
 				 * \return If found, returns the data at the node, otherwise _default is returned.
 				 */
 				template <class TypedData = Data>
-				__forceinline TypedData find(Key const &_key, TypedData const &_default = nullptr) const
+				cc_forceinline TypedData find(Key const &_key, TypedData const &_default = nullptr) const
 				{
 					auto iter = m_map.find(_key);
 					if (iter == m_map.cend())
@@ -132,7 +132,7 @@ namespace CrissCross
 				 * \param _key The key of the node to delete.
 				 * \return True on success, false on failure
 				 */
-				__forceinline bool erase(Key const &_key)
+				cc_forceinline bool erase(Key const &_key)
 				{
 					auto iter = m_map.find(_key);
 					if (iter == m_map.end())
@@ -148,7 +148,7 @@ namespace CrissCross
 				/*!
 				 * \return Size of the tree.
 				 */
-				__forceinline size_t size() const
+				cc_forceinline size_t size() const
 				{ return m_map.size(); }
 
 				/*! \brief Converts the tree data into a linearized DArray. */
@@ -157,7 +157,7 @@ namespace CrissCross
 				 * \warning Delete the returned DArray when done with it.
 				 */
 				template <class TypedData>
-				__forceinline DArray <TypedData> *ConvertToDArray() const
+				cc_forceinline DArray <TypedData> *ConvertToDArray() const
 				{
 					DArray<TypedData> *darray = new DArray<TypedData>(size());
 					typename std::map<Key,Data,CrissCross::Data::LessThanComparator<Key> >::const_iterator iter;
@@ -172,7 +172,7 @@ namespace CrissCross
 				 * \return A DArray containing the keys in the tree.
 				 * \warning Delete the returned DArray when done with it.
 				 */
-				__forceinline DArray <Key> *ConvertIndexToDArray() const
+				cc_forceinline DArray <Key> *ConvertIndexToDArray() const
 				{
 					DArray<Key> *darray = new DArray<Key>(size());
 					typename std::map<Key,Data,CrissCross::Data::LessThanComparator<Key> >::const_iterator iter;
@@ -188,27 +188,27 @@ namespace CrissCross
 				 *      Provided for compatibility with Tosser I
 				 */
 				/*! @cond */
-				_CC_DEPRECATE_FUNCTION(insert) __forceinline void PutData(Key const &_key, Data const & _rec)
+				_CC_DEPRECATE_FUNCTION(insert) cc_forceinline void PutData(Key const &_key, Data const & _rec)
 				{
 					insert(_key, _rec);
 				}
-				_CC_DEPRECATE_FUNCTION(find)   __forceinline Data GetData(Key const &_key, Data const &_default = nullptr)
+				_CC_DEPRECATE_FUNCTION(find)   cc_forceinline Data GetData(Key const &_key, Data const &_default = nullptr)
 				{
 					return find(_key, _default);
 				}
-				_CC_DEPRECATE_FUNCTION(erase)  __forceinline void RemoveData(Key const &_key)
+				_CC_DEPRECATE_FUNCTION(erase)  cc_forceinline void RemoveData(Key const &_key)
 				{
 					erase(_key);
 				}
-				_CC_DEPRECATE_FUNCTION(erase)  __forceinline void RemoveData(Key const &_key, Data const & _rec)
+				_CC_DEPRECATE_FUNCTION(erase)  cc_forceinline void RemoveData(Key const &_key, Data const & _rec)
 				{
 					erase(_key, _rec);
 				}
-				_CC_DEPRECATE_FUNCTION(size)   __forceinline int  Size() const
+				_CC_DEPRECATE_FUNCTION(size)   cc_forceinline int  Size() const
 				{
 					return (int)size();
 				}
-				_CC_DEPRECATE_FUNCTION(empty)  __forceinline void Empty()
+				_CC_DEPRECATE_FUNCTION(empty)  cc_forceinline void Empty()
 				{
 					empty();
 				}
