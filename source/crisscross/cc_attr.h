@@ -13,56 +13,23 @@
 #define __included_cc_cc_attr_h
 
 #if defined(__GNUC__) && __GNUC__ >= 3
-
-#ifndef cc_pure
-#define cc_pure         __attribute__ ((pure))
-#endif
-
-#ifndef cc_forceinline
-#define cc_forceinline  __attribute__ ((always_inline))
-#endif
-
-#ifndef cc_noreturn
-#define cc_noreturn     __attribute__ ((noreturn))
-#endif
-
-#ifndef cc_malloc
-#define cc_malloc       __attribute__ ((malloc))
-#endif
-
-#ifndef cc_must_check
-#define cc_must_check   __attribute__ ((warn_unused_result))
-#endif
-
-#ifndef cc_deprecated
-#define cc_deprecated   __attribute__ ((deprecated))
-#endif
-
-#ifndef cc_used
-#define cc_used         __attribute__ ((used))
-#endif
-
-#ifndef cc_unused_param
-#define cc_unused_param __attribute__ ((unused))
-#endif
-
-#ifndef cc_packed
-#define cc_packed       __attribute__ ((packed))
-#endif
-
-#ifndef cc_likely
-#define cc_likely(x)      __builtin_expect(!!(x), 1)
-#endif
-
-#ifndef cc_uncc_likely
-#define cc_uncc_likely(x)    __builtin_expect(!!(x), 0)
-#endif
-
-#define cc_assume(x)    do { if (!(x)) __builtin_unreachable(); } while (0)
+#define cc_pure             __attribute__ ((pure))
+#define cc_forceinline      __attribute__ ((always_inline))
+#define cc_noreturn         __attribute__ ((noreturn))
+#define cc_malloc           __attribute__ ((malloc))
+#define cc_must_check       __attribute__ ((warn_unused_result))
+#define cc_deprecated       __attribute__ ((deprecated))
+#define cc_used             __attribute__ ((used))
+#define cc_unused_param     __attribute__ ((unused))
+#define cc_packed           __attribute__ ((packed))
+#define cc_likely(x)        __builtin_expect(!!(x), 1)
+#define cc_uncc_likely(x)   __builtin_expect(!!(x), 0)
+#define cc_assume(x)        do { if (!(x)) __builtin_unreachable(); } while (0)
 
 #elif defined(_MSC_VER)
 
-#define cc_assume(x)      __assume(x)
+#define cc_assume(x)        __assume(x)
+#define cc_forceinline      __forceinline
 
 #endif
 
