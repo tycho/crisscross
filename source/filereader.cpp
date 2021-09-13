@@ -27,13 +27,11 @@ namespace CrissCross
 
 		FileReader::~FileReader()
 		{
-			CoreAssert(this != nullptr);
 			Close();
 		}
 
 		CrissCross::Errors FileReader::Open(const char *_file)
 		{
-			CoreAssert(this != nullptr);
 
 			Close();
 
@@ -59,7 +57,6 @@ namespace CrissCross
 
 		CrissCross::Errors FileReader::Close()
 		{
-			CoreAssert(this != nullptr);
 
 			if (m_fileInputPointer)
 				fclose(m_fileInputPointer);

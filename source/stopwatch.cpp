@@ -106,7 +106,6 @@ namespace CrissCross
 #if defined (TARGET_OS_WINDOWS)
 		void StopwatchImpl::RecalculateFrequency()
 		{
-			CoreAssert(this != nullptr);
 
 			LARGE_INTEGER freq;
 			QueryPerformanceFrequency(&freq);
@@ -116,7 +115,6 @@ namespace CrissCross
 
 		double Stopwatch::Elapsed()
 		{
-			CoreAssert(this != nullptr);
 
 #if defined (TARGET_OS_WINDOWS)
 			return ((double)m_impl->m_finish.QuadPart - (double)m_impl->m_start.QuadPart) * m_impl->m_tickInterval;
@@ -135,7 +133,6 @@ namespace CrissCross
 
 		unsigned long Stopwatch::ElapsedMS()
 		{
-			CoreAssert(this != nullptr);
 
 #if defined (TARGET_OS_WINDOWS)
 			return (unsigned long)(((double)m_impl->m_finish.QuadPart - (double)m_impl->m_start.QuadPart) * m_impl->m_tickInterval * 1000.0);

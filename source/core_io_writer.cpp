@@ -40,7 +40,6 @@ namespace CrissCross
 
 		void CoreIOWriter::Flush()
 		{
-			CoreAssert(this != nullptr);
 			if (!IsOpen()) return;
 
 #ifndef __GNUC__
@@ -54,7 +53,6 @@ namespace CrissCross
 
 		bool CoreIOWriter::IsOpen()
 		{
-			CoreAssert(this != nullptr);
 
 			if (m_fileOutputPointer == nullptr)
 				return false;
@@ -64,7 +62,6 @@ namespace CrissCross
 
 		CrissCross::Errors CoreIOWriter::SetLineEndings(LineEndingType _ending)
 		{
-			CoreAssert(this != nullptr);
 
 			if (_ending == CC_LN_NATIVE) {
 #if defined (TARGET_OS_WINDOWS)
@@ -102,7 +99,6 @@ namespace CrissCross
 
 		CrissCross::Errors CoreIOWriter::WriteLine(const char *_format, ...)
 		{
-			CoreAssert(this != nullptr);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
 
 			if (_format == nullptr)
@@ -131,7 +127,6 @@ namespace CrissCross
 
 		CrissCross::Errors CoreIOWriter::WriteLine(std::string &_string)
 		{
-			CoreAssert(this != nullptr);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
 
 			if (_string.empty() == true)
@@ -151,7 +146,6 @@ namespace CrissCross
 
 		CrissCross::Errors CoreIOWriter::Write(std::string &_string)
 		{
-			CoreAssert(this != nullptr);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
 
 			if (_string.empty() == true)
@@ -170,7 +164,6 @@ namespace CrissCross
 
 		CrissCross::Errors CoreIOWriter::WriteLine()
 		{
-			CoreAssert(this != nullptr);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
 
 #ifndef __GNUC__
@@ -185,7 +178,6 @@ namespace CrissCross
 
 		CrissCross::Errors CoreIOWriter::Write(const char *_format, ...)
 		{
-			CoreAssert(this != nullptr);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
 
 			if (_format == nullptr)
@@ -212,7 +204,6 @@ namespace CrissCross
 
 		size_t CoreIOWriter::WriteBlock(const void *_buffer, size_t _count)
 		{
-			CoreAssert(this != nullptr);
 			if (!IsOpen()) return 0;
 
 			if (_buffer == nullptr)
@@ -227,7 +218,6 @@ namespace CrissCross
 
 		size_t CoreIOWriter::WriteU8(uint8_t _data)
 		{
-			CoreAssert(this != nullptr);
 			if (!IsOpen()) return 0;
 
 #ifndef __GNUC__
@@ -238,7 +228,6 @@ namespace CrissCross
 
 		size_t CoreIOWriter::WriteU16(uint16_t _data)
 		{
-			CoreAssert(this != nullptr);
 			if (!IsOpen()) return 0;
 
 #ifndef __GNUC__
@@ -261,7 +250,6 @@ namespace CrissCross
 
 		size_t CoreIOWriter::WriteU32(uint32_t _data)
 		{
-			CoreAssert(this != nullptr);
 			if (!IsOpen()) return 0;
 
 #ifndef __GNUC__
@@ -284,7 +272,6 @@ namespace CrissCross
 
 		size_t CoreIOWriter::WriteU64(uint64_t _data)
 		{
-			CoreAssert(this != nullptr);
 			if (!IsOpen()) return 0;
 
 #ifndef __GNUC__

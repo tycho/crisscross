@@ -39,7 +39,6 @@ namespace CrissCross
 
 		bool CoreIOReader::EndOfFile()
 		{
-			CoreAssert(this != nullptr);
 
 			if (!m_fileInputPointer)
 				return true;
@@ -49,7 +48,6 @@ namespace CrissCross
 
 		void CoreIOReader::Flush()
 		{
-			CoreAssert(this != nullptr);
 			if (!IsOpen()) return;
 
 #ifndef __GNUC__
@@ -60,7 +58,6 @@ namespace CrissCross
 
 		bool CoreIOReader::IsOpen()
 		{
-			CoreAssert(this != nullptr);
 
 			if (m_fileInputPointer == nullptr)
 				return false;
@@ -70,7 +67,6 @@ namespace CrissCross
 
 		int CoreIOReader::Forward(int64_t _position)
 		{
-			CoreAssert(this != nullptr);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
 
 			int res = Seek(_position, SEEK_CUR);
@@ -79,7 +75,6 @@ namespace CrissCross
 
 		int64_t CoreIOReader::Position()
 		{
-			CoreAssert(this != nullptr);
 			CoreAssert(IsOpen());
 #ifdef HAS_FPOS64
 			fpos64_t lastpos;
@@ -105,7 +100,6 @@ namespace CrissCross
 
 		int64_t CoreIOReader::Length()
 		{
-			CoreAssert(this != nullptr);
 			CoreAssert(IsOpen());
 
 #ifndef __GNUC__
@@ -152,7 +146,6 @@ namespace CrissCross
 
 		size_t CoreIOReader::ReadBlock(void *_buffer, size_t _count)
 		{
-			CoreAssert(this != nullptr);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
 			if (!_buffer) return CC_ERR_INVALID_BUFFER;
 			if (!_count) return CC_ERR_INVALID_BUFFER;
@@ -167,7 +160,6 @@ namespace CrissCross
 
 		size_t CoreIOReader::ReadU8(uint8_t *_buffer)
 		{
-			CoreAssert(this != nullptr);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
 			if (!_buffer) return CC_ERR_INVALID_BUFFER;
 
@@ -180,7 +172,6 @@ namespace CrissCross
 
 		size_t CoreIOReader::ReadU16(uint16_t *_buffer)
 		{
-			CoreAssert(this != nullptr);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
 			if (!_buffer) return CC_ERR_INVALID_BUFFER;
 
@@ -208,7 +199,6 @@ namespace CrissCross
 
 		size_t CoreIOReader::ReadU32(uint32_t *_buffer)
 		{
-			CoreAssert(this != nullptr);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
 			if (!_buffer) return CC_ERR_INVALID_BUFFER;
 
@@ -237,7 +227,6 @@ namespace CrissCross
 
 		size_t CoreIOReader::ReadU64(uint64_t *_buffer)
 		{
-			CoreAssert(this != nullptr);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
 			if (!_buffer) return CC_ERR_INVALID_BUFFER;
 
@@ -266,7 +255,6 @@ namespace CrissCross
 
 		size_t CoreIOReader::ReadLine(char *_buffer, size_t _bufferLength)
 		{
-			CoreAssert(this != nullptr);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
 			if (!_buffer) return CC_ERR_INVALID_BUFFER;
 			if (!_bufferLength) return CC_ERR_INVALID_BUFFER;
@@ -303,7 +291,6 @@ namespace CrissCross
 		/* TODO: This function uses fgetc() which incurs unnecessary function call overhead. Find a suitable replacement. */
 		size_t CoreIOReader::ReadLine(std::string &_string)
 		{
-			CoreAssert(this != nullptr);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
 
 #ifndef __GNUC__
@@ -333,7 +320,6 @@ namespace CrissCross
 
 		int CoreIOReader::Seek(int64_t _position, int _origin)
 		{
-			CoreAssert(this != nullptr);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
 
 #ifndef __GNUC__
@@ -357,7 +343,6 @@ namespace CrissCross
 
 		int CoreIOReader::Seek(int64_t _position)
 		{
-			CoreAssert(this != nullptr);
 			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
 
 			int res = Seek(_position, SEEK_SET);
@@ -366,7 +351,6 @@ namespace CrissCross
 
 		CrissCross::Errors CoreIOReader::SetLineEndings(LineEndingType _ending)
 		{
-			CoreAssert(this != nullptr);
 
 			if (_ending == CC_LN_NATIVE) {
 #if defined (TARGET_OS_WINDOWS)
