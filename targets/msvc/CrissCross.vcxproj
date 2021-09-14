@@ -86,51 +86,27 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\..\Common.props" />
-    <Import Project="..\..\..\LIB.props" />
-    <Import Project="..\..\..\Release.props" />
-    <Import Project="..\..\..\vectorcall.props" />
-    <Import Project="..\..\..\x86.props" />
+    <Import Project="..\..\..\Master.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\..\Common.props" />
-    <Import Project="..\..\..\LIB.props" />
-    <Import Project="..\..\..\Debug.props" />
-    <Import Project="..\..\..\vectorcall.props" />
-    <Import Project="..\..\..\x86.props" />
+    <Import Project="..\..\..\Master.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\..\Common.props" />
-    <Import Project="..\..\..\LIB.props" />
-    <Import Project="..\..\..\Release.props" />
-    <Import Project="..\..\..\vectorcall.props" />
-    <Import Project="..\..\..\x86_64.props" />
+    <Import Project="..\..\..\Master.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\..\Common.props" />
-    <Import Project="..\..\..\LIB.props" />
-    <Import Project="..\..\..\Release.props" />
-    <Import Project="..\..\..\vectorcall.props" />
-    <Import Project="..\..\..\ARM64.props" />
+    <Import Project="..\..\..\Master.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\..\Common.props" />
-    <Import Project="..\..\..\LIB.props" />
-    <Import Project="..\..\..\Debug.props" />
-    <Import Project="..\..\..\vectorcall.props" />
-    <Import Project="..\..\..\x86_64.props" />
+    <Import Project="..\..\..\Master.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\..\Common.props" />
-    <Import Project="..\..\..\LIB.props" />
-    <Import Project="..\..\..\Debug.props" />
-    <Import Project="..\..\..\vectorcall.props" />
-    <Import Project="..\..\..\ARM64.props" />
+    <Import Project="..\..\..\Master.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
@@ -145,7 +121,6 @@ tools\gen_buildnum_h_helper.cmd $(ProjectDir)\..\..
     </PreBuildEvent>
     <ClCompile>
       <AdditionalIncludeDirectories>$(ProjectDir)\..\..\source;$(ProjectDir)\..\..\source\crisscross;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>crisscross/universal_include.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -162,7 +137,6 @@ tools\gen_buildnum_h_helper.cmd $(ProjectDir)\..\..
     </Midl>
     <ClCompile>
       <AdditionalIncludeDirectories>$(ProjectDir)\..\..\source;$(ProjectDir)\..\..\source\crisscross;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>crisscross/universal_include.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -177,7 +151,6 @@ tools\gen_buildnum_h_helper.cmd $(ProjectDir)\..\..
     <Midl />
     <ClCompile>
       <AdditionalIncludeDirectories>$(ProjectDir)\..\..\source;$(ProjectDir)\..\..\source\crisscross;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>crisscross/universal_include.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -191,7 +164,6 @@ tools\gen_buildnum_h_helper.cmd $(ProjectDir)\..\..
     </PreBuildEvent>
     <ClCompile>
       <AdditionalIncludeDirectories>$(ProjectDir)\..\..\source;$(ProjectDir)\..\..\source\crisscross;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>crisscross/universal_include.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -208,7 +180,6 @@ tools\gen_buildnum_h_helper.cmd $(ProjectDir)\..\..
     </Midl>
     <ClCompile>
       <AdditionalIncludeDirectories>$(ProjectDir)\..\..\source;$(ProjectDir)\..\..\source\crisscross;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>crisscross/universal_include.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -223,7 +194,6 @@ tools\gen_buildnum_h_helper.cmd $(ProjectDir)\..\..
     <Midl />
     <ClCompile>
       <AdditionalIncludeDirectories>$(ProjectDir)\..\..\source;$(ProjectDir)\..\..\source\crisscross;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>crisscross/universal_include.h</PrecompiledHeaderFile>
     </ClCompile>
