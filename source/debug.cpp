@@ -253,7 +253,7 @@ std::string SymbolEngine::addressToString(DWORD64 address)
 	if (pSymGetLineFromAddr(GetCurrentProcess(), address, (PDWORD)&dwDisplacement, &lineInfo)) {
 		const char *pDelim = strrchr(lineInfo.FileName, '\\');
 		char lineDetails[64];
-		snprintf(lineDetails, sizeof(lineDetails), "at %s(%u)", (pDelim ? pDelim + 1 : lineInfo.FileName), lineInfo.LineNumber);
+		snprintf(lineDetails, sizeof(lineDetails), "at %s(%lu)", (pDelim ? pDelim + 1 : lineInfo.FileName), lineInfo.LineNumber);
 		str += " ";
 		str += lineDetails;
 	}
@@ -273,10 +273,11 @@ void SymbolEngine::StackTrace(PCONTEXT _pContext, CoreIOWriter * _outputBuffer)
 #endif
 
 #if TARGET_CPU_BITS == 32
-	STACKFRAME stackFrame = { 0 };
+	STACKFRAME stackFrame;
 #else
-	STACKFRAME64 stackFrame = { 0 };
+	STACKFRAME64 stackFrame;
 #endif
+	memset(&stackFrame, 0, sizeof(stackFrame));
 
 #if defined(TARGET_CPU_X86)
 	stackFrame.AddrPC.Offset = _pContext->Eip;
