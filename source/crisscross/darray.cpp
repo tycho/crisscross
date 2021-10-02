@@ -160,7 +160,7 @@ namespace CrissCross
 			 * pointer size. Try to keep our array approximately a multiple of
 			 * a 4K page
 			 */
-			const size_t growthHeuristic = 4096 / sizeof(T);
+			constexpr size_t growthHeuristic = (1 * 1024 * 1024) / sizeof(T);
 
 			if (m_stepSize == -1) {
 				if (m_arraySize == 0) {
@@ -168,7 +168,7 @@ namespace CrissCross
 				} else if (m_arraySize <= growthHeuristic) {
 					setSize(m_arraySize * 2);
 				} else {
-					setSize(m_arraySize + growthHeuristic);
+					setSize(m_arraySize * 1.5);
 				}
 			} else {
 				/* Increase array size by fixed amount */
