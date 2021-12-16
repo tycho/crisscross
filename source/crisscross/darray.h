@@ -172,7 +172,12 @@ namespace CrissCross
 				T *m_array;
 
 				/*! \brief An array to indicate which nodes in m_array are in use. */
+				/* NOTE: std::vector<bool> is very slow under Debug builds with MSVC. Use std::vector<char> in those builds. */
+				#if defined(TARGET_COMPILER_VC) && defined(_DEBUG)
+				std::vector<char> m_shadow;
+				#else
 				std::vector<bool> m_shadow;
+				#endif
 
 				/*! \brief Increases the size of the array. */
 				void grow();
