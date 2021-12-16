@@ -328,7 +328,7 @@ namespace CrissCross
 		}
 
 		template <class T>
-		size_t DArray <T>::find(T const &_query)
+		size_t DArray <T>::find(T const &_query) const
 		{
 			for (size_t a = 0; a < m_arraySize; ++a)
 				if (m_shadow[a])

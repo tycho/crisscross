@@ -257,7 +257,7 @@ namespace CrissCross
 				 * \param _data The data to find.
 				 * \return The index where the given data is located.
 				 */
-				size_t find(T const & _data);
+				size_t find(T const & _data) const;
 
 				/*! \brief Constructs a new instance of T in an empty slot and returns its new index. */
 				/*!
