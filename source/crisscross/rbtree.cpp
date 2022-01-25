@@ -31,7 +31,7 @@ namespace CrissCross
 			nullNode->color = BLACK;
 			nullNode->id = NullKey<Key>();
 			rootNode = nullNode;
-			m_cachedSize = 0;
+			m_size = 0;
 		}
 
 		template <class Key, class Data, bool OwnsKeys>
@@ -208,7 +208,7 @@ namespace CrissCross
 				rootNode = x;
 			}
 
-			m_cachedSize++;
+			m_size++;
 
 			insertFixup(x);
 
@@ -354,7 +354,7 @@ namespace CrissCross
 			if (y->color == BLACK)
 				deleteFixup(x);
 
-			m_cachedSize--;
+			m_size--;
 
 			y->left = nullptr;
 			y->right = nullptr;
@@ -435,7 +435,7 @@ namespace CrissCross
 		{
 			killAll(rootNode);
 			rootNode = nullNode;
-			m_cachedSize = 0;
+			m_size = 0;
 		}
 
 		template <class Key, class Data, bool OwnsKeys>
@@ -452,7 +452,8 @@ namespace CrissCross
 		template <class TypedData>
 		DArray<TypedData> *RedBlackTree<Key, Data, OwnsKeys>::ConvertToDArray() const
 		{
-			DArray<TypedData> *darray = new DArray<TypedData> ((int)size());
+			DArray<TypedData> *darray = new DArray<TypedData>();
+			darray->setSize(m_size);
 			RecursiveConvertToDArray(darray, rootNode);
 			return darray;
 		}
@@ -460,7 +461,8 @@ namespace CrissCross
 		template <class Key, class Data, bool OwnsKeys>
 		DArray<Key> *RedBlackTree<Key, Data, OwnsKeys>::ConvertIndexToDArray() const
 		{
-			DArray<Key> *darray = new DArray<Key> ((int)size());
+			DArray<Key> *darray = new DArray<Key>();
+			darray->setSize(m_size);
 			RecursiveConvertIndexToDArray(darray, rootNode);
 			return darray;
 		}

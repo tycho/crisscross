@@ -323,7 +323,8 @@ namespace CrissCross
 		template <class TypedData>
 		DArray<TypedData> *SplayTree<Key, Data, OwnsKeys>::ConvertToDArray() const
 		{
-			DArray<TypedData> *darray = new DArray<TypedData> ((int)size());
+			DArray<TypedData> *darray = new DArray<TypedData>();
+			darray->setSize(m_size);
 			RecursiveConvertToDArray<TypedData>(darray, root);
 			return darray;
 		}
@@ -331,7 +332,8 @@ namespace CrissCross
 		template <class Key, class Data, bool OwnsKeys>
 		DArray<Key> *SplayTree<Key, Data, OwnsKeys>::ConvertIndexToDArray() const
 		{
-			DArray<Key> *darray = new DArray<Key> ((int)size());
+			DArray<Key> *darray = new DArray<Key>();
+			darray->setSize(m_size);
 			RecursiveConvertIndexToDArray(darray, root);
 			return darray;
 		}

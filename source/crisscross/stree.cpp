@@ -184,7 +184,8 @@ namespace CrissCross
 		template <class TypedData>
 		DArray<TypedData> *STree<Key, Data, OwnsKeys>::ConvertToDArray() const
 		{
-			DArray<TypedData> *darray = new DArray<TypedData> ((int)m_size);
+			DArray<TypedData> *darray = new DArray<TypedData>();
+			darray->setSize(m_size);
 			RecursiveConvertToDArray(darray, m_root);
 			return darray;
 		}
@@ -192,7 +193,8 @@ namespace CrissCross
 		template <class Key, class Data, bool OwnsKeys>
 		DArray<Key> *STree<Key, Data, OwnsKeys>::ConvertIndexToDArray() const
 		{
-			DArray<Key> *darray = new DArray<Key> ((int)m_size);
+			DArray<Key> *darray = new DArray<Key>();
+			darray->setSize(m_size);
 			RecursiveConvertIndexToDArray(darray, m_root);
 			return darray;
 		}

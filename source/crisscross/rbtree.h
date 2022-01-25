@@ -56,7 +56,7 @@ namespace CrissCross
 				RedBlackNode<Key, Data, OwnsKeys> *nullNode;
 
 				/*! \brief The cached size() return value. Changes on each tree modification (insertions and deletions). */
-				size_t m_cachedSize;
+				size_t m_size;
 
 				void RecursiveConvertIndexToDArray(DArray <Key> *_darray, RedBlackNode<Key, Data, OwnsKeys> *_btree) const;
 
@@ -147,7 +147,7 @@ namespace CrissCross
 				 */
 				cc_forceinline size_t size() const
 				{
-					return m_cachedSize;
+					return m_size;
 				}
 
 				/*! \brief Tests whether a key is in the tree or not. */
