@@ -172,7 +172,7 @@ namespace CrissCross
 				} else if (m_arraySize <= growthHeuristic) {
 					setSize(m_arraySize * 2);
 				} else {
-					setSize(m_arraySize * 1.5);
+					setSize((size_t)(m_arraySize * 1.5));
 				}
 			} else {
 				/* Increase array size by fixed amount */
