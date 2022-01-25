@@ -132,7 +132,7 @@ namespace CrissCross
 #if __cplusplus >= 201703L
 							std::destroy_at<T>(&m_array[idx]);
 #else
-							(T *)(&m_array[idx])->~T();
+							((T *)(&m_array[idx]))->~T();
 #endif
 				}
 
@@ -234,7 +234,7 @@ namespace CrissCross
 #if __cplusplus >= 201703L
 						std::destroy_at<T>(&m_array[idx]);
 #else
-						(T *)(&m_array[idx])->~T();
+						((T *)(&m_array[idx]))->~T();
 #endif
 				}
 			}
@@ -329,7 +329,7 @@ namespace CrissCross
 #if __cplusplus >= 201703L
 				std::destroy_at<T>(&m_array[index]);
 #else
-				(T *)(&m_array[index])->~T();
+				((T *)(&m_array[index]))->~T();
 #endif
 			}
 
