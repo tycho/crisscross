@@ -129,7 +129,11 @@ namespace CrissCross
 					// Destroy any objects that are getting dropped off the end of the array.
 					for (size_t idx = newsize; idx < m_arraySize; idx++)
 						if (m_shadow[idx])
+#if __cplusplus >= 201703L
 							std::destroy_at<T>(&m_array[idx]);
+#else
+							(T *)(&m_array[idx])->~T();
+#endif
 				}
 
 				T *newArray = newsize > 0 ? (T *)malloc(sizeof(T) * newsize) : nullptr;
@@ -227,7 +231,11 @@ namespace CrissCross
 			if (std::is_destructible<T>::value && !std::is_trivially_destructible<T>::value) {
 				for (size_t idx = 0; idx < m_arraySize; idx++) {
 					if (m_shadow[idx])
+#if __cplusplus >= 201703L
 						std::destroy_at<T>(&m_array[idx]);
+#else
+						(T *)(&m_array[idx])->~T();
+#endif
 				}
 			}
 			m_shadow.clear();
@@ -318,7 +326,11 @@ namespace CrissCross
 			CoreAssert(m_shadow[index]);
 
 			if (std::is_destructible<T>::value && !std::is_trivially_destructible<T>::value) {
+#if __cplusplus >= 201703L
 				std::destroy_at<T>(&m_array[index]);
+#else
+				(T *)(&m_array[index])->~T();
+#endif
 			}
 
 			m_numUsed--;
