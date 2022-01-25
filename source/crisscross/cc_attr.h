@@ -105,9 +105,9 @@
 
 #if !defined (_CC_NO_DEPRECATE)
 #ifndef _CC_SLOW_NO_DEPRECATE
-#define _CC_DEPRECATE_SLOW(x)                    _CC_DEPRECATE_TEXT("This function or class is known to be slow and should not be used in production.")
+#define _CC_DEPRECATE_SLOW                       _CC_DEPRECATE_TEXT("This function or class is known to be slow and should not be used in production.")
 #else
-#define _CC_DEPRECATE_SLOW(x)
+#define _CC_DEPRECATE_SLOW
 #endif
 #ifndef _CC_ONLY_DEPRECATE_SLOW
 #define _CC_DEPRECATE_CLASS(_Replacement)        _CC_DEPRECATE_TEXT("This class is deprecated and may be removed from future versions. Consider using '" # _Replacement "' instead. Be sure to check the CrissCross documentation.")
@@ -119,7 +119,7 @@
 #define _CC_DEPRECATE_FUNCTION_N
 #endif
 #else
-#define _CC_DEPRECATE_SLOW(x)
+#define _CC_DEPRECATE_SLOW
 #define _CC_DEPRECATE_CLASS(_Replacement)
 #define _CC_DEPRECATE_FUNCTION(_Replacement)
 #define _CC_DEPRECATE_FUNCTION_N

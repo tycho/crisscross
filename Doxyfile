@@ -220,7 +220,7 @@ SEARCH_INCLUDES        = YES
 INCLUDE_PATH           = 
 INCLUDE_FILE_PATTERNS  = 
 PREDEFINED             = _CC_NO_DEPRECATE= \
-                         _CC_DEPRECATE_SLOW(x)= \
+                         _CC_DEPRECATE_SLOW= \
                          _CC_DEPRECATE_FUNCTION(x)= \
                          _CC_DEPRECATE_FUNCTION_N=
 
