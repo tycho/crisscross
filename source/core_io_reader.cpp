@@ -17,6 +17,7 @@
 #include <crisscross/endian.h>
 #include <crisscross/debug.h>
 #include <crisscross/core_io.h>
+#include <crisscross/string_utils.h>
 #include <crisscross/system.h>
 
 using namespace CrissCross::System;
@@ -25,9 +26,8 @@ namespace CrissCross
 {
 	namespace IO
 	{
-		CoreIOReader::CoreIOReader(FILE *_fileBuffer, bool _isUnicode, LineEnding _lnEnding, Endian _inputEndianness)
+		CoreIOReader::CoreIOReader(FILE *_fileBuffer, LineEnding _lnEnding, Endian _inputEndianness)
 			: m_fileInputPointer(_fileBuffer)
-			, m_unicode(_isUnicode)
 		{
 			SetLineEndings(_lnEnding);
 			SetEndian(_inputEndianness);
@@ -130,7 +130,7 @@ namespace CrissCross
 #endif
 		}
 
-		size_t CoreIOReader::ReadBlock(void *_buffer, size_t _count)
+		int CoreIOReader::ReadBlock(void *_buffer, size_t _count)
 		{
 			std::lock_guard<std::recursive_mutex> lock(m_ioMutex);
 
@@ -141,12 +141,14 @@ namespace CrissCross
 			if (!_count)
 				return CC_ERR_INVALID_BUFFER;
 
-			CoreAssert(_buffer != nullptr);
-			CoreAssert(_count > 0);
-			return fread(_buffer, _count, 1, m_fileInputPointer);
+			int err = fread(_buffer, _count, 1, m_fileInputPointer);
+			if (err < 0)
+				return CC_ERR_READ;
+
+			return err;
 		}
 
-		size_t CoreIOReader::ReadU8(uint8_t *_buffer)
+		int CoreIOReader::ReadU8(uint8_t *_buffer)
 		{
 			std::lock_guard<std::recursive_mutex> lock(m_ioMutex);
 
@@ -155,10 +157,14 @@ namespace CrissCross
 			if (!_buffer)
 				return CC_ERR_INVALID_BUFFER;
 
-			return fread(_buffer, sizeof(uint8_t), 1, m_fileInputPointer);
+			int err = fread(_buffer, sizeof(uint8_t), 1, m_fileInputPointer);
+			if (err < 0)
+				return CC_ERR_READ;
+
+			return err;
 		}
 
-		size_t CoreIOReader::ReadU16(uint16_t *_buffer)
+		int CoreIOReader::ReadU16(uint16_t *_buffer)
 		{
 			std::lock_guard<std::recursive_mutex> lock(m_ioMutex);
 
@@ -167,8 +173,11 @@ namespace CrissCross
 			if (!_buffer)
 				return CC_ERR_INVALID_BUFFER;
 
-			size_t retval;
+			int retval;
 			retval = fread(_buffer, sizeof(uint16_t), 1, m_fileInputPointer);
+
+			if (retval != sizeof(uint16_t))
+				return CC_ERR_READ;
 
 			switch (m_endianness) {
 			case Endian::Little:
@@ -185,7 +194,7 @@ namespace CrissCross
 			return retval;
 		}
 
-		size_t CoreIOReader::ReadU32(uint32_t *_buffer)
+		int CoreIOReader::ReadU32(uint32_t *_buffer)
 		{
 			std::lock_guard<std::recursive_mutex> lock(m_ioMutex);
 
@@ -194,8 +203,11 @@ namespace CrissCross
 			if (!_buffer)
 				return CC_ERR_INVALID_BUFFER;
 
-			size_t retval;
+			int retval;
 			retval = fread(_buffer, sizeof(uint32_t), 1, m_fileInputPointer);
+
+			if (retval != sizeof(uint32_t))
+				return CC_ERR_READ;
 
 			switch (m_endianness) {
 			case Endian::Little:
@@ -212,7 +224,7 @@ namespace CrissCross
 			return retval;
 		}
 
-		size_t CoreIOReader::ReadU64(uint64_t *_buffer)
+		int CoreIOReader::ReadU64(uint64_t *_buffer)
 		{
 			std::lock_guard<std::recursive_mutex> lock(m_ioMutex);
 
@@ -221,8 +233,11 @@ namespace CrissCross
 			if (!_buffer)
 				return CC_ERR_INVALID_BUFFER;
 
-			size_t retval;
+			int retval;
 			retval = fread(_buffer, sizeof(uint64_t), 1, m_fileInputPointer);
+
+			if (retval != sizeof(uint64_t))
+				return CC_ERR_READ;
 
 			switch (m_endianness) {
 			case Endian::Little:
@@ -239,7 +254,7 @@ namespace CrissCross
 			return retval;
 		}
 
-		size_t CoreIOReader::ReadLine(char *_buffer, size_t _bufferLength)
+		int CoreIOReader::ReadLine(char *_buffer, size_t _bufferLength)
 		{
 			std::lock_guard<std::recursive_mutex> lock(m_ioMutex);
 
@@ -250,36 +265,28 @@ namespace CrissCross
 			if (!_bufferLength)
 				return CC_ERR_INVALID_BUFFER;
 
-			/* We use fgets because it detects line endings. */
-			_buffer[0] = '\x0';
-			char *ret = fgets(_buffer, (int)_bufferLength, m_fileInputPointer);
-			if (ret != _buffer)
+			char c = (char)fgetc(m_fileInputPointer);
+
+			if (c == (char)EOF)
 				return 0;
 
-			/* Detect line endings. */
-			char *endl = nullptr;
-			char *cr = strchr(_buffer, '\r');
-			char *lf = strchr(_buffer, '\n');
-			char *crlf = strstr(_buffer, "\r\n");
-			if (crlf) {
-				SetLineEndings(LineEnding::CRLF);
-				endl = crlf;
-			} else if (cr) {
-				SetLineEndings(LineEnding::CR);
-				endl = cr;
-			} else if (lf) {
-				SetLineEndings(LineEnding::LF);
-				endl = lf;
+			std::string buffer;
+
+			while (c != (char)EOF && c != '\n') {
+				buffer += c;
+				c = (char)fgetc(m_fileInputPointer);
 			}
 
-			if (endl)
-				*endl = '\x0';
+			int len = (int)buffer.length();
 
-			return strlen(_buffer);
+			if (len && buffer[len - 1] == '\r')
+				buffer.resize(len - 1);
+
+			return cc_strlcpy(_buffer, buffer.c_str(), _bufferLength);
 		}
 
 		/* TODO: This function uses fgetc() which incurs unnecessary function call overhead. Find a suitable replacement. */
-		size_t CoreIOReader::ReadLine(std::string &_string)
+		int CoreIOReader::ReadLine(std::string &_string)
 		{
 			std::lock_guard<std::recursive_mutex> lock(m_ioMutex);
 
@@ -335,7 +342,9 @@ namespace CrissCross
 				return CC_ERR_INVALID_BUFFER;
 
 			int res = Seek(_position, SEEK_SET);
-			return (res == 0);
+			if (res < 0)
+				return CC_ERR_READ;
+			return 0;
 		}
 
 		CrissCross::Errors CoreIOReader::SetLineEndings(LineEnding _ending)
@@ -350,13 +359,13 @@ namespace CrissCross
 
 			switch (_ending) {
 			case LineEnding::CR:
-				sprintf(m_lineEnding, "\r");
+				m_lineEnding = "\r";
 				break;
 			case LineEnding::LF:
-				sprintf(m_lineEnding, "\n");
+				m_lineEnding = "\n";
 				break;
 			case LineEnding::CRLF:
-				sprintf(m_lineEnding, "\r\n");
+				m_lineEnding = "\r\n";
 				break;
 			default:
 				return CC_ERR_BADPARAMETER;

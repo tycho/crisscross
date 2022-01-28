@@ -26,9 +26,8 @@ namespace CrissCross
 {
 	namespace IO
 	{
-		CoreIOWriter::CoreIOWriter(FILE *_fileBuffer, bool _isUnicode, LineEnding _lnEnding, Endian _outputEndianness)
+		CoreIOWriter::CoreIOWriter(FILE *_fileBuffer, LineEnding _lnEnding, Endian _outputEndianness)
 			: m_fileOutputPointer(_fileBuffer)
-			, m_unicode(_isUnicode)
 		{
 			SetLineEndings(_lnEnding);
 			SetEndian(_outputEndianness);
@@ -69,13 +68,13 @@ namespace CrissCross
 
 			switch (_ending) {
 			case LineEnding::CR:
-				sprintf(m_lineEnding, "\r");
+				m_lineEnding = "\r";
 				break;
 			case LineEnding::LF:
-				sprintf(m_lineEnding, "\n");
+				m_lineEnding = "\n";
 				break;
 			case LineEnding::CRLF:
-				sprintf(m_lineEnding, "\r\n");
+				m_lineEnding = "\r\n";
 				break;
 			default:
 				return CC_ERR_BADPARAMETER;
@@ -99,16 +98,18 @@ namespace CrissCross
 				return CC_ERR_BADPARAMETER;
 
 			va_list args;
-
-			va_start(args, _format);
+			int err;
 
 			/* Print out the string */
-			vfprintf(m_fileOutputPointer, _format, args);
+			va_start(args, _format);
+			err = vfprintf(m_fileOutputPointer, _format, args);
+			va_end(args);
 
-			if (fprintf(m_fileOutputPointer, "%s", m_lineEnding) < 0)
+			if (err < 0)
 				return CC_ERR_WRITE;
 
-			va_end(args);
+			if (fputs(m_lineEnding, m_fileOutputPointer) < 0)
+				return CC_ERR_WRITE;
 
 			Flush();
 
@@ -125,7 +126,10 @@ namespace CrissCross
 			if (_string.empty() == true)
 				return CC_ERR_BADPARAMETER;
 
-			if (fprintf(m_fileOutputPointer, "%s%s", _string.c_str(), m_lineEnding) < 0)
+			if (fputs(_string.c_str(), m_fileOutputPointer) < 0)
+				return CC_ERR_WRITE;
+
+			if (fputs(m_lineEnding, m_fileOutputPointer) < 0)
 				return CC_ERR_WRITE;
 
 			Flush();
@@ -143,7 +147,7 @@ namespace CrissCross
 			if (_string.empty() == true)
 				return CC_ERR_BADPARAMETER;
 
-			if (fprintf(m_fileOutputPointer, "%s", _string.c_str()) < 0)
+			if (fputs(_string.c_str(), m_fileOutputPointer) < 0)
 				return CC_ERR_WRITE;
 
 			return CC_ERR_NONE;
@@ -156,7 +160,7 @@ namespace CrissCross
 			if (!IsOpen())
 				return CC_ERR_INVALID_BUFFER;
 
-			if (fprintf(m_fileOutputPointer, "%s", m_lineEnding) < 0)
+			if (fputs(m_lineEnding, m_fileOutputPointer))
 				return CC_ERR_WRITE;
 
 			return CC_ERR_NONE;
@@ -173,34 +177,35 @@ namespace CrissCross
 				return CC_ERR_BADPARAMETER;
 
 			va_list args;
-
-			va_start(args, _format);
+			int err;
 
 			/* Print out the string */
-			if (vfprintf(m_fileOutputPointer, _format, args) < 0)
-				return CC_ERR_WRITE;
+			va_start(args, _format);
+			err = vfprintf(m_fileOutputPointer, _format, args);
+			va_end(args);
 
 			fflush(m_fileOutputPointer);
 
-			va_end(args);
+			if (err < 0)
+				return CC_ERR_WRITE;
 
 			return CC_ERR_NONE;
 		}
 
-		size_t CoreIOWriter::WriteBlock(const void *_buffer, size_t _count)
+		int CoreIOWriter::WriteBlock(const void *_buffer, size_t _count)
 		{
 			std::lock_guard<std::recursive_mutex> lock(m_ioMutex);
 
 			if (!IsOpen())
-				return 0;
+				return -1;
 
 			if (_buffer == nullptr)
-				return 0;
+				return -1;
 
 			return fwrite(_buffer, _count, 1, m_fileOutputPointer);
 		}
 
-		size_t CoreIOWriter::WriteU8(uint8_t _data)
+		int CoreIOWriter::WriteU8(uint8_t _data)
 		{
 			std::lock_guard<std::recursive_mutex> lock(m_ioMutex);
 
@@ -209,12 +214,12 @@ namespace CrissCross
 			return fwrite(&_data, sizeof(uint8_t), 1, m_fileOutputPointer);
 		}
 
-		size_t CoreIOWriter::WriteU16(uint16_t _data)
+		int CoreIOWriter::WriteU16(uint16_t _data)
 		{
 			std::lock_guard<std::recursive_mutex> lock(m_ioMutex);
 
 			if (!IsOpen())
-				return 0;
+				return -1;
 
 			switch (m_endianness) {
 			case Endian::Little:
@@ -227,15 +232,16 @@ namespace CrissCross
 				/* Do nothing */
 				break;
 			}
+
 			return fwrite(&_data, sizeof(uint16_t), 1, m_fileOutputPointer);
 		}
 
-		size_t CoreIOWriter::WriteU32(uint32_t _data)
+		int CoreIOWriter::WriteU32(uint32_t _data)
 		{
 			std::lock_guard<std::recursive_mutex> lock(m_ioMutex);
 
 			if (!IsOpen())
-				return 0;
+				return -1;
 
 			switch (m_endianness) {
 			case Endian::Little:
@@ -248,15 +254,16 @@ namespace CrissCross
 				/* Do nothing */
 				break;
 			}
+
 			return fwrite(&_data, sizeof(uint32_t), 1, m_fileOutputPointer);
 		}
 
-		size_t CoreIOWriter::WriteU64(uint64_t _data)
+		int CoreIOWriter::WriteU64(uint64_t _data)
 		{
 			std::lock_guard<std::recursive_mutex> lock(m_ioMutex);
 
 			if (!IsOpen())
-				return 0;
+				return -1;
 
 			switch (m_endianness) {
 			case Endian::Little:
@@ -269,6 +276,7 @@ namespace CrissCross
 				/* Do nothing */
 				break;
 			}
+
 			return fwrite(&_data, sizeof(uint64_t), 1, m_fileOutputPointer);
 		}
 	}

@@ -14,5 +14,6 @@
 
 char *cc_strdup(const char *x);
 char *cc_newstr(const char *x);
+size_t cc_strlcpy(char *dest, const char *source, size_t size);
 
 #endif

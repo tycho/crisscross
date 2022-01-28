@@ -35,13 +35,10 @@ namespace CrissCross
 				/*!
 				 * Stores the line ending selected by SetLineEndings.
 				 */
-				char m_lineEnding[4];
+				const char *m_lineEnding;
 
 				/*! \brief Input/output FILE pointer. */
 				FILE *m_fileOutputPointer;
-
-				/*! \brief Indicates whether the buffer is to be written in unicode or not. (UNIMPLEMENTED) */
-				bool m_unicode;
 
 				/*! \brief Indicates the expected input endianness. */
 				Endian m_endianness;
@@ -62,7 +59,7 @@ namespace CrissCross
 				 * \param _lnEnding The line ending to use.
 				 * \param _outputEndianness The endianness to write with.
 				 */
-				CoreIOWriter(FILE * _outputBuffer, bool _isUnicode, LineEnding _lnEnding = LineEnding::Native, Endian _outputEndianness = Endian::Native);
+				CoreIOWriter(FILE * _outputBuffer, LineEnding _lnEnding = LineEnding::Native, Endian _outputEndianness = Endian::Native);
 
 				/*! \brief The destructor. */
 				virtual ~CoreIOWriter();
@@ -90,21 +87,21 @@ namespace CrissCross
 				/*!
 				 * \param _buffer The buffer to write.
 				 * \param _count The number of bytes to write.
-				 * \return The actual number of bytes written.
+				 * \return On success, the number of bytes written. On failure, a negative value;
 				 */
-				virtual size_t WriteBlock(const void *_buffer, size_t _count);
+				virtual int WriteBlock(const void *_buffer, size_t _count);
 
 				/*! \brief Write an unsigned 8-bit integer. */
-				virtual size_t WriteU8(uint8_t _data);
+				virtual int WriteU8(uint8_t _data);
 
 				/*! \brief Write an unsigned 16-bit integer. */
-				virtual size_t WriteU16(uint16_t _data);
+				virtual int WriteU16(uint16_t _data);
 
 				/*! \brief Write an unsigned 32-bit integer. */
-				virtual size_t WriteU32(uint32_t _data);
+				virtual int WriteU32(uint32_t _data);
 
 				/*! \brief Write an unsigned 64-bit integer. */
-				virtual size_t WriteU64(uint64_t _data);
+				virtual int WriteU64(uint64_t _data);
 
 				/*! \brief Writes a string to the buffer. */
 				/*!

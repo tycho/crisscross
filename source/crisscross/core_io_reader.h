@@ -32,13 +32,10 @@ namespace CrissCross
 				/*!
 				 * Stores the line ending selected by CoreIOReader::SetLineEndings.
 				 */
-				char m_lineEnding[4];
+				const char *m_lineEnding;
 
 				/*! \brief Input/output FILE pointer. */
 				FILE *m_fileInputPointer;
-
-				/*! \brief Indicates whether the buffer is to be read in unicode or not. (UNIMPLEMENTED) */
-				bool m_unicode;
 
 				/*! \brief Indicates the expected input endianness. */
 				Endian m_endianness;
@@ -55,11 +52,10 @@ namespace CrissCross
 				 * Creates a new CoreIOReader instance. Will initialize line endings to the platform's
 				 * default, also initializes CoreIOReader::m_ioMutex.
 				 * \param _inputBuffer The buffer to be used for read operations.
-				 * \param _isUnicode The buffer is going to be a Unicode read buffer. (UNIMPLEMENTED)
 				 * \param _lnEnding The line ending to use.
 				 * \param _inputEndianness The expected input endianness. Will be converted to native.
 				 */
-				CoreIOReader(FILE * _inputBuffer, bool _isUnicode, LineEnding _lnEnding = LineEnding::Native, Endian _inputEndianness = Endian::Native);
+				CoreIOReader(FILE * _inputBuffer, LineEnding _lnEnding = LineEnding::Native, Endian _inputEndianness = Endian::Native);
 
 				/*! \brief The destructor. */
 				virtual ~CoreIOReader();
@@ -88,19 +84,19 @@ namespace CrissCross
 				 * \param _count The number of bytes to read.
 				 * \return The actual number of bytes read.
 				 */
-				virtual size_t ReadBlock(void *_buffer, size_t _count);
+				virtual int ReadBlock(void *_buffer, size_t _count);
 
 				/*! \brief Read an unsigned 8-bit integer. */
-				virtual size_t ReadU8(uint8_t *_buffer);
+				virtual int ReadU8(uint8_t *_buffer);
 
 				/*! \brief Read an unsigned 16-bit integer. */
-				virtual size_t ReadU16(uint16_t *_buffer);
+				virtual int ReadU16(uint16_t *_buffer);
 
 				/*! \brief Read an unsigned 32-bit integer. */
-				virtual size_t ReadU32(uint32_t *_buffer);
+				virtual int ReadU32(uint32_t *_buffer);
 
 				/*! \brief Read an unsigned 64-bit integer. */
-				virtual size_t ReadU64(uint64_t *_buffer);
+				virtual int ReadU64(uint64_t *_buffer);
 
 				/*! \brief Reads a line of data. */
 				/*!
@@ -108,7 +104,7 @@ namespace CrissCross
 				 * \param _string A reference of an std::string where the data will be stored.
 				 * \return The number of bytes read. On failure, -1 is returned.
 				 */
-				virtual size_t ReadLine(std::string &_string);
+				virtual int ReadLine(std::string &_string);
 
 				/*! \brief Reads a line of data. */
 				/*!
@@ -116,7 +112,7 @@ namespace CrissCross
 				 * \param _bufferLength The length of the buffer specified in _buffer.
 				 * \return The number of bytes read. On failure, -1 is returned.
 				 */
-				virtual size_t ReadLine(char *_buffer, size_t _bufferLength);
+				virtual int ReadLine(char *_buffer, size_t _bufferLength);
 
 				/*! \brief Sets the line ending convention used by this CoreIOReader instance. */
 				/*!

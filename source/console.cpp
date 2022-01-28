@@ -44,8 +44,8 @@ namespace CrissCross
 	namespace IO
 	{
 		Console::Console(bool _clearOnInit, bool _fillScreen)
-			: CoreIOWriter(stdout, false, LineEnding::LF)
-			, CoreIOReader(stdin, false, LineEnding::LF)
+			: CoreIOWriter(stdout, LineEnding::LF)
+			, CoreIOReader(stdin, LineEnding::LF)
 			, m_consoleAllocated(false)
 		{
 			AllocateConsole();
@@ -142,8 +142,8 @@ namespace CrissCross
 		}
 
 		Console::Console(FILE *_outputBuffer, FILE *_inputBuffer)
-			: CoreIOWriter(_outputBuffer, false, LineEnding::LF)
-			, CoreIOReader(_inputBuffer, false, LineEnding::LF)
+			: CoreIOWriter(_outputBuffer, LineEnding::LF)
+			, CoreIOReader(_inputBuffer, LineEnding::LF)
 			, m_consoleAllocated(false)
 		{
 		}
