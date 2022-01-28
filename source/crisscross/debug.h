@@ -33,9 +33,7 @@ void Assert(bool _condition, const char *_testcase, const char *_file, int _line
 		if (!(x)) { \
 			g_stderr->WriteLine("\nAssertion failed : '%s'\nFile: %s\nLine: %d\n", \
 			                    # x, __FILE__, __LINE__); \
-			g_stderr->WriteLine("===== STACK TRACE ====="); \
-			CrissCross::Debug::PrintStackTrace(g_stderr); \
-			abort(); \
+			assert(x); \
 		} \
 }
 
@@ -45,6 +43,7 @@ void Assert(bool _condition, const char *_testcase, const char *_file, int _line
 #	define CoreAssert(x) if (!(x)) do {} while (0)
 #endif
 
+#ifdef CC_ENABLE_STACK_WALKER
 namespace CrissCross {
 	namespace Debug {
 		/*! \brief Prints a stack trace to _outputBuffer. */
@@ -54,6 +53,7 @@ namespace CrissCross {
 		void PrintStackTrace(CrissCross::IO::CoreIOWriter * _outputBuffer);
 	}
 }
+#endif
 
 extern CrissCross::IO::Console *g_stderr;
 extern CrissCross::IO::Console *g_stdout;

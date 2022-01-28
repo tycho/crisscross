@@ -17,6 +17,7 @@
 #include <cstdio>
 #include <cstring>
 
+#ifdef CC_ENABLE_STACK_WALKER
 #if defined (TARGET_OS_LINUX) || defined (TARGET_OS_MACOSX) || defined (TARGET_OS_FREEBSD) || defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD)
 #if !defined(TARGET_COMPILER_CLANG)
 #include <cxxabi.h>
@@ -426,6 +427,8 @@ void CrissCross::Debug::PrintStackTrace(CrissCross::IO::CoreIOWriter * _outputBu
 	_outputBuffer->WriteLine("Stack traces are not implemented for this platform.");
 #endif
 }
+#endif
+
 #ifndef USE_FAST_ASSERT
 void Assert(bool _condition, const char *_testcase, const char *_file, int _line)
 {
