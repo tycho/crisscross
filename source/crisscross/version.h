@@ -16,7 +16,7 @@ namespace CrissCross
 {
 	namespace Version
 	{
-		//! The short version string.
+		/*! The short version string. */
 		/*!
 		 * This version will generally match the last version tag. For instance,
 		 * if the last tag of CrissCross before this build was '0.1.2', you'd see
@@ -32,7 +32,7 @@ namespace CrissCross
 		 */
 		const char *Short();
 
-		//! The long version string.
+		/*! The long version string. */
 		/*!
 		 * This string contains detailed version information about the CrissCross
 		 * build in use. The string will always start with the Git tag that this
@@ -44,7 +44,7 @@ namespace CrissCross
 		 */
 		const char *Long();
 
-		//! The major version number.
+		/*! The major version number. */
 		/*!
 		 * This is the first number to appear in a version tag. For instance,
 		 * if the tag is '0.1.2', this function would return '0'.
@@ -52,7 +52,7 @@ namespace CrissCross
 		 */
 		int Major();
 
-		//! The minor version number.
+		/*! The minor version number. */
 		/*!
 		 * This is the second number to appear in a version tag. For instance,
 		 * if the tag is '0.1.2', this function would return '1'.
@@ -60,7 +60,7 @@ namespace CrissCross
 		 */
 		int Minor();
 
-		//! The revision number.
+		/*! The revision number. */
 		/*!
 		 * This is the third number to appear in a version tag. For instance,
 		 * if the tag is '0.1.2', this function would return '2'.
@@ -68,7 +68,7 @@ namespace CrissCross
 		 */
 		int Revision();
 
-		//! The build number.
+		/*! The build number. */
 		/*!
 		 * \warning The build number isn't the most reliable number to submit
 		 *	with a bug report. Considering how Git works, you can have several

@@ -269,10 +269,7 @@ tools\gen_buildnum_h_helper.cmd $(ProjectDir)\..\..
     </ClCompile>
     <ClCompile Include="..\..\source\debug.cpp" />
     <ClCompile Include="..\..\source\error.cpp" />
-    <ClCompile Include="..\..\source\filereader.cpp" />
     <ClCompile Include="..\..\source\filesystem.cpp" />
-    <ClCompile Include="..\..\source\filewriter.cpp" />
-    <ClCompile Include="..\..\source\mutex.cpp" />
     <ClCompile Include="..\..\source\stopwatch.cpp" />
     <ClCompile Include="..\..\source\string_utils.cpp" />
     <ClCompile Include="..\..\source\system.cpp" />
@@ -301,15 +298,12 @@ tools\gen_buildnum_h_helper.cmd $(ProjectDir)\..\..
     <ClInclude Include="..\..\source\crisscross\debug.h" />
     <ClInclude Include="..\..\source\crisscross\dstack.h" />
     <ClInclude Include="..\..\source\crisscross\error.h" />
-    <ClInclude Include="..\..\source\crisscross\filereader.h" />
     <ClInclude Include="..\..\source\crisscross\filesystem.h" />
-    <ClInclude Include="..\..\source\crisscross\filewriter.h" />
     <ClInclude Include="..\..\source\crisscross\hash.h" />
     <ClInclude Include="..\..\source\crisscross\hashtable.h" />
     <ClInclude Include="..\..\source\crisscross\heapsort.h" />
     <ClInclude Include="..\..\source\crisscross\internal_mem.h" />
     <ClInclude Include="..\..\source\crisscross\llist.h" />
-    <ClInclude Include="..\..\source\crisscross\mutex.h" />
     <ClInclude Include="..\..\source\crisscross\node.h" />
     <ClInclude Include="..\..\source\crisscross\platform_detect.h" />
     <ClInclude Include="..\..\source\crisscross\quadtree.h" />

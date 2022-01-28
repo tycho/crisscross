@@ -119,9 +119,9 @@ namespace CrissCross
 				root = x;
 
 			if (y != z) {
-				if ( OwnsKeys ) {
-					Dealloc( z->id );
-					z->id = Duplicate( y->id );
+				if (OwnsKeys) {
+					Dealloc(z->id);
+					z->id = Duplicate(y->id);
 				} else {
 					z->id = y->id;
 				}

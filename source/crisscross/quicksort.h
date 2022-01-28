@@ -64,8 +64,8 @@ namespace CrissCross
 							Sorter<T>::Swap(_array, p, _right);
 
 							for (;;) {
-								do i++;while (Compare(_array[i], _array[_right]) < 0);
-								do j--;while (Compare(_array[j], _array[_right]) > 0);
+								do i++; while (Compare(_array[i], _array[_right]) < 0);
+								do j--; while (Compare(_array[j], _array[_right]) > 0);
 
 								if (i >= j) break;
 

@@ -38,7 +38,7 @@ namespace CrissCross
 		bool STree<Key, Data, OwnsKeys>::erase(Key const &_key)
 		{
 			SNode<Key, Data, OwnsKeys> *node = findNode(_key),
-				**ploc = nullptr;
+			                           **ploc = nullptr;
 
 			if (!valid(node))
 				return false;
@@ -46,8 +46,8 @@ namespace CrissCross
 			if (node->parent) {
 				int pos = Compare(node->id, node->parent->id);
 				ploc = (pos < 0) ?
-					&node->parent->left :
-					&node->parent->right;
+				       &node->parent->left :
+				       &node->parent->right;
 			} else {
 				ploc = &m_root;
 			}
@@ -57,7 +57,7 @@ namespace CrissCross
 
 			if (node->left && node->right) {
 				SNode<Key, Data, OwnsKeys> *min = node->right;
-				while(min->left)
+				while (min->left)
 					min = min->left;
 				node->id = min->id;
 				node->data = min->data;

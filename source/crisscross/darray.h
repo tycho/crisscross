@@ -33,113 +33,119 @@ namespace CrissCross
 				struct DArrayIterator
 				{
 					friend class DArray<T>;
-				protected:
-					DArray<T> *m_darray;
-					size_t m_idx;
+					protected:
+						DArray<T> *m_darray;
+						size_t m_idx;
 
-					cc_forceinline void ensure_valid()
-					{
-						// Keep incrementing the index until we find a filled slot or the end of the array.
-						while (!this->m_darray->valid(this->m_idx) && this->m_idx != this->m_darray->m_arraySize)
+						cc_forceinline void ensure_valid()
+						{
+							/* Keep incrementing the index until we find a filled slot or the end of the array. */
+							while (!this->m_darray->valid(this->m_idx) && this->m_idx != this->m_darray->m_arraySize)
+								this->m_idx++;
+						}
+
+						cc_forceinline void advance()
+						{
 							this->m_idx++;
-					}
+							ensure_valid();
+						}
 
-					cc_forceinline void advance()
-					{
-						this->m_idx++;
-						ensure_valid();
-					}
+					public:
+						using iterator_category = std::forward_iterator_tag;
+						using difference_type = std::ptrdiff_t;
+						using value_type = T;
+						using pointer = T *;
+						using reference = std::pair<std::size_t, T &>;
 
-				public:
-					using iterator_category = std::forward_iterator_tag;
-					using difference_type = std::ptrdiff_t;
-					using value_type = T;
-					using pointer = T*;
-					using reference = std::pair<std::size_t, T &>;
+						cc_forceinline explicit DArrayIterator(DArray<T> *_darray)
+						{
+							this->m_darray = _darray;
+							this->m_idx = 0;
+						}
 
-					cc_forceinline explicit DArrayIterator(DArray<T> *_darray) {
-						this->m_darray = _darray;
-						this->m_idx = 0;
-					}
+						cc_forceinline reference operator*() const
+						{
+							return reference(this->m_idx, this->m_darray->m_array[this->m_idx]);
+						}
 
-					cc_forceinline reference operator*() const {
-						return reference(this->m_idx, this->m_darray->m_array[this->m_idx]);
-					}
+						cc_forceinline pointer operator->()
+						{
+							return &this->m_darray->m_array[this->m_idx];
+						}
 
-					cc_forceinline pointer operator->() {
-						return &this->m_darray->m_array[this->m_idx];
-					}
+						cc_forceinline DArrayIterator &operator++()
+						{
+							advance();
+							return *this;
+						}
 
-					cc_forceinline DArrayIterator &operator++()
-					{
-						advance();
-						return *this;
-					}
-
-					inline bool operator == (const DArrayIterator &_rhs) const
-					{
-						return this->m_idx == _rhs.m_idx && this->m_darray == _rhs.m_darray;
-					}
-					inline bool operator != (const DArrayIterator &_rhs) const
-					{
-						return !(*this == _rhs);
-					}
+						inline bool operator ==(const DArrayIterator &_rhs) const
+						{
+							return this->m_idx == _rhs.m_idx && this->m_darray == _rhs.m_darray;
+						}
+						inline bool operator !=(const DArrayIterator &_rhs) const
+						{
+							return !(*this == _rhs);
+						}
 				};
 
 				struct DArrayConstIterator
 				{
 					friend class DArray<T>;
-				protected:
-					const DArray<T> *m_darray;
-					size_t m_idx;
+					protected:
+						const DArray<T> *m_darray;
+						size_t m_idx;
 
-					cc_forceinline void ensure_valid()
-					{
-						// Keep incrementing the index until we find a filled slot or the end of the array.
-						while (!this->m_darray->valid(this->m_idx) && this->m_idx != this->m_darray->m_arraySize)
+						cc_forceinline void ensure_valid()
+						{
+							/* Keep incrementing the index until we find a filled slot or the end of the array. */
+							while (!this->m_darray->valid(this->m_idx) && this->m_idx != this->m_darray->m_arraySize)
+								this->m_idx++;
+						}
+
+						cc_forceinline void advance()
+						{
 							this->m_idx++;
-					}
+							ensure_valid();
+						}
 
-					cc_forceinline void advance()
-					{
-						this->m_idx++;
-						ensure_valid();
-					}
+					public:
+						using iterator_category = std::forward_iterator_tag;
+						using difference_type = std::ptrdiff_t;
+						using value_type = T const;
+						using pointer = T const *;
+						using reference = std::pair<std::size_t, T const &>;
 
-				public:
-					using iterator_category = std::forward_iterator_tag;
-					using difference_type = std::ptrdiff_t;
-					using value_type = T const;
-					using pointer = T const *;
-					using reference = std::pair<std::size_t, T const &>;
+						cc_forceinline explicit DArrayConstIterator(const DArray<T> *_darray)
+						{
+							this->m_darray = _darray;
+							this->m_idx = 0;
+						}
 
-					cc_forceinline explicit DArrayConstIterator(const DArray<T> *_darray) {
-						this->m_darray = _darray;
-						this->m_idx = 0;
-					}
+						cc_forceinline reference operator*() const
+						{
+							return reference(this->m_idx, this->m_darray->m_array[this->m_idx]);
+						}
 
-					cc_forceinline reference operator*() const {
-						return reference(this->m_idx, this->m_darray->m_array[this->m_idx]);
-					}
+						cc_forceinline pointer operator->()
+						{
+							return &this->m_darray->m_array[this->m_idx];
+						}
 
-					cc_forceinline pointer operator->() {
-						return &this->m_darray->m_array[this->m_idx];
-					}
+						cc_forceinline DArrayConstIterator &operator++()
+						{
+							advance();
+							return *this;
+						}
 
-					cc_forceinline DArrayConstIterator &operator++()
-					{
-						advance();
-						return *this;
-					}
-
-					inline bool operator == (const DArrayConstIterator &_rhs) const
-					{
-						return this->m_idx == _rhs.m_idx && this->m_darray == _rhs.m_darray;
-					}
-					inline bool operator != (const DArrayConstIterator &_rhs) const
-					{
-						return !(*this == _rhs);
-					}
+						inline bool operator ==(const DArrayConstIterator &_rhs) const
+						{
+							return this->m_idx == _rhs.m_idx && this->m_darray == _rhs.m_darray;
+						}
+						inline bool operator !=(const DArrayConstIterator &_rhs) const
+						{
+							return !(*this == _rhs);
+						}
 				};
 
 				using iterator = DArrayIterator;
@@ -361,25 +367,29 @@ namespace CrissCross
 				/*! \brief Empties the array and deletes the data contained in it with the 'delete []' operator. */
 				inline void flushArray();
 
-				iterator begin() {
+				iterator begin()
+				{
 					iterator it(this);
 					it.ensure_valid();
 					return it;
 				}
 
-				iterator end() {
+				iterator end()
+				{
 					iterator it(this);
 					it.m_idx = m_arraySize;
 					return it;
 				}
 
-				const_iterator begin() const {
+				const_iterator begin() const
+				{
 					const_iterator it(this);
 					it.ensure_valid();
 					return it;
 				}
 
-				const_iterator end() const {
+				const_iterator end() const
+				{
 					const_iterator it(this);
 					it.m_idx = m_arraySize;
 					return it;

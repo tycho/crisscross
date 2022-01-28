@@ -27,16 +27,7 @@
     <ClCompile Include="..\..\source\error.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\filereader.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\filesystem.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\filewriter.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\mutex.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\stopwatch.cpp">
@@ -122,13 +113,7 @@
     <ClInclude Include="..\..\source\crisscross\error.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\crisscross\filereader.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\crisscross\filesystem.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\crisscross\filewriter.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\crisscross\hash.h">
@@ -144,9 +129,6 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\crisscross\llist.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\crisscross\mutex.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\crisscross\node.h">

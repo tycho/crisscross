@@ -10,10 +10,14 @@
  */
 
 #include <crisscross/universal_include.h>
-#include <crisscross/debug.h>
-#include <crisscross/filesystem.h>
 
 #ifdef TARGET_COMPILER_VC
+
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+
+#include <crisscross/debug.h>
+#include <crisscross/filesystem.h>
 
 /*
  * Open directory stream DIRNAME for read and return a pointer to the
@@ -65,7 +69,7 @@ DIR *opendir(const char *dirname)
  * sub-directories, pseudo-directories "." and "..", but also volume labels,
  * hidden files and system files may be returned.
  */
-struct dirent *readdir(DIR *dirp)
+dirent *readdir(DIR *dirp)
 {
 	CoreAssert(dirp);
 

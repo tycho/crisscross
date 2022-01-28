@@ -16,7 +16,6 @@ sources = [
   'source/system.cpp',
   'source/universal_include.cpp',
   'source/version.cpp',
-  'source/zombiehunter.cpp',
 ]
 incdirs = include_directories('source', '.')
 

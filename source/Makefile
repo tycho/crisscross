@@ -53,9 +53,7 @@ HEADERS = \
 	crisscross/dstack.h \
 	crisscross/endian.h \
 	crisscross/error.h \
-	crisscross/filereader.h \
 	crisscross/filesystem.h \
-	crisscross/filewriter.h \
 	crisscross/hash.h \
 	crisscross/hashtable.cpp \
 	crisscross/hashtable.h \
@@ -63,7 +61,6 @@ HEADERS = \
 	crisscross/internal_mem.h \
 	crisscross/llist.cpp \
 	crisscross/llist.h \
-	crisscross/mutex.h \
 	crisscross/nasty_cast.h \
 	crisscross/node.h \
 	crisscross/platform_detect.h \
@@ -83,7 +80,6 @@ HEADERS = \
 	crisscross/system.h \
 	crisscross/vec2.h \
 	crisscross/version.h \
-	crisscross/zombiehunter.h
 
 SOURCES = \
 	console.cpp \
@@ -92,17 +88,12 @@ SOURCES = \
 	core_io_writer.cpp \
 	debug.cpp \
 	error.cpp \
-	filereader.cpp \
 	filesystem.cpp \
-	filewriter.cpp \
-	mutex.cpp \
 	stopwatch.cpp \
 	string_utils.cpp \
 	system.cpp \
 	universal_include.cpp \
 	version.cpp \
-	zombiehunter.cpp
-
 
 HEADERS_INST := $(patsubst crisscross/%,$(includedir)/%,$(HEADERS))
 OBJECTS := $(patsubst %.cpp,$(OBJ_DIR)/%.o,$(SOURCES))

@@ -43,25 +43,27 @@ namespace CrissCross
 {
 	namespace IO
 	{
-		Console::Console(bool _clearOnInit, bool _fillScreen) : CoreIOWriter(stdout, false, CC_LN_LF),
-			CoreIOReader(stdin, false, CC_LN_LF),
-			m_consoleAllocated(false)
+		Console::Console(bool _clearOnInit, bool _fillScreen)
+			: CoreIOWriter(stdout, false, LineEnding::LF)
+			, CoreIOReader(stdin, false, LineEnding::LF)
+			, m_consoleAllocated(false)
 		{
 			AllocateConsole();
 #ifdef TARGET_OS_WINDOWS
 			if (m_consoleAllocated) {
 				/* Redirect stdout to the console. */
-				freopen_s(reinterpret_cast<FILE**>(stdout), "CONOUT$", "w", stdout);
+				freopen_s(reinterpret_cast<FILE **>(stdout), "CONOUT$", "w", stdout);
 				setvbuf(stdout, nullptr, _IONBF, 0);
 
 				/* Redirect stderr to the console. */
-				freopen_s(reinterpret_cast<FILE**>(stderr), "CONOUT$", "w", stderr);
+				freopen_s(reinterpret_cast<FILE **>(stderr), "CONOUT$", "w", stderr);
 				setvbuf(stderr, nullptr, _IONBF, 0);
 
 				if (_fillScreen) {
 					char findWindowFlag[64];
 					sprintf(findWindowFlag, "%s%p", CC_LIB_NAME, this);
-					RECT rect; CONSOLE_SCREEN_BUFFER_INFO csbi;
+					RECT rect;
+					CONSOLE_SCREEN_BUFFER_INFO csbi;
 					HWND consoleWindowHandle = nullptr;
 					HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -100,7 +102,7 @@ namespace CrissCross
 				}
 			}
 
-#elif defined (TARGET_OS_MACOSX)
+#elif defined(TARGET_OS_MACOSX)
 			if (m_consoleAllocated) {
 				freopen(m_slaveName, "w", stdout);
 				freopen(m_slaveName, "w", stderr);
@@ -115,14 +117,15 @@ namespace CrissCross
 			}
 
 #endif
-			if (_clearOnInit) Clear();
+			if (_clearOnInit)
+				Clear();
 
 			char tmp[64];
 			sprintf(tmp, CC_LIB_NAME " %s", CrissCross::Version::Long());
 			SetTitle(tmp);
 
 #ifdef ENABLE_CREDITS
-#if defined (TARGET_OS_NDSFIRMWARE)
+#if defined(TARGET_OS_NDSFIRMWARE)
 			g_stdout->SetColour(g_stdout->FG_GREEN | g_stdout->FG_INTENSITY);
 			g_stdout->WriteLine("Powered by " CC_LIB_NAME " v%s", CrissCross::Version::Long());
 			g_stdout->SetColour(0);
@@ -138,9 +141,10 @@ namespace CrissCross
 #endif
 		}
 
-		Console::Console(FILE * _outputBuffer, FILE *_inputBuffer) : CoreIOWriter(_outputBuffer, false, CC_LN_LF),
-			CoreIOReader(_inputBuffer, false, CC_LN_LF),
-			m_consoleAllocated(false)
+		Console::Console(FILE *_outputBuffer, FILE *_inputBuffer)
+			: CoreIOWriter(_outputBuffer, false, LineEnding::LF)
+			, CoreIOReader(_inputBuffer, false, LineEnding::LF)
+			, m_consoleAllocated(false)
 		{
 		}
 
@@ -148,9 +152,10 @@ namespace CrissCross
 		{
 			SetColour(0);
 #ifdef TARGET_OS_WINDOWS
-			if (m_consoleAllocated) FreeConsole();
+			if (m_consoleAllocated)
+				FreeConsole();
 
-#elif defined (TARGET_OS_MACOSX)
+#elif defined(TARGET_OS_MACOSX)
 			if (m_consoleAllocated) {
 				kill(m_childPID, SIGTERM);
 				wait(0);
@@ -163,7 +168,7 @@ namespace CrissCross
 		{
 #ifdef TARGET_OS_WINDOWS
 			m_consoleAllocated = (AllocConsole() == TRUE);
-#elif defined (TARGET_OS_MACOSX) && 0
+#elif defined(TARGET_OS_MACOSX) && 0
 			/* BSD-style pty code. */
 			char buf[64];
 			const char *ptymajors = "pqrstuvwxyzabcdefghijklmnoABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -214,7 +219,7 @@ namespace CrissCross
 				}
 			}
 
-#elif defined (TARGET_OS_NDSFIRMWARE)
+#elif defined(TARGET_OS_NDSFIRMWARE)
 			irqInit();
 			irqEnable(IRQ_VBLANK);
 			videoSetMode(MODE_0_2D);
@@ -235,8 +240,7 @@ namespace CrissCross
 
 		void Console::SetColour(int _flags)
 		{
-
-#if defined (TARGET_OS_WINDOWS)
+#if defined(TARGET_OS_WINDOWS)
 			HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 			if (_flags == 0)
@@ -319,7 +323,7 @@ namespace CrissCross
 #ifdef TARGET_OS_WINDOWS
 			SetConsoleTitleA(_title);
 #else
-#if 0 /* Random bug just cropped up round this. */
+#if 0        /* Random bug just cropped up round this. */
 			char buffer[4096];
 			sprintf(buffer, "\033]2;%s\007", _title);
 			Write(buffer);
@@ -334,8 +338,7 @@ namespace CrissCross
 
 		void Console::Clear()
 		{
-
-#if defined (TARGET_OS_WINDOWS)
+#if defined(TARGET_OS_WINDOWS)
 			COORD coordScreen = { 0, 0 };
 			DWORD cCharsWritten;
 			CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -344,14 +347,11 @@ namespace CrissCross
 
 			GetConsoleScreenBufferInfo(hConsole, &csbi);
 			dwConSize = csbi.dwSize.X * csbi.dwSize.Y;
-			FillConsoleOutputCharacter(hConsole, TEXT(' '), dwConSize,
-			                           coordScreen, &cCharsWritten);
+			FillConsoleOutputCharacter(hConsole, TEXT(' '), dwConSize, coordScreen, &cCharsWritten);
 			GetConsoleScreenBufferInfo(hConsole, &csbi);
-			FillConsoleOutputAttribute(hConsole, csbi.wAttributes, dwConSize,
-			                           coordScreen, &cCharsWritten);
+			FillConsoleOutputAttribute(hConsole, csbi.wAttributes, dwConSize, coordScreen, &cCharsWritten);
 			SetConsoleCursorPosition(hConsole, coordScreen);
-#elif defined (TARGET_OS_MACOSX) || defined (TARGET_OS_LINUX) || \
-			defined (TARGET_OS_NDSFIRMWARE)
+#elif defined(TARGET_OS_MACOSX) || defined(TARGET_OS_LINUX) || defined(TARGET_OS_NDSFIRMWARE)
 			Write("%s", "\033[2J");
 #endif
 		}
@@ -364,7 +364,7 @@ namespace CrissCross
 
 		void Console::MoveUp(int _lines)
 		{
-#if defined (TARGET_OS_WINDOWS)
+#if defined(TARGET_OS_WINDOWS)
 			COORD coordScreen = { 0, 0 };
 			CONSOLE_SCREEN_BUFFER_INFO csbi;
 			HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -372,10 +372,11 @@ namespace CrissCross
 			GetConsoleScreenBufferInfo(hConsole, &csbi);
 			coordScreen = csbi.dwCursorPosition;
 			coordScreen.Y -= (short)_lines;
-			if (coordScreen.Y < 0) coordScreen.Y = 0;
+			if (coordScreen.Y < 0)
+				coordScreen.Y = 0;
 
 			SetConsoleCursorPosition(hConsole, coordScreen);
-#elif defined (TARGET_OS_MACOSX) || defined (TARGET_OS_LINUX)
+#elif defined(TARGET_OS_MACOSX) || defined(TARGET_OS_LINUX)
 			Write("%s%d%s", "\033[", _lines, "A");
 #endif
 		}

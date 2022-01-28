@@ -15,7 +15,6 @@
 #include <memory.h>
 
 #include <crisscross/cc_attr.h>
-#include <crisscross/mutex.h>
 
 namespace CrissCross
 {

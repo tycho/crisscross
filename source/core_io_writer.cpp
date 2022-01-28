@@ -26,9 +26,9 @@ namespace CrissCross
 {
 	namespace IO
 	{
-		CoreIOWriter::CoreIOWriter(FILE * _fileBuffer, bool _isUnicode, LineEndingType _lnEnding, Endian _outputEndianness)
-		: m_fileOutputPointer(_fileBuffer),
-		  m_unicode(_isUnicode)
+		CoreIOWriter::CoreIOWriter(FILE *_fileBuffer, bool _isUnicode, LineEnding _lnEnding, Endian _outputEndianness)
+			: m_fileOutputPointer(_fileBuffer)
+			, m_unicode(_isUnicode)
 		{
 			SetLineEndings(_lnEnding);
 			SetEndian(_outputEndianness);
@@ -40,50 +40,41 @@ namespace CrissCross
 
 		void CoreIOWriter::Flush()
 		{
-			if (!IsOpen()) return;
-
-#ifndef __GNUC__
-			MutexHolder mh(&m_ioMutex);
-#endif
+			std::lock_guard<std::recursive_mutex> lock(m_ioMutex);
+			if (!IsOpen())
+				return;
 			fflush(m_fileOutputPointer);
-		#ifdef TARGET_OS_NDSFIRMWARE
+#ifdef TARGET_OS_NDSFIRMWARE
 			swiWaitForVBlank();
-		#endif
+#endif
 		}
 
 		bool CoreIOWriter::IsOpen()
 		{
-
 			if (m_fileOutputPointer == nullptr)
 				return false;
 			else
 				return true;
 		}
 
-		CrissCross::Errors CoreIOWriter::SetLineEndings(LineEndingType _ending)
+		CrissCross::Errors CoreIOWriter::SetLineEndings(LineEnding _ending)
 		{
-
-			if (_ending == CC_LN_NATIVE) {
-#if defined (TARGET_OS_WINDOWS)
-				_ending = CC_LN_CRLF;
-#elif defined (TARGET_OS_LINUX) || defined (TARGET_OS_MACOSX) || defined (TARGET_OS_FREEBSD) || \
-				defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD) || defined (TARGET_OS_NDSFIRMWARE) || \
-				defined (TARGET_OS_HAIKU)
-				_ending = CC_LN_LF;
+			if (_ending == LineEnding::Native) {
+#if defined(TARGET_OS_WINDOWS)
+				_ending = LineEnding::CRLF;
 #else
-#error You are not using a supported OS.
+				_ending = LineEnding::LF;
 #endif
 			}
 
-			switch (_ending)
-			{
-			case CC_LN_CR:
+			switch (_ending) {
+			case LineEnding::CR:
 				sprintf(m_lineEnding, "\r");
 				break;
-			case CC_LN_LF:
+			case LineEnding::LF:
 				sprintf(m_lineEnding, "\n");
 				break;
-			case CC_LN_CRLF:
+			case LineEnding::CRLF:
 				sprintf(m_lineEnding, "\r\n");
 				break;
 			default:
@@ -99,14 +90,13 @@ namespace CrissCross
 
 		CrissCross::Errors CoreIOWriter::WriteLine(const char *_format, ...)
 		{
-			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
+			std::lock_guard<std::recursive_mutex> lock(m_ioMutex);
+
+			if (!IsOpen())
+				return CC_ERR_INVALID_BUFFER;
 
 			if (_format == nullptr)
 				return CC_ERR_BADPARAMETER;
-
-#ifndef __GNUC__
-			MutexHolder mh(&m_ioMutex);
-#endif
 
 			va_list args;
 
@@ -127,14 +117,13 @@ namespace CrissCross
 
 		CrissCross::Errors CoreIOWriter::WriteLine(std::string &_string)
 		{
-			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
+			std::lock_guard<std::recursive_mutex> lock(m_ioMutex);
+
+			if (!IsOpen())
+				return CC_ERR_INVALID_BUFFER;
 
 			if (_string.empty() == true)
 				return CC_ERR_BADPARAMETER;
-
-#ifndef __GNUC__
-			MutexHolder mh(&m_ioMutex);
-#endif
 
 			if (fprintf(m_fileOutputPointer, "%s%s", _string.c_str(), m_lineEnding) < 0)
 				return CC_ERR_WRITE;
@@ -146,14 +135,13 @@ namespace CrissCross
 
 		CrissCross::Errors CoreIOWriter::Write(std::string &_string)
 		{
-			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
+			std::lock_guard<std::recursive_mutex> lock(m_ioMutex);
+
+			if (!IsOpen())
+				return CC_ERR_INVALID_BUFFER;
 
 			if (_string.empty() == true)
 				return CC_ERR_BADPARAMETER;
-
-#ifndef __GNUC__
-			MutexHolder mh(&m_ioMutex);
-#endif
 
 			if (fprintf(m_fileOutputPointer, "%s", _string.c_str()) < 0)
 				return CC_ERR_WRITE;
@@ -161,14 +149,12 @@ namespace CrissCross
 			return CC_ERR_NONE;
 		}
 
-
 		CrissCross::Errors CoreIOWriter::WriteLine()
 		{
-			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
+			std::lock_guard<std::recursive_mutex> lock(m_ioMutex);
 
-#ifndef __GNUC__
-			MutexHolder mh(&m_ioMutex);
-#endif
+			if (!IsOpen())
+				return CC_ERR_INVALID_BUFFER;
 
 			if (fprintf(m_fileOutputPointer, "%s", m_lineEnding) < 0)
 				return CC_ERR_WRITE;
@@ -178,14 +164,13 @@ namespace CrissCross
 
 		CrissCross::Errors CoreIOWriter::Write(const char *_format, ...)
 		{
-			if (!IsOpen()) return CC_ERR_INVALID_BUFFER;
+			std::lock_guard<std::recursive_mutex> lock(m_ioMutex);
+
+			if (!IsOpen())
+				return CC_ERR_INVALID_BUFFER;
 
 			if (_format == nullptr)
 				return CC_ERR_BADPARAMETER;
-
-#ifndef __GNUC__
-			MutexHolder mh(&m_ioMutex);
-#endif
 
 			va_list args;
 
@@ -204,44 +189,41 @@ namespace CrissCross
 
 		size_t CoreIOWriter::WriteBlock(const void *_buffer, size_t _count)
 		{
-			if (!IsOpen()) return 0;
+			std::lock_guard<std::recursive_mutex> lock(m_ioMutex);
+
+			if (!IsOpen())
+				return 0;
 
 			if (_buffer == nullptr)
 				return 0;
-
-#ifndef __GNUC__
-			MutexHolder mh(&m_ioMutex);
-#endif
 
 			return fwrite(_buffer, _count, 1, m_fileOutputPointer);
 		}
 
 		size_t CoreIOWriter::WriteU8(uint8_t _data)
 		{
-			if (!IsOpen()) return 0;
+			std::lock_guard<std::recursive_mutex> lock(m_ioMutex);
 
-#ifndef __GNUC__
-			MutexHolder mh(&m_ioMutex);
-#endif
+			if (!IsOpen())
+				return 0;
 			return fwrite(&_data, sizeof(uint8_t), 1, m_fileOutputPointer);
 		}
 
 		size_t CoreIOWriter::WriteU16(uint16_t _data)
 		{
-			if (!IsOpen()) return 0;
+			std::lock_guard<std::recursive_mutex> lock(m_ioMutex);
 
-#ifndef __GNUC__
-			MutexHolder mh(&m_ioMutex);
-#endif
-			switch (m_endianness)
-			{
-			case CC_ENDIAN_LITTLE:
+			if (!IsOpen())
+				return 0;
+
+			switch (m_endianness) {
+			case Endian::Little:
 				_data = CC_SwapBE16(_data);
 				break;
-			case CC_ENDIAN_BIG:
+			case Endian::Big:
 				_data = CC_SwapLE16(_data);
 				break;
-			case CC_ENDIAN_NATIVE:
+			case Endian::Native:
 				/* Do nothing */
 				break;
 			}
@@ -250,20 +232,19 @@ namespace CrissCross
 
 		size_t CoreIOWriter::WriteU32(uint32_t _data)
 		{
-			if (!IsOpen()) return 0;
+			std::lock_guard<std::recursive_mutex> lock(m_ioMutex);
 
-#ifndef __GNUC__
-			MutexHolder mh(&m_ioMutex);
-#endif
-			switch (m_endianness)
-			{
-			case CC_ENDIAN_LITTLE:
+			if (!IsOpen())
+				return 0;
+
+			switch (m_endianness) {
+			case Endian::Little:
 				_data = CC_SwapBE32(_data);
 				break;
-			case CC_ENDIAN_BIG:
+			case Endian::Big:
 				_data = CC_SwapLE32(_data);
 				break;
-			case CC_ENDIAN_NATIVE:
+			case Endian::Native:
 				/* Do nothing */
 				break;
 			}
@@ -272,20 +253,19 @@ namespace CrissCross
 
 		size_t CoreIOWriter::WriteU64(uint64_t _data)
 		{
-			if (!IsOpen()) return 0;
+			std::lock_guard<std::recursive_mutex> lock(m_ioMutex);
 
-#ifndef __GNUC__
-			MutexHolder mh(&m_ioMutex);
-#endif
-			switch (m_endianness)
-			{
-			case CC_ENDIAN_LITTLE:
+			if (!IsOpen())
+				return 0;
+
+			switch (m_endianness) {
+			case Endian::Little:
 				_data = CC_SwapBE64(_data);
 				break;
-			case CC_ENDIAN_BIG:
+			case Endian::Big:
 				_data = CC_SwapLE64(_data);
 				break;
-			case CC_ENDIAN_NATIVE:
+			case Endian::Native:
 				/* Do nothing */
 				break;
 			}

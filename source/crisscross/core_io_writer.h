@@ -17,7 +17,6 @@
 
 #include <crisscross/datatypes.h>
 #include <crisscross/error.h>
-#include <crisscross/mutex.h>
 #include <crisscross/core_io.h>
 
 namespace CrissCross
@@ -47,13 +46,11 @@ namespace CrissCross
 				/*! \brief Indicates the expected input endianness. */
 				Endian m_endianness;
 
-		#ifndef TARGET_COMPILER_GCC
 				/*! \brief Thread-safe mutex. */
 				/*!
 				 * Prevents more than one read or write from occurring simultaneously.
 				 */
-				CrissCross::System::Mutex m_ioMutex;
-		#endif
+				std::recursive_mutex m_ioMutex;
 
 			public:
 				/*! \brief The constructor. */
@@ -65,8 +62,7 @@ namespace CrissCross
 				 * \param _lnEnding The line ending to use.
 				 * \param _outputEndianness The endianness to write with.
 				 */
-				CoreIOWriter(FILE * _outputBuffer, bool _isUnicode, LineEndingType _lnEnding = CC_LN_NATIVE,
-					Endian _outputEndianness = CC_ENDIAN_NATIVE);
+				CoreIOWriter(FILE * _outputBuffer, bool _isUnicode, LineEnding _lnEnding = LineEnding::Native, Endian _outputEndianness = Endian::Native);
 
 				/*! \brief The destructor. */
 				virtual ~CoreIOWriter();
@@ -81,7 +77,7 @@ namespace CrissCross
 				/*!
 				 * \param _ending Any of the LineEndingType values.
 				 */
-				virtual CrissCross::Errors SetLineEndings(LineEndingType _ending);
+				virtual CrissCross::Errors SetLineEndings(LineEnding _ending);
 
 				/*! \brief Sets which endianness to convert from when reading. */
 				/*!

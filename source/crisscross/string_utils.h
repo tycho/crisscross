@@ -16,4 +16,3 @@ char *cc_strdup(const char *x);
 char *cc_newstr(const char *x);
 
 #endif
-

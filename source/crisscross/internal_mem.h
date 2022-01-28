@@ -51,18 +51,18 @@ namespace CrissCross
 			return strcpy(dup, _data);
 		}
 
-		template <class T>	__inline T NullKey() { return T(); }
-		template <>		__inline int8_t NullKey() { return 0; }
-		template <>		__inline uint8_t NullKey() { return 0; }
-		template <>		__inline int16_t NullKey() { return 0; }
-		template <>		__inline uint16_t NullKey() { return 0; }
-		template <>		__inline int32_t NullKey() { return 0; }
-		template <>		__inline uint32_t NullKey() { return 0; }
-		template <>		__inline int64_t NullKey() { return 0; }
-		template <>		__inline uint64_t NullKey() { return 0; }
-		template <>		__inline char * NullKey() { return nullptr; }
-		template <>		__inline const char * NullKey() { return nullptr; }
-		template <>		__inline std::string NullKey() { return std::string(""); }
+		template <class T>	__inline T NullKey(){ return T(); }
+		template <>		__inline int8_t NullKey(){ return 0; }
+		template <>		__inline uint8_t NullKey(){ return 0; }
+		template <>		__inline int16_t NullKey(){ return 0; }
+		template <>		__inline uint16_t NullKey(){ return 0; }
+		template <>		__inline int32_t NullKey(){ return 0; }
+		template <>		__inline uint32_t NullKey(){ return 0; }
+		template <>		__inline int64_t NullKey(){ return 0; }
+		template <>		__inline uint64_t NullKey(){ return 0; }
+		template <>		__inline char * NullKey(){ return nullptr; }
+		template <>		__inline const char * NullKey(){ return nullptr; }
+		template <>		__inline std::string NullKey(){ return std::string(""); }
 
 		template <class T>
 		__inline void Dealloc(cc_unused_param T &_data)

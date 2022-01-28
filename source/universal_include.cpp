@@ -29,26 +29,26 @@ Console *g_stdout;
 namespace {
 	class CrissCrossInitializer
 	{
-	public:
-		CrissCrossInitializer ()
-		{
+		public:
+			CrissCrossInitializer()
+			{
 #ifdef TARGET_OS_NDSFIRMWARE
-			fatInitDefault();
+				fatInitDefault();
 #endif
 
-			g_stderr = new Console(stderr, nullptr);
-			g_stdout = new Console(stdout, nullptr);
+				g_stderr = new Console(stderr, nullptr);
+				g_stdout = new Console(stdout, nullptr);
 
-			CrissCross::System::InitTimer();
-		}
+				CrissCross::System::InitTimer();
+			}
 
-		~CrissCrossInitializer ()
-		{
-			delete g_stderr; g_stderr = nullptr;
-			delete g_stdout; g_stdout = nullptr;
-		}
+			~CrissCrossInitializer()
+			{
+				delete g_stderr; g_stderr = nullptr;
+				delete g_stdout; g_stdout = nullptr;
+			}
 	};
 
-	// Statically initialize the library.
+	/* Statically initialize the library. */
 	CrissCrossInitializer ccinit;
 }

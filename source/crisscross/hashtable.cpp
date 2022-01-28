@@ -23,7 +23,7 @@ namespace CrissCross
 	{
 		template <class Data, bool OwnsKeys>
 		HashTable<Data, OwnsKeys>::HashTable(size_t _initialSize)
-		: m_keys(nullptr), m_size(32)
+			: m_keys(nullptr), m_size(32)
 		{
 			static_assert(std::is_trivially_copyable<Data>::value);
 			m_mask = m_size - 1;
@@ -78,8 +78,7 @@ namespace CrissCross
 			size_t index = Hash<const char *>(_key) & m_mask;
 
 			while (m_keys[index] != nullptr &&
-			       m_keys[index] != (char *)-1)
-			{
+			       m_keys[index] != (char *)-1) {
 				CoreAssert(Compare<const char *>((const char *)m_keys[index], _key) != 0);
 				index++;
 				index &= m_mask;
@@ -97,9 +96,8 @@ namespace CrissCross
 				return -1;
 			}
 
-			while (true)
-			{
-				if (m_keys[index] != nullptr && m_keys[index] != (char*)-1) {
+			while (true) {
+				if (m_keys[index] != nullptr && m_keys[index] != (char *)-1) {
 					if (Compare<const char *>((const char *)m_keys[index], _key) == 0)
 						break;
 				}
@@ -138,7 +136,7 @@ namespace CrissCross
 			if (index != (size_t)-1) {
 				if (OwnsKeys)
 					Dealloc(m_keys[index]);
-				m_keys[index] = (const char*)-1;
+				m_keys[index] = (const char *)-1;
 				m_slotsFree++;
 				return true;
 			}
@@ -149,7 +147,7 @@ namespace CrissCross
 		void HashTable<Data, OwnsKeys>::empty()
 		{
 			for (size_t i = 0; i < m_size; ++i) {
-				if (m_keys[i] == (const char*)-1) m_keys[i] = nullptr;
+				if (m_keys[i] == (const char *)-1) m_keys[i] = nullptr;
 				if (OwnsKeys)
 					Dealloc(m_keys[i]);
 			}
@@ -166,7 +164,7 @@ namespace CrissCross
 			}
 
 			size_t index = findInsertIndex(_key);
-			CoreAssert(m_keys[index] == nullptr || m_keys[index] == (char*)-1);
+			CoreAssert(m_keys[index] == nullptr || m_keys[index] == (char *)-1);
 			if (OwnsKeys)
 				m_keys[index] = (const char *)Duplicate(_key);
 			else
@@ -186,8 +184,8 @@ namespace CrissCross
 
 			/* Copy pointers to existing data */
 			const char **oldKeys = this->m_keys;
-			T           *oldData = this->m_data;
-			size_t      *oldOrderedIndices = m_orderedIndices;
+			T *oldData = this->m_data;
+			size_t *oldOrderedIndices = m_orderedIndices;
 
 			/* Make new data */
 			this->m_keys = new const char *[this->m_size];
@@ -207,8 +205,7 @@ namespace CrissCross
 			size_t oldI = m_firstOrderedIndex;
 			size_t newI = this->findInsertIndex(oldKeys[oldI]);
 			m_firstOrderedIndex = newI;
-			while (oldI != (size_t)-1)
-			{
+			while (oldI != (size_t)-1) {
 				size_t nextOldI = oldOrderedIndices[oldI];
 
 				this->m_keys[newI] = oldKeys[oldI];
@@ -236,8 +233,7 @@ namespace CrissCross
 			size_t prevI = -1;
 			size_t i = m_firstOrderedIndex;
 
-			while (1)
-			{
+			while (1) {
 				if (i == (size_t)-1) return prevI;
 
 				if (Compare(this->m_keys[i], _key) >= 0)
@@ -277,7 +273,7 @@ namespace CrissCross
 			/* Do the main insert */
 
 			size_t index = HashTable<T, OwnsKeys>::findInsertIndex(_key);
-			CoreAssert(this->m_keys[index] == nullptr || this->m_keys[index] == (char*)-1);
+			CoreAssert(this->m_keys[index] == nullptr || this->m_keys[index] == (char *)-1);
 			if (OwnsKeys)
 				this->m_keys[index] = (char *)Duplicate(_key);
 			else
@@ -294,7 +290,7 @@ namespace CrissCross
 				/* to be the new first alphabetical element */
 				m_orderedIndices[index] = m_firstOrderedIndex;
 				m_firstOrderedIndex = index;
-			} else	{
+			} else {
 				m_orderedIndices[index] = m_orderedIndices[i];
 				m_orderedIndices[i] = index;
 			}
@@ -332,8 +328,7 @@ namespace CrissCross
 
 			short prevIndex = -1;
 			short index = m_firstOrderedIndex;
-			while (m_orderedIndices[index] != _index)
-			{
+			while (m_orderedIndices[index] != _index) {
 				CoreAssert(index != -1);
 				prevIndex = index;
 				index = m_orderedIndices[index];
@@ -341,7 +336,7 @@ namespace CrissCross
 
 			if (prevIndex == -1) {
 				m_firstOrderedIndex = -1;
-			} else	{
+			} else {
 				m_orderedIndices[prevIndex] = m_orderedIndices[index];
 			}
 			return retval;

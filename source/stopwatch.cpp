@@ -16,8 +16,8 @@
 #include <mach/mach.h>
 #include <mach/mach_time.h>
 #elif defined (TARGET_OS_LINUX) || defined (TARGET_OS_NDSFIRMWARE) || \
-	defined(TARGET_OS_FREEBSD) || defined (TARGET_OS_NETBSD) || \
-	defined(TARGET_OS_OPENBSD) || defined (TARGET_OS_HAIKU)
+        defined(TARGET_OS_FREEBSD) || defined (TARGET_OS_NETBSD) || \
+        defined(TARGET_OS_OPENBSD) || defined (TARGET_OS_HAIKU)
 #include <sys/time.h>
 #include <time.h>
 #elif defined (TARGET_OS_WINDOWS)
@@ -106,7 +106,6 @@ namespace CrissCross
 #if defined (TARGET_OS_WINDOWS)
 		void StopwatchImpl::RecalculateFrequency()
 		{
-
 			LARGE_INTEGER freq;
 			QueryPerformanceFrequency(&freq);
 			m_tickInterval = 1.0 / (double)freq.QuadPart;
@@ -115,7 +114,6 @@ namespace CrissCross
 
 		double Stopwatch::Elapsed()
 		{
-
 #if defined (TARGET_OS_WINDOWS)
 			return ((double)m_impl->m_finish.QuadPart - (double)m_impl->m_start.QuadPart) * m_impl->m_tickInterval;
 #elif defined (TARGET_OS_MACOSX)
@@ -133,7 +131,6 @@ namespace CrissCross
 
 		unsigned long Stopwatch::ElapsedMS()
 		{
-
 #if defined (TARGET_OS_WINDOWS)
 			return (unsigned long)(((double)m_impl->m_finish.QuadPart - (double)m_impl->m_start.QuadPart) * m_impl->m_tickInterval * 1000.0);
 #elif defined (TARGET_OS_MACOSX)

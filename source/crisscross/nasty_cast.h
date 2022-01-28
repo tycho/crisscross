@@ -15,7 +15,8 @@
 #include <crisscross/platform_detect.h>
 
 #ifndef TARGET_COMPILER_BORLAND
-template <typename TO, typename FROM> TO nasty_cast(FROM f) {
+template <typename TO, typename FROM> TO nasty_cast(FROM f)
+{
 	union {
 		FROM f; TO t;
 	} u; u.f = f; return u.t;

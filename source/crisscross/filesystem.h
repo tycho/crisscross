@@ -14,8 +14,6 @@
 
 #ifdef TARGET_COMPILER_VC
 
-#include <windows.h>
-
 typedef struct dirent {
 	/* name of current directory entry (a multi-byte character string) */
 	char d_name[MAX_PATH + 1];
@@ -40,7 +38,7 @@ typedef struct DIR {
 } DIR;
 
 DIR *opendir(const char *dirname);
-struct dirent *readdir(DIR *dirp);
+dirent *readdir(DIR *dirp);
 int closedir(DIR *dirp);
 
 #else

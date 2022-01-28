@@ -26,15 +26,11 @@ add_library(CrissCross STATIC
 	debug.cpp
 	error.cpp
 	filesystem.cpp
-	filereader.cpp
-	filewriter.cpp
-	mutex.cpp
 	stopwatch.cpp
 	string_utils.cpp
 	system.cpp
 	universal_include.cpp
 	version.cpp
-	zombiehunter.cpp
 )
 
 if(OPENMP_CXX_FOUND)

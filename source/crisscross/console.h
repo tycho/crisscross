@@ -13,7 +13,7 @@
 #define __included_cc_console_h
 
 #if defined (TARGET_OS_MACOSX) || defined (TARGET_OS_FREEBSD) || \
-	defined (TARGET_OS_OPENBSD) || defined (TARGET_OS_NETBSD)
+        defined (TARGET_OS_OPENBSD) || defined (TARGET_OS_NETBSD)
 #include <sys/types.h>
 #endif
 

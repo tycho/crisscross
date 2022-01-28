@@ -14,6 +14,7 @@
 
 #include <crisscross/console.h>
 
+#include <assert.h>
 #include <stdlib.h>
 
 #define USE_FAST_ASSERT
@@ -40,7 +41,7 @@ void Assert(bool _condition, const char *_testcase, const char *_file, int _line
 #endif
 /*! @endcond */
 #else
-#	define CoreAssert(x) if (!(x)) do {} while (0)
+#define CoreAssert(x) if (!(x)) do {} while (0)
 #endif
 
 #ifdef CC_ENABLE_STACK_WALKER

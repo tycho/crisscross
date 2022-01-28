@@ -44,7 +44,7 @@ namespace CrissCross
 				 * the code wrong. A tree copy is generally unnecessary, and in cases that it
 				 * is, it can be achieved by other means.
 				 */
-				AVLTree<Key, Data, OwnsKeys> &operator =(const AVLTree<Key, Data, OwnsKeys> &);
+				AVLTree<Key, Data, OwnsKeys> &operator=(const AVLTree<Key, Data, OwnsKeys> &);
 
 			protected:
 				/*! \brief The root node. */
@@ -54,8 +54,7 @@ namespace CrissCross
 				size_t m_size;
 
 				/*! \brief Result of tree operation */
-				enum
-				{
+				enum {
 					/*! \brief None of the subtrees has grown in height, entire tree is still balanced */
 					OK,
 
@@ -165,7 +164,7 @@ namespace CrissCross
 				 * \param _darray Array to insert keys into
 				 * \param _btree The node being traversed
 				 */
-				void RecursiveConvertIndexToDArray(DArray <Key> *_darray, AVLNode<Key, Data, OwnsKeys> *_btree) const;
+				void RecursiveConvertIndexToDArray(DArray<Key> *_darray, AVLNode<Key, Data, OwnsKeys> *_btree) const;
 
 				/*! \brief Recursively convert the tree's data into a DArray */
 				/*!
@@ -173,7 +172,7 @@ namespace CrissCross
 				 * \param _btree The node being traversed
 				 */
 				template <class TypedData>
-				void RecursiveConvertToDArray(DArray <TypedData> *_darray, AVLNode<Key, Data, OwnsKeys> *_btree) const;
+				void RecursiveConvertToDArray(DArray<TypedData> *_darray, AVLNode<Key, Data, OwnsKeys> *_btree) const;
 
 				/*! \brief Verifies that a node is valid. */
 				/*!
@@ -186,7 +185,6 @@ namespace CrissCross
 				}
 
 			public:
-
 				/*! \brief The default constructor. */
 				AVLTree();
 
@@ -243,7 +241,9 @@ namespace CrissCross
 				 */
 				inline void empty()
 				{
-					delete m_root; m_root = nullptr; m_size = 0;
+					delete m_root;
+					m_root = nullptr;
+					m_size = 0;
 				}
 
 				/*! \brief Indicates the size of the tree. */
@@ -269,14 +269,14 @@ namespace CrissCross
 				 * \warning Delete the returned DArray when done with it.
 				 */
 				template <class TypedData = Data>
-				DArray <TypedData> *ConvertToDArray() const;
+				DArray<TypedData> *ConvertToDArray() const;
 
 				/*! \brief Converts the tree keys into a linearized DArray. */
 				/*!
 				 * \return A DArray containing the keys in the tree.
 				 * \warning Delete the returned DArray when done with it.
 				 */
-				DArray <Key> *ConvertIndexToDArray() const;
+				DArray<Key> *ConvertIndexToDArray() const;
 
 				/*! \brief Returns the overhead caused by the data structure. */
 				/*!
@@ -284,33 +284,39 @@ namespace CrissCross
 				 */
 				size_t mem_usage() const;
 
-#if !defined (DISABLE_DEPRECATED_CODE)
+#if !defined(DISABLE_DEPRECATED_CODE)
 				/*
 				 *      Deprecated Compatibility Functions
 				 *      Provided for compatibility with Tosser I
 				 */
 				/*! @cond */
-				_CC_DEPRECATE_FUNCTION(insert)  inline void     PutData(Key const &_key, Data const & _rec)
+				_CC_DEPRECATE_FUNCTION(insert)
+				inline void PutData(Key const &_key, Data const &_rec)
 				{
 					insert(_key, _rec);
 				}
-				_CC_DEPRECATE_FUNCTION(find)    inline Data	    GetData(Key const &_key, Data const &_default = nullptr)
+				_CC_DEPRECATE_FUNCTION(find)
+				inline Data GetData(Key const &_key, Data const &_default = nullptr)
 				{
 					return find(_key, _default);
 				}
-				_CC_DEPRECATE_FUNCTION(erase)   inline void     RemoveData(Key const &_key)
+				_CC_DEPRECATE_FUNCTION(erase)
+				inline void RemoveData(Key const &_key)
 				{
 					erase(_key);
 				}
-				_CC_DEPRECATE_FUNCTION(erase)   inline void     RemoveData(Key const &_key, Data const & _rec)
+				_CC_DEPRECATE_FUNCTION(erase)
+				inline void RemoveData(Key const &_key, Data const &_rec)
 				{
 					erase(_key, _rec);
 				}
-				_CC_DEPRECATE_FUNCTION(size)    inline int      Size() const
+				_CC_DEPRECATE_FUNCTION(size)
+				inline int Size() const
 				{
 					return (int)size();
 				}
-				_CC_DEPRECATE_FUNCTION(empty)   inline void     Empty()
+				_CC_DEPRECATE_FUNCTION(empty)
+				inline void Empty()
 				{
 					empty();
 				}

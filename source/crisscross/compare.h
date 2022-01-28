@@ -38,31 +38,33 @@ namespace CrissCross
 		}
 
 		/*! \brief C-style string CrissCross::Data::Compare function. */
-		template <> int Compare<char *> (char * const &_first, char * const &_second);
+		template <>
+		int Compare<char *>(char *const &_first, char *const &_second);
 
 		/*! \brief C-style string CrissCross::Data::Compare function. */
-		template <>	int Compare<const char *> (const char * const &_first, const char * const &_second);
+		template <>
+		int Compare<const char *>(const char *const &_first, const char *const &_second);
 
 		/*! \brief An STL-compatible comparator class which makes use of Compare */
 		template <class T>
 		class LessThanComparator
 		{
-		public:
-			bool operator()(T const &_first, T const &_second) const
-			{
-				return Compare<T>(_first, _second) < 0;
-			}
+			public:
+				bool operator()(T const &_first, T const &_second) const
+				{
+					return Compare<T>(_first, _second) < 0;
+				}
 		};
 
 		/*! \brief An STL-compatible comparator class which makes use of Compare */
 		template <class T>
 		class GreaterThanComparator
 		{
-		public:
-			bool operator()(T const &_first, T const &_second) const
-			{
-				return Compare<T>(_first, _second) > 0;
-			}
+			public:
+				bool operator()(T const &_first, T const &_second) const
+				{
+					return Compare<T>(_first, _second) > 0;
+				}
 		};
 	}
 }

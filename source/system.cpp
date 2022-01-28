@@ -38,7 +38,7 @@ namespace CrissCross
 
 			double pausedAt = 0.0;
 			double timeShift = 0.0;
-		    bool timerPaused = false;
+			bool timerPaused = false;
 	#if defined (TARGET_OS_WINDOWS)
 
 			double __m_tickInterval;
@@ -49,8 +49,8 @@ namespace CrissCross
 			mach_timebase_info_data_t __m_timebase;
 
 	#elif defined (TARGET_OS_LINUX) || defined (TARGET_OS_FREEBSD) || \
-		defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD) || \
-		defined (TARGET_OS_NDSFIRMWARE)
+			defined (TARGET_OS_NETBSD) || defined (TARGET_OS_OPENBSD) || \
+			defined (TARGET_OS_NDSFIRMWARE)
 
 			timeval __m_start;
 

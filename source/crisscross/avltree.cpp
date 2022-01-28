@@ -53,7 +53,7 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data, bool OwnsKeys>
-		int	AVLTree<Key, Data, OwnsKeys>::erase(AVLNode<Key, Data, OwnsKeys> **_node, Key const &_key)
+		int AVLTree<Key, Data, OwnsKeys>::erase(AVLNode<Key, Data, OwnsKeys> **_node, Key const &_key)
 		{
 			if (!*_node)
 				return INVALID;

@@ -14,20 +14,17 @@
 
 #include <cstdio>
 #include <string>
+#include <mutex>
 
 #include <crisscross/datatypes.h>
 #include <crisscross/error.h>
-#include <crisscross/mutex.h>
 #include <crisscross/core_io.h>
 
 namespace CrissCross
 {
 	namespace IO
 	{
-		/*! \brief The core input class. */
-		/*!
-		 *  A class inherited by most I/O classes, including Console and FileReader.
-		 */
+		/*! \brief The core libc FILE wrapper input class. */
 		class CoreIOReader
 		{
 			protected:
@@ -46,13 +43,11 @@ namespace CrissCross
 				/*! \brief Indicates the expected input endianness. */
 				Endian m_endianness;
 
-		#ifndef TARGET_COMPILER_GCC
 				/*! \brief Thread-safe mutex. */
 				/*!
 				 * Prevents more than one read from occurring simultaneously.
 				 */
-				CrissCross::System::Mutex m_ioMutex;
-		#endif
+				std::recursive_mutex m_ioMutex;
 
 			public:
 				/*! \brief The constructor. */
@@ -64,8 +59,7 @@ namespace CrissCross
 				 * \param _lnEnding The line ending to use.
 				 * \param _inputEndianness The expected input endianness. Will be converted to native.
 				 */
-				CoreIOReader(FILE * _inputBuffer, bool _isUnicode, LineEndingType _lnEnding = CC_LN_NATIVE,
-					Endian _inputEndianness = CC_ENDIAN_NATIVE);
+				CoreIOReader(FILE * _inputBuffer, bool _isUnicode, LineEnding _lnEnding = LineEnding::Native, Endian _inputEndianness = Endian::Native);
 
 				/*! \brief The destructor. */
 				virtual ~CoreIOReader();
@@ -128,7 +122,7 @@ namespace CrissCross
 				/*!
 				 * \param _ending Any of the LineEndingType values.
 				 */
-				virtual CrissCross::Errors SetLineEndings(LineEndingType _ending);
+				virtual CrissCross::Errors SetLineEndings(LineEnding _ending);
 
 				/*! \brief Gets the current position in the buffer. */
 				/*!

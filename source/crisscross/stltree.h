@@ -46,15 +46,15 @@ namespace CrissCross
 		class STLTree
 		{
 			private:
-				std::map<Key,Data,CrissCross::Data::LessThanComparator<Key> > m_map;
+				std::map<Key, Data, CrissCross::Data::LessThanComparator<Key> > m_map;
 
 			public:
 
 				/*! \brief The default constructor. */
-				STLTree() {}
+				STLTree(){}
 
 				/*! \brief The destructor. */
-				~STLTree() { empty(); }
+				~STLTree(){ empty(); }
 
 				/*! \brief Empties the entire tree. */
 				/*!
@@ -160,7 +160,7 @@ namespace CrissCross
 				cc_forceinline DArray <TypedData> *ConvertToDArray() const
 				{
 					DArray<TypedData> *darray = new DArray<TypedData>(size());
-					typename std::map<Key,Data,CrissCross::Data::LessThanComparator<Key> >::const_iterator iter;
+					typename std::map<Key, Data, CrissCross::Data::LessThanComparator<Key> >::const_iterator iter;
 					for (iter = m_map.begin(); iter != m_map.end(); iter++) {
 						darray->insert((TypedData)(iter->second));
 					}
@@ -175,7 +175,7 @@ namespace CrissCross
 				cc_forceinline DArray <Key> *ConvertIndexToDArray() const
 				{
 					DArray<Key> *darray = new DArray<Key>(size());
-					typename std::map<Key,Data,CrissCross::Data::LessThanComparator<Key> >::const_iterator iter;
+					typename std::map<Key, Data, CrissCross::Data::LessThanComparator<Key> >::const_iterator iter;
 					for (iter = m_map.begin(); iter != m_map.end(); iter++) {
 						darray->insert(iter->first);
 					}

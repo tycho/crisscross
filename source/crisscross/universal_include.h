@@ -22,10 +22,10 @@
 #define CC_LIB_COPYRIGHT           "(c) 2006-2022 by Uplink Laboratories. Licensed under the New BSD License."
 #define CC_LIB_NDS_COPYRIGHT       "(c) by Uplink Laboratories.\nLicensed under the BSD License."
 
-//#define ENABLE_CREDITS
+/*#define ENABLE_CREDITS */
 
 /* Linux backtrace() */
-#define ENABLE_BACKTRACE
+/*#define ENABLE_BACKTRACE */
 
 #define ENABLE_PROFILER
 
@@ -98,7 +98,7 @@
 #endif
 
 #if defined (TARGET_OS_WINDOWS) && (defined (TARGET_COMPILER_VC) || defined (TARGET_COMPILER_ICC))
-#define ENABLE_SYMBOL_ENGINE
+/*#define ENABLE_SYMBOL_ENGINE */
 #ifdef _MSC_VER
 #if _MSC_VER > 1200 && _MSC_VER < 1400
 #pragma warning ( disable : 4345 4100 4800 )

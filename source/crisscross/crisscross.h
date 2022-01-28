@@ -39,10 +39,7 @@
 #include <crisscross/error.h>
 #include <crisscross/core_io.h>
 #include <crisscross/console.h>
-#include <crisscross/filereader.h>
-#include <crisscross/filewriter.h>
 #include <crisscross/debug.h>
-#include <crisscross/mutex.h>
 #include <crisscross/stopwatch.h>
 #include <crisscross/system.h>
 

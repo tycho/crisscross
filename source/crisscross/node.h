@@ -18,19 +18,7 @@ namespace CrissCross
 {
 	namespace Data
 	{
-		/*
-		 *      There's no real advantage to making these classes inherit
-		 *      a common BinaryNode class. In fact, it will impact the
-		 *      program negatively to inherit a common class because we
-		 *      are forced to either cast every reference to left/right/parent
-		 *      or override left/right/parent in the derived classes (and
-		 *      doing so would waste memory: 12 bytes per node on 32-bit
-		 *      machines).
-		 *
-		 *      So we no longer inherit a common node class.
-		 */
-
-		/*! \brief A binary tree node. */
+		/*! \brief A binary tree node used for SplayTree. */
 		template <class Key, class Data, bool OwnsKeys>
 		class SplayNode
 		{

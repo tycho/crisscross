@@ -57,7 +57,7 @@ namespace CrissCross
 
 			if ((m_arraySize - idx) < pageSizeInElements)
 				return;
-			
+
 			/* Only shrink if the array is significantly under-used */
 			float inUse = (float)idx / (float)m_arraySize;
 			if (inUse < 0.33f) {
@@ -112,7 +112,7 @@ namespace CrissCross
 			if (newsize > m_arraySize) {
 				T *newArray = (T *)malloc(sizeof(T) * newsize);
 
-				// Move any filled slots to new array.
+				/* Move any filled slots to new array. */
 				for (size_t idx = 0; idx < m_arraySize; idx++)
 					if (m_shadow[idx])
 						newArray[idx] = std::move(m_array[idx]);
@@ -122,11 +122,9 @@ namespace CrissCross
 				m_shadow.resize(newsize, false);
 				m_arraySize = newsize;
 				m_array = newArray;
-			}
-			else if (newsize < m_arraySize)
-			{
+			}else if (newsize < m_arraySize) {
 				if (std::is_destructible<T>::value && !std::is_trivially_destructible<T>::value) {
-					// Destroy any objects that are getting dropped off the end of the array.
+					/* Destroy any objects that are getting dropped off the end of the array. */
 					for (size_t idx = newsize; idx < m_arraySize; idx++)
 						if (m_shadow[idx])
 #if __cplusplus >= 201703L
@@ -138,7 +136,7 @@ namespace CrissCross
 
 				T *newArray = newsize > 0 ? (T *)malloc(sizeof(T) * newsize) : nullptr;
 
-				// Move any filled slots to new array.
+				/* Move any filled slots to new array. */
 				for (size_t idx = 0; idx < newsize; idx++)
 					if (m_shadow[idx])
 						newArray[idx] = std::move(m_array[idx]);
@@ -248,7 +246,7 @@ namespace CrissCross
 				m_array = nullptr;
 				m_arraySize = 0;
 			} else {
-				m_shadow.resize( m_arraySize, false );
+				m_shadow.resize(m_arraySize, false);
 			}
 		}
 
