@@ -54,9 +54,9 @@ namespace CrissCross
 				/*!
 				 * \return Memory usage in bytes.
 				 */
-				size_t mem_usage() const
+				uint32_t mem_usage() const
 				{
-					size_t ret = sizeof(*this);
+					uint32_t ret = sizeof(*this);
 					if (left) ret += left->mem_usage();
 					if (right) ret += right->mem_usage();
 					return ret;
@@ -118,9 +118,9 @@ namespace CrissCross
 				/*!
 				 * \return Memory usage in bytes.
 				 */
-				size_t mem_usage() const
+				uint32_t mem_usage() const
 				{
-					size_t ret = sizeof(*this);
+					uint32_t ret = sizeof(*this);
 					if (left) ret += left->mem_usage();
 					if (right) ret += right->mem_usage();
 					return ret;
@@ -166,9 +166,9 @@ namespace CrissCross
 				/*!
 				 * \return Memory usage in bytes.
 				 */
-				size_t mem_usage() const
+				uint32_t mem_usage() const
 				{
-					size_t ret = sizeof(*this);
+					uint32_t ret = sizeof(*this);
 					if (left) ret += left->mem_usage();
 					if (right) ret += right->mem_usage();
 					return ret;

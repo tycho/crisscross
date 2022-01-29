@@ -12,6 +12,8 @@
 #ifndef __included_cc_llist_h
 #define __included_cc_llist_h
 
+#include <cstdint>
+
 #include <crisscross/cc_attr.h>
 #include <crisscross/sort.h>
 #include <crisscross/darray.h>
@@ -58,13 +60,13 @@ namespace CrissCross
 				/*!
 				 *  Speeds up searches and sequential access.
 				 */
-				mutable size_t m_previousIndex; /* for sequential reads (common) */
+				mutable uint32_t m_previousIndex; /* for sequential reads (common) */
 
 				/*! \brief The number of nodes in the list. */
-				size_t m_numItems;
+				uint32_t m_numItems;
 
 			protected:
-				inline LListNode <T> *getItem(size_t index) const;
+				inline LListNode <T> *getItem(uint32_t index) const;
 
 			public:
 
@@ -109,7 +111,7 @@ namespace CrissCross
 				 * \param _newdata The data to add to the list.
 				 * \param _index The index where the node should be added.
 				 */
-				void insert_at(const T & _newdata, size_t _index);
+				void insert_at(const T & _newdata, uint32_t _index);
 
 				/*! \brief Gets the data at the specified index. */
 				/*!
@@ -118,7 +120,7 @@ namespace CrissCross
 				 * \param _default The default value to return if the index couldn't be retrieved.
 				 * \return The data contained in the node at the index or _default if not found.
 				 */
-				inline T const &get(size_t _index, T const &_default = nullptr) const;
+				inline T const &get(uint32_t _index, T const &_default = nullptr) const;
 
 				/*! \brief Gets the address of where the data at the specified index is stored. */
 				/*!
@@ -126,7 +128,7 @@ namespace CrissCross
 				 * \param _index The index of the node to find.
 				 * \return The pointer to where the data record is stored.
 				 */
-				inline T *getPointer(size_t _index) const;
+				inline T *getPointer(uint32_t _index) const;
 
 				/*! \brief Modifies the node at the given index. */
 				/*!
@@ -135,7 +137,7 @@ namespace CrissCross
 				 * \param _rec The new value for the given index.
 				 * \param _index The index of the node to modify.
 				 */
-				void change(T const & _rec, size_t _index);
+				void change(T const & _rec, uint32_t _index);
 
 				/*! \brief Removes the node at the given index. */
 				/*!
@@ -143,7 +145,7 @@ namespace CrissCross
 				 * \warning Slow unless you're sequentially iterating through.
 				 * \param _index The index of the node to delete.
 				 */
-				void remove(size_t _index);
+				void remove(uint32_t _index);
 
 				/*! \brief Removes the node at the end of the list. */
 				/*!
@@ -156,20 +158,20 @@ namespace CrissCross
 				 * \param _data The data to find.
 				 * \return -1 if not found, otherwise returns the index.
 				 */
-				size_t find(const T & _data);
+				uint32_t find(const T & _data);
 
 				/*! \brief Indicates the size of the linked list. */
 				/*!
 				 * \return The size of the linked list.
 				 */
-				inline size_t size() const;
+				inline uint32_t size() const;
 
 				/*! \brief Determines whether a given index is within the bounds of the list. */
 				/*!
 				 * \param _index The index to validate.
 				 * \return True if the index is valid, false otherwise.
 				 */
-				inline bool valid(size_t _index) const;
+				inline bool valid(uint32_t _index) const;
 
 				/*! \brief Deletes all nodes in the list, but does not free memory allocated by data. */
 				void empty();
@@ -179,14 +181,14 @@ namespace CrissCross
 				 * \param _index The index of the node to get data from.
 				 * \return The data stored at the index.
 				 */
-				T & operator [](size_t _index);
+				T & operator [](uint32_t _index);
 
 				/*! \brief Gets the data at the given index. */
 				/*!
 				 * \param _index The index of the node to get data from.
 				 * \return The data stored at the index.
 				 */
-				T const & operator [](size_t _index) const;
+				T const & operator [](uint32_t _index) const;
 
 				/*! \brief Sorts the array using the provided method. */
 				/*!
@@ -204,7 +206,7 @@ namespace CrissCross
 				/*!
 				 * \return Memory usage in bytes.
 				 */
-				size_t mem_usage() const;
+				uint32_t mem_usage() const;
 
 
 #if !defined (DISABLE_DEPRECATED_CODE)
@@ -225,19 +227,19 @@ namespace CrissCross
 				{
 					insert_back(_rec);
 				}
-				_CC_DEPRECATE_FUNCTION(insert_at) inline void PutDataAtIndex(T const & _rec, size_t _index)
+				_CC_DEPRECATE_FUNCTION(insert_at) inline void PutDataAtIndex(T const & _rec, uint32_t _index)
 				{
 					insert_at(_rec, _index);
 				}
-				_CC_DEPRECATE_FUNCTION(find) inline size_t FindData(T const & _rec)
+				_CC_DEPRECATE_FUNCTION(find) inline uint32_t FindData(T const & _rec)
 				{
 					return find(_rec);
 				}
-				_CC_DEPRECATE_FUNCTION(remove) inline void RemoveData(size_t _index)
+				_CC_DEPRECATE_FUNCTION(remove) inline void RemoveData(uint32_t _index)
 				{
 					remove(_index);
 				}
-				_CC_DEPRECATE_FUNCTION(change) void ChangeData(T const & _rec, size_t _index);
+				_CC_DEPRECATE_FUNCTION(change) void ChangeData(T const & _rec, uint32_t _index);
 				_CC_DEPRECATE_FUNCTION(size) inline int Size() const
 				{
 					return (int)size();
@@ -260,19 +262,19 @@ namespace CrissCross
 				{
 					empty();
 				}
-				_CC_DEPRECATE_FUNCTION(get) inline T getData(size_t _index) const
+				_CC_DEPRECATE_FUNCTION(get) inline T getData(uint32_t _index) const
 				{
 					return get(_index);
 				}
-				_CC_DEPRECATE_FUNCTION(get) inline T GetData(size_t _index) const
+				_CC_DEPRECATE_FUNCTION(get) inline T GetData(uint32_t _index) const
 				{
 					return get(_index);
 				}
-				_CC_DEPRECATE_FUNCTION(valid) inline bool validIndex(size_t _index) const
+				_CC_DEPRECATE_FUNCTION(valid) inline bool validIndex(uint32_t _index) const
 				{
 					return valid(_index);
 				}
-				_CC_DEPRECATE_FUNCTION(valid) inline bool ValidIndex(size_t _index) const
+				_CC_DEPRECATE_FUNCTION(valid) inline bool ValidIndex(uint32_t _index) const
 				{
 					return valid(_index);
 				}

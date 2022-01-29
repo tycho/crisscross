@@ -310,9 +310,9 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data, bool OwnsKeys>
-		size_t SplayTree<Key, Data, OwnsKeys>::mem_usage() const
+		uint32_t SplayTree<Key, Data, OwnsKeys>::mem_usage() const
 		{
-			size_t ret = sizeof(*this);
+			uint32_t ret = sizeof(*this);
 			if (!root) return ret;
 
 			ret += root->mem_usage();

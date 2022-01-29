@@ -13,6 +13,7 @@
 #define __included_cc_darray_h
 
 #include <cstring>
+#include <cstdint>
 #include <algorithm>
 #include <vector>
 
@@ -35,7 +36,7 @@ namespace CrissCross
 					friend class DArray<T>;
 					protected:
 						DArray<T> *m_darray;
-						size_t m_idx;
+						uint32_t m_idx;
 
 						cc_forceinline void ensure_valid()
 						{
@@ -55,7 +56,7 @@ namespace CrissCross
 						using difference_type = std::ptrdiff_t;
 						using value_type = T;
 						using pointer = T *;
-						using reference = std::pair<std::size_t, T &>;
+						using reference = std::pair<std::uint32_t, T &>;
 
 						cc_forceinline explicit DArrayIterator(DArray<T> *_darray)
 						{
@@ -94,7 +95,7 @@ namespace CrissCross
 					friend class DArray<T>;
 					protected:
 						const DArray<T> *m_darray;
-						size_t m_idx;
+						uint32_t m_idx;
 
 						cc_forceinline void ensure_valid()
 						{
@@ -114,7 +115,7 @@ namespace CrissCross
 						using difference_type = std::ptrdiff_t;
 						using value_type = T const;
 						using pointer = T const *;
-						using reference = std::pair<std::size_t, T const &>;
+						using reference = std::pair<std::uint32_t, T const &>;
 
 						cc_forceinline explicit DArrayConstIterator(const DArray<T> *_darray)
 						{
@@ -158,21 +159,21 @@ namespace CrissCross
 				 * \sa setStepSize
 				 * \sa setStepDouble
 				 */
-				int m_stepSize;
+				int32_t m_stepSize;
 
 				/*! \brief The next (possible) linear insertion position. Might
 				 *  be occupied, in which case we search for an alternative.
 				 */
-				size_t m_nextInsertPos;
+				uint32_t m_nextInsertPos;
 
 				/*! \brief The current size of the array. */
 				/*!
 				 * \sa setSize
 				 */
-				size_t m_arraySize;
+				uint32_t m_arraySize;
 
 				/*! \brief The number of used items in the array. */
-				size_t m_numUsed;
+				uint32_t m_numUsed;
 
 				/*! \brief The actual array which stores our data. */
 				T *m_array;
@@ -198,7 +199,7 @@ namespace CrissCross
 				 * automatically Grow() the array.
 				 * \return An index in m_array.
 				 */
-				size_t getNextFree();
+				uint32_t getNextFree();
 
 			public:
 				/*! \brief The default constructor. */
@@ -220,13 +221,13 @@ namespace CrissCross
 				/*!
 				 * \param _newsize The new array size.
 				 */
-				void setSize(size_t _newsize);
+				void setSize(uint32_t _newsize);
 
 				/*! \brief Sets the size of the array. */
 				/*!
 				 * \param _newsize The new array size.
 				 */
-				void setMinimumSize(size_t _newsize);
+				void setMinimumSize(uint32_t _newsize);
 
 				/*! \brief Sets the size of the array, and marks all the slots
 				 * as "in use". This is useful for pre-allocating large chunks
@@ -234,7 +235,7 @@ namespace CrissCross
 				/*!
 				 * \param _newsize The new array size.
 				 */
-				void reserve(size_t _newsize);
+				void reserve(uint32_t _newsize);
 
 				/*! \brief Sets the step size used in Grow(). */
 				/*!
@@ -244,7 +245,7 @@ namespace CrissCross
 				 * good speedup).
 				 * \param _newstepsize The step size to use in grow().
 				 */
-				void setStepSize(int _newstepsize);
+				void setStepSize(int32_t _newstepsize);
 
 				/*! \brief Sets the step size to double the array size when a Grow() is necessitated. */
 				void setStepDouble();
@@ -254,13 +255,13 @@ namespace CrissCross
 				 * \param _index The index of the node to get data from.
 				 * \return The data stored at the index.
 				 */
-				inline T get(size_t _index) const;
+				inline T get(uint32_t _index) const;
 
 				/*! \brief Removes the data at the given index. */
 				/*!
 				 * \param _index The index of the node to clear.
 				 */
-				void remove(size_t _index);
+				void remove(uint32_t _index);
 
 				/*! \brief Finds the data in the array. */
 				/*!
@@ -268,20 +269,20 @@ namespace CrissCross
 				 * \param _data The data to find.
 				 * \return The index where the given data is located.
 				 */
-				size_t find(T const & _data) const;
+				uint32_t find(T const & _data) const;
 
 				/*! \brief Constructs a new instance of T in an empty slot and returns its new index. */
 				/*!
 				 * \return The index of the node where the data was stored.
 				 */
-				size_t allocate();
+				uint32_t allocate();
 
 				/*! \brief Inserts data into the array at the first available index. */
 				/*!
 				 * \param _newdata The data to put into the array.
 				 * \return The index of the node where the data was stored.
 				 */
-				size_t insert(T const & _newdata);
+				uint32_t insert(T const & _newdata);
 
 				/*! \brief Inserts data into the array at the given index. */
 				/*!
@@ -289,13 +290,13 @@ namespace CrissCross
 				 * \param _index The index in the array where the data should
 				 *      be put, regardless of existing contents.
 				 */
-				void insert(T const & _newdata, size_t _index);
+				void insert(T const & _newdata, uint32_t _index);
 
 				/*! \brief Indicates the number of used nodes. */
 				/*!
 				 * \return The number of used nodes.
 				 */
-				size_t used() const
+				uint32_t used() const
 				{
 					return m_numUsed;
 				}
@@ -304,7 +305,7 @@ namespace CrissCross
 				/*!
 				 * \return The size of the array.
 				 */
-				size_t size() const
+				uint32_t size() const
 				{
 					return m_arraySize;
 				}
@@ -316,7 +317,7 @@ namespace CrissCross
 				 * \param _index The index to test.
 				 * \return Boolean value. True if valid, false if not.
 				 */
-				bool valid(size_t _index) const
+				bool valid(uint32_t _index) const
 				{
 					return (_index < m_arraySize && m_shadow[_index]);
 				}
@@ -346,20 +347,20 @@ namespace CrissCross
 				 * \param _index The index of the node to get data from.
 				 * \return The data stored at the index.
 				 */
-				__inline T & operator [](size_t _index);
+				__inline T & operator [](uint32_t _index);
 
 				/*! \brief Gets the data at the given index. */
 				/*!
 				 * \param _index The index of the node to get data from.
 				 * \return The data stored at the index.
 				 */
-				__inline T const & operator [](size_t _index) const;
+				__inline T const & operator [](uint32_t _index) const;
 
 				/*! \brief Returns the overhead caused by the data structure. */
 				/*!
 				 * \return Memory usage in bytes.
 				 */
-				size_t mem_usage() const;
+				uint32_t mem_usage() const;
 
 				/*! \brief Empties the array and deletes the data contained in it with the 'delete' operator. */
 				inline void flush();
@@ -405,24 +406,24 @@ namespace CrissCross
 				{
 					return (int)insert(_rec);
 				}
-				_CC_DEPRECATE_FUNCTION(insert) inline void PutData(T const & _rec, size_t _index)
+				_CC_DEPRECATE_FUNCTION(insert) inline void PutData(T const & _rec, uint32_t _index)
 				{
 					insert(_rec, _index);
 				}
-				_CC_DEPRECATE_FUNCTION(remove) inline void RemoveData(size_t _index)
+				_CC_DEPRECATE_FUNCTION(remove) inline void RemoveData(uint32_t _index)
 				{
 					remove(_index);
 				}
-				_CC_DEPRECATE_FUNCTION_N void ChangeData(T const & _rec, size_t _index);
+				_CC_DEPRECATE_FUNCTION_N void ChangeData(T const & _rec, uint32_t _index);
 				_CC_DEPRECATE_FUNCTION(size) inline int Size() const
 				{
 					return (int)size();
 				}
-				_CC_DEPRECATE_FUNCTION(valid) inline bool validIndex(size_t _index) const
+				_CC_DEPRECATE_FUNCTION(valid) inline bool validIndex(uint32_t _index) const
 				{
 					return valid(_index);
 				}
-				_CC_DEPRECATE_FUNCTION(valid) inline bool ValidIndex(size_t _index) const
+				_CC_DEPRECATE_FUNCTION(valid) inline bool ValidIndex(uint32_t _index) const
 				{
 					return valid(_index);
 				}
@@ -432,11 +433,11 @@ namespace CrissCross
 				}
 				_CC_DEPRECATE_FUNCTION(flush) inline void EmptyAndDelete();
 				_CC_DEPRECATE_FUNCTION(flushArray) inline void EmptyAndDeleteArray();
-				_CC_DEPRECATE_FUNCTION(get) inline T getData(size_t _index) const
+				_CC_DEPRECATE_FUNCTION(get) inline T getData(uint32_t _index) const
 				{
 					return get(_index);
 				}
-				_CC_DEPRECATE_FUNCTION(get) inline T GetData(size_t _index) const
+				_CC_DEPRECATE_FUNCTION(get) inline T GetData(uint32_t _index) const
 				{
 					return get(_index);
 				}
@@ -448,7 +449,7 @@ namespace CrissCross
 				{
 					return (int)used();
 				}
-				_CC_DEPRECATE_FUNCTION(setSize) inline void SetSize(size_t _newsize)
+				_CC_DEPRECATE_FUNCTION(setSize) inline void SetSize(uint32_t _newsize)
 				{
 					setSize(_newsize);
 				}

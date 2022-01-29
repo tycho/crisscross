@@ -580,9 +580,9 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data, bool OwnsKeys>
-		size_t AVLTree<Key, Data, OwnsKeys>::mem_usage() const
+		uint32_t AVLTree<Key, Data, OwnsKeys>::mem_usage() const
 		{
-			size_t ret = sizeof(*this);
+			uint32_t ret = sizeof(*this);
 			if (!m_root) return ret;
 
 			ret += m_root->mem_usage();

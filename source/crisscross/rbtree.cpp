@@ -439,9 +439,9 @@ namespace CrissCross
 		}
 
 		template <class Key, class Data, bool OwnsKeys>
-		size_t RedBlackTree<Key, Data, OwnsKeys>::mem_usage() const
+		uint32_t RedBlackTree<Key, Data, OwnsKeys>::mem_usage() const
 		{
-			size_t ret = sizeof(*this);
+			uint32_t ret = sizeof(*this);
 			if (!valid(rootNode)) return ret;
 
 			ret += rootNode->mem_usage(this);

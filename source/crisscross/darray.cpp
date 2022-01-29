@@ -41,7 +41,7 @@ namespace CrissCross
 		template <class T>
 		void DArray <T>::compact()
 		{
-			constexpr size_t pageSizeInElements = std::max((size_t)(4096u / sizeof(T)), (size_t)32u);
+			constexpr uint32_t pageSizeInElements = std::max((uint32_t)(4096u / sizeof(T)), (uint32_t)32u);
 
 			/* Only resize if it would possibly be beneficial. */
 			if (m_arraySize < pageSizeInElements)
@@ -50,7 +50,7 @@ namespace CrissCross
 				return;
 
 			auto found = std::find(std::crbegin(m_shadow), std::crend(m_shadow), true);
-			size_t idx = std::distance(found, std::crend(m_shadow));
+			uint32_t idx = std::distance(found, std::crend(m_shadow));
 
 			if (idx > m_arraySize)
 				return;
@@ -75,7 +75,7 @@ namespace CrissCross
 				return;
 
 			auto found = std::find(std::crbegin(m_shadow), std::crend(m_shadow), true);
-			size_t idx = std::distance(found, std::crend(m_shadow));
+			uint32_t idx = std::distance(found, std::crend(m_shadow));
 
 			if (idx >= m_arraySize)
 				return;
@@ -90,7 +90,7 @@ namespace CrissCross
 		}
 
 		template <class T>
-		void DArray <T>::reserve(size_t newsize)
+		void DArray <T>::reserve(uint32_t newsize)
 		{
 			if (newsize > m_arraySize) {
 				setSize(newsize);
@@ -100,20 +100,20 @@ namespace CrissCross
 		}
 
 		template <class T>
-		void DArray <T>::setMinimumSize(size_t newsize)
+		void DArray <T>::setMinimumSize(uint32_t newsize)
 		{
 			if (m_arraySize < newsize)
 				setSize(newsize);
 		}
 
 		template <class T>
-		void DArray <T>::setSize(size_t newsize)
+		void DArray <T>::setSize(uint32_t newsize)
 		{
 			if (newsize > m_arraySize) {
 				T *newArray = (T *)malloc(sizeof(T) * newsize);
 
 				/* Move any filled slots to new array. */
-				for (size_t idx = 0; idx < m_arraySize; idx++)
+				for (uint32_t idx = 0; idx < m_arraySize; idx++)
 					if (m_shadow[idx])
 						newArray[idx] = std::move(m_array[idx]);
 
@@ -125,7 +125,7 @@ namespace CrissCross
 			}else if (newsize < m_arraySize) {
 				if (std::is_destructible<T>::value && !std::is_trivially_destructible<T>::value) {
 					/* Destroy any objects that are getting dropped off the end of the array. */
-					for (size_t idx = newsize; idx < m_arraySize; idx++)
+					for (uint32_t idx = newsize; idx < m_arraySize; idx++)
 						if (m_shadow[idx])
 #if __cplusplus >= 201703L
 							std::destroy_at<T>(&m_array[idx]);
@@ -137,7 +137,7 @@ namespace CrissCross
 				T *newArray = newsize > 0 ? (T *)malloc(sizeof(T) * newsize) : nullptr;
 
 				/* Move any filled slots to new array. */
-				for (size_t idx = 0; idx < newsize; idx++)
+				for (uint32_t idx = 0; idx < newsize; idx++)
 					if (m_shadow[idx])
 						newArray[idx] = std::move(m_array[idx]);
 
@@ -162,7 +162,7 @@ namespace CrissCross
 			 * pointer size. Try to keep our array approximately a multiple of
 			 * a 4K page
 			 */
-			constexpr size_t growthHeuristic = (16 * 1024 * 1024) / sizeof(T);
+			constexpr uint32_t growthHeuristic = (16 * 1024 * 1024) / sizeof(T);
 
 			if (m_stepSize == -1) {
 				if (m_arraySize == 0) {
@@ -170,7 +170,7 @@ namespace CrissCross
 				} else if (m_arraySize <= growthHeuristic) {
 					setSize(m_arraySize * 2);
 				} else {
-					setSize((size_t)(m_arraySize * 1.5));
+					setSize((uint32_t)(m_arraySize * 1.5));
 				}
 			} else {
 				/* Increase array size by fixed amount */
@@ -191,10 +191,10 @@ namespace CrissCross
 		}
 
 		template <class T>
-		size_t DArray <T>::allocate()
+		uint32_t DArray <T>::allocate()
 		{
 			static_assert(std::is_constructible<T>::value);
-			size_t freeslot = getNextFree();
+			uint32_t freeslot = getNextFree();
 			(void)(new (&m_array[freeslot]) T());
 			m_shadow[freeslot] = true;
 			m_numUsed++;
@@ -202,9 +202,9 @@ namespace CrissCross
 		}
 
 		template <class T>
-		size_t DArray <T>::insert(T const & newdata)
+		uint32_t DArray <T>::insert(T const & newdata)
 		{
-			size_t freeslot = getNextFree();
+			uint32_t freeslot = getNextFree();
 			m_array[freeslot] = newdata;
 			m_shadow[freeslot] = true;
 			m_numUsed++;
@@ -212,7 +212,7 @@ namespace CrissCross
 		}
 
 		template <class T>
-		void DArray <T>::insert(T const & newdata, size_t index)
+		void DArray <T>::insert(T const & newdata, uint32_t index)
 		{
 			while (index >= m_arraySize)
 				grow();
@@ -227,7 +227,7 @@ namespace CrissCross
 		void DArray <T>::empty(bool _freeMemory)
 		{
 			if (std::is_destructible<T>::value && !std::is_trivially_destructible<T>::value) {
-				for (size_t idx = 0; idx < m_arraySize; idx++) {
+				for (uint32_t idx = 0; idx < m_arraySize; idx++) {
 					if (m_shadow[idx])
 #if __cplusplus >= 201703L
 						std::destroy_at<T>(&m_array[idx]);
@@ -251,19 +251,19 @@ namespace CrissCross
 		}
 
 		template <class T>
-		size_t DArray <T>::getNextFree()
+		uint32_t DArray <T>::getNextFree()
 		{
 			if (!m_array || m_nextInsertPos >= m_arraySize)
 				grow();
 
-			size_t freeslot = (size_t)-1;
+			uint32_t freeslot = (uint32_t)-1;
 
 			/* Fast path: look at next linear insertion index */
 			if (!m_shadow[m_nextInsertPos])
 				freeslot = m_nextInsertPos;
 
 			/* Slow path: find an empty spot somewhere in the array, and if we don't find one, grow. */
-			while (freeslot == (size_t)-1) {
+			while (freeslot == (uint32_t)-1) {
 				/* We can start at m_nextInsertPos because it's always set to the most recent minimum free index */
 				auto searchBegin = std::begin(m_shadow) + m_nextInsertPos;
 				auto searchEnd = std::end(m_shadow);
@@ -281,7 +281,7 @@ namespace CrissCross
 		}
 
 		template <class T>
-		T DArray <T>::get(size_t index) const
+		T DArray <T>::get(uint32_t index) const
 		{
 			CoreAssert(index < m_arraySize);
 			CoreAssert(m_shadow[index]);
@@ -290,7 +290,7 @@ namespace CrissCross
 		}
 
 		template <class T>
-		T & DArray <T>::operator [](size_t index)
+		T & DArray <T>::operator [](uint32_t index)
 		{
 			CoreAssert(index < m_arraySize);
 			if (!m_shadow[index]) {
@@ -301,7 +301,7 @@ namespace CrissCross
 		}
 
 		template <class T>
-		const T &DArray <T>::operator [](size_t index) const
+		const T &DArray <T>::operator [](uint32_t index) const
 		{
 			CoreAssert(index < m_arraySize);
 			CoreAssert(m_shadow[index]);
@@ -310,15 +310,15 @@ namespace CrissCross
 		}
 
 		template <class T>
-		size_t DArray<T>::mem_usage() const
+		uint32_t DArray<T>::mem_usage() const
 		{
-			size_t ret = sizeof(*this);
+			uint32_t ret = sizeof(*this);
 			ret += m_arraySize * sizeof(T);
 			return ret;
 		}
 
 		template <class T>
-		void DArray <T>::remove(size_t index)
+		void DArray <T>::remove(uint32_t index)
 		{
 			CoreAssert(index < m_arraySize);
 			CoreAssert(m_shadow[index]);
@@ -338,9 +338,9 @@ namespace CrissCross
 		}
 
 		template <class T>
-		size_t DArray <T>::find(T const &_query) const
+		uint32_t DArray <T>::find(T const &_query) const
 		{
-			for (size_t a = 0; a < m_arraySize; ++a)
+			for (uint32_t a = 0; a < m_arraySize; ++a)
 				if (m_shadow[a])
 					if (m_array[a] == _query)
 						return a;
@@ -350,7 +350,7 @@ namespace CrissCross
 		template <class T>
 		int DArray <T>::sort(Sorter<T> *_sortMethod)
 		{
-			size_t idx = 0;
+			uint32_t idx = 0;
 			int ret;
 
 			if (m_numUsed < 2)
@@ -360,7 +360,7 @@ namespace CrissCross
 
 			memset(temp_array, 0, m_numUsed * sizeof(T));
 
-			for (size_t i = 0; i < m_arraySize; i++) {
+			for (uint32_t i = 0; i < m_arraySize; i++) {
 				if (valid(i)) {
 					CoreAssert(idx < m_numUsed);
 					temp_array[idx++] = m_array[i];
@@ -392,7 +392,7 @@ namespace CrissCross
 		void DArray<T>::flush()
 		{
 			static_assert(std::is_pointer<T>::value, "attempting to delete a non-pointer type");
-			for (size_t i = 0; i < m_arraySize; ++i) {
+			for (uint32_t i = 0; i < m_arraySize; ++i) {
 				if (valid(i)) {
 					delete m_array[i];
 				}
@@ -404,7 +404,7 @@ namespace CrissCross
 		void DArray<T>::flushArray()
 		{
 			static_assert(std::is_pointer<T>::value, "attempting to delete a non-pointer type");
-			for (size_t i = 0; i < m_arraySize; ++i) {
+			for (uint32_t i = 0; i < m_arraySize; ++i) {
 				if (valid(i)) {
 					delete [] m_array[i];
 				}
@@ -420,7 +420,7 @@ namespace CrissCross
 		void DArray<T>::EmptyAndDelete()
 		{
 			static_assert(std::is_pointer<T>::value, "attempting to delete a non-pointer type");
-			for (size_t i = 0; i < m_arraySize; ++i) {
+			for (uint32_t i = 0; i < m_arraySize; ++i) {
 				if (valid(i)) {
 					delete m_array[i];
 				}
@@ -433,7 +433,7 @@ namespace CrissCross
 		void DArray<T>::EmptyAndDeleteArray()
 		{
 			static_assert(std::is_pointer<T>::value, "attempting to delete a non-pointer type");
-			for (size_t i = 0; i < m_arraySize; ++i) {
+			for (uint32_t i = 0; i < m_arraySize; ++i) {
 				if (valid(i)) {
 					delete [] m_array[i];
 				}
@@ -442,7 +442,7 @@ namespace CrissCross
 		}
 
 		template <class T>
-		void DArray<T>::ChangeData(T const & _rec, size_t index)
+		void DArray<T>::ChangeData(T const & _rec, uint32_t index)
 		{
 			CoreAssert(index < m_arraySize);
 			CoreAssert(m_shadow[index]);

@@ -31,7 +31,7 @@ namespace CrissCross
 			m_last = nullptr;
 			m_numItems = 0;
 			m_previous = nullptr;
-			m_previousIndex = (size_t)-1;
+			m_previousIndex = (uint32_t)-1;
 		}
 
 		template <class T> LList <T>::~LList()
@@ -46,7 +46,7 @@ namespace CrissCross
 			m_numItems(0)
 		{
 			LListNode <T> *li;
-			for (size_t i = 0; i < source.size(); i++) {
+			for (uint32_t i = 0; i < source.size(); i++) {
 				li = source.getItem(i);
 				insert_back(li->m_data);
 			}
@@ -57,7 +57,7 @@ namespace CrissCross
 		{
 			LListNode <T> *li;
 			empty();
-			for (size_t i = 0; i < source.size(); i++) {
+			for (uint32_t i = 0; i < source.size(); i++) {
 				li = source.getItem(i);
 				insert_back(li->m_data);
 			}
@@ -65,7 +65,7 @@ namespace CrissCross
 			return *this;
 		}
 
-		template <class T> void LList <T>::change(const T &_rec, size_t _index)
+		template <class T> void LList <T>::change(const T &_rec, uint32_t _index)
 		{
 			LListNode <T> *li = getItem(_index);
 			li->m_data = _rec;
@@ -141,7 +141,7 @@ namespace CrissCross
 		}
 
 		template <class T>
-		void LList <T>::insert_at(const T & newdata, size_t index)
+		void LList <T>::insert_at(const T & newdata, uint32_t index)
 		{
 			if (index == 0) {
 				insert_front(newdata);
@@ -150,7 +150,7 @@ namespace CrissCross
 			} else {
 				LListNode <T> *current = m_first;
 
-				for (size_t i = 0; i < index - 1; ++i) {
+				for (uint32_t i = 0; i < index - 1; ++i) {
 					if (!current) {
 						return;
 					}
@@ -177,12 +177,12 @@ namespace CrissCross
 			}
 		}
 
-		template <class T> size_t LList <T>::size() const
+		template <class T> uint32_t LList <T>::size() const
 		{
 			return m_numItems;
 		}
 
-		template <class T> T const & LList <T>::get(size_t index, T const &_default) const
+		template <class T> T const & LList <T>::get(uint32_t index, T const &_default) const
 		{
 			LListNode <T> const *item = getItem(index);
 
@@ -194,7 +194,7 @@ namespace CrissCross
 			return _default;
 		}
 
-		template <class T> T * LList <T>::getPointer(size_t index) const
+		template <class T> T * LList <T>::getPointer(uint32_t index) const
 		{
 			LListNode <T> *item = getItem(index);
 			if (item) {
@@ -205,7 +205,7 @@ namespace CrissCross
 			return nullptr;
 		}
 
-		template <class T> LListNode <T> *LList <T>::getItem(size_t index) const
+		template <class T> LListNode <T> *LList <T>::getItem(uint32_t index) const
 		{
 			if (!valid(index)) {
 				return nullptr;
@@ -229,7 +229,7 @@ namespace CrissCross
 			if (index <= (m_previousIndex >> 1)) {
 				m_previous = m_first;
 				m_previousIndex = 0;
-			} else if ((size_t)labs((long)index - (long)m_previousIndex) > (m_numItems - index)) {
+			} else if ((uint32_t)labs((long)index - (long)m_previousIndex) > (m_numItems - index)) {
 				m_previous = m_last;
 				m_previousIndex = m_numItems - 1;
 			}
@@ -254,7 +254,7 @@ namespace CrissCross
 			return temp;
 		}
 
-		template <class T> bool LList <T>::valid(size_t index) const
+		template <class T> bool LList <T>::valid(uint32_t index) const
 		{
 			return (index < m_numItems);
 		}
@@ -273,10 +273,10 @@ namespace CrissCross
 			m_last = nullptr;
 			m_numItems = 0;
 			m_previous = nullptr;
-			m_previousIndex = (size_t)-1;
+			m_previousIndex = (uint32_t)-1;
 		}
 
-		template <class T> void LList <T>::remove(size_t index)
+		template <class T> void LList <T>::remove(uint32_t index)
 		{
 			LListNode <T> *current = getItem(index);
 
@@ -296,7 +296,7 @@ namespace CrissCross
 
 			if (index == m_previousIndex) {
 				if (m_numItems == 1) {
-					m_previousIndex = (size_t)-1;
+					m_previousIndex = (uint32_t)-1;
 					m_previous = nullptr;
 				} else if (index > 0) {
 					m_previousIndex--;
@@ -314,10 +314,10 @@ namespace CrissCross
 		}
 
 		template <class T>
-		size_t LList<T>::mem_usage() const
+		uint32_t LList<T>::mem_usage() const
 		{
 			LListNode<T> *node = m_first;
-			size_t ret = sizeof(*this);
+			uint32_t ret = sizeof(*this);
 			while (node) {
 				ret += sizeof(*node);
 				node = node->m_next;
@@ -343,40 +343,40 @@ namespace CrissCross
 			 * is doing a LList::sort, they might as well be using a DArray.
 			 *
 			 */
-			size_t llistSize = size();
+			uint32_t llistSize = size();
 			DArray <T> sortArray;
 			sortArray.setSize(llistSize);
-			for (size_t i = 0; i < llistSize; i++) {
+			for (uint32_t i = 0; i < llistSize; i++) {
 				sortArray.insert(get(i));
 			}
 
 			empty();
 			sortArray.sort(_sortMethod);
-			for (size_t i = 0; i < llistSize; i++) {
+			for (uint32_t i = 0; i < llistSize; i++) {
 				insert(sortArray.get(i));
 			}
 		}
 
-		template <class T> T const & LList <T>::operator [](size_t index) const
+		template <class T> T const & LList <T>::operator [](uint32_t index) const
 		{
 			LListNode<T> *item = getItem(index);
 			return item->m_data;
 		}
 
-		template <class T> T & LList <T>::operator [](size_t index)
+		template <class T> T & LList <T>::operator [](uint32_t index)
 		{
 			LListNode<T> *item = getItem(index);
 			return item->m_data;
 		}
 
-		template <class T> size_t LList <T>::find(const T & data)
+		template <class T> uint32_t LList <T>::find(const T & data)
 		{
-			size_t const lsize = this->size();
+			uint32_t const lsize = this->size();
 
 			if (Compare(get(m_previousIndex), data) == 0)
 				return m_previousIndex;
 
-			for (size_t i = 0; i < lsize; ++i) {
+			for (uint32_t i = 0; i < lsize; ++i) {
 				if (Compare(get(i), data) == 0)	{
 					return i;
 				}
