@@ -23,6 +23,7 @@ open RELEASEVER, "$scriptpath/release_ver" || die ("Can't open release_ver:$!");
 $releasever = <RELEASEVER>;
 close RELEASEVER;
 mkdir dirname($outfile);
+chomp($releasever);
 
 if (-d "$scriptpath/../.git" || -f "$scriptpath/../.git") {
 	if ( !$Win32 && `which git` ) {
@@ -34,123 +35,65 @@ if (-d "$scriptpath/../.git" || -f "$scriptpath/../.git") {
 	$in_git = 0;
 }
 
-my $verstring = "";
+my $tag = "";
+my $build = 0;
+my $git_tag = "";
 
 if ($in_git == 0) {
-	$verstring = $releasever;
+	$tag = $releasever;
+	$git_tag="$tag"
 } else {
-	$verstring = `cd $scriptpath && git describe --tags --long 2> /dev/null || git describe --tags 2> /dev/null`;
+	$tag = `cd $scriptpath && git describe --tags --abbrev=0 2> /dev/null`;
 
-	if (!$verstring) {
-		$verstring = $releasever;
+	if (!$tag) {
+		$tag = $releasever;
 		$in_git = 0;
+	} else {
+		chomp($tag);
+		$build = `cd $scriptpath && git rev-list --count $tag..HEAD 2> /dev/null`;
+		chomp($build);
+
+		$git_tag = `cd $scriptpath && git rev-parse --short HEAD`;
+		chomp($git_tag);
+		$git_tag = "${tag}-${build}-g${git_tag}";
 	}
+
 }
 
-if (!$verstring) {
+if (!$tag) {
 	die "error: couldn't get the version information.\n";
 }
 
-chomp($verstring);
+my @result=split(/[-.]+/, $tag);
 
-# This gets us:
-#  $1.$2.$3.$4-$5-$6
-my $component_pattern = "[v]?([0-9]+)[.]([0-9]+)[.]([0-9]+)(?:[.]([0-9]+))?(?:(?:-([a-zA-Z]+[0-9]+))?(?:-([0-9]+)?-g[a-fA-F0-9]+)?)?";
+my $major = $result[0];
+my $minor = $result[1];
+my $revis = $result[2];
 
-if ($verstring =~ $component_pattern) {
-} else {
-	die "error: version string '$verstring' is malformed...\n";
+if( substr($major, 0, 1) eq "v") {
+	$major = substr($major, 1);
+	$build = $result[3];
 }
 
-my $major  = $1;
-my $minor  = $2;
-my $revis  = $3;
-my $build  = $4;
-my $commit = $6;
-
-# Git didn't give us a --long format?
-if ( !$commit ) {
-	$commit = 0;
-}
-
-# This gets us just the tag:
-my $tag_pattern = "([v]?[0-9]+[.][0-9]+[.][0-9]+(?:[.][0-9]+)?(?:(?:-[a-zA-Z]+[0-9]+)?))";
-
-if ($verstring =~ $tag_pattern) {
-} else {
-	die "Version string '$verstring' is malformed...\n";
-}
-
-my $tag    = $1;
-
-# We assume here that we must be using a different
-# version number convention.
-if ( !$build ) {
-	$build = $commit;
-}
-
-# Old versions of git omit the commits-since-tag number,
-# so we can try 'git rev-list' to get this instead.
-if ( $commit == 0 && $in_git ) {
-	$commit = `cd $scriptpath && git rev-list $tag.. | wc -l`
-}
-
-if ( $commit == 0 ) {
-	# If we're at the tag, don't make the long
-	# version longer than necessary.
-	$verstring = $tag;
-}
-
-unlink("$outfile.tmp");
+unlink($outfile);
 
 my $prefix   = "CC_LIB";
 my $smprefix = "cc";
 
-open OUT, ">", "$outfile.tmp" or die $!;
-print OUT <<__eof__;
-#ifndef __included_${smprefix}_build_number_h
-#define __included_${smprefix}_build_number_h
+open FILE, "$scriptpath/../source/crisscross/build_number.h.in" or die $!;
+my @lines = <FILE>;
+close FILE or die $!;
 
-#define ${prefix}_VERSION_MAJOR ${major}
-#define ${prefix}_VERSION_MINOR ${minor}
-#define ${prefix}_VERSION_REVISION ${revis}
-#define ${prefix}_VERSION_BUILD ${build}
-#define ${prefix}_VERSION_TAG "${tag}"
-#define ${prefix}_VERSION_LONG "${verstring}"
-
-#define ${prefix}_RESOURCE_VERSION ${major},${minor},${revis},${build}
-#define ${prefix}_RESOURCE_VERSION_STRING "${major}, ${minor}, ${revis}, ${build}"
-
-#endif
-
-__eof__
-close OUT or die $!;
-
-use Digest::MD5;
-
-my $ctx = Digest::MD5->new;
-
-my $md5old = ""; my $md5new = "";
-
-if (-e $outfile) {
-	open OUT, "$outfile" or die $!;
-	$ctx->addfile(*OUT);
-	$md5old = $ctx->hexdigest;
-	close OUT
+foreach(@lines) {
+   $_ =~ s/\@SM_PREFIX\@/cc/g;
+   $_ =~ s/\@PREFIX\@/CC_LIB/g;
+   $_ =~ s/\@VERSION_MAJOR\@/${major}/g;
+   $_ =~ s/\@VERSION_MINOR\@/${minor}/g;
+   $_ =~ s/\@VERSION_REVISION\@/${revis}/g;
+   $_ =~ s/\@VERSION_BUILD\@/${build}/g;
+   $_ =~ s/\@GIT_TAG\@/${git_tag}/g;
 }
 
-open OUT, "$outfile.tmp" or die $!;
-$ctx->addfile(*OUT);
-$md5new = $ctx->hexdigest;
-close OUT;
-
-use File::Copy;
-
-if ($md5old ne $md5new) {
-	if (-e $outfile) {
-		unlink($outfile) or die $!;
-	}
-	move "$outfile.tmp", $outfile or die $!;
-} else {
-	unlink ("$outfile.tmp");
-}
+open OUT, ">", "$outfile" or die $!;
+print OUT @lines;
+close(OUT) or die $!;

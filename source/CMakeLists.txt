@@ -3,17 +3,21 @@ if(USE_OPENMP)
 	find_package(OpenMP)
 endif()
 
-if(WIN32 AND MSVC)
 add_custom_command(
-	OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/build_number.h
-	COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/../tools/gen_buildnum_h_helper.cmd" "${CMAKE_CURRENT_BINARY_DIR}"
+	OUTPUT
+		${CMAKE_CURRENT_BINARY_DIR}/build_number.h
+	COMMAND
+		${CMAKE_COMMAND}
+	ARGS
+		-DCMAKE_SYSTEM_NAME=${CMAKE_SYSTEM_NAME}
+		-DSOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}
+		-DHEADER_TEMPLATE=${CMAKE_CURRENT_SOURCE_DIR}/crisscross/build_number.h.in
+		-DHEADER_OUTPUT=${CMAKE_CURRENT_BINARY_DIR}/build_number.h
+		-DHEADER_OUTPUT_DIR=${CMAKE_CURRENT_BINARY_DIR}/crisscross/
+		-P ${CMAKE_CURRENT_SOURCE_DIR}/../tools/gen_buildnum_h.cmake
+	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+	VERBATIM
 )
-else(WIN32 AND MSVC)
-add_custom_command(
-	OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/build_number.h
-	COMMAND perl "${CMAKE_CURRENT_SOURCE_DIR}/../tools/gen_buildnum_h.pl" "${CMAKE_CURRENT_BINARY_DIR}/build_number.h"
-)
-endif(WIN32 AND MSVC)
 
 add_custom_target(BuildNumber
 	DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/build_number.h)
@@ -46,7 +50,7 @@ target_include_directories(CrissCross PUBLIC
 	${CMAKE_CURRENT_SOURCE_DIR}
 )
 target_include_directories(CrissCross PRIVATE
-	${CMAKE_CURRENT_BINARY_DIR}
+	${CMAKE_CURRENT_BINARY_DIR}/crisscross/
 )
 
 add_dependencies(CrissCross BuildNumber)
