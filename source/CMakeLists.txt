@@ -5,22 +5,23 @@ endif()
 
 add_custom_command(
 	OUTPUT
-		${CMAKE_CURRENT_BINARY_DIR}/build_number.h
+		build_number.h
 	COMMAND
 		${CMAKE_COMMAND}
 	ARGS
 		-DCMAKE_SYSTEM_NAME=${CMAKE_SYSTEM_NAME}
 		-DSOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}
-		-DHEADER_TEMPLATE=${CMAKE_CURRENT_SOURCE_DIR}/crisscross/build_number.h.in
 		-DHEADER_OUTPUT=${CMAKE_CURRENT_BINARY_DIR}/build_number.h
 		-DHEADER_OUTPUT_DIR=${CMAKE_CURRENT_BINARY_DIR}/crisscross/
+		-DSM_PREFIX=cc
+		-DPREFIX=CC_LIB
 		-P ${CMAKE_CURRENT_SOURCE_DIR}/../tools/gen_buildnum_h.cmake
 	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 	VERBATIM
 )
 
 add_custom_target(BuildNumber
-	DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/build_number.h)
+	DEPENDS build_number.h)
 
 add_library(CrissCross STATIC
 	compare.cpp
@@ -50,7 +51,7 @@ target_include_directories(CrissCross PUBLIC
 	${CMAKE_CURRENT_SOURCE_DIR}
 )
 target_include_directories(CrissCross PRIVATE
-	${CMAKE_CURRENT_BINARY_DIR}/crisscross/
+	${CMAKE_CURRENT_BINARY_DIR}
 )
 
 add_dependencies(CrissCross BuildNumber)

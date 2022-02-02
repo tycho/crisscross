@@ -48,8 +48,15 @@ if(VERSION_MAJOR MATCHES "^v")
   list(GET TAG 3 VERSION_BUILD)
 endif()
 
-set(SM_PREFIX "cc" CACHE STRING "Header include name")
-set(PREFIX "CC_LIB" CACHE STRING "prefix name")
-
 file(MAKE_DIRECTORY ${HEADER_OUTPUT_DIR})
-configure_file(${HEADER_TEMPLATE} ${HEADER_OUTPUT})
+configure_file("${CMAKE_CURRENT_LIST_DIR}/build_number.h.in" ${HEADER_OUTPUT}.tmp)
+
+execute_process(COMMAND ${CMAKE_COMMAND} -E compare_files ${HEADER_OUTPUT} ${HEADER_OUTPUT}.tmp
+    RESULT_VARIABLE COMPARE_RESULT)
+
+if (NOT COMPARE_RESULT EQUAL 0)
+	file(REMOVE ${HEADER_OUTPUT})
+	file(RENAME ${HEADER_OUTPUT}.tmp ${HEADER_OUTPUT})
+else()
+	file(REMOVE ${HEADER_OUTPUT}.tmp)
+endif()

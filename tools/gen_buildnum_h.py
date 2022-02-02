@@ -1,12 +1,19 @@
-from os import path, remove
+from filecmp import cmp
+from os import path, remove, replace
 from shutil import which
 from subprocess import run, PIPE
 from sys import argv, exit
 
 if len(argv) < 2:
 	exit("Error: missing output file")
+elif len(argv) < 3:
+	exit("Error: missing prefix")
+elif len(argv) < 4:
+	exit("Error: missing short prefix")
 
 output=argv[1]
+prefix=argv[2]
+smPrefix=argv[3]
 
 scriptPath = path.dirname(__file__)
 tag = ""
@@ -48,24 +55,29 @@ else:
 	minor = result[1]
 	revis = result[2]
 
-
-try:
-    remove(output)
-except OSError:
-    pass
-
 data = None
 
-with open(scriptPath + "/../source/crisscross/build_number.h.in", "rt") as file:
+with open(scriptPath + "/build_number.h.in", "rt") as file:
 	data = file.read()
 
-data = data.replace("@SM_PREFIX@", "cc")
-data = data.replace("@PREFIX@", "CC_LIB")
+data = data.replace("@SM_PREFIX@", smPrefix)
+data = data.replace("@PREFIX@", prefix)
 data = data.replace("@VERSION_MAJOR@", major)
 data = data.replace("@VERSION_MINOR@", minor)
 data = data.replace("@VERSION_REVISION@", revis)
 data = data.replace("@VERSION_BUILD@", build)
 data = data.replace("@GIT_TAG@", git_tag)
 
-with open(output, "wt") as file:
+with open(output + ".tmp", "wt") as file:
 	file.write(data)
+
+equal = False
+try:
+	equal = cmp(output + ".tmp", output, shallow=False)
+except FileNotFoundError:
+	pass
+
+if not equal:
+	replace(output + ".tmp", output)
+else:
+	remove(output + ".tmp")

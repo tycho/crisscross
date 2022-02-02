@@ -2,9 +2,21 @@
 
 gen_ver() {
 	local output="$1"
+	local prefix="$2"
+	local smprefix="$3"
 
 	if [ -z "$output" ]; then
 		echo "Error: missing output file"
+		return
+	fi
+
+	if [ -z "$prefix" ]; then
+		echo "Error: missing prefix"
+		return
+	fi
+
+	if [ -z "$smprefix" ]; then
+		echo "Error: missing short prefix"
 		return
 	fi
 
@@ -40,11 +52,22 @@ gen_ver() {
 		IFS=. read major minor revis <<< $tag
 	fi
 
-	unlink "$output" || true
+	if [ -e "${output}" ]; then
+		cp "$scriptPath/build_number.h.in" "${output}.tmp"
 
-	cp "$scriptPath/../source/crisscross/build_number.h.in" "$output"
+		sed -i "s/@SM_PREFIX@/$smprefix/; s/@PREFIX@/$prefix/; s/@VERSION_MAJOR@/$major/; s/@VERSION_MINOR@/$minor/; s/@VERSION_REVISION@/$revis/; s/@VERSION_BUILD@/$build/; s/@GIT_TAG@/$git_tag/" "${output}.tmp"
 
-	sed -i "s/@SM_PREFIX@/cc/; s/@PREFIX@/CC_LIB/; s/@VERSION_MAJOR@/$major/; s/@VERSION_MINOR@/$minor/; s/@VERSION_REVISION@/$revis/; s/@VERSION_BUILD@/$build/; s/@GIT_TAG@/$git_tag/" "$output"
+		if cmp -s "${output}.tmp" "${output}"; then
+			unlink "${output}.tmp" || true
+		else
+			unlink "${output}" || true
+			mv "${output}.tmp" "${output}"
+		fi
+	else
+		cp "$scriptPath/build_number.h.in" "${output}"
+
+		sed -i "s/@SM_PREFIX@/$smprefix/; s/@PREFIX@/$prefix/; s/@VERSION_MAJOR@/$major/; s/@VERSION_MINOR@/$minor/; s/@VERSION_REVISION@/$revis/; s/@VERSION_BUILD@/$build/; s/@GIT_TAG@/$git_tag/" "${output}"
+	fi
 }
 
 gen_ver "$@"
