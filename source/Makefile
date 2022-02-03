@@ -142,7 +142,7 @@ $(OBJ_DIR)/%.o: %.cpp $(OBJ_DIR)/.cflags | $$(@D)/.
 	$(QUIET_CXX)$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 $(OBJ_DIR)/build_number.h: | $$(@D)/.
-	$(QUIET_GEN)../tools/gen_buildnum_h.pl $(OBJ_DIR)/build_number.h
+	$(QUIET_GEN)../tools/gen_buildnum_h.pl $(OBJ_DIR)/build_number.h "CC_LIB" "cc"
 
 version.cpp: $(OBJ_DIR)/build_number.h
 
