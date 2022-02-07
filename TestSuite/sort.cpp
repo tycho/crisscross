@@ -60,7 +60,7 @@ int TestSort_LList(Sorter<int> *_sorter)
 	llist->sort(_sorter);
 
 	for (int i = 0; i < SORT_ITEMS - 1; i++) {
-		TEST_ASSERT(llist->get(i) <= llist->get(i+1));
+		TEST_ASSERT(llist->get(i, 0) <= llist->get(i + 1, 0));
 	}
 
 	delete llist;

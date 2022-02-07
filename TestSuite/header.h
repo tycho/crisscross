@@ -12,6 +12,19 @@
 #ifndef __included_header_h
 #define __included_header_h
 
+#define CC_ENABLE_STACK_WALKER
+
+#include <crisscross/universal_include.h>
+
+#ifdef TARGET_COMPILER_VC
+#  define VC_EXTRALEAN
+#  define WIN32_LEAN_AND_MEAN
+#  ifndef NOMINMAX
+#    define NOMINMAX
+#  endif
+#  include <windows.h>
+#endif
+
 #include <crisscross/crisscross.h>
 
 #include "testutils.h"
