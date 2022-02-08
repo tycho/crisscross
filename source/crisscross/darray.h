@@ -38,25 +38,12 @@ namespace CrissCross
 						DArray<T> *m_darray;
 						uint32_t m_idx;
 
-						cc_forceinline void ensure_valid()
-						{
-							/* Keep incrementing the index until we find a filled slot or the end of the array. */
-							while (!this->m_darray->valid(this->m_idx) && this->m_idx != this->m_darray->m_arraySize)
-								this->m_idx++;
-						}
-
-						cc_forceinline void advance()
-						{
-							this->m_idx++;
-							ensure_valid();
-						}
-
 					public:
-						using iterator_category = std::forward_iterator_tag;
+						using iterator_category = std::bidirectional_iterator_tag;
 						using difference_type = std::ptrdiff_t;
 						using value_type = T;
 						using pointer = T *;
-						using reference = std::pair<std::uint32_t, T &>;
+						using reference = T &;
 
 						cc_forceinline explicit DArrayIterator(DArray<T> *_darray)
 						{
@@ -66,7 +53,7 @@ namespace CrissCross
 
 						cc_forceinline reference operator*() const
 						{
-							return reference(this->m_idx, this->m_darray->m_array[this->m_idx]);
+							return this->m_darray->m_array[this->m_idx];
 						}
 
 						cc_forceinline pointer operator->()
@@ -76,7 +63,17 @@ namespace CrissCross
 
 						cc_forceinline DArrayIterator &operator++()
 						{
-							advance();
+							do {
+								m_idx++;
+							} while (!this->m_darray->valid(this->m_idx) && this->m_idx < this->m_darray->m_arraySize);
+							return *this;
+						}
+
+						cc_forceinline DArrayIterator &operator--()
+						{
+							do {
+								m_idx--;
+							} while (!this->m_darray->valid(this->m_idx) && this->m_idx < this->m_darray->m_arraySize);
 							return *this;
 						}
 
@@ -97,25 +94,12 @@ namespace CrissCross
 						const DArray<T> *m_darray;
 						uint32_t m_idx;
 
-						cc_forceinline void ensure_valid()
-						{
-							/* Keep incrementing the index until we find a filled slot or the end of the array. */
-							while (!this->m_darray->valid(this->m_idx) && this->m_idx != this->m_darray->m_arraySize)
-								this->m_idx++;
-						}
-
-						cc_forceinline void advance()
-						{
-							this->m_idx++;
-							ensure_valid();
-						}
-
 					public:
-						using iterator_category = std::forward_iterator_tag;
+						using iterator_category = std::bidirectional_iterator_tag;
 						using difference_type = std::ptrdiff_t;
 						using value_type = T const;
 						using pointer = T const *;
-						using reference = std::pair<std::uint32_t, T const &>;
+						using reference = T const &;
 
 						cc_forceinline explicit DArrayConstIterator(const DArray<T> *_darray)
 						{
@@ -125,7 +109,7 @@ namespace CrissCross
 
 						cc_forceinline reference operator*() const
 						{
-							return reference(this->m_idx, this->m_darray->m_array[this->m_idx]);
+							return this->m_darray->m_array[this->m_idx];
 						}
 
 						cc_forceinline pointer operator->()
@@ -135,7 +119,17 @@ namespace CrissCross
 
 						cc_forceinline DArrayConstIterator &operator++()
 						{
-							advance();
+							do {
+								m_idx++;
+							} while (!this->m_darray->valid(this->m_idx) && this->m_idx < this->m_darray->m_arraySize);
+							return *this;
+						}
+
+						cc_forceinline DArrayConstIterator &operator--()
+						{
+							do {
+								m_idx--;
+							} while (!this->m_darray->valid(this->m_idx) && this->m_idx < this->m_darray->m_arraySize);
 							return *this;
 						}
 
@@ -371,7 +365,8 @@ namespace CrissCross
 				iterator begin()
 				{
 					iterator it(this);
-					it.ensure_valid();
+					while (!valid(it.m_idx) && it != end())
+						it.m_idx++;
 					return it;
 				}
 
@@ -385,7 +380,8 @@ namespace CrissCross
 				const_iterator begin() const
 				{
 					const_iterator it(this);
-					it.ensure_valid();
+					while (!valid(it.m_idx) && it != end())
+						it.m_idx++;
 					return it;
 				}
 
