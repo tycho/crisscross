@@ -79,25 +79,23 @@ int main(int argc, char * *argv)
 
 	WritePrefix("HashTable<const char *, const char *>"); retval |= WriteResult(TestHashTable_CString());
 
+	WritePrefix("LList std::sort"); retval |= WriteResult(TestSort_LList());
+
 	CrissCross::Data::CombSort<int> cs;
 	WritePrefix("CombSort (integer array)"); retval |= WriteResult(TestSort_IntArray(&cs));
 	WritePrefix("CombSort (integer DArray)"); retval |= WriteResult(TestSort_DArray(&cs));
-	WritePrefix("CombSort (integer LList)"); retval |= WriteResult(TestSort_LList(&cs));
 
 	CrissCross::Data::HeapSort<int> hs;
 	WritePrefix("HeapSort (integer array)"); retval |= WriteResult(TestSort_IntArray(&hs));
 	WritePrefix("HeapSort (integer DArray)"); retval |= WriteResult(TestSort_DArray(&hs));
-	WritePrefix("HeapSort (integer LList)"); retval |= WriteResult(TestSort_LList(&hs));
 
 	CrissCross::Data::ShellSort<int> ss;
 	WritePrefix("ShellSort (integer array)"); retval |= WriteResult(TestSort_IntArray(&ss));
 	WritePrefix("ShellSort (integer DArray)"); retval |= WriteResult(TestSort_DArray(&ss));
-	WritePrefix("ShellSort (integer LList)"); retval |= WriteResult(TestSort_LList(&ss));
 
 	CrissCross::Data::QuickSort<int> qs;
 	WritePrefix("QuickSort (integer array)"); retval |= WriteResult(TestSort_IntArray(&qs));
 	WritePrefix("QuickSort (integer DArray)"); retval |= WriteResult(TestSort_DArray(&qs));
-	WritePrefix("QuickSort (integer LList)"); retval |= WriteResult(TestSort_LList(&qs));
 
 	if (retval == 0) {
 		g_console->WriteLine();

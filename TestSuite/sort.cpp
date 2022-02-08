@@ -49,20 +49,19 @@ int TestSort_DArray(Sorter<int> *_sorter)
 	return 0;
 }
 
-int TestSort_LList(Sorter<int> *_sorter)
+int TestSort_LList()
 {
-	LList<int>     *llist = new LList<int>();
+	LList<int> llist;
 
 	for (int i = 0; i < SORT_ITEMS; i++) {
-		llist->insert(rand());
+		llist.insert(CrissCross::System::RandomNumber());
 	}
 
-	llist->sort(_sorter);
+	std::sort(std::begin(llist), std::end(llist));
 
 	for (int i = 0; i < SORT_ITEMS - 1; i++) {
-		TEST_ASSERT(llist->get(i, 0) <= llist->get(i + 1, 0));
+		TEST_ASSERT(llist[i] <= llist[i]);
 	}
 
-	delete llist;
 	return 0;
 }

@@ -14,6 +14,6 @@
 
 int TestSort_IntArray(CrissCross::Data::Sorter<int> *_sorter);
 int TestSort_DArray(CrissCross::Data::Sorter<int> *_sorter);
-int TestSort_LList(CrissCross::Data::Sorter<int> *_sorter);
+int TestSort_LList();
 
 #endif
