@@ -205,6 +205,9 @@ namespace CrissCross
 				/*! \brief The destructor. */
 				~DArray();
 
+				/*! \brief Rearrange elements to fill gaps. */
+				void defragment();
+
 				/*! \brief Truncates the array, if it's less than one third filled. */
 				void compact();
 
@@ -462,6 +465,7 @@ namespace CrissCross
 				/*! @endcond */
 #endif
 		};
+
 	}
 }
 

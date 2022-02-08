@@ -39,6 +39,35 @@ namespace CrissCross
 		}
 
 		template <class T>
+		void DArray<T>::defragment()
+		{
+			auto itFirstInvalid = std::find(std::begin(m_shadow), std::end(m_shadow), false);
+			uint32_t idxFirstInvalid = std::distance(std::begin(m_shadow), itFirstInvalid);
+			if (idxFirstInvalid >= m_numUsed)
+				return;
+
+			auto itLastValid = std::find(std::crbegin(m_shadow), std::crend(m_shadow), true);
+			uint32_t idxLastValid = std::distance(itLastValid, std::crend(m_shadow));
+			if (idxLastValid == 0)
+				return;
+
+			for (uint32_t i = idxFirstInvalid; i < idxLastValid; i++) {
+				if (!valid(i)) {
+					for (; idxLastValid > i;) {
+						if (valid(idxLastValid)) {
+							m_array[i] = std::move(m_array[idxLastValid]);
+							m_shadow[i] = true;
+							m_shadow[idxLastValid] = false;
+							idxLastValid--;
+							break;
+						}
+						idxLastValid--;
+					}
+				}
+			}
+		}
+
+		template <class T>
 		void DArray <T>::compact()
 		{
 			constexpr uint32_t pageSizeInElements = std::max((uint32_t)(4096u / sizeof(T)), (uint32_t)32u);
