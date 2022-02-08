@@ -22,6 +22,12 @@
 #include <crisscross/dstack.h>
 #include <crisscross/sort.h>
 
+#ifdef TARGET_COMPILER_VC
+// "unsafe mix of char and booL" caused by not using std::vector<bool> in debug builds only (for performance reasons)
+#pragma warning (push)
+#pragma warning (disable: 4805)
+#endif
+
 namespace CrissCross
 {
 	namespace Data
@@ -470,6 +476,11 @@ namespace CrissCross
 }
 
 #include <crisscross/darray.cpp>
+
+#ifdef TARGET_COMPILER_VC
+#pragma warning (pop)
+#endif
+
 #include <crisscross/rbtree.h>
 
 #endif
