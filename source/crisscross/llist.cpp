@@ -325,38 +325,6 @@ namespace CrissCross
 			return ret;
 		}
 
-		template <class T> void LList <T>::sort(CrissCross::Data::Sorter<T> &_sortMethod)
-		{
-			sort(&_sortMethod);
-		}
-
-		template <class T> void LList <T>::sort(CrissCross::Data::Sorter<T> *_sortMethod)
-		{
-			/*
-			 * The theory here is that doing LList node relinking is both
-			 * painful and costly, as the relinking may be done more than
-			 * one relink on any one node because of the way certain sorts
-			 * work. So it simplifies things by serializing the LList as a
-			 * DArray temporarily and then rebuilding the LList.
-			 *
-			 * Unfortunately this method is still very costly, so if someone
-			 * is doing a LList::sort, they might as well be using a DArray.
-			 *
-			 */
-			uint32_t llistSize = size();
-			DArray <T> sortArray;
-			sortArray.setSize(llistSize);
-			for (uint32_t i = 0; i < llistSize; i++) {
-				sortArray.insert(get(i));
-			}
-
-			empty();
-			sortArray.sort(_sortMethod);
-			for (uint32_t i = 0; i < llistSize; i++) {
-				insert(sortArray.get(i));
-			}
-		}
-
 		template <class T> T const & LList <T>::operator [](uint32_t index) const
 		{
 			LListNode<T> *item = getItem(index);

@@ -15,8 +15,6 @@
 #include <cstdint>
 
 #include <crisscross/cc_attr.h>
-#include <crisscross/sort.h>
-#include <crisscross/darray.h>
 
 namespace CrissCross
 {
@@ -43,6 +41,173 @@ namespace CrissCross
 		template <class T>
 		class LList
 		{
+			public:
+				/*! \brief STL-compatible and range-loop compatible iterator */
+				struct LListIterator
+				{
+					friend class LList<T>;
+					protected:
+						LList<T> *m_list;
+						uint32_t m_idx;
+
+					public:
+						using iterator_category = std::random_access_iterator_tag;
+						using difference_type = std::ptrdiff_t;
+						using value_type = T;
+						using pointer = T *;
+						using reference = T &;
+
+						cc_forceinline explicit LListIterator(LList<T> *_list)
+						{
+							this->m_list = _list;
+							this->m_idx = 0;
+						}
+
+						cc_forceinline reference operator*() const
+						{
+							return (*this->m_list)[this->m_idx];
+						}
+
+						cc_forceinline pointer operator->()
+						{
+							return &(*this->m_list)[this->m_idx];
+						}
+
+						cc_forceinline LListIterator &operator++()
+						{
+							this->m_idx++;
+							return *this;
+						}
+
+						cc_forceinline LListIterator &operator--()
+						{
+							this->m_idx--;
+							return *this;
+						}
+
+						cc_forceinline LListIterator operator+(const difference_type &_difference) const
+						{
+							LListIterator iter(m_list);
+							iter.m_idx = m_idx + _difference;
+							return iter;
+						}
+
+						cc_forceinline LListIterator operator-(const difference_type &_difference) const
+						{
+							LListIterator iter(m_list);
+							iter.m_idx = m_idx - _difference;
+							return iter;
+						}
+
+						cc_forceinline difference_type operator-(LListIterator const &_iter) const
+						{
+							return m_idx - _iter.m_idx;
+						}
+
+						cc_forceinline bool operator<(LListIterator const &_other) const
+						{
+							return m_idx < _other.m_idx;
+						}
+
+						cc_forceinline bool operator>(LListIterator const &_other) const
+						{
+							return m_idx > _other.m_idx;
+						}
+
+						inline bool operator ==(const LListIterator &_rhs) const
+						{
+							return this->m_idx == _rhs.m_idx && this->m_list == _rhs.m_list;
+						}
+						inline bool operator !=(const LListIterator &_rhs) const
+						{
+							return !(*this == _rhs);
+						}
+				};
+
+				struct LListConstIterator
+				{
+					friend class LList<T>;
+					protected:
+						const LList<T> *m_list;
+						uint32_t m_idx;
+
+					public:
+						using iterator_category = std::random_access_iterator_tag;
+						using difference_type = std::ptrdiff_t;
+						using value_type = T const;
+						using pointer = T const *;
+						using reference = T const &;
+
+						cc_forceinline explicit LListConstIterator(const LList<T> *_list)
+						{
+							this->m_list = _list;
+							this->m_idx = 0;
+						}
+
+						cc_forceinline reference operator*() const
+						{
+							return (*this->m_list)[this->m_idx];
+						}
+
+						cc_forceinline pointer operator->()
+						{
+							return (*this->m_list)[this->m_idx];
+						}
+
+						cc_forceinline LListConstIterator &operator++()
+						{
+							this->m_idx++;
+							return *this;
+						}
+
+						cc_forceinline LListIterator &operator--()
+						{
+							this->m_idx--;
+							return *this;
+						}
+
+						cc_forceinline LListConstIterator operator+(const difference_type &_difference) const
+						{
+							LListConstIterator iter(m_list);
+							iter.m_idx = m_idx + _difference;
+							return iter;
+						}
+
+						cc_forceinline LListConstIterator operator-(const difference_type &_difference) const
+						{
+							LListConstIterator iter(m_list);
+							iter.m_idx = m_idx - _difference;
+							return iter;
+						}
+
+						cc_forceinline difference_type operator-(LListConstIterator const &_iter) const
+						{
+							return m_idx - _iter.m_idx;
+						}
+
+						cc_forceinline bool operator<(LListConstIterator const &_other) const
+						{
+							return m_idx < _other.m_idx;
+						}
+
+						cc_forceinline bool operator>(LListConstIterator const &_other) const
+						{
+							return m_idx > _other.m_idx;
+						}
+
+						inline bool operator ==(const LListConstIterator &_rhs) const
+						{
+							return this->m_idx == _rhs.m_idx && this->m_list == _rhs.m_list;
+						}
+						inline bool operator !=(const LListConstIterator &_rhs) const
+						{
+							return !(*this == _rhs);
+						}
+				};
+
+				using iterator = LListIterator;
+				using const_iterator = LListConstIterator;
+
 			protected:
 				/*! \brief The first node. */
 				LListNode <T> *m_first;
@@ -190,24 +355,41 @@ namespace CrissCross
 				 */
 				T const & operator [](uint32_t _index) const;
 
-				/*! \brief Sorts the array using the provided method. */
-				/*!
-				 * \param _sortMethod The method to sort with.
-				 */
-				void sort(CrissCross::Data::Sorter<T> *_sortMethod);
-
-				/*! \brief Sorts the array using the provided method. */
-				/*!
-				 * \param _sortMethod The method to sort with.
-				 */
-				void sort(CrissCross::Data::Sorter<T> &_sortMethod);
-
 				/*! \brief Returns the overhead caused by the data structure. */
 				/*!
 				 * \return Memory usage in bytes.
 				 */
 				uint32_t mem_usage() const;
 
+				iterator begin()
+				{
+					iterator it(this);
+					while (!valid(it.m_idx))
+						it.m_idx++;
+					return it;
+				}
+
+				iterator end()
+				{
+					iterator it(this);
+					it.m_idx = m_numItems;
+					return it;
+				}
+
+				const_iterator begin() const
+				{
+					const_iterator it(this);
+					while (!valid(it.m_idx))
+						it.m_idx++;
+					return it;
+				}
+
+				const_iterator end() const
+				{
+					const_iterator it(this);
+					it.m_idx = m_numItems;
+					return it;
+				}
 
 #if !defined (DISABLE_DEPRECATED_CODE)
 				/*
