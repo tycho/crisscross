@@ -25,7 +25,7 @@ namespace CrissCross
 		HashTable<Data, OwnsKeys>::HashTable(size_t _initialSize)
 			: m_keys(nullptr), m_size(32)
 		{
-			static_assert(std::is_trivially_copyable<Data>::value);
+			static_assert(std::is_trivially_copyable<Data>::value, "HashTable requires trivially copyable Data type");
 			m_mask = m_size - 1;
 			m_slotsFree = m_size;
 			m_keys = new const char *[m_size];
