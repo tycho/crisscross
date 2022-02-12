@@ -10,6 +10,7 @@ Makefile
 *.ncb
 *.suo
 *.vcproj.*.user
+.vs
 
 # CMake junk
 *.dir
